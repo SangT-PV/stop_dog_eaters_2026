@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="page-title">Article — Stop Dog Eaters</title>
   <meta name="description" id="page-desc" content="Read the latest campaign research from Stop Dog Eaters." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://stopdogeaters.info/post.html" id="og-url" />
+  <meta property="og:title" content="Article — Stop Dog Eaters" id="og-title" />
+  <meta property="og:description" content="Read the latest campaign research from Stop Dog Eaters." id="og-desc" />
+  <meta property="og:image" content="https://stopdogeaters.info/assets/og-share.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://stopdogeaters.info/post.html" id="twitter-url" />
+  <meta name="twitter:title" content="Article — Stop Dog Eaters" id="twitter-title" />
+  <meta name="twitter:description" content="Read the latest campaign research from Stop Dog Eaters." id="twitter-desc" />
+  <meta name="twitter:image" content="https://stopdogeaters.info/assets/og-share.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
@@ -126,9 +144,21 @@
           return r.json();
         })
         .then(function (post) {
-          document.title = post.title + ' — Stop Dog Eaters';
-          document.getElementById('page-title').textContent = post.title + ' — Stop Dog Eaters';
+          var postUrl = 'https://stopdogeaters.info/post.html?id=' + encodeURIComponent(post.id);
+          var postTitle = post.title + ' — Stop Dog Eaters';
+
+          document.title = postTitle;
+          document.getElementById('page-title').textContent = postTitle;
           document.getElementById('page-desc').setAttribute('content', post.excerpt);
+
+          // Update Open Graph tags for social sharing
+          document.getElementById('og-url').setAttribute('content', postUrl);
+          document.getElementById('og-title').setAttribute('content', postTitle);
+          document.getElementById('og-desc').setAttribute('content', post.excerpt);
+          document.getElementById('twitter-url').setAttribute('content', postUrl);
+          document.getElementById('twitter-title').setAttribute('content', postTitle);
+          document.getElementById('twitter-desc').setAttribute('content', post.excerpt);
+
           document.getElementById('post-tag').textContent = post.tag;
           document.getElementById('post-title').textContent = post.title;
           document.getElementById('post-author').textContent = post.author;

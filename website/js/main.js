@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         current = target;
         clearInterval(timer);
       }
-      const display = Number.isInteger(target) ? Math.floor(current) : current.toFixed(1);
+      const display = Number.isInteger(target) ? Math.floor(current) : parseFloat(current.toFixed(1));
       el.textContent = prefix + display.toLocaleString() + suffix;
     }, duration / steps);
   }
@@ -83,6 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!name || !email) {
         showFormMessage(petitionForm, 'Please fill in your name and email.', 'error');
+        return;
+      }
+
+      // Validate email format
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showFormMessage(petitionForm, 'Please enter a valid email address.', 'error');
         return;
       }
 

@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog — Stop Dog Eaters</title>
   <meta name="description" content="Daily AI-researched articles on the dog meat trade, public health risks, pet theft, and community advocacy in Vietnam." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://stopdogeaters.info/blog.html" />
+  <meta property="og:title" content="Blog — Stop Dog Eaters" />
+  <meta property="og:description" content="Daily AI-researched articles on the dog meat trade, public health risks, pet theft, and community advocacy in Vietnam." />
+  <meta property="og:image" content="https://stopdogeaters.info/assets/og-share.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://stopdogeaters.info/blog.html" />
+  <meta name="twitter:title" content="Blog — Stop Dog Eaters" />
+  <meta name="twitter:description" content="Daily AI-researched articles on the dog meat trade, public health risks, pet theft, and community advocacy in Vietnam." />
+  <meta name="twitter:image" content="https://stopdogeaters.info/assets/og-share.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
@@ -55,13 +73,13 @@
       <aside class="blog-sidebar">
         <h3>Filter by Topic</h3>
         <div class="sidebar-tag-list" id="tag-filter">
-          <span class="sidebar-tag active" data-tag="All">All</span>
-          <span class="sidebar-tag" data-tag="Public Health">Public Health</span>
-          <span class="sidebar-tag" data-tag="Pet Theft">Pet Theft</span>
-          <span class="sidebar-tag" data-tag="Regulation">Regulation</span>
-          <span class="sidebar-tag" data-tag="Public Support">Public Support</span>
-          <span class="sidebar-tag" data-tag="Lucky's Story">Lucky's Story</span>
-          <span class="sidebar-tag" data-tag="Campaign Updates">Campaign Updates</span>
+          <button type="button" class="sidebar-tag active" data-tag="All">All</button>
+          <button type="button" class="sidebar-tag" data-tag="Public Health">Public Health</button>
+          <button type="button" class="sidebar-tag" data-tag="Pet Theft">Pet Theft</button>
+          <button type="button" class="sidebar-tag" data-tag="Regulation">Regulation</button>
+          <button type="button" class="sidebar-tag" data-tag="Public Support">Public Support</button>
+          <button type="button" class="sidebar-tag" data-tag="Lucky's Story">Lucky's Story</button>
+          <button type="button" class="sidebar-tag" data-tag="Campaign Updates">Campaign Updates</button>
         </div>
 
         <h3>About the Content</h3>
@@ -181,9 +199,12 @@
       fetch('data/index.json')
         .then(function (r) { return r.json(); })
         .then(function (posts) {
-          allPosts = posts;
+          // Sort posts by date (newest first)
+          allPosts = posts.sort(function(a, b) {
+            return new Date(b.date) - new Date(a.date);
+          });
           document.getElementById('blog-loading').style.display = 'none';
-          renderPosts(posts);
+          renderPosts(allPosts);
         })
         .catch(function () {
           document.getElementById('blog-loading').textContent = 'Could not load articles. Please try again later.';
