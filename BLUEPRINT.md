@@ -4,7 +4,7 @@
 **Token Symbol:** SDE (pump.fun)
 **Timeline:** 3 Weeks to Full Launch
 **Last Updated:** 2026-03-22
-**Current Status:** Phase 3 complete — automation pipeline live and tested end-to-end
+**Current Status:** Phase 3 complete — automation pipeline live, blog storage migrated to split file architecture
 
 ---
 
@@ -158,11 +158,11 @@ website/data/
 ```
 
 **Tasks:**
-- [ ] Siva: Update `blog_publisher.py` — `publish_to_website()` writes individual post file + appends to `index.json`
-- [ ] Siva: Update `website/blog.html` — fetch `data/index.json` instead of `posts.json`
-- [ ] Siva: Update `website/post.html` — fetch `data/posts/{id}.json` instead of scanning `posts.json`
-- [ ] Siva: Migrate existing seed posts in `posts.json` to the new structure
-- [ ] Siva: Remove `posts.json` once migration verified
+- [x] Siva: Update `blog_publisher.py` — `publish_to_website()` writes individual post file + appends to `index.json` (8380e08)
+- [x] Siva: Update `website/blog.html` — fetch `data/index.json` instead of `posts.json` (8380e08)
+- [x] Siva: Update `website/post.html` — fetch `data/posts/{id}.json` instead of scanning `posts.json` (8380e08)
+- [x] Siva: Migrate existing seed posts in `posts.json` to the new structure (8380e08)
+- [x] Siva: Remove `posts.json` once migration verified (pending commit)
 
 ---
 
