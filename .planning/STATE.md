@@ -1,11 +1,11 @@
 ---
-stopped_at: "Phase 4 Blog Storage Migration - updating blog_publisher.py for split storage"
-last_updated: "2026-03-22T16:30:00+07:00"
-last_activity: "2026-03-22 -- Initializing .planning structure; Phase 3 automation complete"
+stopped_at: "Tech debt cleanup and Phase 4 verification complete"
+last_updated: "2026-03-22T18:45:00+07:00"
+last_activity: "2026-03-22 -- Tech lead review conducted; Phase 4 verified complete; quick wins applied"
 progress:
-  completed_plans: 12
+  completed_plans: 17
   total_plans: 25
-  phases_complete: 2
+  phases_complete: 3
   total_phases: 7
 ---
 
@@ -13,10 +13,10 @@ progress:
 
 ## Current Position
 
-**Phase:** 4 of 7 -- Blog Storage Architecture Migration
-**Plan:** 12 of 25 complete (01-01 through 01-05, 03-01 through 03-07)
-**Status:** In progress on Plan 04-01 (update blog_publisher for split storage)
-**Last activity:** 2026-03-22 -- Initialized planning structure; automation pipeline verified operational
+**Phase:** Phase 4 (Blog Storage Migration) verified COMPLETE; ready to start Phase 2 (Petition Launch)
+**Plan:** 17 of 25 complete (01-01 through 01-05, 03-01 through 03-07, 04-01 through 04-05)
+**Status:** Phase 4 complete; tech debt cleanup done; awaiting Phase 2 start (petition draft)
+**Last activity:** 2026-03-22 -- Tech lead review completed; 6 quick wins applied
 
 ## Commits This Session
 
@@ -41,7 +41,7 @@ All 5 plans complete - website live with full brand design system v2
 All 7 plans complete - daily automation operational on AWS Bedrock
 
 **Plans 03-01 to 03-07:**
-- Windows Task Scheduler `run.bat` configured (not yet scheduled for 8AM)
+- Windows Task Scheduler `run.bat` configured and fixed to run `--publish` flag
 - AWS Bedrock integration via `anthropic.AnthropicBedrock` client
 - Claude Sonnet 4.6 model: `us.anthropic.claude-sonnet-4-6` (cross-region inference profile)
 - CMS-to-Telegram pipeline tested and operational (@stopdogeaters channel)
@@ -52,17 +52,32 @@ All 7 plans complete - daily automation operational on AWS Bedrock
 - Configuration: `automation/config.py` reads all env vars; AWS_PROFILE=dev-us-aws-bedrock, AWS_DEFAULT_REGION=us-east-1
 - Build: 0 errors, 0 warnings
 
+### Phase 4: Blog Storage Architecture Migration (COMPLETE)
+All 5 plans complete - split storage architecture live
+
+**Plans 04-01 to 04-05:**
+- `blog_publisher.py` writes to split storage: `data/index.json` + `data/posts/{slug}.json`
+- `blog.html` fetches from lightweight `data/index.json` (metadata only, no body_html)
+- `post.html` fetches individual posts from `data/posts/{id}.json`
+- Existing posts migrated via `migrate_blog_storage.py`
+- Legacy `posts.json` removed (commit 01c1073)
+- Duplicate posts cleaned (5 near-identical "zero-registered-slaughterhouses" variants removed)
+- Enables per-post CDN caching and reduces listing page payload
+- Build: 0 errors, 0 warnings
+
+### Tech Debt Cleanup (2026-03-22)
+Quick wins from tech lead review applied:
+- Deleted dead code: `automation/gemini_client.py` (broken imports, never used)
+- Fixed stale copy: `blog.html` "Gemini" → "Claude"
+- Fixed stale log message: `pipeline.py` now references split storage structure
+- Fixed `run.bat`: now runs `python pipeline.py --publish` for full automation
+- Cleaned duplicate blog posts from production data
+- Added "Coming Soon" notice to petition form (placeholder until Change.org launch)
+
 ## What's Next
 
-### Phase 4: Blog Storage Migration (IN PROGRESS)
-**Current plan:** 04-01 - Update blog_publisher for split storage
-
-**Remaining Phase 4 plans:**
-- 04-01: Update `blog_publisher.py` — write individual post files + append to `index.json`
-- 04-02: Update `blog.html` — fetch `data/index.json` instead of `posts.json`
-- 04-03: Update `post.html` — fetch `data/posts/{id}.json` instead of scanning array
-- 04-04: Migrate existing seed posts from `posts.json` to new structure
-- 04-05: Remove legacy `posts.json` after migration verified
+### Phase 2: Petition Launch (READY TO START)
+**Priority:** High - needed for Week 2 dual launch
 
 ### Phase 2: Petition Launch (NOT STARTED)
 - 02-01: Draft Change.org petition text (title, targets, 3 core arguments)
@@ -79,6 +94,24 @@ All 7 plans complete - daily automation operational on AWS Bedrock
 
 ### Phase 7: Token Launch (NOT STARTED - Week 3)
 - 07-01 through 07-03: pump.fun launch, website embed, announcement assets
+
+## Reviews
+
+**Last Review:** 2026-03-22 — Tech Lead Review (comprehensive)
+**Reviews Location:** `.planning/reviews/`
+
+### 2026-03-22: Tech Lead Review
+- **Type:** Comprehensive technical review
+- **Reviewer:** tech-lead-reviewer agent
+- **Findings:** 3 blocking issues, 6 high-priority issues, 10 medium/low issues
+- **Key outcomes:**
+  - Phase 4 verified complete (code already implemented, docs were stale)
+  - 6 quick wins applied immediately (dead code removal, copy fixes, duplicate cleanup)
+  - 3 blocking security issues identified (XSS, API keys in OneDrive, fake petition)
+  - Architecture assessment: 8/10 (right-sized for scope)
+  - Planning & process: 9/10 (excellent `.planning/` structure)
+  - Remaining work: Security hardening, testing coverage, API wiring
+- **Status:** Quick wins complete; blocking issues remain for separate sprint
 
 ## Accumulated Context
 

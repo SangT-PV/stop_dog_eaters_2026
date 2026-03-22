@@ -6,4 +6,4 @@
 :: Start in: C:\path\to\stop_dog_eaters\automation
 
 cd /d "%~dp0"
-python pipeline.py
+python pipeline.py --publish

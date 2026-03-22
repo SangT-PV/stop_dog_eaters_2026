@@ -84,6 +84,10 @@ automation/             # Backend automation pipeline
 .planning/              # Planning and progress tracking
   STATE.md              # Current position, what's done, what's next
   ROADMAP.md            # All 25 plans across 7 phases
+  reviews/              # Project reviews (code, architecture, security)
+    README.md           # Reviews directory documentation
+    TEMPLATE.md         # Standard review template
+    YYYY-MM-DD-{type}.md  # Individual reviews
   phases/               # Phase-specific directories
     {NN}-{name}-{jira-id}/
       {NN}-{plan}-PLAN.md     # Plan specification (optional)
@@ -183,6 +187,37 @@ CHANGE_ORG_URL=https://change.org/...  # To be populated
 4. Commit with conventional format: `type(scope): description`
 5. Run `update-planning-state END` after commit
 6. Never skip planning state updates — hooks enforce freshness
+
+---
+
+## Review Workflow
+
+Periodic reviews help maintain code quality and architectural alignment. All reviews are stored in `.planning/reviews/`.
+
+### When to Request Reviews
+- Before starting a new phase (architecture/planning review)
+- After completing a major plan or milestone (code quality review)
+- Before deploying or going live (security/performance audit)
+- Monthly or per-sprint health checks
+
+### How to Request
+Ask Claude to generate a review and save it to the reviews directory:
+
+```
+"Review the Phase 4 blog migration and save to .planning/reviews/2026-03-22-phase4-review.md"
+```
+
+Or use agents for specific types of reviews:
+
+```
+"Use the code review agent to audit the automation pipeline and save to .planning/reviews/2026-03-22-automation-audit.md"
+```
+
+### After Review
+1. Address critical issues immediately
+2. Track deferred issues in ROADMAP.md or phase plans
+3. Update STATE.md "Reviews" section with the review date and file
+4. Reference key findings in future planning decisions
 
 ---
 

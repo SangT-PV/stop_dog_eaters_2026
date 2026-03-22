@@ -159,7 +159,7 @@ def publish(for_date: date = None) -> None:
 
     slug, post_url = blog_publisher.publish_to_website(post_data)
     log.info(f'Added to website: {post_url}')
-    log.info('Copy website/data/posts.json to your website folder and push to GitHub.')
+    log.info('Published to website/data/index.json and website/data/posts/{slug}.json. Push to GitHub to deploy.')
 
     if config.TELEGRAM_ENABLED:
         try:
