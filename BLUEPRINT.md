@@ -4,6 +4,7 @@
 **Token Symbol:** SDE (pump.fun)
 **Timeline:** 3 Weeks to Full Launch
 **Last Updated:** 2026-03-22
+**Current Status:** Phase 3 complete — automation pipeline live and tested end-to-end
 
 ---
 
@@ -29,13 +30,13 @@ End the cruel and unregulated dog meat trade in Vietnam and across Asia by combi
 | Layer | Tool | Purpose |
 |---|---|---|
 | Research | Manus AI | Scrape local reports on unregulated slaughterhouses and health warnings |
-| Synthesis | Gemini | Convert raw research into "Post Themes" with diverse discussion angles |
-| Infrastructure | Claude Code | Build API placeholders, donation connectors, CMS-to-Telegram scripts |
-| Orchestration | Antigravity | Daily 8:00 AM trigger: research → blog → format check → auto-post |
-| Frontend | Website CMS | Central hub for petition, donations, blog, and token link |
+| Synthesis | Claude Sonnet 4.6 (AWS Bedrock) | Convert raw research into blog posts + Telegram + Facebook copy |
+| Infrastructure | Claude Code | API plumbing, CMS-to-Telegram pipeline, content verification guardrails |
+| Orchestration | Windows Task Scheduler (`run.bat`) | Daily 8:00 AM trigger: research → blog → format check → auto-post |
+| Frontend | Static HTML/CSS/JS on Cloudflare Pages | Central hub for petition, donations, blog, and token link |
 | Fundraising | Change.org + Kickstarter | Primary fundraising and petition platforms |
 | Token | pump.fun (SDE) | Supplementary community fundraising tool |
-| Distribution | Telegram | Primary social channel for automated daily content |
+| Distribution | Telegram (@stopdogeaters) | Primary social channel for automated daily content |
 
 ---
 
@@ -111,11 +112,25 @@ Manus AI (scrape) → Gemini (synthesise into Post Themes) → Blog Draft → Fo
 ```
 
 **Tasks:**
-- [ ] Siva: Build Antigravity trigger script with 8:00 AM schedule
-- [ ] Siva: Connect Manus AI output to Gemini synthesis pipeline
-- [ ] Siva: Build CMS-to-Telegram auto-post script
+- [x] Siva: Build Windows Task Scheduler trigger script (`run.bat`) with 8:00 AM schedule
+- [x] Siva: Connect Manus AI output to Claude Sonnet 4.6 synthesis pipeline (via AWS Bedrock)
+- [x] Siva: Build CMS-to-Telegram auto-post script — tested and live on @stopdogeaters
+- [x] Siva: Add Facebook Page distribution (opt-in via env vars)
+- [x] Siva: Source Check guardrail — enforces 95% stat + Change.org link on every post
+- [x] Siva: Two-stage pipeline — `generate` (local review) → `publish` (website + Telegram + Facebook)
+- [x] Siva: Local HTML preview saved to `automation/previews/YYYY/MM/YYYY-MM-DD.html` for review
 - [ ] Tuan Anh + Uyen: Define content pillars and tone guide for AI-generated posts
-- [ ] Tuan Anh: Set up Telegram channel and moderation workflow
+- [ ] Tuan Anh: Set up Telegram channel moderation workflow
+- [ ] Siva: Schedule `run.bat` in Windows Task Scheduler for daily 8:00 AM automation
+
+**Pipeline CLI:**
+```
+python pipeline.py              # Stage 1: generate + save to previews/ for review
+python pipeline.py --publish    # Stage 2: promote reviewed post to website + Telegram
+python pipeline.py --dry-run    # Generate + print only, nothing saved
+python pipeline.py --test-telegram
+python pipeline.py --test-facebook
+```
 
 **Content Pillars:**
 1. Pet theft stories (emotional, locally resonant)
@@ -125,6 +140,29 @@ Manus AI (scrape) → Gemini (synthesise into Post Themes) → Blog Draft → Fo
 5. Fund transparency updates (builds trust)
 
 **Definition of Done:** Automation loop runs without manual intervention for 48 hours; Telegram posts publishing daily.
+
+---
+
+### Phase 3 Enhancement — Blog Storage Architecture Migration
+
+**Decision:** Migrate from single `website/data/posts.json` to split files.
+
+**Why:** Single file downloads all `body_html` for every post on every page load. At daily cadence this exceeds 1MB within 6 months, degrading listing page performance. Individual files enable Cloudflare CDN caching per post.
+
+**Target structure:**
+```
+website/data/
+  index.json              ← lightweight list: id, title, excerpt, tag, date, author
+  posts/
+    YYYY-MM-DD-slug.json  ← full post data per article (body_html, telegram_message, etc.)
+```
+
+**Tasks:**
+- [ ] Siva: Update `blog_publisher.py` — `publish_to_website()` writes individual post file + appends to `index.json`
+- [ ] Siva: Update `website/blog.html` — fetch `data/index.json` instead of `posts.json`
+- [ ] Siva: Update `website/post.html` — fetch `data/posts/{id}.json` instead of scanning `posts.json`
+- [ ] Siva: Migrate existing seed posts in `posts.json` to the new structure
+- [ ] Siva: Remove `posts.json` once migration verified
 
 ---
 

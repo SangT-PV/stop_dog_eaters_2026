@@ -5,7 +5,10 @@ from dotenv import load_dotenv
 _here = Path(__file__).parent
 load_dotenv(_here / '.env')
 
-GEMINI_API_KEY = os.environ['GEMINI_API_KEY']
+# AWS Bedrock — used for Claude content synthesis
+AWS_PROFILE = os.getenv('AWS_PROFILE', 'default')
+AWS_REGION = os.getenv('AWS_DEFAULT_REGION') or os.getenv('AWS_REGION', 'us-east-1')
+BEDROCK_MODEL_ID = os.getenv('BEDROCK_MODEL_ID', 'us.anthropic.claude-haiku-4-5-20251001-v1:0')
 
 # Telegram — optional; publishing is skipped when these are not set
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')

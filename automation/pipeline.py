@@ -1,20 +1,22 @@
 """
 SDE Phase 3 — Content Automation Pipeline
 ==========================================
-The Orchestration Flywheel (triggered daily at 8:00 AM via run.bat):
+Two-stage workflow:
 
-  1. Research  — read today's Manus AI input file (or fallback to topic templates)
-  2. Synthesis — Gemini synthesises a blog post + Telegram + Facebook message
-  3. Verify    — Source Check guardrail: 95% stat + Change.org link enforced
-  4. Publish   — Update website/data/posts.json
-  5. Distribute — Push to Telegram channel
-  6. Distribute — Post to Facebook Page (if FACEBOOK_PAGE_ID + FACEBOOK_PAGE_TOKEN set)
+  STAGE 1 — Generate (default)
+    Research → Synthesis → Verify → Save to previews/YYYY/MM/YYYY-MM-DD.{html,json}
+    Open the HTML file, review, then run Stage 2 when happy.
+
+  STAGE 2 — Publish (--publish)
+    Load today's preview JSON → website/data/posts.json → Telegram → Facebook
 
 Usage:
-  python pipeline.py                  # Run the full daily automation
-  python pipeline.py --test-telegram  # Verify Telegram bot connection only
-  python pipeline.py --test-facebook  # Verify Facebook page token only
-  python pipeline.py --dry-run        # Generate + verify, skip publish/distribute
+  python pipeline.py                        # Stage 1: generate + save preview locally
+  python pipeline.py --publish              # Stage 2: promote today's preview to live
+  python pipeline.py --publish 2026-03-22   # Stage 2: promote a specific date's preview
+  python pipeline.py --dry-run              # Generate + print only, save nothing
+  python pipeline.py --test-telegram        # Verify Telegram bot connection
+  python pipeline.py --test-facebook        # Verify Facebook page token
 """
 
 import sys
@@ -26,7 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 import config
-import gemini_client
+import claude_client
 import content_verifier
 import blog_publisher
 import telegram_client
@@ -92,37 +94,33 @@ def _get_research_input() -> tuple[str, str]:
     if today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
         log.info(f'Using Manus AI research input: {today_file.name}')
-        # Infer angle from content keywords
         health_keywords = {'health', 'disease', 'rabies', 'ecoli', 'e. coli', 'salmonella', 'food safety'}
         angle = 'health' if any(kw in text.lower() for kw in health_keywords) else 'cruelty'
         return text, angle
 
-    # Fallback: cycle through topic templates by day of year
     idx = date.today().toordinal() % len(_TOPIC_TEMPLATES)
     angle, text = _TOPIC_TEMPLATES[idx]
     log.info(f'No input file found — using topic template #{idx} (angle: {angle})')
     return text, angle
 
 
-def run(dry_run: bool = False) -> None:
-    log.info('=== SDE Automation Pipeline START ===')
+def generate(dry_run: bool = False) -> None:
+    """Stage 1: research → synthesise → verify → save preview locally."""
+    log.info('=== SDE Pipeline: GENERATE ===')
 
-    # Step 1: Research
     research_text, angle = _get_research_input()
 
-    # Step 2: Synthesis
-    log.info(f'Calling Gemini (angle: {angle}) ...')
+    log.info(f'Calling Claude (angle: {angle}) ...')
     try:
-        post_data = gemini_client.synthesise_post(research_text, angle)
+        post_data = claude_client.synthesise_post(research_text, angle)
     except Exception as e:
-        log.error(f'Gemini synthesis failed: {e}')
+        log.error(f'Claude synthesis failed: {e}')
         raise
 
     title = post_data.get('title', '???')
     tag = post_data.get('tag', '')
     log.info(f'Generated: "{title}" [{tag}]')
 
-    # Step 3: Verify (Source Check)
     errors = content_verifier.verify(post_data)
     if errors:
         log.warning(f'Verification issues ({len(errors)}): {errors}')
@@ -136,27 +134,42 @@ def run(dry_run: bool = False) -> None:
     log.info('Source Check passed.')
 
     if dry_run:
-        log.info('[DRY RUN] Skipping publish and distribution.')
-        print('\n--- Generated Post (dry run) ---')
-        print(json.dumps(post_data, indent=2, ensure_ascii=False))
+        log.info('[DRY RUN] Nothing saved.')
+        sys.stdout.buffer.write(json.dumps(post_data, indent=2, ensure_ascii=False).encode('utf-8') + b'\n')
         return
 
-    # Step 4: Publish to website
-    slug = blog_publisher.publish(post_data)
-    post_url = f'{config.WEBSITE_URL}/post.html?id={slug}'
-    log.info(f'Published: {post_url}')
+    preview_path = blog_publisher.save_preview(post_data)
+    log.info(f'Preview saved: {preview_path}')
+    log.info('Open the HTML file to review, then run:  python pipeline.py --publish')
 
-    # Step 5: Distribute via Telegram
+
+def publish(for_date: date = None) -> None:
+    """Stage 2: load reviewed preview → website → Telegram → Facebook."""
+    target = for_date or date.today()
+    log.info(f'=== SDE Pipeline: PUBLISH ({target.isoformat()}) ===')
+
+    try:
+        post_data = blog_publisher.load_preview(target)
+    except FileNotFoundError as e:
+        log.error(str(e))
+        raise
+
+    title = post_data.get('title', '???')
+    log.info(f'Publishing: "{title}"')
+
+    slug, post_url = blog_publisher.publish_to_website(post_data)
+    log.info(f'Added to website: {post_url}')
+    log.info('Copy website/data/posts.json to your website folder and push to GitHub.')
+
     if config.TELEGRAM_ENABLED:
         try:
             telegram_client.send_message(post_data['telegram_message'])
             log.info('Sent to Telegram channel.')
         except Exception as e:
-            log.error(f'Telegram send failed (post still published): {e}')
+            log.error(f'Telegram send failed (posts.json still updated): {e}')
     else:
-        log.info('Telegram not configured — skipping (set TELEGRAM_BOT_TOKEN + TELEGRAM_CHANNEL_ID to enable).')
+        log.info('Telegram not configured — skipping.')
 
-    # Step 6: Distribute via Facebook (opt-in — only runs when credentials are set)
     if config.FACEBOOK_ENABLED:
         fb_post = post_data.get('facebook_post', '').strip()
         if fb_post:
@@ -164,22 +177,24 @@ def run(dry_run: bool = False) -> None:
                 result = facebook_client.post_to_page(fb_post, link=post_url)
                 log.info(f'Posted to Facebook: {result.get("id")}')
             except Exception as e:
-                log.error(f'Facebook post failed (post still published): {e}')
+                log.error(f'Facebook post failed (posts.json still updated): {e}')
         else:
             log.warning('facebook_post field is empty — skipping Facebook.')
     else:
-        log.info('Facebook not configured — skipping (set FACEBOOK_PAGE_ID + FACEBOOK_PAGE_TOKEN to enable).')
+        log.info('Facebook not configured — skipping.')
 
-    log.info('=== SDE Automation Pipeline DONE ===')
+    log.info('=== SDE Pipeline: PUBLISH DONE ===')
 
 
 if __name__ == '__main__':
-    if '--test-telegram' in sys.argv:
+    args = sys.argv[1:]
+
+    if '--test-telegram' in args:
         ok = telegram_client.test_connection()
         print('Telegram connection:', 'OK' if ok else 'FAILED')
         sys.exit(0 if ok else 1)
 
-    if '--test-facebook' in sys.argv:
+    if '--test-facebook' in args:
         if not config.FACEBOOK_ENABLED:
             print('Facebook not configured — set FACEBOOK_PAGE_ID + FACEBOOK_PAGE_TOKEN in .env')
             sys.exit(1)
@@ -187,5 +202,10 @@ if __name__ == '__main__':
         print('Facebook connection:', 'OK' if ok else 'FAILED')
         sys.exit(0 if ok else 1)
 
-    dry_run = '--dry-run' in sys.argv
-    run(dry_run=dry_run)
+    if '--publish' in args:
+        # Optional date argument: --publish 2026-03-22
+        date_arg = next((a for a in args if a != '--publish'), None)
+        target_date = date.fromisoformat(date_arg) if date_arg else date.today()
+        publish(for_date=target_date)
+    else:
+        generate(dry_run='--dry-run' in args)
