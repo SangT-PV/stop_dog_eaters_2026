@@ -4,7 +4,9 @@
 
 This is the Stop Dog Eaters (SDE) campaign — a grassroots movement to end the cruel and unregulated dog meat trade in Vietnam and Asia. The campaign combines:
 - Static website (stopdogeaters.info) with petition, blog, donate, and token pages
-- AI-powered content automation (Claude Sonnet 4.6 via AWS Bedrock)
+  - **Live URL:** https://stop-dog-eaters.tdx4829.workers.dev/ (Cloudflare Workers)
+  - **Final domain:** stopdogeaters.info (to be configured)
+- AI-powered content automation (Claude Haiku 4.5 via AWS Bedrock)
 - Daily Telegram/Facebook distribution
 - Transparent crowdfunding (Change.org + Kickstarter)
 - Community token (SDE on pump.fun)
@@ -194,6 +196,93 @@ CHANGE_ORG_URL=https://change.org/...  # To be populated
 4. Commit with conventional format: `type(scope): description`
 5. Run `update-planning-state END` after commit
 6. Never skip planning state updates — hooks enforce freshness
+
+---
+
+## Website Testing (MANDATORY)
+
+**CRITICAL:** Every website change MUST be tested end-to-end before committing. Regressions are costly when the site is live.
+
+### When to Test
+- After any HTML/CSS/JS changes
+- After updating blog publishing logic
+- After modifying data structures (JSON schema changes)
+- Before any deployment or push
+
+### Test Checklist
+
+**Local Testing:**
+```bash
+# 1. Start local server (Python 3)
+cd website
+python -m http.server 8000
+
+# 2. Open browser and test all pages:
+# - http://localhost:8000/index.html
+# - http://localhost:8000/blog.html
+# - http://localhost:8000/post.html?id={latest-post-id}
+# - http://localhost:8000/petition.html
+# - http://localhost:8000/donate.html
+# - http://localhost:8000/token.html
+# - http://localhost:8000/about.html
+```
+
+**What to Test:**
+1. **Blog Listing** (blog.html):
+   - All posts load and display correctly
+   - Tags, dates, excerpts visible
+   - Click post → navigates to detail page
+
+2. **Blog Detail** (post.html):
+   - Full article body renders correctly
+   - No broken HTML or encoding issues
+   - "Back to Blog" link works
+   - Social sharing meta tags populated
+
+3. **Navigation:**
+   - All menu links work
+   - Mobile nav toggle works
+   - Footer links work
+
+4. **Data Files:**
+   - `data/posts.json` accessible (legacy, Phase 3)
+   - `data/index.json` accessible (Phase 4)
+   - `data/posts/{slug}.json` accessible (Phase 4)
+
+5. **Console Errors:**
+   - Open browser DevTools → Console tab
+   - No 404s for missing files
+   - No JavaScript errors
+
+**Live Testing:**
+```bash
+# Current live URL: https://stop-dog-eaters.tdx4829.workers.dev/
+# Test same checklist as local, but on live domain
+
+curl -I https://stop-dog-eaters.tdx4829.workers.dev/data/posts.json
+# Expected: 200 OK (Phase 3) or 404 after Phase 4 migration
+
+curl -I https://stop-dog-eaters.tdx4829.workers.dev/data/index.json
+# Expected: 200 OK after Phase 4
+```
+
+### Known Issues (as of 2026-03-23)
+- **Live site data files 404**: `data/posts.json` and `data/posts/*.json` not deployed yet
+- **Blog.html redirects**: Cloudflare Pages rewrites `/blog.html` → `/blog` (307 redirect)
+- **Resolution**: Deploy `website/data/` directory to Cloudflare Pages
+
+### Deployment Checklist
+Before pushing to live:
+1. ✅ All local tests pass
+2. ✅ No console errors
+3. ✅ Blog posts render correctly
+4. ✅ Data files accessible
+5. ✅ Planning state updated (START/END)
+6. ✅ Commit pushed to main
+7. ✅ Cloudflare Pages deployment triggered
+8. ✅ Live site tested after deploy
+
+**Never skip E2E testing** — even for "small" changes. Frontend regressions are user-facing and damage trust.
 
 ---
 
