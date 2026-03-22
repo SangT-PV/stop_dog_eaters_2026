@@ -73,7 +73,7 @@ def search_perplexity(query: str, language: str = "en") -> Optional[Dict]:
         )
 
         payload = {
-            "model": "llama-3.1-sonar-small-128k-online",  # Uses real-time search
+            "model": "sonar",  # Perplexity's real-time search model
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": query},
@@ -87,13 +87,14 @@ def search_perplexity(query: str, language: str = "en") -> Optional[Dict]:
 
         data = response.json()
         answer = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+        citations = data.get("citations", [])  # Top-level citations array
 
         log.info(f"Perplexity search successful ({language}): {query[:50]}...")
         return {
             "query": query,
             "language": language,
             "answer": answer,
-            "citations": data.get("citations", []),
+            "citations": citations,
         }
 
     except requests.exceptions.RequestException as e:
