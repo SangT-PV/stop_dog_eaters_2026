@@ -97,21 +97,30 @@ Quick wins from tech lead review applied:
 
 ## Reviews
 
-**Last Review:** 2026-03-22 — Tech Lead Review (comprehensive)
+**Last Review:** 2026-03-22 — Website & Automation Comprehensive Reviews
 **Reviews Location:** `.planning/reviews/`
 
-### 2026-03-22: Tech Lead Review
-- **Type:** Comprehensive technical review
-- **Reviewer:** tech-lead-reviewer agent
-- **Findings:** 3 blocking issues, 6 high-priority issues, 10 medium/low issues
-- **Key outcomes:**
-  - Phase 4 verified complete (code already implemented, docs were stale)
-  - 6 quick wins applied immediately (dead code removal, copy fixes, duplicate cleanup)
-  - 3 blocking security issues identified (XSS, API keys in OneDrive, fake petition)
-  - Architecture assessment: 8/10 (right-sized for scope)
-  - Planning & process: 9/10 (excellent `.planning/` structure)
-  - Remaining work: Security hardening, testing coverage, API wiring
-- **Status:** Quick wins complete; blocking issues remain for separate sprint
+### 2026-03-22: Website Code Quality Review
+- **Type:** website-review
+- **File:** `.planning/reviews/2026-03-22-website-review.md`
+- **Reviewer:** code-review-expert agent
+- **Scope:** All 7 HTML pages, CSS, JavaScript, blog architecture
+- **Verdict:** ⚠️ Request Changes
+- **Critical Findings:** 3 XSS vulnerabilities (post.html innerHTML, blog.html unescaped data, URL parameter injection)
+- **Important Findings:** Duplicate posts in production data, responsive breakage from inline styles, brand compliance error
+- **Praise:** Solid CSS design system, clean semantic HTML, good scroll interactions, split storage architecture
+- **Status:** Not production-ready until XSS issues fixed
+
+### 2026-03-22: Automation Pipeline Review
+- **Type:** automation-review
+- **File:** `.planning/reviews/2026-03-22-automation-review.md`
+- **Reviewer:** code-review-expert agent
+- **Scope:** Complete automation pipeline (pipeline.py, all clients, publisher, verifier)
+- **Verdict:** ⚠️ Request Changes
+- **Critical Findings:** No duplicate guard (causing real data corruption), XSS in AI-generated HTML, no retry logic on JSON parsing
+- **Important Findings:** No file locking on index.json, stale posts.json references, broken gemini_client.py, config validation gaps
+- **Praise:** Two-stage architecture, content verifier with auto-fix, clean separation of concerns, rotating topic templates
+- **Status:** Not reliable for unattended daily automation until critical issues addressed
 
 ## Accumulated Context
 
