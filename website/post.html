@@ -118,16 +118,12 @@
         return;
       }
 
-      fetch('data/posts.json')
-        .then(function (r) { return r.json(); })
-        .then(function (posts) {
-          var post = posts.find(function (p) { return p.id === id; });
-          if (!post) {
-            document.getElementById('post-loading').style.display = 'none';
-            document.getElementById('post-error').style.display = 'block';
-            return;
-          }
-
+      fetch('data/posts/' + id + '.json')
+        .then(function (r) {
+          if (!r.ok) throw new Error('Post not found');
+          return r.json();
+        })
+        .then(function (post) {
           document.title = post.title + ' — Stop Dog Eaters';
           document.getElementById('page-title').textContent = post.title + ' — Stop Dog Eaters';
           document.getElementById('page-desc').setAttribute('content', post.excerpt);

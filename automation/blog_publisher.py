@@ -4,13 +4,15 @@ from datetime import date
 from pathlib import Path
 from config import WEBSITE_DATA_DIR, WEBSITE_URL
 
-POSTS_FILE = WEBSITE_DATA_DIR / 'posts.json'
+INDEX_FILE = WEBSITE_DATA_DIR / 'index.json'
+POSTS_DIR = WEBSITE_DATA_DIR / 'posts'
 PREVIEWS_DIR = Path(__file__).parent / 'previews'
 
 
-def _load_posts() -> list:
-    if POSTS_FILE.exists():
-        return json.loads(POSTS_FILE.read_text(encoding='utf-8'))
+def _load_index() -> list:
+    """Load the lightweight index (metadata only, no body_html)."""
+    if INDEX_FILE.exists():
+        return json.loads(INDEX_FILE.read_text(encoding='utf-8'))
     return []
 
 
@@ -110,33 +112,57 @@ def load_preview(for_date: date = None) -> dict:
 
 def publish_to_website(post_data: dict) -> tuple[str, str]:
     """
-    Append post to website/data/posts.json (newest first).
+    Write individual post file to data/posts/{date}-{slug}.json
+    and append lightweight metadata to data/index.json (newest first).
     Returns (slug, post_url).
     """
     WEBSITE_DATA_DIR.mkdir(parents=True, exist_ok=True)
-    posts = _load_posts()
+    POSTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    index = _load_index()
 
     slug = _slugify(post_data['title'])
-    existing_slugs = {p['id'] for p in posts}
+    existing_slugs = {p['id'] for p in index}
     base, n = slug, 1
     while slug in existing_slugs:
         slug = f'{base}-{n}'
         n += 1
 
-    entry = {
+    today = date.today().isoformat()
+    post_filename = f'{slug}.json'
+
+    # Write full post data to individual file
+    full_post = {
         'id': slug,
         'title': post_data['title'],
         'excerpt': post_data['excerpt'],
         'body_html': post_data['body_html'],
         'tag': post_data['tag'],
-        'date': date.today().isoformat(),
+        'date': today,
         'author': 'AI Research Team',
         'telegram_message': post_data.get('telegram_message', ''),
+        'facebook_post': post_data.get('facebook_post', ''),
     }
 
-    posts.insert(0, entry)
-    POSTS_FILE.write_text(
-        json.dumps(posts, indent=2, ensure_ascii=False),
+    post_path = POSTS_DIR / post_filename
+    post_path.write_text(
+        json.dumps(full_post, indent=2, ensure_ascii=False),
+        encoding='utf-8',
+    )
+
+    # Append lightweight metadata to index (no body_html)
+    index_entry = {
+        'id': slug,
+        'title': post_data['title'],
+        'excerpt': post_data['excerpt'],
+        'tag': post_data['tag'],
+        'date': today,
+        'author': 'AI Research Team',
+    }
+
+    index.insert(0, index_entry)
+    INDEX_FILE.write_text(
+        json.dumps(index, indent=2, ensure_ascii=False),
         encoding='utf-8',
     )
 
