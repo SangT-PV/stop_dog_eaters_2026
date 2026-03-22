@@ -552,7 +552,7 @@ def generate_banner_for_preview(preview_date: date) -> Optional[Path]:
     import json
 
     # Locate preview JSON
-    previews_dir = Path(__file__).parent / 'previews'
+    previews_dir = Path(__file__).parent.parent / 'previews'
     preview_json = previews_dir / str(preview_date.year) / f'{preview_date.month:02d}' / f'{preview_date.isoformat()}.json'
 
     if not preview_json.exists():

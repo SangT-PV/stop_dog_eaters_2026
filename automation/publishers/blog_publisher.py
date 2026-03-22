@@ -4,13 +4,13 @@ import re
 from datetime import date
 from pathlib import Path
 from config import WEBSITE_DATA_DIR, WEBSITE_URL
-import banner_generator
+from content import banner_generator
 
 log = logging.getLogger(__name__)
 
 INDEX_FILE = WEBSITE_DATA_DIR / 'index.json'
 POSTS_DIR = WEBSITE_DATA_DIR / 'posts'
-PREVIEWS_DIR = Path(__file__).parent / 'previews'
+PREVIEWS_DIR = Path(__file__).parent.parent / 'previews'  # Up one level from publishers/
 
 
 def _sanitize_html(html: str) -> str:
@@ -207,7 +207,7 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
     # Copy banner SVG to website assets if it exists
     banner_url = None
     try:
-        banner_svg_source = Path(__file__).parent / 'previews' / today[:4] / today[5:7] / f'{today}-banner.svg'
+        banner_svg_source = Path(__file__).parent.parent / 'previews' / today[:4] / today[5:7] / f'{today}-banner.svg'
         if banner_svg_source.exists():
             banners_dir = Path(__file__).parent.parent / 'website' / 'assets' / 'banners'
             banners_dir.mkdir(parents=True, exist_ok=True)

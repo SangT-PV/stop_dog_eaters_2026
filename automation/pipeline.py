@@ -34,12 +34,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 import config
-import claude_client
-import content_verifier
-import blog_publisher
-import telegram_client
-import facebook_client
-import research_agent
+from clients import claude_client, research_agent
+from publishers import blog_publisher, telegram_client, facebook_client
+from content import content_verifier
 
 # Logging — writes to both file and stdout
 config.LOGS_DIR.mkdir(parents=True, exist_ok=True)

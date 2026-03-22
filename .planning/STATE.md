@@ -1,7 +1,7 @@
 ---
-stopped_at: "Automated research agent implemented - Perplexity API + Manus AI integration complete"
-last_updated: "2026-03-23T00:15:00+07:00"
-last_activity: "2026-03-22 -- Automation Enhancement: Built multilingual research agent (English + Vietnamese)"
+stopped_at: "Blog enhancements complete - banner display, newsletter format, and social media links integrated"
+last_updated: "2026-03-23T08:45:00+07:00"
+last_activity: "2026-03-23 -- Blog Enhancements: Newsletter format, banner generation/display, social media link strategy"
 progress:
   completed_plans: 17
   total_plans: 25
@@ -13,24 +13,33 @@ progress:
 
 ## Current Position
 
-**Phase:** Automation enhanced with research agent; ready to start Phase 2 (Petition Launch)
+**Phase:** Phase 4 enhancements complete; ready to start Phase 2 (Petition Launch)
 **Plan:** 17 of 25 complete (01-01 through 01-05, 03-01 through 03-07, 04-01 through 04-05)
-**Status:** Automation fully self-sufficient with multilingual research - ready for Phase 2 (petition draft)
-**Last activity:** 2026-03-22 -- Built automated research agent: Perplexity API (English + Vietnamese) + Manus AI integration
+**Status:** Blog system enhanced with newsletter format, banner generation, and social media integration - ready for Phase 2 (petition draft)
+**Last activity:** 2026-03-23 -- Blog enhancements: newsletter format with citations, banner display, social media URL strategy
 
 ## Commits This Session
 
-1. `a8d61e9` — feat(automation): add automated research agent with multilingual support
-2. `afc6d55` — docs(automation): add AWS Bedrock troubleshooting guide
-3. `47922a7` — docs(automation): document working AWS Bedrock model config
-4. `9aadf46` — feat(automation): publish daily blog post (2026-03-22)
-5. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
-6. `7b0927d` — docs: add README.md for team onboarding
-7. `990d2b4` — docs(planning): update STATE.md with security sprint completion
-8. `a4920dc` — security: fix 6 critical vulnerabilities from code review
-9. `42b99f0` — docs(planning): add comprehensive website and automation reviews
-10. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
-11. `d377fec` — docs: add planning structure and project instructions
+1. `d44e1fb` — feat(blog): integrate banner display and enhance social media links
+2. `87f4a1a` — feat(automation): enhance blog content with newsletter format and banner generation
+3. `9517f10` — feat(blog): add latest post to Phase 4 split storage structure
+4. `d1621c7` — docs(testing): add comprehensive E2E test report for website
+5. `293765a` — fix(ui): remove DOMPurify integrity attribute causing browser error
+6. `9212e2a` — docs(testing): add mandatory E2E testing workflow for website changes
+7. `7ff064a` — fix(automation): update Perplexity API model name to 'sonar'
+8. `c5205ec` — feat(automation): implement Manus AI integration for Vietnamese source scraping
+9. `84f4786` — docs(planning): update STATE.md with research agent completion
+10. `a8d61e9` — feat(automation): add automated research agent with multilingual support
+11. `afc6d55` — docs(automation): add AWS Bedrock troubleshooting guide
+12. `47922a7` — docs(automation): document working AWS Bedrock model config
+13. `9aadf46` — feat(automation): publish daily blog post (2026-03-22)
+14. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
+15. `7b0927d` — docs: add README.md for team onboarding
+16. `990d2b4` — docs(planning): update STATE.md with security sprint completion
+17. `a4920dc` — security: fix 6 critical vulnerabilities from code review
+18. `42b99f0` — docs(planning): add comprehensive website and automation reviews
+19. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
+20. `d377fec` — docs: add planning structure and project instructions
 
 ## What's Done
 
@@ -61,7 +70,7 @@ All 7 plans complete - daily automation operational on AWS Bedrock
 - Build: 0 errors, 0 warnings
 
 ### Phase 4: Blog Storage Architecture Migration (COMPLETE)
-All 5 plans complete - split storage architecture live
+All 5 plans complete - split storage architecture live with enhanced content features
 
 **Plans 04-01 to 04-05:**
 - `blog_publisher.py` writes to split storage: `data/index.json` + `data/posts/{slug}.json`
@@ -72,6 +81,16 @@ All 5 plans complete - split storage architecture live
 - Duplicate posts cleaned (5 near-identical "zero-registered-slaughterhouses" variants removed)
 - Enables per-post CDN caching and reduces listing page payload
 - Build: 0 errors, 0 warnings
+
+**Blog Enhancements (2026-03-23):**
+- Newsletter-style format with structured sections (The Bottom Line, Key Findings, Also Worth Noting)
+- 8-10+ hyperlinked citations per post linking to research sources
+- Banner generation: `banner_generator.py` creates HTML + SVG banners (1200x500px)
+- Banner display: Banners copied to `website/assets/banners/` and shown at top of blog posts via `banner_url` field
+- Social media link strategy: Blog post URLs prepended to Telegram/Facebook messages before petition link
+- E2E testing workflow: Playwright tests covering all 7 pages, blog listing, and post detail
+- Testing documentation: Comprehensive E2E checklist added to CLAUDE.md
+- All posts now use newsletter format with rich citations and visual banners
 
 ### Tech Debt Cleanup (2026-03-22)
 Quick wins from tech lead review applied:
@@ -264,5 +283,5 @@ Major upgrade to Phase 3 automation - no longer requires manual research input
 ## Session Info
 
 - Started: 2026-03-22
-- Stopped at: Automated research agent implementation complete - automation now fully self-sufficient
+- Stopped at: Blog enhancements complete - newsletter format, banner display, and social media links integrated
 - Next action: Start Phase 2 (Petition Launch) - Draft Change.org petition text (Plan 02-01)
