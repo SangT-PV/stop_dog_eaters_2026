@@ -204,8 +204,33 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
     today = date.today().isoformat()
     post_filename = f'{slug}.json'
 
+    # Copy banner SVG to website assets if it exists
+    banner_url = None
+    try:
+        banner_svg_source = Path(__file__).parent / 'previews' / today[:4] / today[5:7] / f'{today}-banner.svg'
+        if banner_svg_source.exists():
+            banners_dir = Path(__file__).parent.parent / 'website' / 'assets' / 'banners'
+            banners_dir.mkdir(parents=True, exist_ok=True)
+            banner_destination = banners_dir / f'{slug}.svg'
+            import shutil
+            shutil.copy2(banner_svg_source, banner_destination)
+            banner_url = f'/assets/banners/{slug}.svg'
+            log.info(f'Banner copied to website: {banner_url}')
+    except Exception as e:
+        log.warning(f'Banner copy failed: {e}')
+
     # Sanitize AI-generated HTML to prevent XSS
     sanitized_body_html = _sanitize_html(post_data['body_html'])
+
+    # Generate the blog post URL
+    post_url = f'{WEBSITE_URL}/post.html?id={slug}'
+
+    # Prepend blog URL to social media messages
+    telegram_base = post_data.get('telegram_message', '')
+    telegram_message = f"📰 Read the full article: {post_url}\n\n{telegram_base}"
+
+    facebook_base = post_data.get('facebook_post', '')
+    facebook_post = f"📰 **Read the full story:** {post_url}\n\n{facebook_base}"
 
     # Write full post data to individual file
     full_post = {
@@ -213,11 +238,12 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
         'title': post_data['title'],
         'excerpt': post_data['excerpt'],
         'body_html': sanitized_body_html,
+        'banner_url': banner_url,  # Add banner URL
         'tag': post_data['tag'],
         'date': today,
         'author': 'AI Research Team',
-        'telegram_message': post_data.get('telegram_message', ''),
-        'facebook_post': post_data.get('facebook_post', ''),
+        'telegram_message': telegram_message,
+        'facebook_post': facebook_post,
     }
 
     post_path = POSTS_DIR / post_filename
@@ -242,5 +268,4 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
         encoding='utf-8',
     )
 
-    post_url = f'{WEBSITE_URL}/post.html?id={slug}'
     return slug, post_url

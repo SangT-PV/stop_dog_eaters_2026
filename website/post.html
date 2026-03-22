@@ -60,6 +60,7 @@
       <a href="blog.html" style="display:inline-flex; align-items:center; gap:6px; font-size:0.85rem; color:var(--text-md); text-decoration:none; margin-bottom:28px;">
         &larr; Back to Blog
       </a>
+      <img id="post-banner" style="display:none; width:100%; max-width:1200px; height:auto; border-radius:8px; margin-bottom:28px;" alt="Article banner" />
       <span id="post-tag" class="blog-tag" style="display:block; margin-bottom:14px;"></span>
       <h1 id="post-title" style="font-size: clamp(1.6rem, 4vw, 2.4rem); line-height:1.2; margin-bottom:16px;"></h1>
       <div style="display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--text-md); margin-bottom:36px; border-bottom:1px solid var(--border); padding-bottom:20px;">
@@ -163,6 +164,14 @@
           document.getElementById('post-title').textContent = post.title;
           document.getElementById('post-author').textContent = post.author;
           document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+          // Display banner if available
+          if (post.banner_url) {
+            var banner = document.getElementById('post-banner');
+            banner.src = post.banner_url;
+            banner.style.display = 'block';
+          }
+
           // Sanitize AI-generated HTML before insertion to prevent XSS
           document.getElementById('post-body').innerHTML = DOMPurify.sanitize(post.body_html);
 

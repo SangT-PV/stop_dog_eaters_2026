@@ -99,8 +99,8 @@ CRITICAL FORMATTING RULES:
 7. Use <hr> for visual breaks between sections
 8. Body must have minimum 8-10 hyperlinked citations total
 
-- "telegram_message": Telegram post max 900 chars — headline, 2-3 bullet points starting with •, end with: "Sign the petition: {CHANGE_ORG_URL}"
-- "facebook_post": Facebook Page post, 150-300 words — hook opening sentence, 2-3 short paragraphs, must cite 95% local support stat, close with the Change.org link and 4-6 relevant hashtags (#StopDogEaters #Vietnam #AnimalWelfare #DogMeatTrade etc.)
+- "telegram_message": Telegram post max 900 chars — headline, 2-3 bullet points starting with •, end with: "Sign the petition: {CHANGE_ORG_URL}" (note: blog post URL will be added automatically during publishing)
+- "facebook_post": Facebook Page post, 150-300 words — hook opening sentence, 2-3 short paragraphs, must cite 95% local support stat, close with petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #DogMeatTrade etc. (note: blog post URL will be added automatically during publishing)
 """
     # Retry loop to handle malformed JSON responses
     for attempt in range(_MAX_RETRIES + 1):
