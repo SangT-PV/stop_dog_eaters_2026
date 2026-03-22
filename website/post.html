@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Article — Stop Dog Eaters</title>
+  <meta name="description" id="page-desc" content="Read the latest campaign research from Stop Dog Eaters." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Stop<span>Dog</span>Eaters</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="petition.html">Petition</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="token.html">SDE Token</a></li>
+        <li class="nav-cta"><a href="petition.html">Sign Now</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- POST CONTENT -->
+  <div class="container" style="max-width: 760px; padding-top: 48px; padding-bottom: 72px;">
+
+    <div id="post-loading" style="text-align:center; padding: 80px 0; color: var(--text-md);">
+      Loading article...
+    </div>
+
+    <article id="post-article" style="display:none;">
+      <a href="blog.html" style="display:inline-flex; align-items:center; gap:6px; font-size:0.85rem; color:var(--text-md); text-decoration:none; margin-bottom:28px;">
+        &larr; Back to Blog
+      </a>
+      <span id="post-tag" class="blog-tag" style="display:block; margin-bottom:14px;"></span>
+      <h1 id="post-title" style="font-size: clamp(1.6rem, 4vw, 2.4rem); line-height:1.2; margin-bottom:16px;"></h1>
+      <div style="display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--text-md); margin-bottom:36px; border-bottom:1px solid var(--border); padding-bottom:20px;">
+        <span id="post-author"></span>
+        <span>&middot;</span>
+        <span id="post-date"></span>
+      </div>
+      <div id="post-body" style="line-height:1.8; font-size:1.05rem; color:var(--text-dark);"></div>
+
+      <!-- CTA -->
+      <div style="margin-top:48px; background:var(--offwhite); border-radius:10px; padding:28px 32px; text-align:center;">
+        <p style="font-size:1rem; font-weight:700; margin-bottom:10px;">Moved by this article? Take action.</p>
+        <p style="font-size:0.9rem; color:var(--text-md); margin-bottom:20px;">
+          95% of Vietnamese support ending this trade. Your signature adds to that mandate.
+        </p>
+        <a href="petition.html" class="btn btn-primary">Sign the Petition</a>
+      </div>
+    </article>
+
+    <div id="post-error" style="display:none; text-align:center; padding:80px 0;">
+      <p style="color:var(--text-md);">Article not found. <a href="blog.html">Return to the blog &rarr;</a></p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Stop<span>Dog</span>Eaters</h3>
+          <p>A community-led campaign to end the cruel and unregulated dog meat trade in Vietnam and across Asia.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Campaign</h4>
+          <ul>
+            <li><a href="petition.html">Sign the Petition</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="token.html">SDE Token</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#lucky">Lucky's Story</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="donate.html#transparency">Fund Transparency</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Stop Dog Eaters. All rights reserved.</span>
+        <span class="footer-transparency">All funds used for community outreach &amp; advocacy only</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id');
+
+      if (!id) {
+        document.getElementById('post-loading').style.display = 'none';
+        document.getElementById('post-error').style.display = 'block';
+        return;
+      }
+
+      fetch('data/posts.json')
+        .then(function (r) { return r.json(); })
+        .then(function (posts) {
+          var post = posts.find(function (p) { return p.id === id; });
+          if (!post) {
+            document.getElementById('post-loading').style.display = 'none';
+            document.getElementById('post-error').style.display = 'block';
+            return;
+          }
+
+          document.title = post.title + ' — Stop Dog Eaters';
+          document.getElementById('page-title').textContent = post.title + ' — Stop Dog Eaters';
+          document.getElementById('page-desc').setAttribute('content', post.excerpt);
+          document.getElementById('post-tag').textContent = post.tag;
+          document.getElementById('post-title').textContent = post.title;
+          document.getElementById('post-author').textContent = post.author;
+          document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          document.getElementById('post-body').innerHTML = post.body_html;
+
+          document.getElementById('post-loading').style.display = 'none';
+          document.getElementById('post-article').style.display = 'block';
+        })
+        .catch(function () {
+          document.getElementById('post-loading').style.display = 'none';
+          document.getElementById('post-error').style.display = 'block';
+        });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Stop Dog Eaters</title>
+  <meta name="description" content="Daily AI-researched articles on the dog meat trade, public health risks, pet theft, and community advocacy in Vietnam." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Stop<span>Dog</span>Eaters</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="petition.html">Petition</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="token.html">SDE Token</a></li>
+        <li class="nav-cta"><a href="petition.html">Sign Now</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- BLOG HEADER -->
+  <div class="blog-header">
+    <div class="container">
+      <span class="eyebrow">Campaign Research & Updates</span>
+      <h1>The SDE Blog</h1>
+      <p style="color: var(--text-md); max-width: 560px;">
+        Daily AI-researched content covering public health risks, pet theft reports, community perspectives, and campaign updates — published every morning at 8:00 AM.
+      </p>
+    </div>
+  </div>
+
+  <!-- BLOG MAIN -->
+  <div class="container">
+    <div class="blog-main-grid">
+
+      <!-- Posts — rendered dynamically from data/posts.json -->
+      <div class="blog-list" id="blog-list">
+        <p id="blog-loading" style="color:var(--text-md); padding:40px 0;">Loading articles...</p>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="blog-sidebar">
+        <h3>Filter by Topic</h3>
+        <div class="sidebar-tag-list" id="tag-filter">
+          <span class="sidebar-tag active" data-tag="All">All</span>
+          <span class="sidebar-tag" data-tag="Public Health">Public Health</span>
+          <span class="sidebar-tag" data-tag="Pet Theft">Pet Theft</span>
+          <span class="sidebar-tag" data-tag="Regulation">Regulation</span>
+          <span class="sidebar-tag" data-tag="Public Support">Public Support</span>
+          <span class="sidebar-tag" data-tag="Lucky's Story">Lucky's Story</span>
+          <span class="sidebar-tag" data-tag="Campaign Updates">Campaign Updates</span>
+        </div>
+
+        <h3>About the Content</h3>
+        <p style="font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 24px;">
+          Articles are researched daily using Manus AI to surface local reports, then synthesised by Gemini into balanced, evidence-based post themes. Content is reviewed by Tuan Anh before publication.
+        </p>
+
+        <h3>Subscribe</h3>
+        <p style="font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 14px;">
+          Get daily updates delivered to your Telegram.
+        </p>
+        <a href="#" class="btn btn-primary" style="width: 100%; display: block; text-align: center;" target="_blank">
+          Join Telegram Channel
+        </a>
+
+        <div style="margin-top: 32px; background: var(--offwhite); border-radius: 6px; padding: 20px;">
+          <h3 style="font-size: 0.95rem; margin-bottom: 10px;">Sign the Petition</h3>
+          <p style="font-size: 0.85rem; color: var(--text-md); margin-bottom: 14px;">Haven't signed yet? Add your name today.</p>
+          <a href="petition.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Sign Now</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Stop<span>Dog</span>Eaters</h3>
+          <p>A community-led campaign to end the cruel and unregulated dog meat trade in Vietnam and across Asia.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Campaign</h4>
+          <ul>
+            <li><a href="petition.html">Sign the Petition</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="token.html">SDE Token</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#lucky">Lucky's Story</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="donate.html#transparency">Fund Transparency</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Stop Dog Eaters. All rights reserved.</span>
+        <span class="footer-transparency">All funds used for community outreach &amp; advocacy only</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var allPosts = [];
+      var activeTag = 'All';
+
+      function formatDate(iso) {
+        return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      function renderPosts(posts) {
+        var list = document.getElementById('blog-list');
+        if (!posts.length) {
+          list.innerHTML = '<p style="color:var(--text-md);padding:40px 0;">No articles found for this topic.</p>';
+          return;
+        }
+        list.innerHTML = posts.map(function (p) {
+          return '<article class="blog-post-card">' +
+            '<div class="blog-post-img"><span>Article image</span></div>' +
+            '<div class="blog-post-body">' +
+              '<span class="blog-tag">' + p.tag + '</span>' +
+              '<h2><a href="post.html?id=' + p.id + '" style="color:inherit;text-decoration:none;">' + p.title + '</a></h2>' +
+              '<p>' + p.excerpt + '</p>' +
+              '<div class="blog-card-meta">' +
+                '<span>' + p.author + '</span> &middot; <span>' + formatDate(p.date) + '</span>' +
+              '</div>' +
+            '</div>' +
+            '</article>';
+        }).join('');
+      }
+
+      function applyFilter(tag) {
+        activeTag = tag;
+        document.querySelectorAll('#tag-filter .sidebar-tag').forEach(function (el) {
+          el.classList.toggle('active', el.dataset.tag === tag);
+        });
+        var filtered = tag === 'All' ? allPosts : allPosts.filter(function (p) { return p.tag === tag; });
+        renderPosts(filtered);
+      }
+
+      document.getElementById('tag-filter').addEventListener('click', function (e) {
+        var el = e.target.closest('.sidebar-tag');
+        if (el && el.dataset.tag) applyFilter(el.dataset.tag);
+      });
+
+      fetch('data/posts.json')
+        .then(function (r) { return r.json(); })
+        .then(function (posts) {
+          allPosts = posts;
+          document.getElementById('blog-loading').style.display = 'none';
+          renderPosts(posts);
+        })
+        .catch(function () {
+          document.getElementById('blog-loading').textContent = 'Could not load articles. Please try again later.';
+        });
+    })();
+  </script>
+</body>
+</html>
