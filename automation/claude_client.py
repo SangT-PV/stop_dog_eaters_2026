@@ -48,11 +48,57 @@ def synthesise_post(research_text: str, angle: str) -> dict:
 
 CONTENT ANGLE: {angle}
 
-Generate a blog post. Respond with ONLY a valid JSON object (no markdown fences) with exactly these fields:
+Generate a STRUCTURED blog post with newsletter-style formatting and source citations. Respond with ONLY a valid JSON object (no markdown fences) with exactly these fields:
+
 - "title": compelling, factual headline under 90 characters
 - "tag": exactly one of: Public Health | Pet Theft | Regulation | Public Support | Lucky's Story | Campaign Updates
 - "excerpt": 2-3 sentence summary, 80-200 characters total
-- "body_html": full article as HTML (4-5 paragraphs using <p> tags; use <strong> for key stats; must mention 95% local support)
+
+- "body_html": Use this EXACT structure with proper HTML formatting:
+
+<h2>The Bottom Line</h2>
+<p>[Single executive summary paragraph tying together the main thesis - health crisis, public support, government action. Make it punchy and compelling. 2-3 sentences max.]</p>
+
+<hr>
+
+<h2>Key Findings</h2>
+
+<h3><a href="[URL]">[Compelling Headline for Finding #1]</a></h3>
+<p>[Deep analysis paragraph 1 with inline citations using <a href="URL">linked text</a>. Include specific numbers, dates, sources.]</p>
+<p>[Optional second paragraph if needed for this finding]</p>
+
+<h3><a href="[URL]">[Compelling Headline for Finding #2]</a></h3>
+<p>[Deep analysis paragraph with citations]</p>
+
+<h3><a href="[URL]">[Compelling Headline for Finding #3]</a></h3>
+<p>[Deep analysis paragraph with citations. Must mention 95% support stat here or in Finding #1]</p>
+
+[Optional: Add 1-2 more Key Findings if research supports it]
+
+<hr>
+
+<h2>Also Worth Noting</h2>
+<ul>
+<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
+<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
+<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
+<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
+</ul>
+
+<hr>
+
+<p><strong>Take Action:</strong> <a href="{CHANGE_ORG_URL}">Sign the petition</a> to support Vietnam's roadmap toward eliminating the dog meat trade by 2030.</p>
+
+CRITICAL FORMATTING RULES:
+1. Extract 3-5 KEY FINDINGS from research - these are the main stories with deep analysis
+2. Each Key Finding gets a bold headline linked to its primary source
+3. Key Findings have 1-2 full analysis paragraphs each
+4. "Also Worth Noting" section has 4-6 supporting facts in bullet format
+5. ALL headlines and stats must link to actual source URLs from research
+6. Use <h2> for section headers, <h3> for Key Finding headlines
+7. Use <hr> for visual breaks between sections
+8. Body must have minimum 8-10 hyperlinked citations total
+
 - "telegram_message": Telegram post max 900 chars — headline, 2-3 bullet points starting with •, end with: "Sign the petition: {CHANGE_ORG_URL}"
 - "facebook_post": Facebook Page post, 150-300 words — hook opening sentence, 2-3 short paragraphs, must cite 95% local support stat, close with the Change.org link and 4-6 relevant hashtags (#StopDogEaters #Vietnam #AnimalWelfare #DogMeatTrade etc.)
 """

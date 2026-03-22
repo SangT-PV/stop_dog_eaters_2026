@@ -4,6 +4,7 @@ import re
 from datetime import date
 from pathlib import Path
 from config import WEBSITE_DATA_DIR, WEBSITE_URL
+import banner_generator
 
 log = logging.getLogger(__name__)
 
@@ -61,12 +62,57 @@ def save_preview(post_data: dict, for_date: date = None) -> Path:
         encoding='utf-8',
     )
 
+    # Generate banner images FIRST (before HTML preview, so we can embed them)
+    banner_svg_filename = f'{today.isoformat()}-banner.svg'
+    banner_svg_path = preview_dir / banner_svg_filename
+    banner_html_filename = f'{today.isoformat()}-banner.html'
+    banner_html_path = preview_dir / banner_html_filename
+
+    try:
+        # HTML version (for standalone screenshot)
+        banner_generator.generate_banner_html(
+            title=post_data['title'],
+            excerpt=post_data['excerpt'],
+            tag=post_data['tag'],
+            body_html=post_data['body_html'],
+            output_path=banner_html_path,
+        )
+        log.info(f'Banner HTML generated: {banner_html_filename}')
+
+        # SVG version (for direct embedding)
+        banner_generator.generate_banner_svg(
+            title=post_data['title'],
+            excerpt=post_data['excerpt'],
+            tag=post_data['tag'],
+            body_html=post_data['body_html'],
+            output_path=banner_svg_path,
+        )
+        log.info(f'Banner SVG generated: {banner_svg_filename}')
+    except Exception as e:
+        log.warning(f'Banner generation failed: {e}')
+
     # Save HTML preview
     slug_preview = _slugify(post_data.get('title', 'post'))
     live_url = f'{WEBSITE_URL}/post.html?id={slug_preview}'
 
     def _esc(s: str) -> str:
         return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+    # Load and embed the SVG banner
+    banner_section = ''
+    if banner_svg_path.exists():
+        # Read and embed the SVG directly
+        banner_svg_content = banner_svg_path.read_text(encoding='utf-8')
+        banner_section = f"""
+  <div class="section-label">Hero Banner (1200x500px)</div>
+  <div style="background: #f5f5f5; padding: 20px; border-radius: 6px; margin-bottom: 28px; text-align: center;">
+    {banner_svg_content}
+    <p style="font-family: sans-serif; font-size: 12px; color: #666; margin-top: 12px;">
+      📸 For screenshot: Open <a href="{banner_html_filename}" target="_blank">{banner_html_filename}</a> |
+      SVG: <a href="{banner_svg_filename}" target="_blank">{banner_svg_filename}</a>
+    </p>
+  </div>
+  <hr>"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -80,6 +126,15 @@ def save_preview(post_data: dict, for_date: date = None) -> Path:
     .tag {{ display: inline-block; background: #c0392b; color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 3px; margin-right: 8px; }}
     h1 {{ font-size: 2rem; margin: 0 0 8px; }}
     .excerpt {{ color: #555; font-style: italic; border-left: 3px solid #c0392b; padding-left: 14px; margin: 16px 0 28px; }}
+    .body h2 {{ font-family: 'Segoe UI', sans-serif; font-size: 1.5rem; color: #1a2540; margin: 32px 0 16px; border-bottom: 2px solid #1d6a72; padding-bottom: 8px; }}
+    .body h3 {{ font-family: 'Segoe UI', sans-serif; font-size: 1.2rem; color: #1a2540; margin: 24px 0 12px; }}
+    .body h3 a {{ color: #1a2540; text-decoration: none; font-weight: 600; }}
+    .body h3 a:hover {{ color: #1d6a72; text-decoration: underline; }}
+    .body a {{ color: #1d6a72; text-decoration: underline; }}
+    .body a:hover {{ color: #e8a838; }}
+    .body ul {{ list-style: none; padding-left: 0; }}
+    .body ul li {{ margin: 12px 0; padding-left: 0; }}
+    .body ul li strong {{ color: #1a2540; }}
     hr {{ border: none; border-top: 1px solid #ddd; margin: 32px 0; }}
     .section-label {{ font-family: sans-serif; font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }}
     .copy-box {{ background: #f7f7f7; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; white-space: pre-wrap; font-family: monospace; font-size: 13px; line-height: 1.6; }}
@@ -91,6 +146,7 @@ def save_preview(post_data: dict, for_date: date = None) -> Path:
   <div class="approve-banner">
     &#128269; <strong>Review draft</strong> — run <code>python pipeline.py --publish</code> to promote to live site + Telegram.
   </div>
+  {banner_section}
   <div class="meta">
     <span class="tag">{_esc(post_data.get('tag', ''))}</span>
     {today.isoformat()}
