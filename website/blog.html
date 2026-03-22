@@ -136,6 +136,13 @@
         return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       }
 
+      // Escape HTML to prevent XSS
+      function escapeHTML(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
       function renderPosts(posts) {
         var list = document.getElementById('blog-list');
         if (!posts.length) {
@@ -146,11 +153,11 @@
           return '<article class="blog-post-card">' +
             '<div class="blog-post-img"><span>Article image</span></div>' +
             '<div class="blog-post-body">' +
-              '<span class="blog-tag">' + p.tag + '</span>' +
-              '<h2><a href="post.html?id=' + p.id + '" style="color:inherit;text-decoration:none;">' + p.title + '</a></h2>' +
-              '<p>' + p.excerpt + '</p>' +
+              '<span class="blog-tag">' + escapeHTML(p.tag) + '</span>' +
+              '<h2><a href="post.html?id=' + encodeURIComponent(p.id) + '" style="color:inherit;text-decoration:none;">' + escapeHTML(p.title) + '</a></h2>' +
+              '<p>' + escapeHTML(p.excerpt) + '</p>' +
               '<div class="blog-card-meta">' +
-                '<span>' + p.author + '</span> &middot; <span>' + formatDate(p.date) + '</span>' +
+                '<span>' + escapeHTML(p.author) + '</span> &middot; <span>' + formatDate(p.date) + '</span>' +
               '</div>' +
             '</div>' +
             '</article>';

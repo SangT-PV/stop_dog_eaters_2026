@@ -1,13 +1,17 @@
 import json
+import logging
 import re
 import anthropic
 from config import AWS_PROFILE, AWS_REGION, BEDROCK_MODEL_ID, CHANGE_ORG_URL
+
+log = logging.getLogger(__name__)
 
 _client = anthropic.AnthropicBedrock(
     aws_profile=AWS_PROFILE,
     aws_region=AWS_REGION,
 )
 _MODEL = BEDROCK_MODEL_ID
+_MAX_RETRIES = 2
 
 _SYSTEM_PROMPT = f"""Act as an AI Creative Director for Stop Dog Eaters (SDE).
 Brand Voice: Educational, Sensitive, Data-Driven.
@@ -52,22 +56,37 @@ Generate a blog post. Respond with ONLY a valid JSON object (no markdown fences)
 - "telegram_message": Telegram post max 900 chars — headline, 2-3 bullet points starting with •, end with: "Sign the petition: {CHANGE_ORG_URL}"
 - "facebook_post": Facebook Page post, 150-300 words — hook opening sentence, 2-3 short paragraphs, must cite 95% local support stat, close with the Change.org link and 4-6 relevant hashtags (#StopDogEaters #Vietnam #AnimalWelfare #DogMeatTrade etc.)
 """
-    response = _client.messages.create(
-        model=_MODEL,
-        max_tokens=4096,
-        system=_SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    raw = response.content[0].text.strip()
+    # Retry loop to handle malformed JSON responses
+    for attempt in range(_MAX_RETRIES + 1):
+        try:
+            response = _client.messages.create(
+                model=_MODEL,
+                max_tokens=8192,  # Increased from 4096 to prevent truncation
+                system=_SYSTEM_PROMPT,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            raw = response.content[0].text.strip()
 
-    # Strip markdown code fences if Claude wraps in ```json ... ```
-    raw = re.sub(r'^```(?:json)?\s*', '', raw)
-    raw = re.sub(r'\s*```$', '', raw)
+            # Strip markdown code fences if Claude wraps in ```json ... ```
+            raw = re.sub(r'^```(?:json)?\s*', '', raw)
+            raw = re.sub(r'\s*```$', '', raw)
 
-    post = json.loads(raw)
+            post = json.loads(raw)
 
-    # Normalise tag
-    if post.get('tag') not in _VALID_TAGS:
-        post['tag'] = 'Campaign Updates'
+            # Normalise tag
+            if post.get('tag') not in _VALID_TAGS:
+                post['tag'] = 'Campaign Updates'
 
-    return post
+            return post
+
+        except json.JSONDecodeError as e:
+            if attempt == _MAX_RETRIES:
+                log.error(f'Claude returned invalid JSON after {_MAX_RETRIES + 1} attempts')
+                raise ValueError(
+                    f'Failed to parse Claude response as JSON after {_MAX_RETRIES + 1} attempts. '
+                    f'Last error: {e}'
+                ) from e
+            log.warning(f'JSON parse failed (attempt {attempt + 1}/{_MAX_RETRIES + 1}), retrying: {e}')
+
+    # This should never be reached due to the raise in the loop, but for safety:
+    raise RuntimeError('Unexpected code path in synthesise_post retry logic')

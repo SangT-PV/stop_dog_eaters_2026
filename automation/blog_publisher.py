@@ -1,12 +1,27 @@
 import json
+import logging
 import re
 from datetime import date
 from pathlib import Path
 from config import WEBSITE_DATA_DIR, WEBSITE_URL
 
+log = logging.getLogger(__name__)
+
 INDEX_FILE = WEBSITE_DATA_DIR / 'index.json'
 POSTS_DIR = WEBSITE_DATA_DIR / 'posts'
 PREVIEWS_DIR = Path(__file__).parent / 'previews'
+
+
+def _sanitize_html(html: str) -> str:
+    """
+    Strip script tags and event handlers from AI-generated HTML.
+    Prevents XSS attacks from malicious content in research inputs or data tampering.
+    """
+    # Remove script tags and their contents
+    html = re.sub(r'<script[^>]*>.*?</script>', '', html, flags=re.DOTALL | re.IGNORECASE)
+    # Remove event handlers (onclick, onerror, onload, etc.)
+    html = re.sub(r'\s+on\w+\s*=\s*["\'][^"\']*["\']', '', html, flags=re.IGNORECASE)
+    return html
 
 
 def _load_index() -> list:
@@ -122,21 +137,26 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
     index = _load_index()
 
     slug = _slugify(post_data['title'])
-    existing_slugs = {p['id'] for p in index}
-    base, n = slug, 1
-    while slug in existing_slugs:
-        slug = f'{base}-{n}'
-        n += 1
+
+    # Idempotency check: if this exact slug already exists, skip duplicate
+    for entry in index:
+        if entry['id'] == slug:
+            post_url = f'{WEBSITE_URL}/post.html?id={slug}'
+            log.warning(f'Post "{slug}" already published -- skipping duplicate.')
+            return slug, post_url
 
     today = date.today().isoformat()
     post_filename = f'{slug}.json'
+
+    # Sanitize AI-generated HTML to prevent XSS
+    sanitized_body_html = _sanitize_html(post_data['body_html'])
 
     # Write full post data to individual file
     full_post = {
         'id': slug,
         'title': post_data['title'],
         'excerpt': post_data['excerpt'],
-        'body_html': post_data['body_html'],
+        'body_html': sanitized_body_html,
         'tag': post_data['tag'],
         'date': today,
         'author': 'AI Research Team',
