@@ -129,6 +129,29 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
+  // --- Scroll-triggered entrance animations ----------------
+  const animatables = document.querySelectorAll(
+    '.problem-card, .help-card, .blog-card, .blog-post-card, .donate-card, .team-card, .argument-block, [data-animate]'
+  );
+  if (animatables.length && 'IntersectionObserver' in window) {
+    const entryObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animated');
+          entryObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    animatables.forEach((el) => {
+      el.classList.add('will-animate');
+      const siblings = el.parentElement ? Array.from(el.parentElement.children).filter(c => c.classList.contains(el.classList[0])) : [];
+      const idx = siblings.indexOf(el);
+      el.style.setProperty('--anim-delay', `${idx * 0.1}s`);
+      entryObserver.observe(el);
+    });
+  }
+
   // --- Smooth scroll for anchor links ----------------------
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
