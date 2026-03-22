@@ -31,5 +31,6 @@ FACEBOOK_PAGE_TOKEN = os.getenv('FACEBOOK_PAGE_TOKEN', '')
 FACEBOOK_ENABLED = bool(FACEBOOK_PAGE_ID and FACEBOOK_PAGE_TOKEN)
 
 WEBSITE_DATA_DIR = (_here.parent / 'website' / 'data').resolve()
+WEBSITE_ASSETS_DIR = (_here.parent / 'website' / 'assets').resolve()
 INPUTS_DIR = (_here / 'inputs').resolve()
 LOGS_DIR = (_here / 'logs').resolve()

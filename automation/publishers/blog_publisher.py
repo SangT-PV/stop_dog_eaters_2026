@@ -3,7 +3,7 @@ import logging
 import re
 from datetime import date
 from pathlib import Path
-from config import WEBSITE_DATA_DIR, WEBSITE_URL
+from config import WEBSITE_DATA_DIR, WEBSITE_ASSETS_DIR, WEBSITE_URL
 from content import banner_generator
 
 log = logging.getLogger(__name__)
@@ -209,7 +209,7 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
     try:
         banner_svg_source = Path(__file__).parent.parent / 'previews' / today[:4] / today[5:7] / f'{today}-banner.svg'
         if banner_svg_source.exists():
-            banners_dir = Path(__file__).parent.parent / 'website' / 'assets' / 'banners'
+            banners_dir = WEBSITE_ASSETS_DIR / 'banners'
             banners_dir.mkdir(parents=True, exist_ok=True)
             banner_destination = banners_dir / f'{slug}.svg'
             import shutil
