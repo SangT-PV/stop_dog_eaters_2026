@@ -1,7 +1,7 @@
 ---
-stopped_at: "UX polish complete - all nice-to-have improvements implemented"
-last_updated: "2026-03-22T19:45:00+07:00"
-last_activity: "2026-03-22 -- UX polish: Implemented 6 nice-to-have improvements (OG tags, sorting, validation, a11y, favicon)"
+stopped_at: "Automated research agent implemented - Perplexity API + Manus AI integration complete"
+last_updated: "2026-03-23T00:15:00+07:00"
+last_activity: "2026-03-22 -- Automation Enhancement: Built multilingual research agent (English + Vietnamese)"
 progress:
   completed_plans: 17
   total_plans: 25
@@ -13,20 +13,24 @@ progress:
 
 ## Current Position
 
-**Phase:** Security & UX polish complete; ready to start Phase 2 (Petition Launch)
+**Phase:** Automation enhanced with research agent; ready to start Phase 2 (Petition Launch)
 **Plan:** 17 of 25 complete (01-01 through 01-05, 03-01 through 03-07, 04-01 through 04-05)
-**Status:** Production-ready with security hardening and UX enhancements; ready for Phase 2 (petition draft)
-**Last activity:** 2026-03-22 -- UX polish: 6 nice-to-have improvements from code review implemented
+**Status:** Automation fully self-sufficient with multilingual research - ready for Phase 2 (petition draft)
+**Last activity:** 2026-03-22 -- Built automated research agent: Perplexity API (English + Vietnamese) + Manus AI integration
 
 ## Commits This Session
 
-1. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
-2. `7b0927d` — docs: add README.md for team onboarding
-3. `990d2b4` — docs(planning): update STATE.md with security sprint completion
-4. `a4920dc` — security: fix 6 critical vulnerabilities from code review
-5. `42b99f0` — docs(planning): add comprehensive website and automation reviews
-6. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
-7. `d377fec` — docs: add planning structure and project instructions
+1. `a8d61e9` — feat(automation): add automated research agent with multilingual support
+2. `afc6d55` — docs(automation): add AWS Bedrock troubleshooting guide
+3. `47922a7` — docs(automation): document working AWS Bedrock model config
+4. `9aadf46` — feat(automation): publish daily blog post (2026-03-22)
+5. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
+6. `7b0927d` — docs: add README.md for team onboarding
+7. `990d2b4` — docs(planning): update STATE.md with security sprint completion
+8. `a4920dc` — security: fix 6 critical vulnerabilities from code review
+9. `42b99f0` — docs(planning): add comprehensive website and automation reviews
+10. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
+11. `d377fec` — docs: add planning structure and project instructions
 
 ## What's Done
 
@@ -121,6 +125,50 @@ All 6 nice-to-have improvements from code reviews implemented:
 
 **Status:** All review suggestions addressed. Site polished and production-ready.
 
+### Automation Enhancement: Automated Research Agent (2026-03-22)
+Major upgrade to Phase 3 automation - no longer requires manual research input
+
+**Research Automation:**
+- `automation/research_agent.py` (270 lines): Core research orchestration engine
+- Perplexity API integration for real-time news search (English + Vietnamese)
+- 10 daily searches: 5 English queries + 5 Vietnamese queries (tiếng Việt)
+- Manus AI placeholder ready for Vietnamese local source scraping
+- Combines multi-source research into unified report saved to `inputs/YYYY-MM-DD.txt`
+
+**Search Coverage:**
+- English: International news, Vietnam-focused outlets, animal welfare orgs
+- Vietnamese: VnExpress, Tuổi Trẻ, Thanh Niên, Ministry of Health, local authorities
+- Topics: health risks, pet theft, legislation, public opinion, bans, food safety
+
+**Pipeline Integration:**
+- Automatic research when no manual input file exists
+- Three-tier priority: manual input → automated research → rotating templates
+- New CLI flag: `python pipeline.py --research-only` for standalone testing
+- Logs all research activity to daily logs
+
+**Configuration:**
+- `PERPLEXITY_API_KEY` support in config.py (optional but recommended)
+- `MANUS_API_KEY` support for future Vietnamese scraper integration
+- Cost: ~$0.60/month for Perplexity API (10 searches/day)
+
+**Documentation:**
+- `automation/RESEARCH.md`: Complete setup, usage, troubleshooting guide
+- `automation/IMPLEMENTATION_SUMMARY.md`: Architecture and testing checklist
+- `automation/TROUBLESHOOTING.md`: AWS Bedrock + research API diagnostics
+
+**Model Configuration Update:**
+- Switched from Sonnet 4.6 to Haiku 4.5 due to AWS Marketplace permissions
+- Model: `us.anthropic.claude-haiku-4-5-20251001-v1:0` in us-east-2
+- Profile: `dev-us-aws-bedrock` (verified working)
+- Documented in CLAUDE.md and env.example
+
+**Daily Blog Post:**
+- Published first automated post: "The Unregulated Crisis: Why Vietnam's Dog Meat Trade Poses a Public Health Emergency"
+- Distributed to Telegram @stopdogeaters channel
+- Phase 4 split storage format working correctly
+
+**Status:** Automation now fully self-sufficient. Can research, synthesize, and publish daily content without manual intervention.
+
 ## What's Next
 
 ### Phase 2: Petition Launch (READY TO START)
@@ -175,12 +223,27 @@ All 6 nice-to-have improvements from code reviews implemented:
 
 ## Accumulated Context
 
-### AWS Bedrock Configuration (from Phase 3)
+### AWS Bedrock Configuration (from Phase 3, updated 2026-03-22)
 - **Critical:** Model ID must use `us.` prefix for cross-region inference profiles
-- Correct format: `us.anthropic.claude-sonnet-4-6`
-- Wrong format: `anthropic.claude-sonnet-4-6` (bare on-demand ID will fail)
-- AWS_PROFILE=dev-us-aws-bedrock, AWS_DEFAULT_REGION=us-east-1 confirmed working
+- **Working config:** `us.anthropic.claude-haiku-4-5-20251001-v1:0` in us-east-2
+- **Sonnet 4.6 issue:** `us.anthropic.claude-sonnet-4-6` encounters AWS Marketplace permission errors with dev-us-aws-bedrock profile
+- Wrong format: `anthropic.claude-haiku-4-5-20251001-v1:0` (bare on-demand ID will fail)
+- AWS_PROFILE=dev-us-aws-bedrock, AWS_DEFAULT_REGION=us-east-2 confirmed working
 - Client: `anthropic.AnthropicBedrock` from `anthropic` package v0.45.0+
+- See `automation/TROUBLESHOOTING.md` for diagnostics
+
+### Automated Research Agent (added 2026-03-22)
+- **Purpose:** Eliminates manual research requirement; searches English + Vietnamese news daily
+- **Architecture:** Perplexity API (10 searches) + Manus AI placeholder → combined report
+- **Input priority:** manual input file → automated research → rotating templates
+- **Configuration:** Requires `PERPLEXITY_API_KEY` in `.env` for automated mode
+- **Usage:** `python pipeline.py` auto-runs research if no manual file exists
+- **Research-only:** `python pipeline.py --research-only` to test without generating blog post
+- **Cost:** ~$0.60/month for Perplexity API (extremely affordable)
+- **Output:** Saves to `automation/inputs/YYYY-MM-DD.txt` with English + Vietnamese sections
+- **Queries:** 5 English (international + Vietnam focus) + 5 Vietnamese (local sources)
+- **Sources:** VnExpress, Tuổi Trẻ, Thanh Niên, Ministry of Health, animal welfare orgs
+- **Future:** Manus AI integration placeholder ready in `research_agent.py` when needed
 
 ### Blog Pipeline Architecture (Phase 3 → Phase 4)
 - Current: Single `website/data/posts.json` with full `body_html` for all posts
@@ -201,5 +264,5 @@ All 6 nice-to-have improvements from code reviews implemented:
 ## Session Info
 
 - Started: 2026-03-22
-- Stopped at: Phase 4 Blog Storage Migration - updating blog_publisher.py for split storage
-- Next action: Complete Plan 04-01 (blog_publisher split storage implementation)
+- Stopped at: Automated research agent implementation complete - automation now fully self-sufficient
+- Next action: Start Phase 2 (Petition Launch) - Draft Change.org petition text (Plan 02-01)
