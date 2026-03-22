@@ -1,17 +1,23 @@
 """
 SDE Phase 3 — Content Automation Pipeline
 ==========================================
-Two-stage workflow:
+Three-stage workflow:
+
+  STAGE 0 — Research (automatic if PERPLEXITY_API_KEY configured)
+    Perplexity API: Search English + Vietnamese news sources
+    Manus AI: Scrape Vietnamese local sources (if configured)
+    → Save to inputs/YYYY-MM-DD.txt
 
   STAGE 1 — Generate (default)
-    Research → Synthesis → Verify → Save to previews/YYYY/MM/YYYY-MM-DD.{html,json}
+    Load research → Claude synthesis → Verify → Save to previews/YYYY/MM/YYYY-MM-DD.{html,json}
     Open the HTML file, review, then run Stage 2 when happy.
 
   STAGE 2 — Publish (--publish)
     Load today's preview JSON → website/data/posts.json → Telegram → Facebook
 
 Usage:
-  python pipeline.py                        # Stage 1: generate + save preview locally
+  python pipeline.py                        # Full flow: research → generate → save preview
+  python pipeline.py --research-only        # Research only: save to inputs/YYYY-MM-DD.txt
   python pipeline.py --publish              # Stage 2: promote today's preview to live
   python pipeline.py --publish 2026-03-22   # Stage 2: promote a specific date's preview
   python pipeline.py --dry-run              # Generate + print only, save nothing
@@ -33,6 +39,7 @@ import content_verifier
 import blog_publisher
 import telegram_client
 import facebook_client
+import research_agent
 
 # Logging — writes to both file and stdout
 config.LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -86,21 +93,41 @@ _TOPIC_TEMPLATES = [
 def _get_research_input() -> tuple[str, str]:
     """
     Returns (research_text, angle).
-    Priority: today's input file from Manus AI → rotating topic template.
+    Priority:
+      1. Today's manual input file (inputs/YYYY-MM-DD.txt)
+      2. Run automated research (Perplexity + Manus AI) and save
+      3. Fallback to rotating topic templates
     """
     config.INPUTS_DIR.mkdir(parents=True, exist_ok=True)
     today_file = config.INPUTS_DIR / f'{date.today().isoformat()}.txt'
 
+    # Priority 1: Manual research file already exists
     if today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
-        log.info(f'Using Manus AI research input: {today_file.name}')
+        log.info(f'Using existing research input: {today_file.name}')
         health_keywords = {'health', 'disease', 'rabies', 'ecoli', 'e. coli', 'salmonella', 'food safety'}
         angle = 'health' if any(kw in text.lower() for kw in health_keywords) else 'cruelty'
         return text, angle
 
+    # Priority 2: Run automated research if APIs are configured
+    if config.PERPLEXITY_ENABLED or config.MANUS_ENABLED:
+        log.info('No input file found — running automated research...')
+        try:
+            research_agent.run_and_save()
+            # Now read the file we just created
+            if today_file.exists():
+                text = today_file.read_text(encoding='utf-8').strip()
+                log.info(f'Automated research complete: {today_file.name}')
+                health_keywords = {'health', 'disease', 'rabies', 'ecoli', 'e. coli', 'salmonella', 'food safety'}
+                angle = 'health' if any(kw in text.lower() for kw in health_keywords) else 'cruelty'
+                return text, angle
+        except Exception as e:
+            log.warning(f'Automated research failed: {e} — falling back to templates')
+
+    # Priority 3: Fallback to rotating topic templates
     idx = date.today().toordinal() % len(_TOPIC_TEMPLATES)
     angle, text = _TOPIC_TEMPLATES[idx]
-    log.info(f'No input file found — using topic template #{idx} (angle: {angle})')
+    log.info(f'Using topic template #{idx} (angle: {angle})')
     return text, angle
 
 
@@ -188,6 +215,13 @@ def publish(for_date: date = None) -> None:
 
 if __name__ == '__main__':
     args = sys.argv[1:]
+
+    if '--research-only' in args:
+        log.info('=== Running Research Agent Only ===')
+        filepath = research_agent.run_and_save()
+        log.info(f'Research complete! Saved to: {filepath}')
+        log.info('Next step: Run "python pipeline.py" to generate blog post from this research.')
+        sys.exit(0)
 
     if '--test-telegram' in args:
         ok = telegram_client.test_connection()

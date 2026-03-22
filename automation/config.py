@@ -10,6 +10,13 @@ AWS_PROFILE = os.getenv('AWS_PROFILE', 'default')
 AWS_REGION = os.getenv('AWS_DEFAULT_REGION') or os.getenv('AWS_REGION', 'us-east-1')
 BEDROCK_MODEL_ID = os.getenv('BEDROCK_MODEL_ID', 'us.anthropic.claude-haiku-4-5-20251001-v1:0')
 
+# Research APIs — used for automated daily news research
+PERPLEXITY_API_KEY = os.getenv('PERPLEXITY_API_KEY', '')
+PERPLEXITY_ENABLED = bool(PERPLEXITY_API_KEY)
+
+MANUS_API_KEY = os.getenv('MANUS_API_KEY', '')
+MANUS_ENABLED = bool(MANUS_API_KEY)
+
 # Telegram — optional; publishing is skipped when these are not set
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID', '')
