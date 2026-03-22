@@ -1,7 +1,7 @@
 ---
-stopped_at: "Security sprint complete - all 6 critical vulnerabilities fixed"
-last_updated: "2026-03-22T19:15:00+07:00"
-last_activity: "2026-03-22 -- Security sprint: Fixed 6 critical vulnerabilities (3 XSS, 3 automation reliability issues)"
+stopped_at: "UX polish complete - all nice-to-have improvements implemented"
+last_updated: "2026-03-22T19:45:00+07:00"
+last_activity: "2026-03-22 -- UX polish: Implemented 6 nice-to-have improvements (OG tags, sorting, validation, a11y, favicon)"
 progress:
   completed_plans: 17
   total_plans: 25
@@ -13,17 +13,20 @@ progress:
 
 ## Current Position
 
-**Phase:** Security sprint complete; ready to start Phase 2 (Petition Launch)
+**Phase:** Security & UX polish complete; ready to start Phase 2 (Petition Launch)
 **Plan:** 17 of 25 complete (01-01 through 01-05, 03-01 through 03-07, 04-01 through 04-05)
-**Status:** All critical security issues resolved; production-ready; awaiting Phase 2 start (petition draft)
-**Last activity:** 2026-03-22 -- Security sprint: 6 critical vulnerabilities fixed and tested
+**Status:** Production-ready with security hardening and UX enhancements; ready for Phase 2 (petition draft)
+**Last activity:** 2026-03-22 -- UX polish: 6 nice-to-have improvements from code review implemented
 
 ## Commits This Session
 
-1. `a4920dc` — security: fix 6 critical vulnerabilities from code review
-2. `42b99f0` — docs(planning): add comprehensive website and automation reviews
-3. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
-4. `d377fec` — docs: add planning structure and project instructions
+1. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
+2. `7b0927d` — docs: add README.md for team onboarding
+3. `990d2b4` — docs(planning): update STATE.md with security sprint completion
+4. `a4920dc` — security: fix 6 critical vulnerabilities from code review
+5. `42b99f0` — docs(planning): add comprehensive website and automation reviews
+6. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
+7. `d377fec` — docs: add planning structure and project instructions
 
 ## What's Done
 
@@ -93,6 +96,30 @@ All 6 critical vulnerabilities from code reviews fixed:
 - `automation/test_security_fixes.py`: Verified HTML sanitization removes scripts and event handlers
 
 **Status:** Production-ready. All critical issues resolved. Pipeline safe for unattended daily automation.
+
+### UX Polish (2026-03-22)
+All 6 nice-to-have improvements from code reviews implemented:
+
+**Social Sharing & SEO:**
+- Open Graph and Twitter Card meta tags added to all 7 pages
+- Dynamic OG tag updates in `post.html` based on article content
+- Enables rich previews when sharing on Facebook, Twitter, LinkedIn
+
+**User Experience:**
+- Blog index explicitly sorts posts by date (newest first)
+- Petition form validates email format with regex before submission
+- Fixed `animateCount()` to properly format decimal numbers with `toLocaleString()`
+
+**Accessibility:**
+- Blog filter tags converted from `<span>` to `<button>` for proper semantics
+- Added visible focus states for keyboard navigation
+- Full Tab and Enter/Space support
+
+**Branding:**
+- Created and added SVG favicon to all pages (teal with dog silhouette)
+- Prevents 404s and shows branded tab icon
+
+**Status:** All review suggestions addressed. Site polished and production-ready.
 
 ## What's Next
 
