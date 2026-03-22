@@ -45,8 +45,13 @@ This project uses the `.planning/` folder for all task tracking and progress man
 
 - **Frontend:** Plain HTML/CSS/JS (no frameworks, no build tools)
 - **Automation:** Python 3.x with `anthropic` package for AWS Bedrock
-- **AI:** Claude Sonnet 4.6 via `us.anthropic.claude-sonnet-4-6` (cross-region inference profile)
-- **AWS:** Bedrock in us-east-1, AWS_PROFILE=dev-us-aws-bedrock
+- **AI:** Claude Haiku 4.5 via `us.anthropic.claude-haiku-4-5-20251001-v1:0` (inference profile)
+  - **Working Config (as of 2026-03-22):**
+    - Model: `us.anthropic.claude-haiku-4-5-20251001-v1:0`
+    - Region: `us-east-2`
+    - Profile: `dev-us-aws-bedrock`
+  - **Note:** Claude Sonnet 4.6 (`us.anthropic.claude-sonnet-4-6`) encountered AWS Marketplace permission errors. Haiku 4.5 is stable and tested.
+- **AWS:** Bedrock in us-east-2, AWS_PROFILE=dev-us-aws-bedrock
 - **Distribution:** Telegram (@stopdogeaters), Facebook (optional)
 - **Orchestration:** Windows Task Scheduler with `run.bat` (8AM daily trigger)
 
@@ -128,10 +133,10 @@ python automation/pipeline.py --test-facebook
 
 ### Environment Variables (automation/config.py)
 ```bash
-# AWS Bedrock
+# AWS Bedrock — VERIFIED WORKING CONFIG (2026-03-22)
 AWS_PROFILE=dev-us-aws-bedrock
-AWS_DEFAULT_REGION=us-east-1
-BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-4-6  # Must use us. prefix!
+AWS_DEFAULT_REGION=us-east-2
+BEDROCK_MODEL_ID=us.anthropic.claude-haiku-4-5-20251001-v1:0  # Must use inference profile format!
 
 # Distribution
 TELEGRAM_BOT_TOKEN=...
@@ -144,8 +149,10 @@ CHANGE_ORG_URL=https://change.org/...  # To be populated
 ```
 
 ### Critical: AWS Bedrock Model ID Format
-- ✅ Correct: `us.anthropic.claude-sonnet-4-6` (cross-region inference profile)
-- ❌ Wrong: `anthropic.claude-sonnet-4-6` (bare on-demand ID will fail)
+**Working Configuration (Verified 2026-03-22):**
+- ✅ **Currently using:** `us.anthropic.claude-haiku-4-5-20251001-v1:0` (inference profile, us-east-2)
+- ⚠️ **Sonnet 4.6 issue:** `us.anthropic.claude-sonnet-4-6` encounters AWS Marketplace permission errors with dev-us-aws-bedrock profile
+- ❌ **Wrong format:** `anthropic.claude-haiku-4-5-20251001-v1:0` (bare on-demand ID will fail — must use inference profile with `us.` prefix)
 
 ---
 
