@@ -44,7 +44,14 @@ The SDE automation pipeline now includes **automated daily research** that searc
 3. Generate an API key
 4. Copy the key (starts with `pplx-`)
 
-### 2. Configure Environment
+### 2. Get Manus AI API Key (Optional but Recommended)
+
+1. Go to https://manus.im/team
+2. Sign up for Team plan (starts at $40/month for 20 seats)
+3. Get API key from your account settings
+4. Copy the API key
+
+### 3. Configure Environment
 
 Add to `automation/.env`:
 
@@ -52,15 +59,17 @@ Add to `automation/.env`:
 # Required for automated research
 PERPLEXITY_API_KEY=pplx-your-api-key-here
 
-# Optional: Manus AI (leave blank if not using)
+# Optional but recommended for Vietnamese source coverage
 MANUS_API_KEY=your-manus-api-key-here
 ```
 
-### 3. Install Dependencies
+### 4. Install Dependencies
 
 ```bash
 pip install requests python-dotenv
 ```
+
+All dependencies are already in your environment - no additional packages needed!
 
 ---
 
@@ -122,13 +131,25 @@ Perplexity searches Vietnamese news sites:
 - VietnamNet, Dan Tri, Zing News
 - Local government health department announcements
 
-### Manus AI (Optional)
+### Manus AI (Optional but Recommended for Vietnamese Coverage)
 
-If configured, Manus AI scrapes Vietnamese sources that may not be indexed by Perplexity:
-- Local community forums
-- Regional health authority reports
-- Provincial government announcements
-- Small-scale Vietnamese news sites
+**What is Manus?** An AI agent platform (by Meta) that uses browser automation and "Wide Research" to scrape websites that search APIs can't reach.
+
+**Perfect for:**
+- Vietnamese news sites with dynamic content (VnExpress, Tuổi Trẻ, Thanh Niên)
+- Regional health authority announcements
+- Local community forums and provincial government sites
+- Content behind JavaScript rendering or paywalls
+
+**How it works:**
+1. Creates a research "task" via Manus API
+2. Manus agent browses Vietnamese sites and extracts content
+3. Polls for completion (typically 2-5 minutes)
+4. Returns structured research report
+
+**API Endpoint:** `https://api.manus.ai/v1/tasks`
+**Pricing:** Team plan ~$40/month for 20 seats with pooled credits
+**Timeout:** Default 5 minutes (adjustable in `research_agent.py`)
 
 ---
 
@@ -185,7 +206,50 @@ Very cost-effective for daily automation.
 
 ### Manus AI Pricing
 
-Check Manus AI pricing documentation. Leave blank in `.env` if not using.
+- **Team Plan:** ~$40/month for 20 seats (pooled credits)
+- **Typical task cost:** ~150 credits per research task
+- **Daily automation:** 1 task/day = ~4,500 credits/month
+- **Cost per month:** Included in Team plan base credits
+
+**Recommendation:** Start with Team plan if Vietnamese source coverage is important. The browser automation capability is unique and worth the cost for daily production use.
+
+---
+
+## How Manus Integration Works
+
+### Asynchronous Task Pattern
+
+Manus tasks run asynchronously (not instant like Perplexity):
+
+1. **Create Task** → POST to `/v1/tasks` returns `task_id` immediately
+2. **Task Runs** → Manus agent browses websites (takes 2-5 minutes)
+3. **Poll for Results** → GET `/v1/tasks/{task_id}` until `status: "completed"`
+4. **Retrieve Results** → Extract research content from completed task
+
+The `research_agent.py` handles all polling automatically with these settings:
+- **Poll interval:** 10 seconds
+- **Max wait time:** 5 minutes (300 seconds)
+- **Timeout behavior:** Returns partial results and logs task URL for manual check
+
+### Production Workflow Options
+
+**Option A: Run-and-wait (Current Implementation)**
+```bash
+# Takes ~8-10 minutes total (Perplexity + Manus)
+python pipeline.py --research-only
+```
+
+**Option B: Two-stage (Recommended for Scheduled Automation)**
+```bash
+# Night before (11 PM): Pre-generate research
+python pipeline.py --research-only
+
+# Morning (8 AM): Use cached research
+python pipeline.py  # Reads yesterday's research file
+```
+
+**Option C: Webhooks (Advanced)**
+Set up a webhook endpoint to receive task completion notifications. See Manus docs: https://open.manus.ai/docs/webhooks
 
 ---
 

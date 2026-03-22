@@ -104,9 +104,66 @@ def search_perplexity(query: str, language: str = "en") -> Optional[Dict]:
         return None
 
 
+def poll_manus_task(task_id: str, max_wait_seconds: int = 300) -> Optional[str]:
+    """
+    Poll Manus API for task completion and retrieve results.
+
+    Args:
+        task_id: The task ID returned from create task API
+        max_wait_seconds: Maximum time to wait for completion (default: 5 minutes)
+
+    Returns:
+        Task results or None if failed/timeout
+    """
+    import time
+
+    url = f"https://api.manus.ai/v1/tasks/{task_id}"
+    headers = {"API_KEY": MANUS_API_KEY}
+
+    start_time = time.time()
+    poll_interval = 10  # Check every 10 seconds
+
+    while time.time() - start_time < max_wait_seconds:
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            task_data = response.json()
+
+            status = task_data.get("status")
+            log.info(f"Manus task {task_id} status: {status}")
+
+            if status == "completed":
+                # Extract the results from the completed task
+                # The actual field name depends on Manus API response structure
+                results = task_data.get("result") or task_data.get("output") or task_data.get("content")
+                if results:
+                    log.info(f"Manus task completed successfully: {len(str(results))} chars")
+                    return str(results)
+                else:
+                    log.warning("Manus task completed but no results found")
+                    return None
+
+            elif status in ["failed", "error", "cancelled"]:
+                log.error(f"Manus task failed with status: {status}")
+                return None
+
+            # Task still running, wait before next poll
+            time.sleep(poll_interval)
+
+        except Exception as e:
+            log.error(f"Error polling Manus task {task_id}: {e}")
+            time.sleep(poll_interval)
+
+    log.warning(f"Manus task {task_id} timed out after {max_wait_seconds}s")
+    return None
+
+
 def search_manus_ai() -> Optional[str]:
     """
     Scrape Vietnamese local news sources using Manus AI.
+
+    Uses Manus's "Wide Research" and "Browser Operator" capabilities to scrape
+    Vietnamese news sites that may not be well-indexed by Perplexity.
 
     Returns:
         Scraped content summary or None if failed/not configured
@@ -115,20 +172,67 @@ def search_manus_ai() -> Optional[str]:
         log.info("Manus AI not configured — skipping")
         return None
 
-    # TODO: Implement Manus AI integration
-    # This is a placeholder for when you configure Manus AI
-    log.warning("Manus AI integration not implemented yet — returning placeholder")
-
     try:
-        # Example placeholder - replace with actual Manus AI API calls
-        # url = "https://api.manus.ai/scrape"
-        # headers = {"Authorization": f"Bearer {MANUS_API_KEY}"}
-        # payload = {"sources": ["vnexpress.net", "tuoitre.vn", "thanhnien.vn"]}
-        # response = requests.post(url, headers=headers, json=payload, timeout=120)
-        # return response.json().get("content")
+        url = "https://api.manus.ai/v1/tasks"
+        headers = {
+            "API_KEY": MANUS_API_KEY,
+            "Content-Type": "application/json",
+        }
 
-        return None  # Remove this when Manus AI is implemented
+        # Research prompt for Manus agent
+        prompt = """Research the latest Vietnamese news about the dog meat trade (thịt chó) from these sources:
 
+1. VnExpress.net - search for: "thịt chó", "buôn bán chó", "dịch bệnh dại"
+2. Tuổi Trẻ (tuoitre.vn) - search for: "thịt chó", "trộm cắp chó"
+3. Thanh Niên (thanhnien.vn) - search for: "thịt chó Việt Nam", "cấm thịt chó"
+4. VietnamNet - search for: "an toàn thực phẩm thịt chó"
+
+Focus on:
+- Recent events (last 7-30 days)
+- Health warnings or disease outbreaks (rabies, E. coli, salmonella)
+- Legislative changes or proposals
+- Public opinion surveys
+- Pet theft incidents
+- Local government announcements
+
+Provide:
+- Article titles with dates
+- Key facts and statistics
+- Source URLs
+- Brief summaries in both Vietnamese and English
+
+Format the output as a structured report with clear sections."""
+
+        payload = {
+            "prompt": prompt,
+            "agentProfile": "manus-1.6",  # Standard profile
+            "taskMode": "agent",  # Agent mode for research tasks
+            "hideInTaskList": True,  # Don't clutter the UI
+            "createShareableLink": False,  # Keep results private
+        }
+
+        log.info("Calling Manus AI for Vietnamese source scraping...")
+        response = requests.post(url, headers=headers, json=payload, timeout=180)
+        response.raise_for_status()
+
+        data = response.json()
+        task_id = data.get("task_id")
+        task_url = data.get("task_url")
+
+        log.info(f"Manus task created: {task_id} - {task_url}")
+
+        # Poll for task completion (default: wait up to 5 minutes)
+        results = poll_manus_task(task_id, max_wait_seconds=300)
+
+        if results:
+            return results
+        else:
+            log.warning(f"Manus task did not complete in time. Check manually: {task_url}")
+            return f"Manus AI task submitted but not yet completed: {task_url}\n(Check task manually or increase timeout)"
+
+    except requests.exceptions.RequestException as e:
+        log.error(f"Manus AI API error: {e}")
+        return None
     except Exception as e:
         log.error(f"Manus AI scraping failed: {e}")
         return None
