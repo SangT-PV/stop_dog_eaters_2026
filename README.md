@@ -15,6 +15,7 @@ If you have just cloned this repository, here is what you need to read first:
 
 ## 📂 Repository Structure
 
+- `/.planning/` - Project tracking, daily operations reviews, and task tracking.
 - `/website/` - Static HTML/CSS/JS and JSON data files for the central hub (stopdogeaters.info).
 - `/automation/` - The AI-powered content generation pipeline and publishing scripts (Manus AI, Claude Sonnet, Telegram auto-posting).
 - `/pdf_pages/` - Generated PDF assets and research documents.
