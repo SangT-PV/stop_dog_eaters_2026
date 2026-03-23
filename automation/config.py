@@ -22,7 +22,7 @@ TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID', '')
 TELEGRAM_ENABLED = bool(TELEGRAM_BOT_TOKEN and TELEGRAM_CHANNEL_ID)
 
-CHANGE_ORG_URL = os.getenv('CHANGE_ORG_URL', 'https://www.change.org/p/end-dog-meat-trade-vietnam')
+CHANGE_ORG_URL = os.getenv('CHANGE_ORG_URL', 'https://c.org/nLZTZdVNdJ')
 WEBSITE_URL = os.getenv('WEBSITE_URL', 'https://stopdogeaters.info')
 
 # Facebook — optional; publishing is skipped when these are not set
