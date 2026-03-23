@@ -450,6 +450,25 @@ Before pushing to live:
 
 **Never skip E2E testing** — even for "small" changes. Frontend regressions are user-facing and damage trust.
 
+### Testing Artifacts
+
+**Screenshot Storage:**
+- Manual test screenshots: Save to `.planning/.testing/` with `playwright-` prefix
+- Playwright MCP plugin: Automatically saves to `.playwright-mcp/` (already gitignored)
+- Both directories are gitignored to keep repository clean
+
+**Naming Convention:**
+```
+.planning/.testing/playwright-{feature}-{description}.png
+Example: playwright-blog-post-typography-full.png
+```
+
+**Why separate directory:**
+- Keeps testing artifacts organized and out of root
+- Easy to find/review test screenshots
+- Easy to clean up: `rm -rf .planning/.testing/`
+- Can commit specific screenshots if needed (just move outside .testing)
+
 ---
 
 ## Review Workflow

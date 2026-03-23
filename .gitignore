@@ -21,7 +21,11 @@ node_modules/
 
 # Claude Code internals
 .claude/settings.local.json
+.claude/worktrees/
 .playwright-mcp/
+
+# Testing artifacts
+.planning/.testing/
 
 # Extracted PDF preview images
 pdf_pages/
