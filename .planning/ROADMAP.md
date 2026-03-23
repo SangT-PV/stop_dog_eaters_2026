@@ -81,13 +81,13 @@
 ---
 
 ## Phase 6: Kickstarter & Crowdfunding Prep (SDE-006)
-**Status:** Not started
+**Status:** In progress (1 of 4 complete)
 **Jira:** SDE-006
 **Owner:** All (coordinated by Siva + Uyen)
 
 - [ ] 06-01-PLAN.md — Draft Kickstarter pitch copy (lead with unregulated trade, public safety, community mandate)
 - [ ] 06-02-PLAN.md — Build "Why We Care" visual asset package (Lucky photography + infographics)
-- [ ] 06-03-PLAN.md — Implement fund tracking dashboard (team view + public summary)
+- [x] 06-03-PLAN.md — Implement fund tracking dashboard (team view + public summary) (85bd8f8)
 - [ ] 06-04-PLAN.md — Publish transparency statement linking funds to specific activities
 
 **Definition of Done:** Kickstarter page ready for review; fund tracker live; transparency statement published.
