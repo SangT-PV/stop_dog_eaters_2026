@@ -1,6 +1,6 @@
 ---
 stopped_at: "Starting Plan 02-01 — Draft Change.org petition text (title, targets, 3 core arguments)"
-last_updated: "2026-03-23T10:45:00+07:00"
+last_updated: "2026-03-23T15:00:00+07:00"
 last_activity: "2026-03-23 -- Starting Plan 02-01: Draft Change.org petition text"
 progress:
   completed_plans: 17
@@ -20,28 +20,30 @@ progress:
 
 ## Commits This Session
 
-1. `579a818` — fix(automation): correct banner copy path after refactoring
-2. `3c94135` — refactor(automation): reorganize into modular directory structure
-3. `d44e1fb` — feat(blog): integrate banner display and enhance social media links
-4. `87f4a1a` — feat(automation): enhance blog content with newsletter format and banner generation
-3. `9517f10` — feat(blog): add latest post to Phase 4 split storage structure
-4. `d1621c7` — docs(testing): add comprehensive E2E test report for website
-5. `293765a` — fix(ui): remove DOMPurify integrity attribute causing browser error
-6. `9212e2a` — docs(testing): add mandatory E2E testing workflow for website changes
-7. `7ff064a` — fix(automation): update Perplexity API model name to 'sonar'
-8. `c5205ec` — feat(automation): implement Manus AI integration for Vietnamese source scraping
-9. `84f4786` — docs(planning): update STATE.md with research agent completion
-10. `a8d61e9` — feat(automation): add automated research agent with multilingual support
-11. `afc6d55` — docs(automation): add AWS Bedrock troubleshooting guide
-12. `47922a7` — docs(automation): document working AWS Bedrock model config
-13. `9aadf46` — feat(automation): publish daily blog post (2026-03-22)
-14. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
-15. `7b0927d` — docs: add README.md for team onboarding
-16. `990d2b4` — docs(planning): update STATE.md with security sprint completion
-17. `a4920dc` — security: fix 6 critical vulnerabilities from code review
-18. `42b99f0` — docs(planning): add comprehensive website and automation reviews
-19. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
-20. `d377fec` — docs: add planning structure and project instructions
+1. `e9b254b` — chore(testing): organize test artifacts in .planning/.testing/
+2. `d5e7e21` — feat(security): implement granular permissions and Docker isolation
+3. `579a818` — fix(automation): correct banner copy path after refactoring
+4. `3c94135` — refactor(automation): reorganize into modular directory structure
+5. `d44e1fb` — feat(blog): integrate banner display and enhance social media links
+6. `87f4a1a` — feat(automation): enhance blog content with newsletter format and banner generation
+7. `9517f10` — feat(blog): add latest post to Phase 4 split storage structure
+8. `d1621c7` — docs(testing): add comprehensive E2E test report for website
+9. `293765a` — fix(ui): remove DOMPurify integrity attribute causing browser error
+10. `9212e2a` — docs(testing): add mandatory E2E testing workflow for website changes
+11. `7ff064a` — fix(automation): update Perplexity API model name to 'sonar'
+12. `c5205ec` — feat(automation): implement Manus AI integration for Vietnamese source scraping
+13. `84f4786` — docs(planning): update STATE.md with research agent completion
+14. `a8d61e9` — feat(automation): add automated research agent with multilingual support
+15. `afc6d55` — docs(automation): add AWS Bedrock troubleshooting guide
+16. `47922a7` — docs(automation): document working AWS Bedrock model config
+17. `9aadf46` — feat(automation): publish daily blog post (2026-03-22)
+18. `6c22464` — feat(ux): implement all nice-to-have improvements from code review
+19. `7b0927d` — docs: add README.md for team onboarding
+20. `990d2b4` — docs(planning): update STATE.md with security sprint completion
+21. `a4920dc` — security: fix 6 critical vulnerabilities from code review
+22. `42b99f0` — docs(planning): add comprehensive website and automation reviews
+23. `3f1094b` — chore(tech-debt): apply quick wins from tech lead review
+24. `d377fec` — docs: add planning structure and project instructions
 
 ## What's Done
 
@@ -300,6 +302,18 @@ automation/
 
 ## Accumulated Context
 
+### Claude Code Permissions & Testing (added 2026-03-23)
+- **Purpose:** Implement morphllm.com best practices for secure development
+- **Two-tier permission system:** Shared `.claude/settings.json` (team) + personal `.claude/settings.local.json` (gitignored)
+- **Shared settings:** Granular rules - auto-approve safe operations, deny dangerous commands, prompt for critical actions
+- **Personal overrides:** Full permissions (`*`, `mcp__*`, `Bash(**)`) for primary developer
+- **Docker isolation:** Optional containerized automation with network firewall rules (init-firewall.sh)
+- **Testing artifacts:** Organized in `.planning/.testing/` with `playwright-` prefix (19 PNG files moved)
+- **Gitignore:** Only excludes `settings.local.json` and `.claude/worktrees/`, allows shared settings to be committed
+- **Documentation:** CLAUDE.md updated with permission modes, Docker setup, testing conventions
+- **Skills created:** `smart-push` (multi-account GitHub), `permission-setup` (automates configuration)
+- **Benefits:** Team can work safely with granular controls; primary dev has fast iteration; all automation can run in isolated containers
+
 ### AWS Bedrock Configuration (from Phase 3, updated 2026-03-22)
 - **Critical:** Model ID must use `us.` prefix for cross-region inference profiles
 - **Working config:** `us.anthropic.claude-haiku-4-5-20251001-v1:0` in us-east-2
@@ -352,5 +366,5 @@ automation/
 ## Session Info
 
 - Started: 2026-03-22
-- Stopped at: Automation refactored to modular structure - improved maintainability and team onboarding
+- Stopped at: Infrastructure improvements complete - granular permissions system and testing artifacts organized
 - Next action: Start Phase 2 (Petition Launch) - Draft Change.org petition text (Plan 02-01)
