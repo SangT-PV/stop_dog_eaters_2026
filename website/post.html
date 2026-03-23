@@ -50,35 +50,36 @@
   </nav>
 
   <!-- POST CONTENT -->
-  <div class="container" style="max-width: 1000px; padding: 64px 80px 80px 80px;">
+  <div class="container" style="max-width: 1000px; padding: 64px 32px 80px 32px;">
 
     <div id="post-loading" style="text-align:center; padding: 80px 0; color: var(--text-md);">
       Loading article...
     </div>
 
-    <article id="post-article" style="display:none; max-width:720px; margin:0 auto;">
-      <a href="blog.html" style="display:inline-flex; align-items:center; gap:8px; font-size:0.95rem; color:var(--text-md); text-decoration:none; margin-bottom:40px; font-weight:500;">
+    <article id="post-article" style="display:none; max-width:750px; margin:0 auto;">
+      <a href="blog.html" class="post-back-link">
         &larr; Back to Blog
       </a>
-      <img id="post-banner" style="display:none; width:100%; height:auto; border-radius:12px; margin:0 0 40px 0; box-shadow:var(--shadow);" alt="Article banner" />
+      <img id="post-banner" style="display:none; width:100%; height:auto; border-radius:16px; margin:0 0 48px 0; box-shadow:var(--shadow-lg);" alt="Article banner" />
       <span id="post-tag" class="blog-tag" style="display:block; margin-bottom:20px;"></span>
-      <h1 id="post-title" style="font-size: clamp(2.25rem, 5vw, 3.2rem); line-height:1.15; margin-bottom:28px; color:var(--slate); font-weight:900; letter-spacing:-0.025em;"></h1>
-      <div style="display:flex; align-items:center; gap:12px; font-size:0.95rem; color:var(--text-md); margin-bottom:56px; padding-bottom:28px; border-bottom:2px solid var(--border);">
-        <span id="post-author" style="font-weight:600;"></span>
-        <span>&middot;</span>
-        <span id="post-date"></span>
+      <h1 id="post-title" style="font-family: var(--font-head); font-size: clamp(2.4rem, 5.5vw, 3.5rem); line-height:1.12; margin-bottom:32px; color:var(--slate); font-weight:900; letter-spacing:-0.03em;"></h1>
+      <div style="display:flex; align-items:center; gap:14px; font-size:0.98rem; color:var(--text-md); margin-bottom:64px; padding-bottom:32px; border-bottom:3px solid var(--border);">
+        <span id="post-author" style="font-weight:700; color:var(--slate);"></span>
+        <span style="color:var(--teal); opacity:0.5;">&middot;</span>
+        <span id="post-date" style="font-weight:500;"></span>
       </div>
       <div id="post-body" class="prose"></div>
 
     </article>
 
     <!-- CTA -->
-    <div style="margin-top:72px; background:var(--mist); border:2px solid var(--teal); border-radius:var(--radius-lg); padding:48px 56px; text-align:center; max-width:720px; margin-left:auto; margin-right:auto;">
-      <p style="font-family:var(--font-head); font-size:1.5rem; font-weight:900; margin-bottom:14px; color:var(--slate);">Moved by this article? Take action.</p>
-      <p style="font-size:1.05rem; color:var(--text-md); margin-bottom:32px; line-height:1.7;">
+    <div style="margin-top:80px; background:linear-gradient(135deg, rgba(42,157,143,0.08) 0%, rgba(230,57,70,0.06) 100%); border:3px solid var(--teal); border-radius:var(--radius-lg); padding:56px 64px; text-align:center; max-width:750px; margin-left:auto; margin-right:auto; box-shadow:var(--shadow); position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--teal) 0%, var(--red) 100%);"></div>
+      <p style="font-family:var(--font-head); font-size:1.75rem; font-weight:900; margin-bottom:18px; color:var(--slate); letter-spacing:-0.02em;">Moved by this article? Take action.</p>
+      <p style="font-size:1.12rem; color:var(--text); margin-bottom:36px; line-height:1.75; font-weight:500; max-width:540px; margin-left:auto; margin-right:auto;">
         95% of Vietnamese support ending this trade. Your signature adds to that mandate.
       </p>
-      <a href="petition.html" class="btn btn-primary" style="font-size:1.05rem; padding:16px 40px;">Sign the Petition</a>
+      <a href="petition.html" class="btn btn-primary" style="font-size:1.08rem; padding:18px 48px; box-shadow:var(--shadow-red); transform:translateY(0); transition: all 0.25s ease;">Sign the Petition</a>
     </div>
 
     <div id="post-error" style="display:none; text-align:center; padding:80px 0;">

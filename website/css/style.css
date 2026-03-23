@@ -1274,6 +1274,450 @@ p:last-child { margin-bottom: 0; }
   color: rgba(255,255,255,0.65);
 }
 
+/* --- Blog Post Page Elements ------------------------------ */
+.post-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--teal);
+  text-decoration: none;
+  margin-bottom: 40px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.post-back-link:hover {
+  color: var(--teal-dk);
+  border-bottom-color: var(--teal);
+  transform: translateX(-4px);
+}
+
+/* --- Blog Post Typography (Prose) ------------------------- */
+.prose {
+  /* Base typography for optimal readability */
+  font-size: 1.075rem;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 720px;
+}
+
+/* Headings with brand hierarchy */
+.prose h2 {
+  font-family: var(--font-head);
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: var(--slate);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 56px 0 24px 0;
+  scroll-margin-top: 80px;
+}
+
+.prose h3 {
+  font-family: var(--font-head);
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--slate);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin: 44px 0 20px 0;
+  scroll-margin-top: 80px;
+}
+
+.prose h4 {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--slate);
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  margin: 36px 0 16px 0;
+  scroll-margin-top: 80px;
+}
+
+/* First heading has no top margin */
+.prose h2:first-child,
+.prose h3:first-child,
+.prose h4:first-child {
+  margin-top: 0;
+}
+
+/* Paragraphs with generous spacing */
+.prose p {
+  margin-bottom: 1.75rem;
+  color: var(--text);
+  line-height: 1.85;
+  font-size: 1.075rem;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lead paragraph (first paragraph) */
+.prose > p:first-of-type {
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: var(--text-dark);
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+/* Beautiful links with brand colors */
+.prose a {
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(42,157,143,0.25);
+  transition: all 0.2s ease;
+  padding-bottom: 1px;
+}
+
+.prose a:hover {
+  color: var(--teal-dk);
+  border-bottom-color: var(--teal);
+  background: rgba(42,157,143,0.06);
+}
+
+/* External links indicator */
+.prose a[href^="http"]::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 0.85em;
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+.prose a[href^="http"]:hover::after {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+/* Elegant blockquotes with brand accent */
+.prose blockquote {
+  margin: 2.5rem 0;
+  padding: 24px 32px 24px 28px;
+  background: var(--mist);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-style: italic;
+  color: var(--text-md);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.prose blockquote::before {
+  content: """;
+  position: absolute;
+  top: 16px;
+  left: -12px;
+  font-size: 4rem;
+  font-family: Georgia, serif;
+  color: var(--teal);
+  opacity: 0.15;
+  line-height: 1;
+}
+
+.prose blockquote p {
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.prose blockquote cite {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-style: normal;
+  color: var(--text-md);
+  font-weight: 600;
+}
+
+.prose blockquote cite::before {
+  content: "— ";
+}
+
+/* Code blocks with dark theme */
+.prose pre {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin: 2rem 0;
+  box-shadow: var(--shadow);
+  border: 1px solid #334155;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: inherit;
+}
+
+/* Inline code */
+.prose code {
+  background: rgba(42,157,143,0.08);
+  color: var(--teal-dk);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  font-weight: 600;
+  border: 1px solid rgba(42,157,143,0.15);
+}
+
+/* Lists with better spacing */
+.prose ul,
+.prose ol {
+  margin: 1.75rem 0;
+  padding-left: 32px;
+}
+
+.prose li {
+  margin-bottom: 12px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.prose li::marker {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.prose ul li {
+  list-style-type: disc;
+}
+
+.prose ol li {
+  list-style-type: decimal;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+/* Nested lists */
+.prose ul ul,
+.prose ol ul {
+  list-style-type: circle;
+}
+
+.prose ul ul ul,
+.prose ol ul ul,
+.prose ol ol ul {
+  list-style-type: square;
+}
+
+/* Images with elegant styling */
+.prose img {
+  margin: 2.5rem auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  max-width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prose img:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Figure with captions */
+.prose figure {
+  margin: 2.5rem 0;
+}
+
+.prose figure img {
+  margin: 0 auto 16px;
+}
+
+.prose figcaption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-md);
+  font-style: italic;
+  margin-top: 12px;
+}
+
+/* Tables with clean styling */
+.prose table {
+  width: 100%;
+  margin: 2.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.prose thead {
+  background: var(--slate);
+  color: var(--white);
+}
+
+.prose th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 700;
+  font-family: var(--font-head);
+  letter-spacing: 0.03em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.prose td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose tbody tr:nth-child(even) {
+  background: var(--mist);
+}
+
+.prose tbody tr:hover {
+  background: rgba(42,157,143,0.06);
+  transition: background 0.15s ease;
+}
+
+/* Horizontal rules */
+.prose hr {
+  margin: 3.5rem 0;
+  border: none;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 20%,
+    var(--border) 80%,
+    transparent
+  );
+}
+
+/* Strong and emphasis */
+.prose strong {
+  font-weight: 700;
+  color: var(--slate);
+}
+
+.prose em {
+  font-style: italic;
+  color: var(--text-dark);
+}
+
+/* Mark/highlight text */
+.prose mark {
+  background: rgba(232,168,56,0.25);
+  color: var(--text-dark);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* Small text */
+.prose small {
+  font-size: 0.875rem;
+  color: var(--text-md);
+}
+
+/* Subscript and superscript */
+.prose sub,
+.prose sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.prose sup {
+  top: -0.5em;
+}
+
+.prose sub {
+  bottom: -0.25em;
+}
+
+/* Smooth fade-in animation for prose content */
+.prose {
+  animation: prose-fade-in 0.6s ease-out;
+}
+
+@keyframes prose-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .prose {
+    font-size: 1.025rem;
+  }
+
+  .prose h2 {
+    font-size: 1.65rem;
+    margin: 44px 0 20px 0;
+  }
+
+  .prose h3 {
+    font-size: 1.3rem;
+    margin: 36px 0 16px 0;
+  }
+
+  .prose h4 {
+    font-size: 1.08rem;
+    margin: 28px 0 14px 0;
+  }
+
+  .prose > p:first-of-type {
+    font-size: 1.1rem;
+  }
+
+  .prose blockquote {
+    padding: 20px 24px 20px 24px;
+    margin: 2rem 0;
+  }
+
+  .prose pre {
+    padding: 20px;
+    margin: 1.5rem -16px;
+    border-radius: 0;
+  }
+
+  .prose img {
+    margin: 2rem -16px;
+    border-radius: 0;
+  }
+
+  .prose table {
+    font-size: 0.88rem;
+  }
+
+  .prose th,
+  .prose td {
+    padding: 10px 12px;
+  }
+}
+
 /* --- Responsive -------------------------------------------- */
 @media (max-width: 960px) {
   .hero-inner,
