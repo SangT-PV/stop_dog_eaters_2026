@@ -86,12 +86,22 @@
 
         monthPosts.forEach(function (post) {
           html += '<article class="timeline-post-card">';
+
+          // Add banner image if available
+          if (post.banner_url) {
+            html += '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="timeline-post-image">';
+            html += '<img src="' + escapeHTML(post.banner_url) + '" alt="' + escapeHTML(post.title) + '" loading="lazy" />';
+            html += '</a>';
+          }
+
+          html += '<div class="timeline-post-content">';
           html += '<span class="blog-tag">' + escapeHTML(post.tag) + '</span>';
           html += '<h4><a href="post.html?id=' + encodeURIComponent(post.id) + '">' + escapeHTML(post.title) + '</a></h4>';
           html += '<p class="timeline-post-excerpt">' + escapeHTML(post.excerpt) + '</p>';
           html += '<div class="timeline-post-meta">';
           html += '<span>' + escapeHTML(post.author) + '</span> · <span>' + formatDate(post.date) + '</span>';
           html += '</div>';
+          html += '</div>'; // timeline-post-content
           html += '</article>';
         });
 
@@ -118,8 +128,12 @@
     }
 
     list.innerHTML = posts.map(function (p) {
+      var imageHtml = p.banner_url
+        ? '<img src="' + escapeHTML(p.banner_url) + '" alt="' + escapeHTML(p.title) + '" loading="lazy" style="width:100%; height:100%; object-fit:cover;" />'
+        : '<span>Article image</span>';
+
       return '<article class="blog-post-card">' +
-        '<div class="blog-post-img"><span>Article image</span></div>' +
+        '<a href="post.html?id=' + encodeURIComponent(p.id) + '" class="blog-post-img">' + imageHtml + '</a>' +
         '<div class="blog-post-body">' +
           '<span class="blog-tag">' + escapeHTML(p.tag) + '</span>' +
           '<h2><a href="post.html?id=' + encodeURIComponent(p.id) + '" style="color:inherit;text-decoration:none;">' + escapeHTML(p.title) + '</a></h2>' +

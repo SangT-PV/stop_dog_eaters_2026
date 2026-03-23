@@ -16,6 +16,39 @@ This is the Stop Dog Eaters (SDE) campaign — a grassroots movement to end the 
 
 ---
 
+## Claude Code Configuration
+
+### CLI Usage
+When using the **Claude CLI**, always use the `--dangerously-skip-permissions` flag:
+
+```bash
+claude --dangerously-skip-permissions "your prompt here"
+```
+
+### VSCode Extension
+When using the **Claude VSCode Extension** (current environment), permissions are managed through `settings.local.json`, not CLI flags.
+
+**To skip permission prompts in VSCode:**
+1. Use the `/approval-tracker` skill to automatically add permissions as you work
+2. Or manually add broad permissions to `C:\Users\sangm\.claude\settings.local.json`:
+
+```json
+{
+  "allow": [
+    "Read(**)",
+    "Write(**)",
+    "Edit(**)",
+    "Bash(**)",
+    "Glob(**)",
+    "Grep(**)"
+  ]
+}
+```
+
+**Note:** Since this is a personal project with trusted code and automation, streamlined workflow without repeated prompts is preferred.
+
+---
+
 ## Planning Structure (MANDATORY)
 
 This project uses the `.planning/` folder for all task tracking and progress management. **Always follow R25 protocol:**

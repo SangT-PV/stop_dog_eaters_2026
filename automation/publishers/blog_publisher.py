@@ -257,6 +257,7 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
         'id': slug,
         'title': post_data['title'],
         'excerpt': post_data['excerpt'],
+        'banner_url': banner_url,  # Include banner for preview images
         'tag': post_data['tag'],
         'date': today,
         'author': 'AI Research Team',
