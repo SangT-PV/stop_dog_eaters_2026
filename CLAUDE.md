@@ -190,12 +190,44 @@ CHANGE_ORG_URL=https://change.org/...  # To be populated
 
 ## Git Workflow
 
-1. Check `.planning/STATE.md` for current position
-2. Run `update-planning-state START` before coding
-3. Implement changes
-4. Commit with conventional format: `type(scope): description`
-5. Run `update-planning-state END` after commit
-6. Never skip planning state updates — hooks enforce freshness
+### Before Starting New Work (MANDATORY)
+**CRITICAL:** Always verify clean git state before starting a new plan or phase.
+
+```bash
+git status
+```
+
+**Required state before proceeding:**
+- Working tree is clean (no modified/staged files), OR
+- All uncommitted changes are intentionally untracked (listed in .gitignore)
+
+**If you see uncommitted changes:**
+1. Review what's uncommitted: `git diff` and `git diff --staged`
+2. Either:
+   - Commit them with proper conventional format if they're complete work
+   - Add to `.gitignore` if they're temporary/local files (logs, cache, etc.)
+   - Stash them if they're incomplete work: `git stash save "WIP: description"`
+   - Discard them if they're accidental/unwanted: `git restore .` (only after confirmation)
+
+**Why this matters:**
+- Prevents mixing unfinished work from different plans
+- Ensures each plan starts with a known clean state
+- Makes it clear what changes belong to the current plan
+- Avoids accidentally committing unrelated files
+- Planning state updates and git hooks depend on clean state
+
+### Workflow Steps
+
+1. **Verify clean state:** `git status` (must be clean or only show untracked files)
+2. Check `.planning/STATE.md` for current position
+3. Run `update-planning-state START` before coding
+4. Implement changes
+5. Commit with conventional format: `type(scope): description`
+6. Run `update-planning-state END` after commit
+7. **Verify clean state again** before moving to next plan
+
+Never skip planning state updates — hooks enforce freshness.
+Never start new work with uncommitted changes from previous work.
 
 ---
 
