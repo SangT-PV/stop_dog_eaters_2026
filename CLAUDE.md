@@ -18,34 +18,46 @@ This is the Stop Dog Eaters (SDE) campaign — a grassroots movement to end the 
 
 ## Claude Code Configuration
 
+### Permission Management
+
+This project uses a **two-tier permission system** following best practices from [morphllm.com/claude-code-dangerously-skip-permissions](https://www.morphllm.com/claude-code-dangerously-skip-permissions):
+
+**1. Shared Team Settings** (`.claude/settings.json` - committed to git):
+- Granular permission rules for safe operations
+- Auto-approves common dev tasks (file edits, safe git commands)
+- Explicitly denies dangerous operations (rm -rf, sudo, curl)
+- Prompts for critical actions (git push, pipeline --publish)
+- Sets `defaultMode: acceptEdits` for optimal workflow
+
+**2. Personal Overrides** (`.claude/settings.local.json` - gitignored):
+- Full permissions for primary developer (you)
+- Kept separate from shared settings for security
+- Never committed to git
+
 ### CLI Usage
-When using the **Claude CLI**, always use the `--dangerously-skip-permissions` flag:
+When using the **Claude CLI**:
 
 ```bash
+# For quick tasks
 claude --dangerously-skip-permissions "your prompt here"
+
+# The shared settings.json will still enforce safety rules for the team
 ```
 
 ### VSCode Extension
-When using the **Claude VSCode Extension** (current environment), permissions are managed through `settings.local.json`, not CLI flags.
+When using the **Claude VSCode Extension** (current environment):
 
-**To skip permission prompts in VSCode:**
-1. Use the `/approval-tracker` skill to automatically add permissions as you work
-2. Or manually add broad permissions to `C:\Users\sangm\.claude\settings.local.json`:
+- **Team members**: Use Shift+Tab to switch to **Accept Edits mode** for best experience
+- **Primary developer**: Personal `settings.local.json` has full permissions (`*`, `mcp__*`, `Bash(**)`)
+- **Safety net**: Git is the undo button - all changes are version controlled
 
-```json
-{
-  "allow": [
-    "Read(**)",
-    "Write(**)",
-    "Edit(**)",
-    "Bash(**)",
-    "Glob(**)",
-    "Grep(**)"
-  ]
-}
-```
+### Permission Modes (Shift+Tab to cycle)
 
-**Note:** Since this is a personal project with trusted code and automation, streamlined workflow without repeated prompts is preferred.
+1. **Default**: Prompts on first use of each tool type
+2. **Accept Edits** (recommended): Auto-approves file edits, prompts for shell commands
+3. **Plan Mode**: Read-only analysis, no modifications
+4. **Don't Ask**: Auto-denies unless explicitly allowed
+5. **Bypass**: Auto-approves everything (use with Docker isolation)
 
 ---
 
@@ -188,6 +200,95 @@ CHANGE_ORG_URL=https://change.org/...  # To be populated
 - ✅ **Currently using:** `us.anthropic.claude-haiku-4-5-20251001-v1:0` (inference profile, us-east-2)
 - ⚠️ **Sonnet 4.6 issue:** `us.anthropic.claude-sonnet-4-6` encounters AWS Marketplace permission errors with dev-us-aws-bedrock profile
 - ❌ **Wrong format:** `anthropic.claude-haiku-4-5-20251001-v1:0` (bare on-demand ID will fail — must use inference profile with `us.` prefix)
+
+---
+
+## Docker Automation (Recommended for Production)
+
+### Why Docker?
+
+The article [morphllm.com/claude-code-dangerously-skip-permissions](https://www.morphllm.com/claude-code-dangerously-skip-permissions) strongly recommends running automation in isolated containers:
+
+**Benefits:**
+- **Network isolation**: Firewall rules restrict outbound connections to only essential APIs
+- **Credential safety**: Container can't access SSH keys, browser cookies, or other projects
+- **Reproducibility**: Same environment every run
+- **Security**: Even if automation is compromised, blast radius is limited to container
+
+### Docker Setup
+
+**Files:**
+- `automation/Dockerfile` - Python 3.11 image with dependencies
+- `automation/init-firewall.sh` - Network restriction script (optional for production)
+- `automation/docker-compose.yml` - Easy orchestration
+
+### Running the Pipeline in Docker
+
+```bash
+# Navigate to automation directory
+cd automation
+
+# Build the image (first time only)
+docker-compose build
+
+# Run pipeline (preview mode - saves to previews/)
+docker-compose run --rm pipeline python pipeline.py
+
+# Run pipeline with publish (posts to website + Telegram)
+docker-compose run --rm pipeline python pipeline.py --publish
+
+# Test Telegram connection
+docker-compose run --rm pipeline python pipeline.py --test-telegram
+
+# Interactive shell for debugging
+docker-compose run --rm shell
+```
+
+### Environment Variables
+
+Docker Compose reads from your shell environment and `.env` file. Ensure these are set:
+
+```bash
+# Required
+AWS_PROFILE=dev-us-aws-bedrock
+AWS_DEFAULT_REGION=us-east-2
+BEDROCK_MODEL_ID=us.anthropic.claude-haiku-4-5-20251001-v1:0
+TELEGRAM_BOT_TOKEN=your_token
+TELEGRAM_CHANNEL_ID=@stopdogeaters
+
+# Optional
+FACEBOOK_PAGE_ID=your_page_id
+FACEBOOK_PAGE_TOKEN=your_token
+CHANGE_ORG_URL=https://change.org/...
+```
+
+### Local Development vs. Docker
+
+**Local (direct Python):**
+```bash
+python automation/pipeline.py              # Fast iteration, no isolation
+```
+
+**Docker (isolated):**
+```bash
+cd automation
+docker-compose run --rm pipeline           # Secure, reproducible, slower startup
+```
+
+**Recommendation:**
+- Use **local Python** for development and debugging
+- Use **Docker** for scheduled automation (Task Scheduler/cron)
+- Use **Docker** if running untrusted or experimental code
+
+### Windows Task Scheduler Integration
+
+Update `automation/run.bat` to use Docker:
+
+```batch
+@echo off
+cd /d "C:\Users\sangm\OneDrive\_WorkFolder\_Personal\Start-ups\stop_dog_eaters\automation"
+docker-compose run --rm pipeline python pipeline.py --publish >> logs\docker-%date:~-4,4%-%date:~-10,2%-%date:~-7,2%.log 2>&1
+```
 
 ---
 

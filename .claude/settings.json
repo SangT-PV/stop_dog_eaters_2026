@@ -1,0 +1,39 @@
+{
+  "defaultMode": "acceptEdits",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit(/website/**)",
+      "Edit(/automation/**)",
+      "Edit(/.planning/**)",
+      "Bash(python automation/pipeline.py)",
+      "Bash(python automation/pipeline.py --dry-run)",
+      "Bash(python automation/pipeline.py --test-telegram)",
+      "Bash(python automation/pipeline.py --test-facebook)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(python -m http.server *)",
+      "Bash(cd * && python -c *)",
+      "mcp__context7__*",
+      "mcp__plugin_playwright_playwright__*"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Read(/automation/.env)",
+      "Edit(/automation/.env)"
+    ],
+    "ask": [
+      "Bash(python automation/pipeline.py --publish)",
+      "Bash(git push *)",
+      "Bash(git commit *)",
+      "Edit(/CLAUDE.md)",
+      "Edit(/.gitignore)",
+      "Edit(/BRAND_GUIDELINES.md)"
+    ]
+  }
+}

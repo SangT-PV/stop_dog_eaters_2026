@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # AWS Bedrock configuration
+      - AWS_PROFILE=${AWS_PROFILE:-dev-us-aws-bedrock}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-2}
+      - BEDROCK_MODEL_ID=${BEDROCK_MODEL_ID:-us.anthropic.claude-haiku-4-5-20251001-v1:0}
+
+      # Distribution channels
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHANNEL_ID=${TELEGRAM_CHANNEL_ID}
+      - FACEBOOK_PAGE_ID=${FACEBOOK_PAGE_ID}
+      - FACEBOOK_PAGE_TOKEN=${FACEBOOK_PAGE_TOKEN}
+
+      # Campaign URLs
+      - CHANGE_ORG_URL=${CHANGE_ORG_URL}
+
+    volumes:
+      # AWS credentials (read-only for security)
+      - ~/.aws:/home/sde/.aws:ro
+
+      # Output directories (read-write)
+      - ../website/data:/home/sde/automation/../website/data
+      - ./previews:/home/sde/automation/previews
+      - ./logs:/home/sde/automation/logs
+
+      # Input directory for manual research (read-only)
+      - ./inputs:/home/sde/automation/inputs:ro
+
+    # Security: uncomment for production with strict network isolation
+    # cap_add:
+    #   - NET_ADMIN
+
+    # Command: defaults to pipeline.py, can override
+    command: ["python", "pipeline.py"]
+
+  # Interactive shell for debugging
+  shell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - AWS_PROFILE=${AWS_PROFILE:-dev-us-aws-bedrock}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-2}
+      - BEDROCK_MODEL_ID=${BEDROCK_MODEL_ID:-us.anthropic.claude-haiku-4-5-20251001-v1:0}
+    volumes:
+      - ~/.aws:/home/sde/.aws:ro
+      - ../website/data:/home/sde/automation/../website/data
+      - ./previews:/home/sde/automation/previews
+      - ./logs:/home/sde/automation/logs
+      - ./inputs:/home/sde/automation/inputs:ro
+    entrypoint: ["/bin/bash"]
+    stdin_open: true
+    tty: true

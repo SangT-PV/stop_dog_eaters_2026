@@ -20,7 +20,7 @@ Thumbs.db
 node_modules/
 
 # Claude Code internals
-.claude/
+.claude/settings.local.json
 .playwright-mcp/
 
 # Extracted PDF preview images
