@@ -19,13 +19,6 @@
       "currency": "USD",
       "status": "pending",
       "url": null
-    },
-    {
-      "name": "SDE Token",
-      "amount": 0,
-      "currency": "USD",
-      "status": "pending",
-      "url": null
     }
   ],
   "allocations": [
