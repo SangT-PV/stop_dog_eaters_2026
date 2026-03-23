@@ -1,9 +1,9 @@
 # Stop Dog Eaters Campaign - Implementation Roadmap
 
 **Total Plans:** 25 across 7 phases
-**Completed:** 19 of 25 (Phases 1, 3, 4 complete; Phase 2 in progress - 2 of 4)
+**Completed:** 20 of 25 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
 **Timeline:** 3-week sprint to full launch
-**Last Updated:** 2026-03-23
+**Last Updated:** 2026-03-24
 
 ---
 
@@ -23,13 +23,13 @@
 ---
 
 ## Phase 2: Petition Launch (SDE-002)
-**Status:** In progress (2 of 4 complete)
+**Status:** In progress (3 of 4 complete)
 **Jira:** SDE-002
 **Owner:** Tuan Anh (Social Manager) + All
 
 - [x] 02-01-PLAN.md — Draft Change.org petition text (title, targets, 3 core arguments) (352cb95)
 - [x] 02-02-PLAN.md — Tone review and local framing refinement (c6d6565)
-- [ ] 02-03-PLAN.md — Publish on Change.org and embed link on website
+- [x] 02-03-PLAN.md — Publish on Change.org and embed link on website (7510911 - LIVE: https://c.org/nLZTZdVNdJ)
 - [ ] 02-04-PLAN.md — Prepare initial outreach list (Vietnamese communities, expat groups, animal welfare orgs)
 
 **Definition of Done:** Petition live on Change.org, linked prominently from homepage, initial outreach list prepared.
