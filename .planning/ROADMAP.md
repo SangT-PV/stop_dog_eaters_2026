@@ -134,3 +134,40 @@
 - **Tuan Anh:** Content pillars + tone guide approval before scaling post frequency
 - **Siva:** API wiring (petition submit endpoint, fund tracker API, real URLs once live)
 - **All:** Internal review and sign-off before Week 2 dual launch
+
+---
+
+## Backlog
+
+### Phase 999.1: Community Engagement Platform with Fund-Gated Features (BACKLOG)
+
+**Goal:** Transform passive readers into active community through fund-gated features unlocking at transparent milestones
+
+**Core Features:**
+1. Blog discussion sections (comments, evidence sharing, moderation)
+2. Community post creation (user-generated content with approval workflow)
+3. AI engagement bot (auto-responds with brand voice)
+4. Feature voting system (community decides priorities)
+5. Fund-gated roadmap (visual progress bars showing locked/unlocked features)
+
+**Suggested Funding Tiers:**
+- $1K: Discussion sections enabled
+- $2.5K: Community posts enabled
+- $5K: AI engagement bot deployed
+- $10K+: Community-voted advanced features
+
+**Strategic Alignment:**
+- Mission: Growing awareness through online community (not physical actions)
+- Funding: Transparent Change.org + Kickstarter only
+- Engagement: Turn readers into active participants and content creators
+
+**Requirements:**
+- Fund tracker showing real progress (✅ DONE - Plan 06-03)
+- Brand voice for AI bot (⏳ BLOCKED - Plan 05-01)
+- Comment storage (database or JSON)
+- Moderation dashboard for Tuan Anh
+
+**Plans:** 0 plans (TBD)
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
