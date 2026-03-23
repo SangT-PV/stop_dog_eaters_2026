@@ -1,0 +1,93 @@
+{
+  "last_updated": "2026-03-24T00:00:00Z",
+  "summary": {
+    "total_raised": 0,
+    "total_spent": 0,
+    "balance": 0
+  },
+  "sources": [
+    {
+      "name": "Change.org",
+      "amount": 0,
+      "currency": "USD",
+      "status": "active",
+      "url": "https://c.org/nLZTZdVNdJ"
+    },
+    {
+      "name": "Kickstarter",
+      "amount": 0,
+      "currency": "USD",
+      "status": "pending",
+      "url": null
+    },
+    {
+      "name": "SDE Token",
+      "amount": 0,
+      "currency": "USD",
+      "status": "pending",
+      "url": null
+    }
+  ],
+  "allocations": [
+    {
+      "category": "Media Production",
+      "budgeted_percent": 32,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "Video, graphics, Lucky photography, campaign materials"
+    },
+    {
+      "category": "Community Organizing",
+      "budgeted_percent": 28,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "Outreach, event coordination, volunteer support"
+    },
+    {
+      "category": "Advertising",
+      "budgeted_percent": 20,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "Social media ads, Google Ads, influencer partnerships"
+    },
+    {
+      "category": "Platform Fees",
+      "budgeted_percent": 10,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "Change.org, Kickstarter, transaction fees"
+    },
+    {
+      "category": "Legal & Compliance",
+      "budgeted_percent": 6,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "Petition verification, source citations, legal review"
+    },
+    {
+      "category": "Infrastructure",
+      "budgeted_percent": 4,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "Hosting, domain, API costs, automation"
+    },
+    {
+      "category": "Salaries",
+      "budgeted_percent": 0,
+      "budgeted_amount": 0,
+      "spent": 0,
+      "description": "All work is volunteer-based"
+    }
+  ],
+  "expenses": [
+    {
+      "date": "2026-03-24",
+      "category": "Infrastructure",
+      "amount": 0,
+      "description": "Initial placeholder - no expenses yet",
+      "approved_by": "System",
+      "receipt_url": null
+    }
+  ],
+  "monthly_summaries": []
+}

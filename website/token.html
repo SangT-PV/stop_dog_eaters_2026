@@ -155,28 +155,67 @@
     </div>
   </section>
 
-  <!-- COMBINED FUND TRACKER PLACEHOLDER -->
-  <section class="section-sm bg-offwhite">
-    <div class="container text-center">
-      <span class="eyebrow">Campaign Fund Tracker</span>
-      <h2 style="font-size: 1.6rem; margin-bottom: 12px;">Total Raised Across All Channels</h2>
-      <p style="max-width: 500px; margin: 0 auto 28px;">Real-time fund tracker coming at launch. Siva to integrate API; Hieu to embed below.</p>
-      <div style="max-width: 500px; margin: 0 auto; background: #fff; border: 1px solid #e8e4de; border-radius: 6px; padding: 32px; box-shadow: var(--shadow);">
-        <div style="font-family: var(--font-head); font-size: 2.8rem; font-weight: bold; color: var(--teal); line-height: 1;">$0</div>
-        <div style="font-size: 0.85rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; margin: 6px 0 20px;">Total raised — dashboard live at launch</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 0.82rem; color: var(--text-md);">
-          <div style="background: var(--offwhite); padding: 10px; border-radius: 4px;">
-            <div style="font-weight: 700; color: var(--navy);">$0</div>
-            <div>Change.org</div>
+  <!-- FUND TRACKER DASHBOARD -->
+  <section class="section bg-offwhite">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 48px;">
+        <span class="eyebrow">Campaign Fund Tracker</span>
+        <h2 style="font-size: 2rem; margin-bottom: 12px;">Total Raised Across All Channels</h2>
+        <p style="max-width: 600px; margin: 0 auto; color: var(--text-md);">
+          Full transparency on every dollar raised and spent. All proceeds fund professional advocacy and community outreach activities.
+        </p>
+      </div>
+
+      <div id="fund-tracker-container" class="fund-tracker-container">
+        <!-- Summary Metrics -->
+        <div id="fund-summary" class="fund-summary">
+          <div class="fund-metric">
+            <div class="fund-metric-value">$0</div>
+            <div class="fund-metric-label">Total Raised</div>
           </div>
-          <div style="background: var(--offwhite); padding: 10px; border-radius: 4px;">
-            <div style="font-weight: 700; color: var(--navy);">$0</div>
-            <div>Kickstarter</div>
+          <div class="fund-metric">
+            <div class="fund-metric-value">$0</div>
+            <div class="fund-metric-label">Total Spent</div>
           </div>
-          <div style="background: var(--offwhite); padding: 10px; border-radius: 4px;">
-            <div style="font-weight: 700; color: var(--navy);">TBD</div>
-            <div>SDE Token</div>
+          <div class="fund-metric">
+            <div class="fund-metric-value">$0</div>
+            <div class="fund-metric-label">Balance</div>
           </div>
+        </div>
+
+        <!-- Fund Sources -->
+        <div style="margin-bottom: 48px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 20px; text-align: center; color: var(--slate);">Funding Sources</h3>
+          <div id="fund-sources" class="fund-sources">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Allocation Chart -->
+        <div style="margin-bottom: 48px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 20px; text-align: center; color: var(--slate);">Budget Allocation</h3>
+          <canvas id="allocation-chart" width="400" height="400"></canvas>
+        </div>
+
+        <!-- Budget Allocations -->
+        <div style="margin-bottom: 48px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 20px; text-align: center; color: var(--slate);">Category Breakdown</h3>
+          <div id="fund-allocations" class="fund-allocations">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Recent Expenses -->
+        <div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 20px; text-align: center; color: var(--slate);">Recent Expenses</h3>
+          <div id="fund-expenses">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Last Updated -->
+        <div id="fund-last-updated" class="fund-last-updated">
+          Last updated: Loading...
         </div>
       </div>
     </div>
@@ -220,6 +259,12 @@
       </div>
     </div>
   </footer>
+
+  <!-- Chart.js for fund allocation visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+  <!-- Fund Tracker Module -->
+  <script src="js/fund-tracker.js"></script>
 
   <script src="js/main.js"></script>
 </body>
