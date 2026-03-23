@@ -1,7 +1,7 @@
 ---
-stopped_at: "Starting Plan 02-03 — Publish on Change.org and embed link on website"
-last_updated: "2026-03-23T17:15:00+07:00"
-last_activity: "2026-03-23 -- Starting Plan 02-03: Change.org publication with source verification and Vietnamese translation"
+stopped_at: "Starting Plan 02-04 — Prepare initial outreach list for petition promotion"
+last_updated: "2026-03-23T22:45:00+07:00"
+last_activity: "2026-03-23 -- Starting Plan 02-04: Build outreach list (Vietnamese communities, expat groups, animal welfare orgs)"
 progress:
   completed_plans: 19
   total_plans: 25
@@ -14,9 +14,9 @@ progress:
 ## Current Position
 
 **Phase:** 2 of 7 -- Petition Launch
-**Plan:** 19 of 25 complete (02-01, 02-02 COMPLETE) — NOW STARTING 02-03: Publish on Change.org
-**Status:** Plan 02-03 IN PROGRESS. Implementing source verification, Vietnamese translation, and Change.org publication
-**Last activity:** 2026-03-23 -- Starting implementation of Change.org publication
+**Plan:** 19 of 25 complete (02-01, 02-02 COMPLETE; 02-03 offline) — NOW STARTING 02-04: Prepare outreach list
+**Status:** Plan 02-04 IN PROGRESS. Building targeted outreach list for petition promotion
+**Last activity:** 2026-03-23 -- Starting outreach list preparation (Vietnamese communities, expat groups, animal welfare orgs)
 
 ## Commits This Session
 
