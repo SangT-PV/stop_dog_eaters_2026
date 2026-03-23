@@ -1,7 +1,7 @@
 # Stop Dog Eaters Campaign - Implementation Roadmap
 
-**Total Plans:** 25 across 7 phases
-**Completed:** 20 of 25 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
+**Total Plans:** 32 across 7 phases + 1 backlog phase
+**Completed:** 20 of 32 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
 **Timeline:** 3-week sprint to full launch
 **Last Updated:** 2026-03-24
 
@@ -150,24 +150,21 @@
 4. Feature voting system (community decides priorities)
 5. Fund-gated roadmap (visual progress bars showing locked/unlocked features)
 
-**Suggested Funding Tiers:**
+**Funding Tiers:**
 - $1K: Discussion sections enabled
 - $2.5K: Community posts enabled
 - $5K: AI engagement bot deployed
 - $10K+: Community-voted advanced features
 
-**Strategic Alignment:**
-- Mission: Growing awareness through online community (not physical actions)
-- Funding: Transparent Change.org + Kickstarter only
-- Engagement: Turn readers into active participants and content creators
-
-**Requirements:**
-- Fund tracker showing real progress (✅ DONE - Plan 06-03)
-- Brand voice for AI bot (⏳ BLOCKED - Plan 05-01)
-- Comment storage (database or JSON)
-- Moderation dashboard for Tuan Anh
-
-**Plans:** 0 plans (TBD)
+**Plans:** 7 plans in 4 waves
 
 Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+- [ ] 999.1-01-PLAN.md — Data contracts + comment rendering module on post.html (Wave 1)
+- [ ] 999.1-02-PLAN.md — Fund-gated roadmap timeline on token.html + celebration banner (Wave 1)
+- [ ] 999.1-03-PLAN.md — Comment submission form with formatting toolbar + threading + likes (Wave 2)
+- [ ] 999.1-04-PLAN.md — Moderation dashboard (moderate.html) with approve/reject workflow (Wave 2)
+- [ ] 999.1-05-PLAN.md — Community post submission on blog.html + moderation wiring (Wave 3)
+- [ ] 999.1-06-PLAN.md — AI engagement bot automation module (Wave 3)
+- [ ] 999.1-07-PLAN.md — Feature voting system + blog feed integration + final verification (Wave 4)
+
+**Definition of Done:** All 5 community features tier-gated and functional. Comments, community posts, AI bot, voting, and roadmap working. Moderation dashboard operational for Tuan Anh.
