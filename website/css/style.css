@@ -964,6 +964,142 @@ p:last-child { margin-bottom: 0; }
   margin: 0 auto 36px;
 }
 
+/* --- Article/Post Page (Prose Styling) -------------------- */
+.prose {
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.prose > * + * {
+  margin-top: 1.75em;
+}
+
+.prose p {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: 1.75em;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  font-weight: 700;
+  color: var(--slate);
+}
+
+.prose a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.prose a:hover {
+  color: var(--teal-dk);
+  text-decoration-color: var(--teal-dk);
+}
+
+.prose h2 {
+  font-size: 1.75rem;
+  line-height: 1.3;
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  color: var(--slate);
+  font-weight: 900;
+}
+
+.prose h3 {
+  font-size: 1.4rem;
+  line-height: 1.35;
+  margin-top: 2em;
+  margin-bottom: 0.85em;
+  color: var(--slate);
+  font-weight: 900;
+}
+
+.prose h4 {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  margin-top: 1.75em;
+  margin-bottom: 0.75em;
+  color: var(--slate);
+  font-weight: 700;
+}
+
+.prose ul,
+.prose ol {
+  margin: 1.5em 0;
+  padding-left: 2em;
+}
+
+.prose li {
+  margin-bottom: 0.75em;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.prose li::marker {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--teal);
+  padding-left: 1.5em;
+  margin: 2em 0;
+  font-style: italic;
+  color: var(--text-md);
+  font-size: 1.15rem;
+  line-height: 1.75;
+}
+
+.prose blockquote p {
+  margin-bottom: 0.5em;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3em 0;
+}
+
+.prose code {
+  background: var(--mist);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+  font-family: 'Courier New', monospace;
+  color: var(--slate);
+}
+
+.prose pre {
+  background: var(--mist);
+  padding: 1.5em;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+  max-width: 100%;
+  height: auto;
+  margin: 2em 0;
+  box-shadow: var(--shadow-sm);
+}
+
 /* --- Blog Page --------------------------------------------- */
 .blog-header {
   padding: 64px 0 52px;
