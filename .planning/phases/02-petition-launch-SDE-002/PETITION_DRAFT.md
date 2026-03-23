@@ -1,8 +1,9 @@
 # Change.org Petition Draft — Stop Dog Eaters Campaign
 
-**Status:** Draft for Review
+**Status:** Tone Review APPROVED — Awaiting source verification (Plan 02-02)
 **Date:** 2026-03-23
-**Next Step:** Tone review by Tuan Anh (Plan 02-02)
+**Updated:** 2026-03-23 (source citations added)
+**Next Step:** Verify sources, then proceed to Plan 02-03 (Publish on Change.org)
 
 ---
 
@@ -34,7 +35,7 @@
 
 We are Vietnamese citizens, families, and concerned community members calling for immediate regulation of the dog meat trade in Vietnam. This is not a cultural issue—this is a public health crisis affecting 95 million people.
 
-**The facts are clear:** 95% of Vietnamese citizens (2021 national survey) support ending the unregulated dog meat trade. We are not asking the government to ignore the will of the people. We are asking them to listen.
+**The facts are clear:** 95% of Vietnamese citizens (2021 national survey) support ending the unregulated dog meat trade.[1] We are not asking the government to ignore the will of the people. We are asking them to listen.
 
 ---
 
@@ -42,14 +43,14 @@ We are Vietnamese citizens, families, and concerned community members calling fo
 
 #### 1. Public Health Emergency
 
-**5 million dogs are killed annually** in Vietnam through completely unregulated channels. There are **zero registered dog meat slaughterhouses** in the country, meaning:
+**5 million dogs are killed annually**[2] in Vietnam through completely unregulated channels. There are **zero registered dog meat slaughterhouses**[3] in the country, meaning:
 
 - No health inspections
 - No disease screening
 - No food safety oversight
 
 The consequences are deadly:
-- **Rabies transmission:** Vietnam reports 70+ human rabies deaths annually, many linked to dog meat consumption and handling
+- **Rabies transmission:** Vietnam reports 70+ human rabies deaths annually, many linked to dog meat consumption and handling[4]
 - **Foodborne illness:** E. coli, Salmonella, and parasitic infections spread through contaminated meat
 - **Zoonotic disease risk:** Unregulated slaughter creates conditions for disease spillover
 
@@ -57,7 +58,7 @@ This is not theoretical. Families are getting sick. Children are at risk.
 
 #### 2. Democratic Mandate Ignored
 
-A comprehensive 2021 survey found that **95% of Vietnamese citizens support ending the dog meat trade**. This overwhelming majority includes:
+A comprehensive 2021 survey found that **95% of Vietnamese citizens support ending the dog meat trade**.[1] This overwhelming majority includes:
 
 - Urban and rural communities
 - All age demographics
@@ -119,6 +120,32 @@ My family does not want to see me or any dog suffer in unregulated, unsafe condi
 ✅ Vietnamese families deserve safe food and safe communities
 
 **Together, we can demand change. Together, we can protect Vietnam's future.**
+
+---
+
+### References
+
+**[1]** *[PENDING VERIFICATION]* — Survey source: 95% of Vietnamese citizens support ending dog meat trade (2021)
+**Recommended sources:** Four Paws International Vietnam survey, Asia Canine Protection Alliance, Vietnamese polling organization
+**Priority:** Vietnamese organization preferred for local credibility
+**Status:** REQUIRES SOURCE VERIFICATION before publication
+
+**[2]** *[PENDING VERIFICATION]* — Annual statistics: 5 million dogs killed in Vietnam
+**Recommended sources:** Four Paws International, Animals Asia Foundation, Vietnamese Ministry of Agriculture data
+**Priority:** Vietnamese government source preferred if available
+**Status:** REQUIRES SOURCE VERIFICATION before publication
+
+**[3]** *[PENDING VERIFICATION]* — Registered slaughterhouses: Zero official dog meat facilities
+**Recommended sources:** Vietnamese Ministry of Agriculture registry, Ministry of Industry and Trade records, investigative journalism (VnExpress, Tuổi Trẻ)
+**Priority:** Vietnamese government registry is strongest source
+**Status:** REQUIRES SOURCE VERIFICATION before publication
+
+**[4]** *[PENDING VERIFICATION]* — Rabies deaths: 70+ human deaths annually linked to dog meat
+**Recommended sources:** Vietnamese Ministry of Health reports, WHO Vietnam office, National Institute of Hygiene and Epidemiology
+**Priority:** Vietnamese Ministry of Health is most authoritative
+**Status:** REQUIRES SOURCE VERIFICATION before publication
+
+**Note:** All source citations must be verified and updated with proper references (organization name, report title, year, URL) before Plan 02-03 (Change.org publication). See SOURCES.md for detailed verification requirements.
 
 ---
 

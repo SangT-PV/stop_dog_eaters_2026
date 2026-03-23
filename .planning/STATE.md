@@ -1,9 +1,9 @@
 ---
-stopped_at: "Starting Plan 02-01 — Draft Change.org petition text (title, targets, 3 core arguments)"
-last_updated: "2026-03-23T15:00:00+07:00"
-last_activity: "2026-03-23 -- Starting Plan 02-01: Draft Change.org petition text"
+stopped_at: "Starting Plan 02-02 — Tone review, source citations, Vietnamese translation strategy"
+last_updated: "2026-03-23T16:00:00+07:00"
+last_activity: "2026-03-23 -- Starting Plan 02-02: Tone review and local framing refinement"
 progress:
-  completed_plans: 17
+  completed_plans: 18
   total_plans: 25
   phases_complete: 3
   total_phases: 7
@@ -14,13 +14,14 @@ progress:
 ## Current Position
 
 **Phase:** 2 of 7 -- Petition Launch
-**Plan:** 17 of 25 complete — NOW STARTING 02-01: Draft Change.org petition text (title, targets, 3 core arguments)
+**Plan:** 18 of 25 complete — NOW STARTING 02-02: Tone review and local framing refinement (expanded scope)
 **Status:** In progress
-**Last activity:** 2026-03-23 -- Starting implementation of petition text draft
+**Last activity:** 2026-03-23 -- Starting tone review with source citations verification and Vietnamese translation planning
 
 ## Commits This Session
 
-1. `e9b254b` — chore(testing): organize test artifacts in .planning/.testing/
+1. `352cb95` — feat(petition): draft Change.org petition text with 95% mandate angle
+2. `e9b254b` — chore(testing): organize test artifacts in .planning/.testing/
 2. `d5e7e21` — feat(security): implement granular permissions and Docker isolation
 3. `579a818` — fix(automation): correct banner copy path after refactoring
 4. `3c94135` — refactor(automation): reorganize into modular directory structure
@@ -236,16 +237,42 @@ automation/
 
 **Status:** Automation system now production-ready with improved maintainability. Team can easily understand and extend the codebase.
 
+### Plan 02-01: Draft Change.org Petition Text (COMPLETE)
+
+**Petition draft created with 95% democratic mandate angle**
+
+**Deliverables:**
+- Petition title: "Vietnam: Regulate the Dog Meat Trade to Protect Public Health"
+- Alternative titles for consideration (3 variations)
+- Target audience defined: Vietnamese Government, Ministry of Health, Ministry of Agriculture, local authorities
+- **3 Core Arguments:**
+  1. Public Health Emergency — 5M dogs/year, zero registered slaughterhouses, rabies/disease transmission
+  2. Democratic Mandate Ignored — 95% of Vietnamese support ending the trade (2021 survey)
+  3. Zero Accountability, Zero Transparency — no oversight, no enforcement, no public data
+- **Call-to-Action:** Register/regulate businesses, enforce existing laws, transparent public reporting
+- Lucky's story integrated as emotional anchor
+- Social media copy variations (short/medium/long)
+- Signature milestones defined: 1K, 10K, 50K, 100K
+- PETITION_DRAFT.md (comprehensive, 200+ lines)
+- PETITION_SUMMARY.md (quick reference for team review)
+- Brand compliance: locally-led framing, data-driven, non-aggressive tone, health-first angle
+
+**Status:** Ready for Plan 02-02 (Tuan Anh tone review) — 0 errors, brand guidelines followed
+
 ## What's Next
 
-### Phase 2: Petition Launch (READY TO START)
+### Phase 2: Petition Launch (IN PROGRESS - 1 of 4 complete)
 **Priority:** High - needed for Week 2 dual launch
 
-### Phase 2: Petition Launch (NOT STARTED)
-- 02-01: Draft Change.org petition text (title, targets, 3 core arguments)
-- 02-02: Tone review by Tuan Anh
-- 02-03: Publish on Change.org and embed on website
-- 02-04: Prepare initial outreach list
+**Next up:** Plan 02-02 (Tone Review by Tuan Anh)
+- Review PETITION_DRAFT.md for cultural sensitivity and Vietnamese-first framing
+- Assess emotional resonance vs. data balance
+- Validate call-to-action clarity
+- Approve or provide feedback for revisions
+
+**Remaining Phase 2 Plans:**
+- 02-03: Publish on Change.org and embed link on website
+- 02-04: Prepare initial outreach list (Vietnamese communities, expat groups, animal welfare orgs)
 
 ### Phase 5: Content Pillars & Moderation (BLOCKED - needs Tuan Anh + Uyen)
 - 05-01: Define content pillars and tone guide for AI posts
@@ -366,5 +393,5 @@ automation/
 ## Session Info
 
 - Started: 2026-03-22
-- Stopped at: Infrastructure improvements complete - granular permissions system and testing artifacts organized
-- Next action: Start Phase 2 (Petition Launch) - Draft Change.org petition text (Plan 02-01)
+- Stopped at: Plan 02-01 COMPLETE - Petition draft with 95% mandate angle ready for tone review
+- Next action: Plan 02-02 (Tuan Anh tone review) - Review petition for cultural sensitivity and Vietnamese framing
