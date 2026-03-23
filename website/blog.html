@@ -57,6 +57,26 @@
       <p style="color: var(--text-md); max-width: 560px;">
         Daily AI-researched content covering public health risks, pet theft reports, community perspectives, and campaign updates — published every morning at 8:00 AM.
       </p>
+
+      <!-- View Toggle -->
+      <div class="blog-view-toggle">
+        <button type="button" class="view-btn active" data-view="timeline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Timeline
+        </button>
+        <button type="button" class="view-btn" data-view="grid">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          Grid
+        </button>
+      </div>
     </div>
   </div>
 
@@ -64,9 +84,17 @@
   <div class="container">
     <div class="blog-main-grid">
 
-      <!-- Posts — rendered dynamically from data/posts.json -->
-      <div class="blog-list" id="blog-list">
-        <p id="blog-loading" style="color:var(--text-md); padding:40px 0;">Loading articles...</p>
+      <!-- Posts — rendered dynamically from data/index.json -->
+      <div class="blog-content-wrapper">
+        <!-- Timeline View -->
+        <div class="blog-timeline" id="blog-timeline" style="display:block;">
+          <p id="timeline-loading" style="color:var(--text-md); padding:40px 0;">Loading articles...</p>
+        </div>
+
+        <!-- Grid View -->
+        <div class="blog-list" id="blog-list" style="display:none;">
+          <p id="blog-loading" style="color:var(--text-md); padding:40px 0;">Loading articles...</p>
+        </div>
       </div>
 
       <!-- Sidebar -->
@@ -145,71 +173,6 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script>
-    (function () {
-      var allPosts = [];
-      var activeTag = 'All';
-
-      function formatDate(iso) {
-        return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      }
-
-      // Escape HTML to prevent XSS
-      function escapeHTML(str) {
-        var div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-      }
-
-      function renderPosts(posts) {
-        var list = document.getElementById('blog-list');
-        if (!posts.length) {
-          list.innerHTML = '<p style="color:var(--text-md);padding:40px 0;">No articles found for this topic.</p>';
-          return;
-        }
-        list.innerHTML = posts.map(function (p) {
-          return '<article class="blog-post-card">' +
-            '<div class="blog-post-img"><span>Article image</span></div>' +
-            '<div class="blog-post-body">' +
-              '<span class="blog-tag">' + escapeHTML(p.tag) + '</span>' +
-              '<h2><a href="post.html?id=' + encodeURIComponent(p.id) + '" style="color:inherit;text-decoration:none;">' + escapeHTML(p.title) + '</a></h2>' +
-              '<p>' + escapeHTML(p.excerpt) + '</p>' +
-              '<div class="blog-card-meta">' +
-                '<span>' + escapeHTML(p.author) + '</span> &middot; <span>' + formatDate(p.date) + '</span>' +
-              '</div>' +
-            '</div>' +
-            '</article>';
-        }).join('');
-      }
-
-      function applyFilter(tag) {
-        activeTag = tag;
-        document.querySelectorAll('#tag-filter .sidebar-tag').forEach(function (el) {
-          el.classList.toggle('active', el.dataset.tag === tag);
-        });
-        var filtered = tag === 'All' ? allPosts : allPosts.filter(function (p) { return p.tag === tag; });
-        renderPosts(filtered);
-      }
-
-      document.getElementById('tag-filter').addEventListener('click', function (e) {
-        var el = e.target.closest('.sidebar-tag');
-        if (el && el.dataset.tag) applyFilter(el.dataset.tag);
-      });
-
-      fetch('data/index.json')
-        .then(function (r) { return r.json(); })
-        .then(function (posts) {
-          // Sort posts by date (newest first)
-          allPosts = posts.sort(function(a, b) {
-            return new Date(b.date) - new Date(a.date);
-          });
-          document.getElementById('blog-loading').style.display = 'none';
-          renderPosts(allPosts);
-        })
-        .catch(function () {
-          document.getElementById('blog-loading').textContent = 'Could not load articles. Please try again later.';
-        });
-    })();
-  </script>
+  <script src="js/blog-timeline.js"></script>
 </body>
 </html>
