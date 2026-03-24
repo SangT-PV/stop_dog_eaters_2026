@@ -98,26 +98,27 @@ Features explicitly excluded from v2.0 with rationale:
 
 Maps requirements to phases (filled by roadmapper):
 
-| REQ-ID | Requirement | Phase | Plan(s) |
-|--------|-------------|-------|---------|
-| DESIGN-01 | Bold activism blog cards | TBD | TBD |
-| DESIGN-02 | Editorial article layout | TBD | TBD |
-| DESIGN-03 | Extract inline styles to CSS | TBD | TBD |
-| DESIGN-04 | Large rounded corners | TBD | TBD |
-| VIZ-01 | Disease trend charts | TBD | TBD |
-| VIZ-02 | Public opinion timeline | TBD | TBD |
-| VIZ-03 | Scrollytelling narratives | TBD | TBD |
-| VIZ-04 | Stat callout components | TBD | TBD |
-| SOCIAL-01 | Share buttons (Twitter/FB/copy) | TBD | TBD |
-| SOCIAL-02 | Fixed-position share bar | TBD | TBD |
-| PWA-01 | Offline reading (service worker) | TBD | TBD |
-| PWA-02 | Add to Home Screen (manifest) | TBD | TBD |
-| PERF-01 | Pagination/lazy loading | TBD | TBD |
-| PERF-02 | Image lazy loading + defer scripts | TBD | TBD |
-| ACCESS-01 | ARIA labels + keyboard nav | TBD | TBD |
-| UX-01 | Reading time + related posts | TBD | TBD |
+| REQ-ID | Requirement | Phase | Status |
+|--------|-------------|-------|--------|
+| DESIGN-01 | Bold activism blog cards | Phase 9 | Pending |
+| DESIGN-02 | Editorial article layout | Phase 9 | Pending |
+| DESIGN-03 | Extract inline styles to CSS | Phase 8 | Pending |
+| DESIGN-04 | Large rounded corners | Phase 9 | Pending |
+| VIZ-01 | Disease trend charts | Phase 10 | Pending |
+| VIZ-02 | Public opinion timeline | Phase 10 | Pending |
+| VIZ-03 | Scrollytelling narratives | Phase 11 | Pending |
+| VIZ-04 | Stat callout components | Phase 10 | Pending |
+| SOCIAL-01 | Share buttons (Twitter/FB/copy) | Phase 12 | Pending |
+| SOCIAL-02 | Fixed-position share bar | Phase 12 | Pending |
+| PWA-01 | Offline reading (service worker) | Phase 13 | Pending |
+| PWA-02 | Add to Home Screen (manifest) | Phase 13 | Pending |
+| PERF-01 | Pagination/lazy loading | Phase 14 | Pending |
+| PERF-02 | Image lazy loading + defer scripts | Phase 14 | Pending |
+| ACCESS-01 | ARIA labels + keyboard nav | Phase 15 | Pending |
+| UX-01 | Reading time + related posts | Phase 15 | Pending |
 
 **Total:** 16 requirements (4 Design, 4 Viz, 2 Social, 2 PWA, 2 Perf, 1 Access, 1 UX)
+**Coverage:** 16/16 requirements mapped ✓
 
 ---
-*Last updated: 2026-03-24 after requirements gathering*
+*Last updated: 2026-03-24 after roadmap creation*
