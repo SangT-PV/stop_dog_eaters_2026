@@ -150,11 +150,18 @@
 4. Feature voting system (community decides priorities)
 5. Fund-gated roadmap (visual progress bars showing locked/unlocked features)
 
+**Requirements:**
+- REQ-999.1-01: Blog discussion sections (comments, threading, likes, moderation)
+- REQ-999.1-02: Community post creation with approval workflow
+- REQ-999.1-03: AI engagement bot with brand voice and rate limiting
+- REQ-999.1-04: Feature voting system (community decides priorities)
+- REQ-999.1-05: Fund-gated roadmap with tier visualization and unlock celebration
+
 **Funding Tiers:**
-- $1K: Discussion sections enabled
-- $2.5K: Community posts enabled
-- $5K: AI engagement bot deployed
-- $10K+: Community-voted advanced features
+- $1K: Discussion sections enabled (REQ-999.1-01)
+- $2.5K: Community posts enabled (REQ-999.1-02)
+- $5K: AI engagement bot deployed (REQ-999.1-03)
+- $10K+: Community-voted advanced features (REQ-999.1-04, REQ-999.1-05)
 
 **Plans:** 7 plans in 4 waves
 
