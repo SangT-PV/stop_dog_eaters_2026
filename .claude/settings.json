@@ -1,5 +1,4 @@
 {
-  "defaultMode": "acceptEdits",
   "permissions": {
     "allow": [
       "Read",
@@ -17,7 +16,9 @@
       "Bash(python -m http.server *)",
       "Bash(cd * && python -c *)",
       "mcp__context7__*",
-      "mcp__plugin_playwright_playwright__*"
+      "mcp__plugin_playwright_playwright__*",
+      "Skill(gsd:add-phase)",
+      "Skill(gsd:add-phase:*)"
     ],
     "deny": [
       "Bash(rm -rf *)",
@@ -35,5 +36,6 @@
       "Edit(/.gitignore)",
       "Edit(/BRAND_GUIDELINES.md)"
     ]
-  }
+  },
+  "defaultMode": "acceptEdits"
 }

@@ -52,6 +52,10 @@ Recent decisions affecting current work:
 - **v1.0**: Split blog storage for CDN caching — ✓ Good, Phase 4 complete
 - **v2.0**: Hybrid design approach (activism + editorial + data) — Pending validation during Phase 9-11
 
+### Roadmap Evolution
+
+- Phase 16 added: Rebuild Discussion and Share Your Research UI components
+
 ### Pending Todos
 
 None yet.
