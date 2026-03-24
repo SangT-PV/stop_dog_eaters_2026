@@ -192,7 +192,7 @@ Plans:
 
 **Definition of Done:** Comment form renders with clean textarea-only design. No formatting toolbar or emoji picker visible. All core features (threading, likes, fund-gating, moderation) still work.
 
-### Phase 1000: Chat-Style Comment UI (BACKLOG)
+### Phase 1000: Chat-Style Comment UI (COMPLETE)
 
 **Goal:** Transform the card-based comment interface into a modern chat/messaging-style UI with speech bubbles, compact message headers, and a bottom-anchored input bar resembling a messaging app
 
@@ -202,9 +202,9 @@ Plans:
 - REQ-1000-03: Chat-style input bar (bottom-positioned, pill-shaped inputs, circular send button, inline reply form)
 
 **Depends on:** Phase 999.2
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 1000-01-PLAN.md — Replace card-based comment CSS and JS rendering with chat-bubble UI (Wave 1)
+- [x] 1000-01-PLAN.md — Replace card-based comment CSS and JS rendering with chat-bubble UI (Wave 1) (7290e32, bb99eb0, 234bc52)
 
-**Definition of Done:** Comments render as chat bubbles with speech-bubble shape. Input bar at bottom with circular send button. All existing features preserved (threading, likes, replies, fund-gating, pending badges, bot comments). Human-verified visually.
+**Definition of Done:** Comments render as chat bubbles with speech-bubble shape. Input bar at bottom with circular send button. All existing features preserved (threading, likes, replies, fund-gating, pending badges, bot comments). Human-verified visually. ✅ ACHIEVED
