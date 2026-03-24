@@ -2413,3 +2413,284 @@ p:last-child { margin-bottom: 0; }
     font-size: 2rem;
   }
 }
+
+/* --- Comment Section -------------------------------------------- */
+.comments-section {
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 3px solid var(--border);
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.comments-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 32px;
+}
+
+.comments-count {
+  color: var(--text-md);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-left: 8px;
+}
+
+/* Locked state */
+.comments-locked {
+  text-align: center;
+  padding: 48px 32px;
+  background: var(--mist);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--border);
+}
+
+.comments-locked-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: var(--text-md);
+}
+
+.comments-locked h3 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.comments-locked p {
+  max-width: 400px;
+  margin: 0 auto 24px;
+  font-size: 0.95rem;
+}
+
+.comments-locked .btn {
+  margin-bottom: 24px;
+}
+
+.comments-locked-progress {
+  height: 8px;
+  background: var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  max-width: 300px;
+  margin: 0 auto 8px;
+}
+
+.comments-locked-bar {
+  height: 100%;
+  background: var(--teal);
+  border-radius: var(--radius-pill);
+  transition: width 0.6s ease;
+}
+
+.comments-locked-amount {
+  font-size: 0.8rem;
+  color: var(--text-md);
+  font-weight: 600;
+}
+
+/* Comment thread */
+.comment-thread {
+  margin-bottom: 24px;
+}
+
+.comment-card {
+  display: flex;
+  gap: 14px;
+  padding: 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.comment-card:hover {
+  border-color: var(--teal);
+}
+
+/* Nested replies */
+.comment-replies {
+  margin-left: 32px;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.comment-replies .comment-replies {
+  margin-left: 24px;
+}
+
+/* Avatar */
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+/* Comment body */
+.comment-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.comment-author {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--slate);
+}
+
+.comment-time {
+  font-size: 0.8rem;
+  color: var(--text-md);
+}
+
+.comment-content {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+/* Actions */
+.comment-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.comment-like-btn,
+.comment-reply-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-md);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+
+.comment-like-btn:hover {
+  color: var(--red);
+  background: rgba(230, 57, 70, 0.06);
+}
+
+.comment-like-btn.liked {
+  color: var(--red);
+}
+
+.comment-reply-btn:hover {
+  color: var(--teal);
+  background: rgba(42, 157, 143, 0.06);
+}
+
+/* Empty state */
+.comments-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-md);
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .comment-replies {
+    margin-left: 16px;
+    padding-left: 12px;
+  }
+
+  .comment-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .comment-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+}
+
+/* --- Fund-Gated Roadmap ----------------------------------------- */
+.fund-roadmap-container { max-width: 600px; margin: 0 auto; }
+
+.roadmap-milestone { display: flex; gap: 24px; position: relative; }
+.roadmap-milestone:last-child .roadmap-line { display: none; }
+
+.roadmap-connector { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 40px; }
+.roadmap-dot { width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--border); background: var(--white); flex-shrink: 0; z-index: 1; transition: all 0.3s; }
+.roadmap-line { width: 3px; flex: 1; background: var(--border); margin: 4px 0; }
+
+/* State: completed */
+.roadmap-completed .roadmap-dot { background: #2A9D8F; border-color: #2A9D8F; box-shadow: 0 0 0 4px rgba(42,157,143,0.15); }
+.roadmap-completed .roadmap-line { background: #2A9D8F; }
+.roadmap-completed .roadmap-amount { color: #2A9D8F; }
+
+/* State: current */
+.roadmap-current .roadmap-dot { background: #E63946; border-color: #E63946; box-shadow: 0 0 0 6px rgba(230,57,70,0.15); animation: roadmap-pulse 2s infinite; }
+.roadmap-current .roadmap-amount { color: #E63946; font-weight: 900; }
+
+@keyframes roadmap-pulse { 0%, 100% { box-shadow: 0 0 0 4px rgba(230,57,70,0.15); } 50% { box-shadow: 0 0 0 8px rgba(230,57,70,0.08); } }
+
+/* State: locked */
+.roadmap-locked .roadmap-dot { background: var(--mist); border-color: #264653; opacity: 0.4; }
+.roadmap-locked .roadmap-line { background: var(--border); opacity: 0.4; }
+.roadmap-locked .roadmap-content { opacity: 0.5; }
+.roadmap-locked .roadmap-amount { color: #264653; }
+
+/* Content */
+.roadmap-content { padding-bottom: 40px; flex: 1; }
+.roadmap-amount { font-family: var(--font-head); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.roadmap-feature { font-size: 1.15rem; margin-bottom: 8px; }
+.roadmap-description { font-size: 0.88rem; color: var(--text-md); margin-bottom: 12px; }
+
+/* Progress bar (current tier only) */
+.roadmap-progress { height: 8px; background: var(--border); border-radius: var(--radius-pill); overflow: hidden; margin-bottom: 6px; }
+.roadmap-progress-bar { height: 100%; background: linear-gradient(90deg, #2A9D8F, #E63946); border-radius: var(--radius-pill); transition: width 0.6s ease; }
+.roadmap-progress-text { font-size: 0.78rem; color: var(--text-md); font-weight: 600; }
+
+/* Badges */
+.roadmap-badge { display: inline-block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 10px; border-radius: var(--radius-pill); font-weight: 700; background: #d1fae5; color: #065f46; }
+.roadmap-badge-locked { background: var(--mist); color: var(--text-md); }
+
+.roadmap-error {
+  text-align: center;
+  padding: 32px 24px;
+  background: #fef2f2;
+  border: 2px solid #fca5a5;
+  border-radius: var(--radius);
+  color: #991b1b;
+}
+
+@media (max-width: 640px) {
+  .roadmap-milestone { gap: 16px; }
+  .roadmap-connector { width: 30px; }
+  .roadmap-content { padding-bottom: 28px; }
+}
+
+/* --- Celebration Banner ----------------------------------------- */
+.celebration-banner { background: linear-gradient(135deg, #2A9D8F 0%, #1f7a6e 100%); color: var(--white); padding: 14px 0; }
+.celebration-content { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 14px; }
+.celebration-emoji { font-size: 1.5rem; }
+.celebration-title { font-family: var(--font-head); font-size: 1rem; font-weight: 700; display: block; }
+.celebration-feature { font-size: 0.85rem; opacity: 0.9; }
+.celebration-close { background: none; border: none; color: var(--white); font-size: 1.5rem; cursor: pointer; padding: 4px 8px; margin-left: auto; opacity: 0.7; transition: opacity 0.2s; }
+.celebration-close:hover { opacity: 1; }

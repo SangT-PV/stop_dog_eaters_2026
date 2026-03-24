@@ -82,6 +82,14 @@
       <a href="petition.html" class="btn btn-primary" style="font-size:1.08rem; padding:18px 48px; box-shadow:var(--shadow-red); transform:translateY(0); transition: all 0.25s ease;">Sign the Petition</a>
     </div>
 
+    <!-- COMMENTS SECTION -->
+    <div id="comments-section" class="comments-section">
+      <h2>Discussion <span class="comments-count" id="comments-count"></span></h2>
+      <div id="comments-container">
+        <!-- Rendered by comments.js -->
+      </div>
+    </div>
+
     <div id="post-error" style="display:none; text-align:center; padding:80px 0;">
       <p style="color:var(--text-md);">Article not found. <a href="blog.html">Return to the blog &rarr;</a></p>
     </div>
@@ -129,6 +137,7 @@
 
   <script src="js/main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/comments.js"></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
