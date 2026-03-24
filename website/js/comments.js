@@ -377,43 +377,80 @@ class CommentSection {
       sessionStorage.setItem('sde-author-email', formData.get('author_email').trim());
     }
 
-    // Generate UUID (with fallback for older browsers)
-    const id = typeof crypto !== 'undefined' && crypto.randomUUID
-      ? crypto.randomUUID()
-      : this.generateUUID();
+    // Show loading spinner
+    const submitBtn = form.querySelector('.chat-send-btn');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" opacity="0.25"/>
+        <path d="M12 2 A10 10 0 0 1 22 12" stroke-linecap="round"/>
+      </svg>
+    `;
 
-    // Build comment object
-    const comment = {
-      id,
-      post_slug: this.postSlug,
-      parent_id: parent_id === '' ? null : parent_id,
-      author_name,
-      author_email,
-      content,
-      likes: 0,
-      status: 'pending',
-      created_at: new Date().toISOString(),
-      moderated_at: null,
-      moderated_by: null
-    };
+    // Simulate async operation (localStorage is synchronous, but add delay for UX)
+    setTimeout(() => {
+      // Generate UUID (with fallback for older browsers)
+      const id = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : this.generateUUID();
 
-    // Store in localStorage (for moderation dashboard to pick up)
-    this.savePendingComment(comment);
+      // Build comment object
+      const comment = {
+        id,
+        post_slug: this.postSlug,
+        parent_id: parent_id === '' ? null : parent_id,
+        author_name,
+        author_email,
+        content,
+        likes: 0,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+        moderated_at: null,
+        moderated_by: null
+      };
 
-    // Show success message
-    alert('Thank you! Your comment is being reviewed and will appear once approved.');
+      // Store in localStorage (for moderation dashboard to pick up)
+      this.savePendingComment(comment);
 
-    // Clear form
-    form.reset();
-    this.updateCharCount(form.querySelector('textarea'));
+      // Show success banner
+      const banner = document.createElement('div');
+      banner.className = 'comment-success-banner';
+      banner.innerHTML = `
+        <svg class="success-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span>Thank you! Your comment is being reviewed and will appear once approved.</span>
+      `;
+      form.insertAdjacentElement('beforebegin', banner);
 
-    // If it's a reply form, remove it
-    if (parent_id) {
-      form.remove();
-    }
+      // Announce to screen readers
+      const announceEl = document.querySelector('.sr-announce');
+      if (announceEl) {
+        announceEl.textContent = 'Comment submitted successfully';
+        setTimeout(() => announceEl.textContent = '', 1000);
+      }
 
-    // Re-render comments to show pending comment optimistically
-    this.renderComments();
+      // Remove banner after 3 seconds
+      setTimeout(() => banner.remove(), 3000);
+
+      // Reset button
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalHTML;
+
+      // Clear form
+      form.reset();
+      this.updateCharCount(form.querySelector('textarea'));
+
+      // If it's a reply form, remove it
+      if (parent_id) {
+        form.remove();
+      }
+
+      // Re-render comments to show pending comment optimistically
+      this.renderComments();
+    }, 300);
   }
 
   generateUUID() {
