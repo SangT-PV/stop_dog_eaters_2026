@@ -1,7 +1,7 @@
 # Stop Dog Eaters Campaign - Implementation Roadmap
 
-**Total Plans:** 33 across 7 phases + 2 backlog phases
-**Completed:** 20 of 33 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
+**Total Plans:** 34 across 7 phases + 3 backlog phases
+**Completed:** 20 of 34 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
 **Timeline:** 3-week sprint to full launch
 **Last Updated:** 2026-03-24
 
@@ -176,8 +176,6 @@ Plans:
 
 **Definition of Done:** All 5 community features tier-gated and functional. Comments, community posts, AI bot, voting, and roadmap working. Moderation dashboard operational for Tuan Anh.
 
----
-
 ### Phase 999.2: Simplify Comment UI - Clean Design Inspired by akaytruyen.com (BACKLOG)
 
 **Goal:** Simplify comment interface by removing complex formatting toolbars and emoji pickers. Reference akaytruyen.com for cleaner, more focused design. Keep core functionality: text input, submit, threading. Ready for future token/tier integration.
@@ -193,3 +191,20 @@ Plans:
 - [x] 999.2-01-PLAN.md — Strip formatting toolbar, emoji picker, and related CSS for clean comment design (Wave 1)
 
 **Definition of Done:** Comment form renders with clean textarea-only design. No formatting toolbar or emoji picker visible. All core features (threading, likes, fund-gating, moderation) still work.
+
+### Phase 1000: Chat-Style Comment UI (BACKLOG)
+
+**Goal:** Transform the card-based comment interface into a modern chat/messaging-style UI with speech bubbles, compact message headers, and a bottom-anchored input bar resembling a messaging app
+
+**Requirements:**
+- REQ-1000-01: Chat-bubble comment display (speech bubbles with tail, compact avatar+name+time header, scrollable message area)
+- REQ-1000-02: Visual differentiation for bot comments (tinted bubbles) and pending comments (dashed border, reduced opacity)
+- REQ-1000-03: Chat-style input bar (bottom-positioned, pill-shaped inputs, circular send button, inline reply form)
+
+**Depends on:** Phase 999.2
+**Plans:** 1 plan
+
+Plans:
+- [ ] 1000-01-PLAN.md — Replace card-based comment CSS and JS rendering with chat-bubble UI (Wave 1)
+
+**Definition of Done:** Comments render as chat bubbles with speech-bubble shape. Input bar at bottom with circular send button. All existing features preserved (threading, likes, replies, fund-gating, pending badges, bot comments). Human-verified visually.
