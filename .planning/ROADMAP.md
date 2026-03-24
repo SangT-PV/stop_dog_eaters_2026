@@ -163,11 +163,11 @@
 - $5K: AI engagement bot deployed (REQ-999.1-03)
 - $10K+: Community-voted advanced features (REQ-999.1-04, REQ-999.1-05)
 
-**Plans:** 7 plans in 4 waves
+**Plans:** 2/7 plans executed
 
 Plans:
-- [ ] 999.1-01-PLAN.md — Data contracts + comment rendering module on post.html (Wave 1)
-- [ ] 999.1-02-PLAN.md — Fund-gated roadmap timeline on token.html + celebration banner (Wave 1)
+- [x] 999.1-01-PLAN.md — Data contracts + comment rendering module on post.html (Wave 1)
+- [x] 999.1-02-PLAN.md — Fund-gated roadmap timeline on token.html + celebration banner (Wave 1)
 - [ ] 999.1-03-PLAN.md — Comment submission form with formatting toolbar + threading + likes (Wave 2)
 - [ ] 999.1-04-PLAN.md — Moderation dashboard (moderate.html) with approve/reject workflow (Wave 2)
 - [ ] 999.1-05-PLAN.md — Community post submission on blog.html + moderation wiring (Wave 3)

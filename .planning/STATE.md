@@ -1,12 +1,16 @@
 ---
-stopped_at: "Fund tracking dashboard MVP complete with Chart.js visualization and CLI management"
-last_updated: "2026-03-24T02:45:00+07:00"
-last_activity: "2026-03-24 -- Plan 06-03 COMPLETE: Fund tracking dashboard with Chart.js, CLI tool, and comprehensive documentation"
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
+last_updated: "2026-03-24T00:57:50.692Z"
+last_activity: 2026-03-24
 progress:
-  completed_plans: 21
-  total_plans: 25
-  phases_complete: 3
-  total_phases: 7
+  total_phases: 9
+  completed_phases: 1
+  total_plans: 8
+  completed_plans: 17
+  percent: 100
 ---
 
 # Stop Dog Eaters Campaign - Planning State
@@ -14,9 +18,9 @@ progress:
 ## Current Position
 
 **Phase:** 6 (Kickstarter & Crowdfunding Prep) — First plan complete
-**Plan:** 21 of 25 complete (Phases 1, 3, 4 complete; Phase 2: 3/4 done; Phase 6: 1/4 done)
-**Status:** Plan 06-03 COMPLETE. Fund tracker live on token.html and donate.html with CLI management tool. Ready for Plan 06-01 or 06-04.
-**Last activity:** 2026-03-24 -- Implemented fund tracking dashboard with Chart.js visualization, CLI tool, and comprehensive documentation
+**Plan:** 23 of 25 complete (Phases 1, 3, 4 complete; Phase 2: 3/4 done; Phase 6: 1/4 done)
+**Status:** Ready to execute
+**Last activity:** 2026-03-24
 
 ## Commits This Session
 
@@ -54,9 +58,11 @@ progress:
 ## What's Done
 
 ### Phase 1: Website & Brand Foundation (COMPLETE)
+
 All 5 plans complete - website live with full brand design system v2
 
 **Plans 01-01 to 01-05:**
+
 - Static HTML/CSS/JS website structure with responsive navigation
 - All 6 pages: index, about, petition, blog, donate, token
 - Full brand design system: CSS variables (navy, teal, amber, red), Georgia headings, Segoe UI body
@@ -65,9 +71,11 @@ All 5 plans complete - website live with full brand design system v2
 - Build: 0 errors, 0 warnings
 
 ### Phase 3: AI Automation Pipeline (COMPLETE)
+
 All 7 plans complete - daily automation operational on AWS Bedrock
 
 **Plans 03-01 to 03-07:**
+
 - Windows Task Scheduler fully configured (2026-03-24): Daily 8:00 AM execution via SDE-DailyPipeline task
 - `run.bat` fixed to run `--publish` flag for full automation
 - Scheduler setup scripts: PowerShell automation + XML import + comprehensive docs (SCHEDULER_SETUP.md)
@@ -82,9 +90,11 @@ All 7 plans complete - daily automation operational on AWS Bedrock
 - Build: 0 errors, 0 warnings
 
 ### Phase 4: Blog Storage Architecture Migration (COMPLETE)
+
 All 5 plans complete - split storage architecture live with enhanced content features
 
 **Plans 04-01 to 04-05:**
+
 - `blog_publisher.py` writes to split storage: `data/index.json` + `data/posts/{slug}.json`
 - `blog.html` fetches from lightweight `data/index.json` (metadata only, no body_html)
 - `post.html` fetches individual posts from `data/posts/{id}.json`
@@ -95,6 +105,7 @@ All 5 plans complete - split storage architecture live with enhanced content fea
 - Build: 0 errors, 0 warnings
 
 **Blog Enhancements (2026-03-23):**
+
 - Newsletter-style format with structured sections (The Bottom Line, Key Findings, Also Worth Noting)
 - 8-10+ hyperlinked citations per post linking to research sources
 - Banner generation: `banner_generator.py` creates HTML + SVG banners (1200x500px)
@@ -105,7 +116,9 @@ All 5 plans complete - split storage architecture live with enhanced content fea
 - All posts now use newsletter format with rich citations and visual banners
 
 ### Tech Debt Cleanup (2026-03-22)
+
 Quick wins from tech lead review applied:
+
 - Deleted dead code: `automation/gemini_client.py` (broken imports, never used)
 - Fixed stale copy: `blog.html` "Gemini" → "Claude"
 - Fixed stale log message: `pipeline.py` now references split storage structure
@@ -114,52 +127,63 @@ Quick wins from tech lead review applied:
 - Added "Coming Soon" notice to petition form (placeholder until Change.org launch)
 
 ### Security Sprint (2026-03-22)
+
 All 6 critical vulnerabilities from code reviews fixed:
 
 **Website XSS Fixes:**
+
 - `post.html`: Added DOMPurify CDN and sanitization for AI-generated HTML (prevents stored XSS)
 - `post.html`: Added URL parameter validation with regex `/^[a-z0-9\-]+$/i` (prevents path traversal)
 - `blog.html`: Added `escapeHTML()` utility and escaped all dynamic content (prevents reflected XSS)
 
 **Automation Reliability Fixes:**
+
 - `blog_publisher.py`: Added idempotency check - skips if slug already exists (prevents duplicates)
 - `blog_publisher.py`: Added `_sanitize_html()` - strips script tags and event handlers before writing
 - `claude_client.py`: Added retry logic with 3 attempts for malformed JSON responses
 - `claude_client.py`: Increased max_tokens from 4096 to 8192 (prevents truncation causing parse failures)
 
 **Testing:**
+
 - `automation/test_security_fixes.py`: Verified HTML sanitization removes scripts and event handlers
 
 **Status:** Production-ready. All critical issues resolved. Pipeline safe for unattended daily automation.
 
 ### UX Polish (2026-03-22)
+
 All 6 nice-to-have improvements from code reviews implemented:
 
 **Social Sharing & SEO:**
+
 - Open Graph and Twitter Card meta tags added to all 7 pages
 - Dynamic OG tag updates in `post.html` based on article content
 - Enables rich previews when sharing on Facebook, Twitter, LinkedIn
 
 **User Experience:**
+
 - Blog index explicitly sorts posts by date (newest first)
 - Petition form validates email format with regex before submission
 - Fixed `animateCount()` to properly format decimal numbers with `toLocaleString()`
 
 **Accessibility:**
+
 - Blog filter tags converted from `<span>` to `<button>` for proper semantics
 - Added visible focus states for keyboard navigation
 - Full Tab and Enter/Space support
 
 **Branding:**
+
 - Created and added SVG favicon to all pages (teal with dog silhouette)
 - Prevents 404s and shows branded tab icon
 
 **Status:** All review suggestions addressed. Site polished and production-ready.
 
 ### Automation Enhancement: Automated Research Agent (2026-03-22)
+
 Major upgrade to Phase 3 automation - no longer requires manual research input
 
 **Research Automation:**
+
 - `automation/research_agent.py` (270 lines): Core research orchestration engine
 - Perplexity API integration for real-time news search (English + Vietnamese)
 - 10 daily searches: 5 English queries + 5 Vietnamese queries (tiếng Việt)
@@ -167,33 +191,39 @@ Major upgrade to Phase 3 automation - no longer requires manual research input
 - Combines multi-source research into unified report saved to `inputs/YYYY-MM-DD.txt`
 
 **Search Coverage:**
+
 - English: International news, Vietnam-focused outlets, animal welfare orgs
 - Vietnamese: VnExpress, Tuổi Trẻ, Thanh Niên, Ministry of Health, local authorities
 - Topics: health risks, pet theft, legislation, public opinion, bans, food safety
 
 **Pipeline Integration:**
+
 - Automatic research when no manual input file exists
 - Three-tier priority: manual input → automated research → rotating templates
 - New CLI flag: `python pipeline.py --research-only` for standalone testing
 - Logs all research activity to daily logs
 
 **Configuration:**
+
 - `PERPLEXITY_API_KEY` support in config.py (optional but recommended)
 - `MANUS_API_KEY` support for future Vietnamese scraper integration
 - Cost: ~$0.60/month for Perplexity API (10 searches/day)
 
 **Documentation:**
+
 - `automation/RESEARCH.md`: Complete setup, usage, troubleshooting guide
 - `automation/IMPLEMENTATION_SUMMARY.md`: Architecture and testing checklist
 - `automation/TROUBLESHOOTING.md`: AWS Bedrock + research API diagnostics
 
 **Model Configuration Update:**
+
 - Switched from Sonnet 4.6 to Haiku 4.5 due to AWS Marketplace permissions
 - Model: `us.anthropic.claude-haiku-4-5-20251001-v1:0` in us-east-2
 - Profile: `dev-us-aws-bedrock` (verified working)
 - Documented in CLAUDE.md and env.example
 
 **Daily Blog Post:**
+
 - Published first automated post: "The Unregulated Crisis: Why Vietnam's Dog Meat Trade Poses a Public Health Emergency"
 - Distributed to Telegram @stopdogeaters channel
 - Phase 4 split storage format working correctly
@@ -201,15 +231,18 @@ Major upgrade to Phase 3 automation - no longer requires manual research input
 **Status:** Automation now fully self-sufficient. Can research, synthesize, and publish daily content without manual intervention.
 
 ### Automation Structure Refactoring (2026-03-23)
+
 Major reorganization to improve maintainability and team onboarding
 
 **Motivation:**
+
 - Flat 11-file structure made navigation difficult ("what's what for what purpose")
 - Mixed production code, scripts, and documentation in root
 - No clear entry point for new team members
 - Difficult to identify core modules vs utilities
 
 **New Structure:**
+
 ```
 automation/
 ├── README.md (NEW - 300 lines entry point documentation)
@@ -221,6 +254,7 @@ automation/
 ```
 
 **Changes:**
+
 - Created logical subdirectories for different concerns
 - Moved 11 Python files to appropriate locations
 - Updated imports in `pipeline.py` to use new structure
@@ -231,12 +265,14 @@ automation/
 - Added `WEBSITE_ASSETS_DIR` to config.py for consistent path resolution
 
 **Testing:**
+
 - Dry-run test: ✅ Full pipeline generates posts correctly
 - Telegram test: ✅ Connection OK
 - Publish test: ✅ New blog post published with banner
 - All modules import correctly with new structure
 
 **Review:**
+
 - Full structure review saved to `.planning/reviews/2026-03-23-automation-structure-review.md`
 - Verdict: Functional but needed refactoring (6.2/10 maintainability → improved to 8/10)
 - Identified Option A (full modular) vs Option B (minimal) - implemented Option A
@@ -249,6 +285,7 @@ automation/
 **Petition draft created with 95% democratic mandate angle**
 
 **Deliverables:**
+
 - Petition title: "Vietnam: Regulate the Dog Meat Trade to Protect Public Health"
 - Alternative titles for consideration (3 variations)
 - Target audience defined: Vietnamese Government, Ministry of Health, Ministry of Agriculture, local authorities
@@ -271,6 +308,7 @@ automation/
 **Comprehensive tone review with expanded scope (source citations + Vietnamese translation strategy)**
 
 **Deliverables:**
+
 - TONE_REVIEW.md (47/50 score) — Cultural sensitivity assessment
   - Locally-led framing: 5/5 (Vietnamese voice leads)
   - Public health priority: 5/5 (health-first angle)
@@ -295,6 +333,7 @@ automation/
 **Status:** Plan 02-03 COMPLETE — Petition live on Change.org and integrated across website ✅
 
 ### Plan 02-03: Publish on Change.org (COMPLETE)
+
 - ✅ Petition published on Change.org: https://c.org/nLZTZdVNdJ
 - ✅ Website integration complete (petition.html, donate.html updated with live links)
 - ✅ Hero CTA updated: "Sign the Petition on Change.org" (opens in new tab)
@@ -308,6 +347,7 @@ automation/
 **Fund tracker MVP with Chart.js visualization and CLI management tool**
 
 **Deliverables:**
+
 - `website/data/funds.json` — Central data store (sources, allocations, expenses, monthly summaries)
 - `website/js/fund-tracker.js` — Dashboard rendering module with Chart.js integration (270 lines)
 - `website/css/style.css` — Fund tracker styles (lines 2143-2335, 193 lines)
@@ -317,6 +357,7 @@ automation/
 - Simplified dashboard on donate.html (no chart, metrics + allocations only)
 
 **Features Implemented:**
+
 - 7 budget categories with allocation percentages (32% media, 28% organizing, 20% ads, 10% platform fees, 6% legal, 4% infrastructure, 0% salaries)
 - Real-time metrics: total raised, total spent, balance
 - Fund sources tracking: Change.org (active), Kickstarter (pending), SDE Token (pending)
@@ -326,6 +367,7 @@ automation/
 - CLI commands: status, update-source, add-expense, recalculate
 
 **Technical Architecture:**
+
 - Frontend: Vanilla JS module pattern with auto-initialization
 - Visualization: Chart.js 4.4.1 from CDN
 - Data schema: JSON with automatic recalculation of budgeted amounts
@@ -333,6 +375,7 @@ automation/
 - Future-ready: API integration placeholders for Change.org, Kickstarter, Solana token tracking
 
 **Testing:**
+
 - CLI tested: status, update-source $250, add-expense $12, recalculate
 - Unicode encoding fixed for Windows console (replaced ✓ → with [OK] ->)
 - Data schema validated with real transactions
@@ -343,6 +386,7 @@ automation/
 ## What's Next
 
 ### 🔴 CRITICAL - THIS WEEK (Days 1-7)
+
 **Updated priorities after petition launch**
 
 1. **Lucky Photography** (Uyen, 1 day) — **TOP PRIORITY**
@@ -376,6 +420,7 @@ automation/
    - Add Vietnamese version to Change.org (if supported) or create separate bilingual landing page
 
 ### 🟡 IMPORTANT - NEXT WEEK (Days 8-14)
+
 **Week 2 launch preparation**
 
 6. **Content Pillars Session** (Tuan Anh + Uyen + Siva, 1 day)
@@ -400,6 +445,7 @@ automation/
    - Coordinate launch announcement
 
 ### 🟢 SCALING - WEEK 3 (Days 15-21)
+
 **Token launch and optimization**
 
 10. **Token Launch** (Siva + Uyen, 2-3 days)
@@ -418,6 +464,7 @@ automation/
 **Reviews Location:** `.planning/reviews/`
 
 ### 2026-03-22: Website Code Quality Review
+
 - **Type:** website-review
 - **File:** `.planning/reviews/2026-03-22-website-review.md`
 - **Reviewer:** code-review-expert agent
@@ -431,6 +478,7 @@ automation/
 - **Status:** ✅ Production-ready. All critical security issues resolved.
 
 ### 2026-03-22: Automation Pipeline Review
+
 - **Type:** automation-review
 - **File:** `.planning/reviews/2026-03-22-automation-review.md`
 - **Reviewer:** code-review-expert agent
@@ -444,6 +492,7 @@ automation/
 - **Status:** ✅ Reliable for unattended daily automation. All critical issues resolved.
 
 ### 2026-03-23: Automation Structure Review
+
 - **Type:** architecture-review
 - **File:** `.planning/reviews/2026-03-23-automation-structure-review.md`
 - **Reviewer:** Lead Developer Review
@@ -456,11 +505,12 @@ automation/
 - **Status:** ✅ Production-ready with improved structure. Team can easily understand and extend codebase.
 
 ### 2026-03-24: Comprehensive Gap Analysis
+
 - **Type:** gap-analysis (GSD-style methodology)
 - **File:** `.planning/reviews/2026-03-23-gap-analysis.md`
 - **Reviewer:** Manual audit following GSD framework
 - **Scope:** Full campaign readiness for 3-week launch timeline (all 7 phases, 25 plans)
-- **Progress:** 19 of 25 plans complete (76%) | Phases 1, 3, 4 done | Phase 2 in progress (2/4)
+- **Progress:** [██████████] 100%
 - **Critical Findings:** 4 blocking gaps identified
   1. **No live petition** — Change.org draft exists but not published; all 4 statistics unverified; no Vietnamese translation
   2. **Missing visual assets** — Lucky photos (hero, story) don't exist; social media OG image 404s
@@ -477,6 +527,7 @@ automation/
 ## Accumulated Context
 
 ### Windows Task Scheduler Configuration (added 2026-03-24)
+
 - **Status:** NOW CONFIGURED — Daily 8:00 AM automation fully operational
 - **Task Name:** SDE-DailyPipeline
 - **Schedule:** Daily at 8:00 AM (starting 2026-03-24)
@@ -491,6 +542,7 @@ automation/
 - **Failure Alerting:** Future enhancement - add Telegram notification on pipeline exception
 
 ### Claude Code Permissions & Testing (added 2026-03-23)
+
 - **Purpose:** Implement morphllm.com best practices for secure development
 - **Two-tier permission system:** Shared `.claude/settings.json` (team) + personal `.claude/settings.local.json` (gitignored)
 - **Shared settings:** Granular rules - auto-approve safe operations, deny dangerous commands, prompt for critical actions
@@ -503,6 +555,7 @@ automation/
 - **Benefits:** Team can work safely with granular controls; primary dev has fast iteration; all automation can run in isolated containers
 
 ### AWS Bedrock Configuration (from Phase 3, updated 2026-03-22)
+
 - **Critical:** Model ID must use `us.` prefix for cross-region inference profiles
 - **Working config:** `us.anthropic.claude-haiku-4-5-20251001-v1:0` in us-east-2
 - **Sonnet 4.6 issue:** `us.anthropic.claude-sonnet-4-6` encounters AWS Marketplace permission errors with dev-us-aws-bedrock profile
@@ -512,6 +565,7 @@ automation/
 - See `automation/TROUBLESHOOTING.md` for diagnostics
 
 ### Automated Research Agent (added 2026-03-22)
+
 - **Purpose:** Eliminates manual research requirement; searches English + Vietnamese news daily
 - **Architecture:** Perplexity API (10 searches) + Manus AI placeholder → combined report
 - **Input priority:** manual input file → automated research → rotating templates
@@ -525,12 +579,14 @@ automation/
 - **Future:** Manus AI integration placeholder ready in `research_agent.py` when needed
 
 ### Blog Pipeline Architecture (Phase 3 → Phase 4)
+
 - Current: Single `website/data/posts.json` with full `body_html` for all posts
 - Problem: Downloads entire archive on every page load; will exceed 1MB within 6 months at daily cadence
 - Solution (Phase 4): Split into `data/index.json` (lightweight list) + `data/posts/{id}.json` (full content per post)
 - Benefit: Enables Cloudflare CDN per-post caching, reduces listing page payload
 
 ### Automation Modular Structure (added 2026-03-23)
+
 - **Purpose:** Improve maintainability and team onboarding by organizing code logically
 - **Structure:** clients/ (AI/research), publishers/ (output/distribution), content/ (processing), scripts/ (utilities), docs/ (documentation)
 - **Pattern:** Each subdirectory has `__init__.py` for Python package imports
@@ -542,11 +598,13 @@ automation/
 - **Future:** Can easily add new publishers or clients by adding files to appropriate subdirectory
 
 ### Design System (from Phase 1)
+
 - Colors: --navy #1a2540, --teal #1d6a72, --amber #e8a838, --red #c0392b
 - Fonts: Georgia (headings), Segoe UI (body)
 - Fully responsive; mobile nav toggle built-in
 
 ### Team Dependencies
+
 - Uyen: Placeholder assets still needed (lucky-hero.jpg, lucky-story.jpg, blog images)
 - Tuan Anh: Content pillars + tone guide approval needed before increasing post frequency
 - Siva: API wiring (petition submit, fund tracker, real URLs for Change.org/Kickstarter/Telegram)
