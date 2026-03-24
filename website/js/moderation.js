@@ -290,6 +290,9 @@ class ModerationDashboard {
     comment.moderated_at = new Date().toISOString();
     comment.moderated_by = 'Tuan Anh';
 
+    // Try to publish to API server (if running)
+    await this.publishCommentToAPI(comment);
+
     // Move to approved comments in localStorage
     const approvedCommentsStr = localStorage.getItem('sde-approved-comments');
     const approvedComments = approvedCommentsStr ? JSON.parse(approvedCommentsStr) : [];
@@ -389,7 +392,10 @@ class ModerationDashboard {
     this.pendingPosts.splice(postIndex, 1);
     localStorage.setItem('sde-pending-community-posts', JSON.stringify(this.pendingPosts));
 
-    // Generate downloadable JSON files for index entry and individual post
+    // Try to publish to API server (if running)
+    await this.publishPostToAPI(blogPost);
+
+    // Generate downloadable JSON files for index entry and individual post (fallback)
     this.generatePostExportFiles(blogPost);
 
     // Animate and remove from UI
@@ -510,6 +516,86 @@ class ModerationDashboard {
     }).join('');
 
     return escaped;
+  }
+
+  async publishCommentToAPI(comment) {
+    try {
+      const response = await fetch('http://localhost:5000/api/publish-comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          post_slug: comment.post_slug,
+          comment: comment
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✓ Comment published to filesystem:', result.file);
+        this.showNotification('Comment published to repository', 'success');
+      } else {
+        throw new Error('API returned error: ' + response.status);
+      }
+    } catch (error) {
+      console.warn('API server not running. Comment saved to localStorage only:', error.message);
+      this.showNotification('Comment approved (API server offline - using localStorage)', 'warning');
+    }
+  }
+
+  async publishPostToAPI(blogPost) {
+    try {
+      const response = await fetch('http://localhost:5000/api/publish-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          post: blogPost
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✓ Post published to filesystem:', result.files);
+        this.showNotification('Post published to repository and blog index', 'success');
+      } else {
+        throw new Error('API returned error: ' + response.status);
+      }
+    } catch (error) {
+      console.warn('API server not running. Post saved to localStorage only:', error.message);
+      this.showNotification('Post approved (API server offline - using localStorage)', 'warning');
+    }
+  }
+
+  showNotification(message, type = 'info') {
+    // Create toast notification
+    const toast = document.createElement('div');
+    toast.className = `mod-toast mod-toast-${type}`;
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 10000;
+      animation: slideIn 0.3s ease;
+    `;
+
+    document.body.appendChild(toast);
+
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
   }
 
   generatePostExportFiles(blogPost) {
