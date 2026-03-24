@@ -34,3 +34,7 @@ WEBSITE_DATA_DIR = (_here.parent / 'website' / 'data').resolve()
 WEBSITE_ASSETS_DIR = (_here.parent / 'website' / 'assets').resolve()
 INPUTS_DIR = (_here / 'inputs').resolve()
 LOGS_DIR = (_here / 'logs').resolve()
+
+# AI Bot Configuration
+AI_BOT_ENABLED = os.getenv('AI_BOT_ENABLED', 'false').lower() == 'true'
+AI_BOT_MAX_RESPONSES = int(os.getenv('AI_BOT_MAX_RESPONSES', '3'))
