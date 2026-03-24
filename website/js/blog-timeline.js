@@ -96,6 +96,10 @@
 
           html += '<div class="timeline-post-content">';
           html += '<span class="blog-tag">' + escapeHTML(post.tag) + '</span>';
+          // Add community badge if author contains "(Community)"
+          if (post.author && post.author.indexOf('(Community)') !== -1) {
+            html += '<span class="community-badge">Community</span>';
+          }
           html += '<h4><a href="post.html?id=' + encodeURIComponent(post.id) + '">' + escapeHTML(post.title) + '</a></h4>';
           html += '<p class="timeline-post-excerpt">' + escapeHTML(post.excerpt) + '</p>';
           html += '<div class="timeline-post-meta">';
@@ -132,10 +136,16 @@
         ? '<img src="' + escapeHTML(p.banner_url) + '" alt="' + escapeHTML(p.title) + '" loading="lazy" style="width:100%; height:100%; object-fit:cover;" />'
         : '<span>Article image</span>';
 
+      var communityBadge = '';
+      if (p.author && p.author.indexOf('(Community)') !== -1) {
+        communityBadge = '<span class="community-badge">Community</span>';
+      }
+
       return '<article class="blog-post-card">' +
         '<a href="post.html?id=' + encodeURIComponent(p.id) + '" class="blog-post-img">' + imageHtml + '</a>' +
         '<div class="blog-post-body">' +
           '<span class="blog-tag">' + escapeHTML(p.tag) + '</span>' +
+          communityBadge +
           '<h2><a href="post.html?id=' + encodeURIComponent(p.id) + '" style="color:inherit;text-decoration:none;">' + escapeHTML(p.title) + '</a></h2>' +
           '<p>' + escapeHTML(p.excerpt) + '</p>' +
           '<div class="blog-card-meta">' +
@@ -247,6 +257,22 @@
   fetch('data/index.json')
     .then(function (r) { return r.json(); })
     .then(function (posts) {
+      // Merge locally-approved community posts
+      try {
+        var localPosts = JSON.parse(localStorage.getItem('sde-approved-blog-posts') || '[]');
+        if (localPosts.length > 0) {
+          // Deduplicate by id (prefer server version)
+          var serverIds = new Set(posts.map(function(p) { return p.id; }));
+          localPosts.forEach(function(lp) {
+            if (!serverIds.has(lp.id)) {
+              posts.push(lp);
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Failed to load local community posts:', e);
+      }
+
       allPosts = posts.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       });
