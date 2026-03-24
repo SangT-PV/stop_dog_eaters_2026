@@ -175,3 +175,16 @@ Plans:
 - [x] 999.1-07-PLAN.md — Feature voting system + blog feed integration + final verification (Wave 4)
 
 **Definition of Done:** All 5 community features tier-gated and functional. Comments, community posts, AI bot, voting, and roadmap working. Moderation dashboard operational for Tuan Anh.
+
+---
+
+### Phase 999.2: Simplify Comment UI - Clean Design Inspired by akaytruyen.com (BACKLOG)
+
+**Goal:** Simplify comment interface by removing complex formatting toolbars and emoji pickers. Reference akaytruyen.com for cleaner, more focused design. Keep core functionality: text input, submit, threading. Ready for future token/tier integration.
+
+**Requirements:** TBD
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
