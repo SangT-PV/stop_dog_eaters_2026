@@ -106,9 +106,25 @@ class CommunityPosts {
           </select>
           <div class="comment-editor">
             <div class="comment-toolbar">
-              <button type="button" class="toolbar-btn" data-format="bold" title="Bold"><strong>B</strong></button>
-              <button type="button" class="toolbar-btn" data-format="italic" title="Italic"><em>I</em></button>
-              <button type="button" class="toolbar-btn" data-format="underline" title="Underline"><u>U</u></button>
+              <button type="button" class="toolbar-btn" data-format="bold" aria-label="Bold">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                  <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                </svg>
+              </button>
+              <button type="button" class="toolbar-btn" data-format="italic" aria-label="Italic">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="19" y1="4" x2="10" y2="4"></line>
+                  <line x1="14" y1="20" x2="5" y2="20"></line>
+                  <line x1="15" y1="4" x2="9" y2="20"></line>
+                </svg>
+              </button>
+              <button type="button" class="toolbar-btn" data-format="underline" aria-label="Underline">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
+                  <line x1="4" y1="21" x2="20" y2="21"></line>
+                </svg>
+              </button>
             </div>
             <textarea name="content" class="comment-textarea" placeholder="Write your article content (100-5000 characters)..." required minlength="100" maxlength="5000" rows="10"></textarea>
           </div>
