@@ -176,6 +176,16 @@ class CommentSection {
 
     container.innerHTML = html;
 
+    // Add screen reader announcement region
+    if (!container.querySelector('.sr-announce')) {
+      const announceEl = document.createElement('div');
+      announceEl.className = 'sr-announce';
+      announceEl.setAttribute('aria-live', 'polite');
+      announceEl.setAttribute('role', 'status');
+      announceEl.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)';
+      container.appendChild(announceEl);
+    }
+
     // Attach event listeners
     this.attachEventListeners();
   }
@@ -224,33 +234,47 @@ class CommentSection {
     `;
 
     let html = `
-      <div class="chat-message">
-        <div class="chat-avatar ${isBot ? 'chat-avatar-bot' : ''}" style="${isBot ? '' : `background-color: ${avatarColor};`}">
-          ${isBot ? botAvatarSvg : avatarLetter}
-        </div>
-        <div class="chat-bubble-wrap">
-          <div class="chat-meta">
-            <span class="chat-author">${this.escapeHTML(comment.author_name)}</span>
-            ${isBot ? '<span class="bot-badge">Bot</span>' : ''}
-            <span class="chat-time">${timeAgo}</span>
-            ${isPending ? '<span class="comment-pending-badge">Pending</span>' : ''}
+      <div class="chat-message-wrapper">
+        <div class="chat-message">
+          <div class="chat-avatar ${isBot ? 'chat-avatar-bot' : ''}" style="${isBot ? '' : `background-color: ${avatarColor};`}">
+            ${isBot ? botAvatarSvg : avatarLetter}
           </div>
-          <div class="chat-bubble ${isBot ? 'chat-bubble-bot' : ''} ${isPending ? 'chat-bubble-pending' : ''}">
-            <div class="chat-text">${content}</div>
-            <div class="chat-actions">
-              <button class="chat-like-btn ${isLiked ? 'liked' : ''}" data-id="${comment.id}">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-                <span class="chat-like-count">${comment.likes > 0 ? comment.likes : ''}</span>
-              </button>
-              ${!isBot && depth < this.maxDepth ? `<button class="chat-reply-btn" data-id="${comment.id}">Reply</button>` : ''}
+          <div class="chat-bubble-wrap">
+            <div class="chat-meta">
+              <span class="chat-author">${this.escapeHTML(comment.author_name)}</span>
+              ${isBot ? '<span class="bot-badge">Bot</span>' : ''}
+              <span class="chat-time">${timeAgo}</span>
+              ${isPending ? '<span class="comment-pending-badge">Pending</span>' : ''}
+            </div>
+            <div class="chat-bubble ${isBot ? 'chat-bubble-bot' : ''} ${isPending ? 'chat-bubble-pending' : ''}">
+              <div class="chat-text">${content}</div>
+              <div class="chat-actions">
+                <button
+                  class="chat-like-btn ${isLiked ? 'liked' : ''}"
+                  data-id="${comment.id}"
+                  aria-label="${isLiked ? 'Unlike this comment' : 'Like this comment'}"
+                  aria-pressed="${isLiked}"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                  <span class="chat-like-count" aria-live="polite">${comment.likes > 0 ? comment.likes : ''}</span>
+                </button>
+                ${!isBot && depth < this.maxDepth ? `
+                <button
+                  class="chat-reply-btn"
+                  data-id="${comment.id}"
+                  aria-label="Reply to ${this.escapeHTML(comment.author_name)}'s comment"
+                >
+                  Reply
+                </button>` : ''}
+              </div>
             </div>
           </div>
         </div>
     `;
 
-    // Render replies with depth limit
+    // Render replies with depth limit — OUTSIDE the flex .chat-message row
     if (comment.replies && comment.replies.length > 0 && depth < this.maxDepth) {
       html += `<div class="chat-replies">`;
       html += comment.replies.map(reply => this.renderCommentNode(reply, depth + 1)).join('');
@@ -422,8 +446,8 @@ class CommentSection {
       existingReplyForm.remove();
     }
 
-    // Find the chat message container
-    const chatMessage = document.querySelector(`[data-id="${commentId}"]`).closest('.chat-message');
+    // Find the chat message wrapper (block container that holds flex row + replies)
+    const chatMessage = document.querySelector(`[data-id="${commentId}"]`).closest('.chat-message-wrapper');
 
     // Insert reply form after the comment card, before any replies
     const repliesContainer = chatMessage.querySelector('.chat-replies');
