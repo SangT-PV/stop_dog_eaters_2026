@@ -55,7 +55,7 @@ Critical optimizations for 3G networks and low-end Android devices (target audie
 
 WCAG AA compliance for screen readers and keyboard navigation.
 
-- [ ] **ACCESS-01**: User with disabilities can navigate blog with screen reader and keyboard (ARIA labels, aria-live regions, focus management)
+- [x] **ACCESS-01**: User with disabilities can navigate blog with screen reader and keyboard (ARIA labels, aria-live regions, focus management)
 
 ### User Experience
 

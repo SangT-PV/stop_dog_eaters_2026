@@ -199,7 +199,7 @@ Plans:
 Plans:
 - [ ] 1001-01-PLAN.md — Replace emoji icons with Lucide SVGs and fix accessibility for image placeholders (Wave 1)
 - [ ] 1001-02-PLAN.md — Add loading spinners, empty states, touch-action, and color alias cleanup (Wave 1)
-- [ ] 1001-03-PLAN.md — Enhanced interactive states, skip-to-content, reduced-motion, aria-live regions (Wave 2)
+- [x] 1001-03-PLAN.md — Enhanced interactive states, skip-to-content, reduced-motion, aria-live regions (Wave 2)
 
 **Definition of Done:** Zero emoji icons on site. All placeholders accessible. Loading states visible. Cards have hover shadows. Skip-to-content works. Reduced-motion honored. Human visual verification passed.
 
@@ -360,7 +360,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 999.1. Community Engagement | v1.0 Backlog | 7/7 | Complete | 2026-03-24 |
 | 999.2. Simplify Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
 | 1000. Chat-Style Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
-| 1001. UI/UX Brand Compliance | v1.0 Backlog | 0/3 | Planned | - |
+| 1001. UI/UX Brand Compliance | v1.0 Backlog | 1/3 | In Progress|  |
 | 8. CSS Refactoring Foundation | v2.0 | 0/1 | In progress | - |
 | 9. Design System Enhancement | v2.0 | 0/0 | Not started | - |
 | 10. Data Visualizations | v2.0 | 0/0 | Not started | - |
