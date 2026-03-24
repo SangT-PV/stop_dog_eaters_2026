@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moderation Dashboard — Stop Dog Eaters</title>
+  <meta name="description" content="Content moderation dashboard for Stop Dog Eaters campaign." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Stop<span>Dog</span>Eaters</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="petition.html">Petition</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="donate.html#transparency">Transparency</a></li>
+        <li class="nav-cta"><a href="petition.html">Sign Now</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PASSWORD GATE -->
+  <div id="mod-gate" class="mod-gate">
+    <div class="mod-gate-card">
+      <h2>Moderation Access</h2>
+      <p>Enter the moderation password to continue.</p>
+      <form id="mod-gate-form">
+        <input type="password" id="mod-password" class="comment-input" placeholder="Password" required />
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 12px;">Enter Dashboard</button>
+      </form>
+      <div id="mod-gate-error" style="display:none; color: var(--red); font-size: 0.85rem; margin-top: 10px;"></div>
+    </div>
+  </div>
+
+  <!-- MODERATION DASHBOARD (hidden until authenticated) -->
+  <div id="mod-dashboard" class="mod-dashboard" style="display:none;">
+    <div class="container" style="max-width: 900px; padding: 40px 24px;">
+      <h1 style="margin-bottom: 8px;">Moderation Dashboard</h1>
+      <p style="color: var(--text-md); margin-bottom: 32px;">Review and approve community submissions. All content requires approval before appearing publicly.</p>
+
+      <!-- Export button -->
+      <div class="mod-export-btn">
+        <button id="export-comments-btn" class="btn btn-outline">Export Approved Comments to JSON</button>
+      </div>
+
+      <!-- Tab navigation -->
+      <div class="mod-tabs">
+        <button class="mod-tab active" data-tab="comments">Comments <span class="mod-tab-count" id="comments-count">0</span></button>
+        <button class="mod-tab" data-tab="posts">Community Posts <span class="mod-tab-count" id="posts-count">0</span></button>
+      </div>
+
+      <!-- Comments tab -->
+      <div id="mod-comments" class="mod-tab-content">
+        <div id="mod-comments-list">
+          <!-- Rendered by moderation.js -->
+        </div>
+      </div>
+
+      <!-- Community Posts tab -->
+      <div id="mod-posts" class="mod-tab-content" style="display:none;">
+        <div id="mod-posts-list">
+          <!-- Rendered by moderation.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Stop<span>Dog</span>Eaters</h3>
+          <p>A community-led campaign to end the cruel and unregulated dog meat trade in Vietnam and across Asia.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Campaign</h4>
+          <ul>
+            <li><a href="petition.html">Sign the Petition</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="token.html">SDE Token</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#lucky">Lucky's Story</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="donate.html#transparency">Fund Transparency</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Stop Dog Eaters. All rights reserved.</span>
+        <span class="footer-transparency">All funds used for community outreach &amp; advocacy only</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/moderation.js"></script>
+</body>
+</html>
