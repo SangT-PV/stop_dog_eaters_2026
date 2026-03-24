@@ -209,23 +209,24 @@ class ModerationDashboard {
       minute: '2-digit'
     });
 
-    const contentPreview = post.content.substring(0, 200) + (post.content.length > 200 ? '...' : '');
+    const contentPreview = post.content.substring(0, 500) + (post.content.length > 500 ? '...' : '');
 
     return `
-      <div class="mod-item" data-id="${post.id}" data-type="post">
+      <div class="mod-item mod-post-item" data-id="${post.id}" data-type="post">
         <div class="mod-item-header">
           <div class="mod-item-meta">
             <strong>${this.escapeHTML(post.author_name)}</strong>
             <span class="mod-item-email">${this.escapeHTML(post.author_email)}</span>
             <span class="mod-item-date">${date}</span>
           </div>
-          <span class="mod-item-context">Tag: ${this.escapeHTML(post.tag)}</span>
+          <span class="blog-tag">${this.escapeHTML(post.tag)}</span>
         </div>
-        <h3 style="margin: 12px 0; color: var(--slate); font-size: 1.1rem;">${this.escapeHTML(post.title)}</h3>
+        <h4 class="mod-post-title">${this.escapeHTML(post.title)}</h4>
         <div class="mod-item-content">${this.escapeHTML(contentPreview)}</div>
         <div class="mod-item-actions">
-          <button class="btn btn-primary btn-sm mod-approve" data-id="${post.id}">Approve</button>
-          <button class="btn btn-outline btn-sm mod-reject" data-id="${post.id}">Reject</button>
+          <button class="btn btn-primary btn-sm mod-approve-post" data-id="${post.id}">Approve & Publish</button>
+          <button class="btn btn-outline btn-sm mod-reject-post" data-id="${post.id}">Reject</button>
+          <button class="btn btn-outline btn-sm mod-preview-post" data-id="${post.id}">Preview Full</button>
         </div>
       </div>
     `;
@@ -251,20 +252,28 @@ class ModerationDashboard {
   }
 
   attachPostListeners() {
-    const approveButtons = document.querySelectorAll('.mod-approve[data-id]');
-    const rejectButtons = document.querySelectorAll('.mod-reject[data-id]');
+    const approveButtons = document.querySelectorAll('.mod-approve-post[data-id]');
+    const rejectButtons = document.querySelectorAll('.mod-reject-post[data-id]');
+    const previewButtons = document.querySelectorAll('.mod-preview-post[data-id]');
 
     approveButtons.forEach(btn => {
       btn.addEventListener('click', async () => {
         const postId = btn.dataset.id;
-        await this.approvePost(postId);
+        await this.approveCommunityPost(postId);
       });
     });
 
     rejectButtons.forEach(btn => {
       btn.addEventListener('click', async () => {
         const postId = btn.dataset.id;
-        await this.rejectPost(postId);
+        await this.rejectCommunityPost(postId);
+      });
+    });
+
+    previewButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const postId = btn.dataset.id;
+        this.previewPost(postId);
       });
     });
   }
@@ -335,6 +344,11 @@ class ModerationDashboard {
   }
 
   async approvePost(postId) {
+    // This method is now an alias for approveCommunityPost for backward compatibility
+    await this.approveCommunityPost(postId);
+  }
+
+  async approveCommunityPost(postId) {
     // Find the post
     const postIndex = this.pendingPosts.findIndex(p => p.id === postId);
     if (postIndex === -1) return;
@@ -346,7 +360,26 @@ class ModerationDashboard {
     post.moderated_at = new Date().toISOString();
     post.moderated_by = 'Tuan Anh';
 
-    // Move to approved posts in localStorage
+    // Convert to blog post format (per D-05: same structure as AI posts)
+    const slug = this.generateSlug(post.title);
+    const blogPost = {
+      id: slug,
+      title: post.title,
+      excerpt: post.content.substring(0, 200) + (post.content.length > 200 ? '...' : ''),
+      body_html: this.convertMarkdownToHTML(post.content),
+      banner_url: null,
+      tag: post.tag || 'Community',
+      date: new Date().toISOString().split('T')[0],
+      author: post.author_name + ' (Community)'
+    };
+
+    // Save to localStorage for blog feed display
+    const approvedBlogPostsStr = localStorage.getItem('sde-approved-blog-posts');
+    const approvedBlogPosts = approvedBlogPostsStr ? JSON.parse(approvedBlogPostsStr) : [];
+    approvedBlogPosts.push(blogPost);
+    localStorage.setItem('sde-approved-blog-posts', JSON.stringify(approvedBlogPosts));
+
+    // Also save to approved community posts for tracking
     const approvedPostsStr = localStorage.getItem('sde-approved-community-posts');
     const approvedPosts = approvedPostsStr ? JSON.parse(approvedPostsStr) : [];
     approvedPosts.push(post);
@@ -355,6 +388,9 @@ class ModerationDashboard {
     // Remove from pending queue
     this.pendingPosts.splice(postIndex, 1);
     localStorage.setItem('sde-pending-community-posts', JSON.stringify(this.pendingPosts));
+
+    // Generate downloadable JSON files for index entry and individual post
+    this.generatePostExportFiles(blogPost);
 
     // Animate and remove from UI
     const item = document.querySelector(`.mod-item[data-id="${postId}"]`);
@@ -371,6 +407,11 @@ class ModerationDashboard {
   }
 
   async rejectPost(postId) {
+    // This method is now an alias for rejectCommunityPost
+    await this.rejectCommunityPost(postId);
+  }
+
+  async rejectCommunityPost(postId) {
     // Find and remove from pending queue
     const postIndex = this.pendingPosts.findIndex(p => p.id === postId);
     if (postIndex === -1) return;
@@ -390,6 +431,125 @@ class ModerationDashboard {
         }, 300);
       }, 500);
     }
+  }
+
+  previewPost(postId) {
+    // Find the post
+    const post = this.pendingPosts.find(p => p.id === postId);
+    if (!post) return;
+
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.className = 'mod-preview-modal';
+    modal.innerHTML = `
+      <div class="mod-preview-content">
+        <button class="mod-preview-close" title="Close">&times;</button>
+        <span class="blog-tag" style="margin-bottom: 12px; display: inline-block;">${this.escapeHTML(post.tag)}</span>
+        <h2 style="margin-bottom: 16px; color: var(--slate);">${this.escapeHTML(post.title)}</h2>
+        <div style="margin-bottom: 16px; color: var(--text-md); font-size: 0.9rem;">
+          <strong>By ${this.escapeHTML(post.author_name)}</strong> (${this.escapeHTML(post.author_email)})
+        </div>
+        <div style="line-height: 1.8; color: var(--text);">
+          ${this.convertMarkdownToHTML(post.content)}
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Close on button click
+    const closeBtn = modal.querySelector('.mod-preview-close');
+    closeBtn.addEventListener('click', () => modal.remove());
+
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.remove();
+    });
+
+    // Close on escape key
+    const escapeHandler = (e) => {
+      if (e.key === 'Escape') {
+        modal.remove();
+        document.removeEventListener('keydown', escapeHandler);
+      }
+    };
+    document.addEventListener('keydown', escapeHandler);
+  }
+
+  generateSlug(title) {
+    // Convert title to kebab-case slug
+    return title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '') // Remove special chars
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Replace consecutive hyphens with single hyphen
+      .replace(/^-+|-+$/g, '') // Trim hyphens from start/end
+      .substring(0, 80); // Max 80 chars
+  }
+
+  convertMarkdownToHTML(text) {
+    // First escape HTML to prevent XSS
+    let escaped = this.escapeHTML(text);
+
+    // Then apply formatting patterns (order matters)
+    // Bold: **text**
+    escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // Italic: *text* (but not if inside **)
+    escaped = escaped.replace(/(?<!\*)\*(?!\*)(.+?)\*(?!\*)/g, '<em>$1</em>');
+
+    // Underline: __text__
+    escaped = escaped.replace(/__(.+?)__/g, '<u>$1</u>');
+
+    // Double newline -> paragraph break
+    const paragraphs = escaped.split(/\n\n+/);
+    escaped = paragraphs.map(p => {
+      // Single newline -> <br>
+      const withBreaks = p.replace(/\n/g, '<br>');
+      return `<p>${withBreaks}</p>`;
+    }).join('');
+
+    return escaped;
+  }
+
+  generatePostExportFiles(blogPost) {
+    // Generate index entry JSON
+    const indexEntry = {
+      id: blogPost.id,
+      title: blogPost.title,
+      excerpt: blogPost.excerpt,
+      tag: blogPost.tag,
+      date: blogPost.date,
+      author: blogPost.author,
+      banner_url: blogPost.banner_url
+    };
+
+    const indexJson = JSON.stringify([indexEntry], null, 2);
+    const indexBlob = new Blob([indexJson], { type: 'application/json' });
+    const indexUrl = URL.createObjectURL(indexBlob);
+
+    const indexLink = document.createElement('a');
+    indexLink.href = indexUrl;
+    indexLink.download = `${blogPost.id}-index-entry.json`;
+    document.body.appendChild(indexLink);
+    indexLink.click();
+    document.body.removeChild(indexLink);
+    URL.revokeObjectURL(indexUrl);
+
+    // Generate individual post JSON
+    const postJson = JSON.stringify(blogPost, null, 2);
+    const postBlob = new Blob([postJson], { type: 'application/json' });
+    const postUrl = URL.createObjectURL(postBlob);
+
+    const postLink = document.createElement('a');
+    postLink.href = postUrl;
+    postLink.download = `${blogPost.id}.json`;
+    document.body.appendChild(postLink);
+    postLink.click();
+    document.body.removeChild(postLink);
+    URL.revokeObjectURL(postUrl);
+
+    alert(`Exported 2 files:\n1. ${blogPost.id}-index-entry.json (add to data/index.json)\n2. ${blogPost.id}.json (save to data/posts/)\n\nCommit both files to the repository.`);
   }
 
   exportCommentsToJSON() {
