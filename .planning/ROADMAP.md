@@ -364,10 +364,10 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 - REQ-16-03: Screen reader users can navigate comments with ARIA labels and live regions
 - REQ-16-04: Keyboard users can submit/cancel using standard shortcuts (Ctrl+Enter, Escape)
 **Depends on:** Phase 15
-**Plans:** 3 plans
+**Plans:** 2/3 plans executed
 
 Plans:
-- [ ] 16-01-PLAN.md — Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
+- [x] 16-01-PLAN.md — Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
 - [ ] 16-02-PLAN.md — Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1)
 - [ ] 16-03-PLAN.md — Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2)
 

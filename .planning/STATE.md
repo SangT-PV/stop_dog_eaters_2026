@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v2.0
+milestone_name: Design & Engagement Enhancement
+status: planning
+stopped_at: v2.0 roadmap created, ready to plan Phase 8
+last_updated: "2026-03-24T16:18:03.950Z"
+last_activity: 2026-03-24 — v2.0 roadmap created
+progress:
+  total_phases: 9
+  completed_phases: 0
+  total_plans: 4
+  completed_plans: 2
+  percent: 58
+---
+
 # Project State
 
 ## Project Reference
@@ -19,6 +35,7 @@ Progress: [████████░░░░░░░░░░░░] 58% (20
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 20 (v1.0 only)
 - Average duration: TBD (tracking starts Phase 8)
 - Total execution time: TBD
@@ -35,10 +52,12 @@ Progress: [████████░░░░░░░░░░░░] 58% (20
 | 1000. Chat-Style Comments | 1 | - | - |
 
 **Recent Trend:**
+
 - Last 5 plans: Not tracked (v1.0 executed before metrics system)
 - Trend: Baseline (starting v2.0)
 
 *Will update after Phase 8 completion*
+| Phase 16 P01 | 45 | 4 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -51,6 +70,7 @@ Recent decisions affecting current work:
 - **v1.0**: AWS Bedrock Claude Haiku 4.5 for cost efficiency — ✓ Good ($0.60/month)
 - **v1.0**: Split blog storage for CDN caching — ✓ Good, Phase 4 complete
 - **v2.0**: Hybrid design approach (activism + editorial + data) — Pending validation during Phase 9-11
+- [Phase 16-01]: Applied v2.0 design tokens to chat-style comment UI: large rounded corners (--radius-lg), dramatic hover shadows (--shadow-lg), semantic typography scale with rem values
 
 ### Roadmap Evolution
 
@@ -63,13 +83,16 @@ None yet.
 ### Blockers/Concerns
 
 **Research-flagged complexity:**
+
 - Phase 11 (Scrollytelling): Scrollama library integration patterns, IntersectionObserver threshold tuning — Research recommends phase-specific research during planning
 - Phase 13 (PWA): Service worker cache strategies, skip-waiting vs controlled update flows — Complex state management, consider deeper research
 
 **Asset dependencies:**
+
 - Phase 13: PWA icons (192px + 512px + maskable) needed from Uyen before implementation
 
 **Content dependencies:**
+
 - Phase 11: Scrollytelling narrative content (which stats to reveal, narrative sequence) — Collaborate with Tuan Anh during planning
 
 ## Session Continuity
