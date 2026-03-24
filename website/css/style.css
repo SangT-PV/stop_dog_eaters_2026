@@ -2916,3 +2916,22 @@ p:last-child { margin-bottom: 0; }
   .mod-item { padding: 14px; }
   .mod-item-header { flex-direction: column; }
 }
+
+/* --- Community Post Submission ---------------------------------- */
+.community-locked { text-align: center; padding: 40px 32px; background: var(--mist); border-radius: var(--radius-lg); border: 2px dashed var(--border); }
+.community-locked-icon { font-size: 2.5rem; margin-bottom: 16px; color: var(--text-md); }
+.community-locked h3 { font-size: 1.2rem; margin-bottom: 12px; }
+.community-locked p { max-width: 420px; margin: 0 auto 24px; font-size: 0.92rem; }
+.community-locked .btn { margin-bottom: 20px; }
+.community-locked-progress { height: 8px; background: var(--border); border-radius: var(--radius-pill); overflow: hidden; max-width: 300px; margin: 0 auto 8px; }
+.community-locked-bar { height: 100%; background: var(--teal); border-radius: var(--radius-pill); transition: width 0.6s ease; }
+.community-locked-amount { font-size: 0.8rem; color: var(--text-md); font-weight: 600; }
+
+.community-submit-section { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+.community-submit-section h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.community-submit-section > p { margin-bottom: 24px; font-size: 0.92rem; }
+.community-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+@media (max-width: 640px) {
+  .community-form-row { grid-template-columns: 1fr; }
+}
