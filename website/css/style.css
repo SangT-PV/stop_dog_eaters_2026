@@ -2833,6 +2833,51 @@ p:last-child { margin-bottom: 0; }
   box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);  /* Teal focus ring */
 }
 
+.comment-toolbar {
+  display: flex;
+  gap: 0.5rem;  /* 8px gap between buttons */
+  margin-bottom: 0.75rem;  /* 12px bottom margin */
+}
+
+.comment-toolbar button {
+  background: var(--mist);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem;  /* 8px, square buttons */
+  cursor: pointer;
+  color: var(--text);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  width: 2.5rem;   /* 40px square */
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-toolbar button:hover {
+  background: var(--white);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.comment-toolbar button:active {
+  background: rgba(42, 157, 143, 0.1);  /* Teal tint on click */
+}
+
+.comment-toolbar button svg {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;  /* Prevent SVG from blocking click events */
+}
+
+.community-char-count {
+  font-size: 0.875rem;  /* 14px */
+  color: var(--text-md);
+  text-align: right;
+  margin-top: 0.5rem;  /* 8px */
+  margin-bottom: 1rem;  /* 16px */
+}
+
 /* --- Community Post Preview Modal ------------------------------ */
 .mod-preview-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; }
 .mod-preview-content { background: var(--white); border-radius: var(--radius-lg); max-width: 700px; width: 100%; max-height: 80vh; overflow-y: auto; padding: 40px; position: relative; }
