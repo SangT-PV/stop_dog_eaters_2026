@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-03-24T16:17:30.947Z",
+  "phase": "16",
+  "phase_name": "rebuild-discussion-and-share-your-research-ui-components",
+  "phase_dir": ".planning/phases/16-rebuild-discussion-and-share-your-research-ui-components",
+  "plan": 1,
+  "task": 3,
+  "total_tasks": 4,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Fix Discussion layout bug — restructure comments.js HTML to use .chat-message-wrapper block container", "status": "done", "commit": "uncommitted"},
+    {"id": 2, "name": "Fix Share Your Research form — add all missing CSS for community form classes", "status": "done", "commit": "uncommitted"},
+    {"id": 3, "name": "Verify both fixes in browser with Playwright", "status": "done", "progress": "Both verified: threaded comments stack vertically (3-level nesting confirmed), community form styled correctly"}
+  ],
+  "remaining_tasks": [
+    {"id": 4, "name": "Add mock data for both components so testing doesn't require manual comment entry", "status": "not_started"}
+  ],
+  "blockers": [],
+  "human_actions_pending": [],
+  "decisions": [
+    {"decision": "Added .chat-message-wrapper block div around .chat-message flex row + .chat-replies", "rationale": "Replies were flex children inside .chat-message (display:flex), causing horizontal layout. Moving .chat-replies outside the flex container into a block wrapper fixes vertical stacking.", "phase": "16"},
+    {"decision": "Comments data uses flat format with parent_id, not pre-nested replies", "rationale": "buildCommentTree() in comments.js expects flat array and builds tree itself via parent_id field", "phase": "16"},
+    {"decision": "Admin mode requires BOTH localStorage sde-admin-mode=true AND sessionStorage sde-admin-authenticated=true", "rationale": "Password-protected admin via admin-utils.js — just setting localStorage alone won't unlock features", "phase": "16"}
+  ],
+  "uncommitted_files": [
+    "website/css/style.css",
+    "website/js/comments.js"
+  ],
+  "next_action": "Create mock data files: (1) website/data/comments/{slug}-comments.json with flat threaded comments for 2-3 posts, (2) website/data/community-posts/submissions.json with sample submissions. Then commit all changes together.",
+  "context_notes": "User was frustrated after multiple review sessions that never fixed the issues. Both code fixes are implemented and visually verified. User's last request before pause: add mock data for both Discussion and Share Your Research so testing doesn't require manually adding comments each time. Data formats: comments use flat array with parent_id (see _schema.json), community submissions use submissions.json array (see _schema.json). Admin mode unlock: set both localStorage('sde-admin-mode','true') and sessionStorage('sde-admin-authenticated','true')."
+}
