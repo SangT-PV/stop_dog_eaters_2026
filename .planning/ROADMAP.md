@@ -358,7 +358,11 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
 
 **Goal:** Rebuild Discussion (comments) and Share Your Research (community post submission) UI components to fully align with v2.0 design system established in Phases 8-15
-**Requirements**: TBD
+**Requirements:**
+- REQ-16-01: Comments display with v2.0 design tokens (large rounded corners, dramatic shadows, semantic spacing)
+- REQ-16-02: Community form displays with editorial aesthetic and Lucide icon toolbar
+- REQ-16-03: Screen reader users can navigate comments with ARIA labels and live regions
+- REQ-16-04: Keyboard users can submit/cancel using standard shortcuts (Ctrl+Enter, Escape)
 **Depends on:** Phase 15
 **Plans:** 3 plans
 
