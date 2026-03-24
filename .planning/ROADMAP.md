@@ -1,7 +1,7 @@
 # Stop Dog Eaters Campaign - Implementation Roadmap
 
-**Total Plans:** 32 across 7 phases + 1 backlog phase
-**Completed:** 20 of 32 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
+**Total Plans:** 33 across 7 phases + 2 backlog phases
+**Completed:** 20 of 33 (Phases 1, 3, 4 complete; Phase 2 in progress - 3 of 4)
 **Timeline:** 3-week sprint to full launch
 **Last Updated:** 2026-03-24
 
@@ -182,9 +182,14 @@ Plans:
 
 **Goal:** Simplify comment interface by removing complex formatting toolbars and emoji pickers. Reference akaytruyen.com for cleaner, more focused design. Keep core functionality: text input, submit, threading. Ready for future token/tier integration.
 
-**Requirements:** TBD
+**Requirements:**
+- REQ-999.2-01: Remove formatting toolbar (bold, italic, underline buttons) from comment form
+- REQ-999.2-02: Remove emoji picker button and popup from comment form
+- REQ-999.2-03: Preserve core comment features (threading, likes, fund-gating, submission)
 
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
+- [ ] 999.2-01-PLAN.md — Strip formatting toolbar, emoji picker, and related CSS for clean comment design (Wave 1)
+
+**Definition of Done:** Comment form renders with clean textarea-only design. No formatting toolbar or emoji picker visible. All core features (threading, likes, fund-gating, moderation) still work.
