@@ -33,6 +33,11 @@ class FundRoadmap {
     }
     this.config = await configResponse.json();
 
+    // Apply admin mode override if active
+    if (window.AdminUtils && window.AdminUtils.isAdminMode()) {
+      this.config = window.AdminUtils.forceUnlock(this.config);
+    }
+
     // Fetch funds data
     const fundsResponse = await fetch(this.fundsUrl);
     if (!fundsResponse.ok) {

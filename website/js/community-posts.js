@@ -16,6 +16,11 @@ class CommunityPosts {
     try {
       await this.fetchConfig();
 
+      // Apply admin mode override if active
+      if (window.AdminUtils && window.AdminUtils.isAdminMode()) {
+        this.config = window.AdminUtils.forceUnlock(this.config);
+      }
+
       const communityPostsUnlocked = this.config.current_unlocks.community_posts;
 
       if (!communityPostsUnlocked) {

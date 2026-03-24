@@ -40,6 +40,11 @@ class FeatureVoting {
     }
     this.config = await configResponse.json();
 
+    // Apply admin mode override if active
+    if (window.AdminUtils && window.AdminUtils.isAdminMode()) {
+      this.config = window.AdminUtils.forceUnlock(this.config);
+    }
+
     // Fetch features data
     const votesResponse = await fetch(this.votesUrl);
     if (!votesResponse.ok) {

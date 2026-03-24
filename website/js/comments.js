@@ -20,6 +20,11 @@ class CommentSection {
     try {
       await this.fetchConfig();
 
+      // Apply admin mode override if active
+      if (window.AdminUtils && window.AdminUtils.isAdminMode()) {
+        this.config = window.AdminUtils.forceUnlock(this.config);
+      }
+
       const commentsUnlocked = this.config.current_unlocks.comments;
 
       if (!commentsUnlocked) {
