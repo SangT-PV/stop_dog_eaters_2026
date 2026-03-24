@@ -9,7 +9,7 @@
  */
 
 class AdminUtils {
-  static PASSWORD_HASH = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; // SHA-256 of 'sde-moderate-2026'
+  static PASSWORD_HASH = '6f2caa2e0740a6b4563a0ca4463b14fbb832887f6ac9d075809e5a168ba27b21'; // SHA-256 of 'sde-moderate-2026'
 
   static async hashPassword(password) {
     const encoder = new TextEncoder();
@@ -21,7 +21,7 @@ class AdminUtils {
 
   static async checkPassword(password) {
     const hash = await this.hashPassword(password);
-    return hash === 'ab51bb2c165796988b30e49ac405c8ec8df7f27dc2c678aed8a38d36ed9e1928';
+    return hash === AdminUtils.PASSWORD_HASH;
   }
 
   static isAdminMode() {

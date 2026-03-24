@@ -6,7 +6,7 @@
 
 // Password: sde-moderate-2026
 // SHA-256 hash: Pre-computed for comparison
-const PASSWORD_HASH = '7e8f7f4e5d4c3b2a1e8f7f4e5d4c3b2a1e8f7f4e5d4c3b2a1e8f7f4e5d4c3b2a';
+const PASSWORD_HASH = '6f2caa2e0740a6b4563a0ca4463b14fbb832887f6ac9d075809e5a168ba27b21';
 
 class ModerationDashboard {
   constructor() {
