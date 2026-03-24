@@ -262,15 +262,7 @@ class CommentSection {
           <input type="text" class="comment-input" name="author_name" placeholder="Your name" required maxlength="100" />
           <input type="email" class="comment-input" name="author_email" placeholder="Your email (not displayed)" required />
         </div>
-        <div class="comment-editor">
-          <div class="comment-toolbar">
-            <button type="button" class="toolbar-btn" data-format="bold" title="Bold"><strong>B</strong></button>
-            <button type="button" class="toolbar-btn" data-format="italic" title="Italic"><em>I</em></button>
-            <button type="button" class="toolbar-btn" data-format="underline" title="Underline"><u>U</u></button>
-            <button type="button" class="toolbar-btn toolbar-emoji" data-format="emoji" title="Emoji">&#128578;</button>
-          </div>
-          <textarea class="comment-textarea" name="content" placeholder="Share your thoughts..." required maxlength="2000" rows="4"></textarea>
-        </div>
+        <textarea class="comment-textarea" name="content" placeholder="Share your thoughts..." required maxlength="2000" rows="4"></textarea>
         <div class="comment-form-footer">
           <span class="comment-char-count"><span class="char-current">0</span>/2000</span>
           <div class="comment-form-actions">
@@ -288,103 +280,13 @@ class CommentSection {
   }
 
   renderCommentContent(text) {
-    // First escape HTML to prevent XSS
+    // Escape HTML to prevent XSS
     let escaped = this.escapeHTML(text);
 
-    // Then apply formatting patterns (order matters)
-    // Bold: **text**
-    escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-    // Italic: *text* (but not if inside **)
-    escaped = escaped.replace(/(?<!\*)\*(?!\*)(.+?)\*(?!\*)/g, '<em>$1</em>');
-
-    // Underline: __text__
-    escaped = escaped.replace(/__(.+?)__/g, '<u>$1</u>');
-
-    // Newlines to <br>
+    // Replace newlines with <br>
     escaped = escaped.replace(/\n/g, '<br>');
 
     return escaped;
-  }
-
-  handleFormatting(textarea, format) {
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    const selectedText = text.substring(start, end);
-
-    if (format === 'emoji') {
-      this.showEmojiPicker(textarea);
-      return;
-    }
-
-    let before = '', after = '';
-    switch (format) {
-      case 'bold':
-        before = after = '**';
-        break;
-      case 'italic':
-        before = after = '*';
-        break;
-      case 'underline':
-        before = after = '__';
-        break;
-    }
-
-    const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
-    textarea.value = newText;
-    textarea.focus();
-
-    // Set cursor after the inserted formatting
-    const newCursorPos = start + before.length + selectedText.length + after.length;
-    textarea.setSelectionRange(newCursorPos, newCursorPos);
-
-    // Update character count
-    this.updateCharCount(textarea);
-  }
-
-  showEmojiPicker(textarea) {
-    // Remove any existing picker
-    const existingPicker = document.querySelector('.emoji-picker');
-    if (existingPicker) {
-      existingPicker.remove();
-      return;
-    }
-
-    const emojis = ['❤️', '👍', '🔥', '👏', '🙏', '😢', '😠', '🤔', '✓', '⭐', '✨', '👋'];
-
-    const picker = document.createElement('div');
-    picker.className = 'emoji-picker';
-    emojis.forEach(emoji => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.textContent = emoji;
-      btn.addEventListener('click', () => {
-        const cursorPos = textarea.selectionStart;
-        const text = textarea.value;
-        textarea.value = text.substring(0, cursorPos) + emoji + text.substring(cursorPos);
-        textarea.focus();
-        textarea.setSelectionRange(cursorPos + emoji.length, cursorPos + emoji.length);
-        this.updateCharCount(textarea);
-        picker.remove();
-      });
-      picker.appendChild(btn);
-    });
-
-    // Position picker below toolbar
-    const toolbar = textarea.closest('.comment-editor').querySelector('.comment-toolbar');
-    toolbar.style.position = 'relative';
-    toolbar.appendChild(picker);
-
-    // Close picker when clicking outside
-    setTimeout(() => {
-      document.addEventListener('click', function closeEmojiPicker(e) {
-        if (!picker.contains(e.target) && e.target.dataset.format !== 'emoji') {
-          picker.remove();
-          document.removeEventListener('click', closeEmojiPicker);
-        }
-      });
-    }, 100);
   }
 
   updateCharCount(textarea) {
@@ -533,16 +435,6 @@ class CommentSection {
         e.preventDefault();
         const form = e.target.closest('.reply-form');
         if (form) form.remove();
-      }
-
-      // Toolbar formatting buttons
-      if (e.target.closest('.toolbar-btn')) {
-        e.preventDefault();
-        const btn = e.target.closest('.toolbar-btn');
-        const form = btn.closest('.comment-form');
-        const textarea = form.querySelector('.comment-textarea');
-        const format = btn.dataset.format;
-        this.handleFormatting(textarea, format);
       }
     });
 
