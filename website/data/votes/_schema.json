@@ -1,0 +1,15 @@
+{
+  "_description": "Schema for feature voting system ($10K+ tier). One vote per email per feature.",
+  "vote_record": {
+    "feature_id": "string (slug format)",
+    "voter_email": "string (hashed with simple hash for privacy)",
+    "voted_at": "string (ISO 8601)"
+  },
+  "feature": {
+    "id": "string (slug)",
+    "title": "string",
+    "description": "string",
+    "vote_count": "number",
+    "status": "string (enum: proposed|in-progress|completed)"
+  }
+}

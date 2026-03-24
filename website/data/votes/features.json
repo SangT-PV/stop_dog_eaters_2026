@@ -1,0 +1,33 @@
+{
+  "features": [
+    {
+      "id": "vietnamese-translation",
+      "title": "Vietnamese Language Translation",
+      "description": "Full website and petition translation to Vietnamese for local reach",
+      "vote_count": 0,
+      "status": "proposed"
+    },
+    {
+      "id": "local-chapter-toolkit",
+      "title": "Local Chapter Organizing Toolkit",
+      "description": "Downloadable materials for starting local advocacy chapters in Vietnamese cities",
+      "vote_count": 0,
+      "status": "proposed"
+    },
+    {
+      "id": "investigation-reports",
+      "title": "Investigative Journalism Fund",
+      "description": "Fund professional investigative reports on the unregulated trade",
+      "vote_count": 0,
+      "status": "proposed"
+    },
+    {
+      "id": "school-education-program",
+      "title": "School Education Program",
+      "description": "Age-appropriate educational materials about animal welfare for Vietnamese schools",
+      "vote_count": 0,
+      "status": "proposed"
+    }
+  ],
+  "votes": []
+}

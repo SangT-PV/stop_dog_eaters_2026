@@ -1,0 +1,16 @@
+{
+  "_description": "Schema for community-submitted posts. Uses same structure as AI posts but with author: 'Community' tag. Stored in data/posts/ after approval.",
+  "submission": {
+    "id": "string (uuid-v4)",
+    "author_name": "string (required, 1-100 chars)",
+    "author_email": "string (required, validated email)",
+    "title": "string (required, 5-200 chars)",
+    "content": "string (required, 100-5000 chars, markdown or plain text)",
+    "tag": "string (one of: Public Health|Pet Theft|Regulation|Public Support|Lucky's Story|Campaign Updates|Community)",
+    "status": "string (enum: pending|approved|rejected)",
+    "created_at": "string (ISO 8601)",
+    "moderated_at": "string|null",
+    "moderated_by": "string|null"
+  },
+  "_note": "Approved posts are converted to standard blog post format in data/posts/ with author='Community' and tag='Community'"
+}

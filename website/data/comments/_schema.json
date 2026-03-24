@@ -1,0 +1,16 @@
+{
+  "_description": "Schema reference for comment files. Actual files: data/comments/{post-slug}-comments.json",
+  "comment": {
+    "id": "string (uuid-v4 format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx)",
+    "post_slug": "string (matches post ID from data/posts/)",
+    "parent_id": "string|null (null = top-level, uuid = reply to that comment)",
+    "author_name": "string (required, 1-100 chars)",
+    "author_email": "string (required, validated email format, NOT displayed publicly)",
+    "content": "string (required, 1-2000 chars, stored as plain text)",
+    "likes": "number (default 0, incremented by like button)",
+    "status": "string (enum: pending|approved|rejected)",
+    "created_at": "string (ISO 8601 format: 2026-03-24T12:00:00Z)",
+    "moderated_at": "string|null (ISO 8601, set when approved/rejected)",
+    "moderated_by": "string|null (moderator name)"
+  }
+}

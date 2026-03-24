@@ -1,0 +1,41 @@
+{
+  "_description": "Controls which community features are unlocked based on funding milestones",
+  "tier_thresholds": {
+    "comments": {
+      "amount": 1000,
+      "label": "$1K",
+      "feature": "Blog Discussion Sections",
+      "description": "Comment on articles, share evidence, engage in threaded discussions"
+    },
+    "community_posts": {
+      "amount": 2500,
+      "label": "$2.5K",
+      "feature": "Community Post Creation",
+      "description": "Submit your own articles and research for community review"
+    },
+    "ai_bot": {
+      "amount": 5000,
+      "label": "$5K",
+      "feature": "AI Engagement Bot",
+      "description": "Automated responses with brand voice for instant education"
+    },
+    "feature_voting": {
+      "amount": 10000,
+      "label": "$10K+",
+      "feature": "Feature Voting System",
+      "description": "Community decides campaign priorities through democratic voting"
+    }
+  },
+  "current_unlocks": {
+    "comments": false,
+    "community_posts": false,
+    "ai_bot": false,
+    "feature_voting": false
+  },
+  "celebration_banner": {
+    "active": false,
+    "message": "",
+    "tier_unlocked": "",
+    "expires_at": null
+  }
+}
