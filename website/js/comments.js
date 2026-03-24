@@ -146,12 +146,14 @@ class CommentSection {
     const pendingComments = this.getPendingComments();
     const allDisplayComments = [...approvedComments, ...pendingComments];
 
-    // Render main comment form at the top
-    let html = this.renderCommentForm();
+    let html = '';
+
+    // Chat messages container
+    html += '<div class="chat-messages">';
 
     if (allDisplayComments.length === 0) {
       html += `
-        <div class="comments-empty">
+        <div class="chat-empty">
           No comments yet. Be the first to share your thoughts!
         </div>
       `;
@@ -166,6 +168,11 @@ class CommentSection {
       // Update count
       this.updateCount(allDisplayComments.length);
     }
+
+    html += '</div>';
+
+    // Render main comment form at the bottom
+    html += this.renderCommentForm();
 
     container.innerHTML = html;
 
@@ -217,27 +224,27 @@ class CommentSection {
     `;
 
     let html = `
-      <div class="comment-thread">
-        <div class="comment-card ${isBot ? 'comment-card-bot' : ''}">
-          <div class="comment-avatar ${isBot ? 'comment-avatar-bot' : ''}" style="${isBot ? '' : `background-color: ${avatarColor};`}">
-            ${isBot ? botAvatarSvg : avatarLetter}
+      <div class="chat-message">
+        <div class="chat-avatar ${isBot ? 'chat-avatar-bot' : ''}" style="${isBot ? '' : `background-color: ${avatarColor};`}">
+          ${isBot ? botAvatarSvg : avatarLetter}
+        </div>
+        <div class="chat-bubble-wrap">
+          <div class="chat-meta">
+            <span class="chat-author">${this.escapeHTML(comment.author_name)}</span>
+            ${isBot ? '<span class="bot-badge">Bot</span>' : ''}
+            <span class="chat-time">${timeAgo}</span>
+            ${isPending ? '<span class="comment-pending-badge">Pending</span>' : ''}
           </div>
-          <div class="comment-body">
-            <div class="comment-header">
-              <span class="comment-author">${this.escapeHTML(comment.author_name)}</span>
-              ${isBot ? '<span class="bot-badge">Bot</span>' : ''}
-              <span class="comment-time">${timeAgo}</span>
-              ${isPending ? '<span class="comment-pending-badge">Pending Review</span>' : ''}
-            </div>
-            <div class="comment-content">${content}</div>
-            <div class="comment-actions">
-              <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-id="${comment.id}">
+          <div class="chat-bubble ${isBot ? 'chat-bubble-bot' : ''} ${isPending ? 'chat-bubble-pending' : ''}">
+            <div class="chat-text">${content}</div>
+            <div class="chat-actions">
+              <button class="chat-like-btn ${isLiked ? 'liked' : ''}" data-id="${comment.id}">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
-                <span class="comment-like-count">${comment.likes > 0 ? comment.likes : ''}</span>
+                <span class="chat-like-count">${comment.likes > 0 ? comment.likes : ''}</span>
               </button>
-              ${!isBot && depth < this.maxDepth ? `<button class="comment-reply-btn" data-id="${comment.id}">Reply</button>` : ''}
+              ${!isBot && depth < this.maxDepth ? `<button class="chat-reply-btn" data-id="${comment.id}">Reply</button>` : ''}
             </div>
           </div>
         </div>
@@ -245,7 +252,7 @@ class CommentSection {
 
     // Render replies with depth limit
     if (comment.replies && comment.replies.length > 0 && depth < this.maxDepth) {
-      html += `<div class="comment-replies">`;
+      html += `<div class="chat-replies">`;
       html += comment.replies.map(reply => this.renderCommentNode(reply, depth + 1)).join('');
       html += `</div>`;
     }
@@ -257,23 +264,25 @@ class CommentSection {
   renderCommentForm(parentId = null) {
     const isReply = parentId !== null;
     return `
-      <form class="comment-form ${isReply ? 'reply-form' : ''}" data-parent-id="${parentId || ''}">
-        <div class="comment-form-header">
-          <input type="text" class="comment-input" name="author_name" placeholder="Your name" required maxlength="100" />
-          <input type="email" class="comment-input" name="author_email" placeholder="Your email (not displayed)" required />
+      <form class="chat-input-bar ${isReply ? 'reply-form' : ''}" data-parent-id="${parentId || ''}">
+        <div class="chat-input-fields">
+          <input type="text" name="author_name" placeholder="Your name" required maxlength="100" />
+          <input type="email" name="author_email" placeholder="Email (not shown)" required />
         </div>
-        <textarea class="comment-textarea" name="content" placeholder="Share your thoughts..." required maxlength="2000" rows="4"></textarea>
-        <div class="comment-form-footer">
-          <span class="comment-char-count"><span class="char-current">0</span>/2000</span>
-          <div class="comment-form-actions">
-            ${isReply ? '<button type="button" class="btn btn-outline btn-sm comment-cancel-reply">Cancel</button>' : ''}
-            <button type="submit" class="btn btn-primary btn-sm">
-              ${isReply ? 'Post Reply' : 'Post Comment'}
-            </button>
-          </div>
+        <div class="chat-input-row">
+          <textarea name="content" placeholder="Type a message..." required maxlength="2000" rows="1"></textarea>
+          <button type="submit" class="chat-send-btn" title="${isReply ? 'Send reply' : 'Send message'}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
         </div>
-        <div class="comment-form-notice">
-          <small>Comments are reviewed before appearing publicly. Your email is never displayed.</small>
+        <div class="chat-input-footer">
+          <span class="chat-char-count"><span class="char-current">0</span>/2000</span>
+          <span class="chat-notice">
+            ${isReply ? '<button type="button" class="btn btn-outline btn-sm comment-cancel-reply" style="font-size:0.75rem; padding:3px 10px;">Cancel</button>' : 'Reviewed before publishing'}
+          </span>
         </div>
       </form>
     `;
@@ -290,7 +299,7 @@ class CommentSection {
   }
 
   updateCharCount(textarea) {
-    const form = textarea.closest('.comment-form');
+    const form = textarea.closest('.chat-input-bar');
     const charCurrent = form.querySelector('.char-current');
     if (charCurrent) {
       charCurrent.textContent = textarea.value.length;
@@ -348,7 +357,7 @@ class CommentSection {
 
     // Clear form
     form.reset();
-    this.updateCharCount(form.querySelector('.comment-textarea'));
+    this.updateCharCount(form.querySelector('textarea'));
 
     // If it's a reply form, remove it
     if (parent_id) {
@@ -389,21 +398,21 @@ class CommentSection {
       existingReplyForm.remove();
     }
 
-    // Find the comment thread container
-    const commentCard = document.querySelector(`[data-id="${commentId}"]`).closest('.comment-thread');
+    // Find the chat message container
+    const chatMessage = document.querySelector(`[data-id="${commentId}"]`).closest('.chat-message');
 
     // Insert reply form after the comment card, before any replies
-    const repliesContainer = commentCard.querySelector('.comment-replies');
+    const repliesContainer = chatMessage.querySelector('.chat-replies');
     const formHTML = this.renderCommentForm(commentId);
 
     if (repliesContainer) {
       repliesContainer.insertAdjacentHTML('afterbegin', formHTML);
     } else {
-      commentCard.insertAdjacentHTML('beforeend', '<div class="comment-replies">' + formHTML + '</div>');
+      chatMessage.insertAdjacentHTML('beforeend', '<div class="chat-replies">' + formHTML + '</div>');
     }
 
     // Focus the name input
-    const replyForm = commentCard.querySelector('.reply-form');
+    const replyForm = chatMessage.querySelector('.reply-form');
     replyForm.querySelector('[name="author_name"]').focus();
 
     // Attach event listeners to the new form
@@ -417,16 +426,16 @@ class CommentSection {
 
     container.addEventListener('click', (e) => {
       // Like button
-      if (e.target.closest('.comment-like-btn')) {
+      if (e.target.closest('.chat-like-btn')) {
         e.preventDefault();
-        const btn = e.target.closest('.comment-like-btn');
+        const btn = e.target.closest('.chat-like-btn');
         this.handleLike(btn.dataset.id);
       }
 
       // Reply button
-      if (e.target.closest('.comment-reply-btn')) {
+      if (e.target.closest('.chat-reply-btn')) {
         e.preventDefault();
-        const btn = e.target.closest('.comment-reply-btn');
+        const btn = e.target.closest('.chat-reply-btn');
         this.handleReplyClick(btn.dataset.id);
       }
 
@@ -440,7 +449,7 @@ class CommentSection {
 
     // Form submissions
     container.addEventListener('submit', (e) => {
-      if (e.target.classList.contains('comment-form')) {
+      if (e.target.classList.contains('chat-input-bar')) {
         e.preventDefault();
         this.submitComment(e.target);
       }
@@ -448,7 +457,7 @@ class CommentSection {
 
     // Textarea input for character count
     container.addEventListener('input', (e) => {
-      if (e.target.classList.contains('comment-textarea')) {
+      if (e.target.tagName === 'TEXTAREA' && e.target.closest('.chat-input-bar')) {
         this.updateCharCount(e.target);
       }
     });
@@ -457,7 +466,7 @@ class CommentSection {
   attachFormListeners(form) {
     // This is for dynamically added reply forms
     // Character count update on input
-    const textarea = form.querySelector('.comment-textarea');
+    const textarea = form.querySelector('textarea');
     if (textarea) {
       textarea.addEventListener('input', () => this.updateCharCount(textarea));
     }
@@ -465,10 +474,10 @@ class CommentSection {
 
   handleLike(commentId) {
     const likedComments = this.getLikedComments();
-    const button = document.querySelector(`[data-id="${commentId}"].comment-like-btn`);
+    const button = document.querySelector(`[data-id="${commentId}"].chat-like-btn`);
     if (!button) return;
 
-    const countSpan = button.querySelector('.comment-like-count');
+    const countSpan = button.querySelector('.chat-like-count');
     const currentCount = parseInt(countSpan.textContent || '0');
 
     if (likedComments.has(commentId)) {
