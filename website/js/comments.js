@@ -191,6 +191,7 @@ class CommentSection {
   }
 
   renderCommentNode(comment, depth) {
+    const isBot = comment.author_name === 'SDE Bot';
     const avatarColor = this.getAvatarColor(comment.author_name);
     const avatarLetter = comment.author_name.charAt(0).toUpperCase();
     const timeAgo = this.timeAgo(comment.created_at);
@@ -199,15 +200,27 @@ class CommentSection {
     const likedComments = this.getLikedComments();
     const isLiked = likedComments.has(comment.id);
 
+    // Bot avatar SVG (robot icon)
+    const botAvatarSvg = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <rect x="3" y="11" width="18" height="10" rx="2"/>
+        <circle cx="12" cy="5" r="3"/>
+        <line x1="12" y1="8" x2="12" y2="11"/>
+        <circle cx="8" cy="16" r="1" fill="white"/>
+        <circle cx="16" cy="16" r="1" fill="white"/>
+      </svg>
+    `;
+
     let html = `
       <div class="comment-thread">
-        <div class="comment-card">
-          <div class="comment-avatar" style="background-color: ${avatarColor};">
-            ${avatarLetter}
+        <div class="comment-card ${isBot ? 'comment-card-bot' : ''}">
+          <div class="comment-avatar ${isBot ? 'comment-avatar-bot' : ''}" style="${isBot ? '' : `background-color: ${avatarColor};`}">
+            ${isBot ? botAvatarSvg : avatarLetter}
           </div>
           <div class="comment-body">
             <div class="comment-header">
               <span class="comment-author">${this.escapeHTML(comment.author_name)}</span>
+              ${isBot ? '<span class="bot-badge">Bot</span>' : ''}
               <span class="comment-time">${timeAgo}</span>
               ${isPending ? '<span class="comment-pending-badge">Pending Review</span>' : ''}
             </div>
@@ -219,7 +232,7 @@ class CommentSection {
                 </svg>
                 <span class="comment-like-count">${comment.likes > 0 ? comment.likes : ''}</span>
               </button>
-              ${depth < this.maxDepth ? `<button class="comment-reply-btn" data-id="${comment.id}">Reply</button>` : ''}
+              ${!isBot && depth < this.maxDepth ? `<button class="comment-reply-btn" data-id="${comment.id}">Reply</button>` : ''}
             </div>
           </div>
         </div>
