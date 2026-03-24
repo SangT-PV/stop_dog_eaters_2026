@@ -244,34 +244,65 @@ class CommunityPosts {
       return;
     }
 
-    // Generate UUID
-    const id = typeof crypto !== 'undefined' && crypto.randomUUID
-      ? crypto.randomUUID()
-      : this.generateUUID();
+    // Show loading spinner
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" opacity="0.25"/>
+        <path d="M12 2 A10 10 0 0 1 22 12" stroke-linecap="round"/>
+      </svg>
+      Submitting...
+    `;
 
-    // Build submission object per schema
-    const submission = {
-      id,
-      author_name,
-      author_email,
-      title,
-      content,
-      tag,
-      status: 'pending',
-      created_at: new Date().toISOString(),
-      moderated_at: null,
-      moderated_by: null
-    };
+    // Simulate async operation (localStorage is synchronous, but add delay for UX)
+    setTimeout(() => {
+      // Generate UUID
+      const id = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : this.generateUUID();
 
-    // Store in localStorage for moderation dashboard
-    this.savePendingSubmission(submission);
+      // Build submission object per schema
+      const submission = {
+        id,
+        author_name,
+        author_email,
+        title,
+        content,
+        tag,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+        moderated_at: null,
+        moderated_by: null
+      };
 
-    // Show success message
-    alert('Thank you! Your submission is being reviewed by our editorial team.');
+      // Store in localStorage for moderation dashboard
+      this.savePendingSubmission(submission);
 
-    // Clear form
-    form.reset();
-    this.updateCharCount(form.querySelector('.comment-textarea'));
+      // Show success banner
+      const banner = document.createElement('div');
+      banner.className = 'comment-success-banner';
+      banner.innerHTML = `
+        <svg class="success-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span>Thank you! Your submission is being reviewed by our editorial team.</span>
+      `;
+      form.insertAdjacentElement('beforebegin', banner);
+
+      // Remove banner after 4 seconds (longer message)
+      setTimeout(() => banner.remove(), 4000);
+
+      // Reset button
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      // Clear form
+      form.reset();
+      this.updateCharCount(form.querySelector('.comment-textarea'));
+    }, 400);
   }
 
   generateUUID() {
