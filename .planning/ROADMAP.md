@@ -1,7 +1,7 @@
 # Stop Dog Eaters Campaign - Implementation Roadmap
 
-**Total Plans:** 34 across 7 phases + 3 backlog phases (v1.0) + 8 phases (v2.0)
-**Completed:** 20 of 34 v1.0 plans
+**Total Plans:** 34 across 7 phases + 3 backlog phases (v1.0) + 9 phases (v2.0)
+**Completed:** 20 of 34 v1.0 plans + 2 of 3 Phase 16 plans
 **Current Milestone:** v2.0 Design & Engagement Enhancement
 **Last Updated:** 2026-03-24
 
@@ -325,6 +325,22 @@ Plans:
 Plans:
 - [ ] 15-01: TBD
 
+### Phase 16: Rebuild Discussion and Share Your Research UI Components
+**Goal:** Apply v2.0 design tokens to chat UI and community form, replace text buttons with Lucide icons, add generous editorial spacing
+**Depends on:** Phase 1001 (UI/UX compliance fixes)
+**Requirements:** None (design refinement phase)
+**Success Criteria** (what must be TRUE):
+  1. Chat bubbles use v2.0 spacing, shadows, and interaction states
+  2. Toolbar buttons use Lucide SVG icons with aria-labels for accessibility
+  3. Community form has generous editorial spacing and elevated card styling
+  4. Share Your Research section uses v2.0 design tokens consistently
+**Plans:** 3 plans
+
+Plans:
+- [x] 16-01-PLAN.md — Update chat bubbles and action buttons with v2.0 design tokens (33ee49a, 553381b, 5631e0f)
+- [x] 16-02-PLAN.md — Replace toolbar text buttons with Lucide SVG icons and add generous editorial spacing (04c8ca2, 4d39923, 01c5b78)
+- [ ] 16-03-PLAN.md — Update Share Your Research section with v2.0 design tokens
+
 ---
 
 ## Progress
@@ -352,6 +368,8 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 12. Social Sharing | v2.0 | 0/0 | Not started | - |
 | 13. PWA Implementation | v2.0 | 0/0 | Not started | - |
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
+| 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
+| 16. Discussion UI Rebuild | v2.0 | 2/3 | In progress | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 
 
