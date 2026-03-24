@@ -21,6 +21,12 @@ class AdminUtils {
 
   static async checkPassword(password) {
     const hash = await this.hashPassword(password);
+    console.log('[AdminUtils] Password check:', {
+      input: password,
+      generatedHash: hash,
+      expectedHash: AdminUtils.PASSWORD_HASH,
+      match: hash === AdminUtils.PASSWORD_HASH
+    });
     return hash === AdminUtils.PASSWORD_HASH;
   }
 
