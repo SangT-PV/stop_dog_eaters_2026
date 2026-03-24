@@ -354,6 +354,19 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 
+
+### Phase 16: Rebuild Discussion and Share Your Research UI components
+
+**Goal:** Rebuild Discussion (comments) and Share Your Research (community post submission) UI components to fully align with v2.0 design system established in Phases 8-15
+**Requirements**: TBD
+**Depends on:** Phase 15
+**Plans:** 3 plans
+
+Plans:
+- [ ] 16-01-PLAN.md — Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
+- [ ] 16-02-PLAN.md — Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1)
+- [ ] 16-03-PLAN.md — Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2)
+
 ---
 
 ## Success Metrics (End of v2.0)
