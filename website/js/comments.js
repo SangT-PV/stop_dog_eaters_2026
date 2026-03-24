@@ -52,16 +52,47 @@ class CommentSection {
   }
 
   async fetchComments() {
-    const response = await fetch(this.commentsUrl);
-    if (!response.ok) {
-      // If comments file doesn't exist yet, treat as empty
-      if (response.status === 404) {
-        this.comments = { post_slug: this.postSlug, comments: [] };
-        return;
+    // Fetch server-side comments from JSON file
+    let serverComments = [];
+    try {
+      const response = await fetch(this.commentsUrl);
+      if (response.ok) {
+        const data = await response.json();
+        serverComments = data.comments || [];
       }
-      throw new Error(`Failed to fetch comments: ${response.status}`);
+      // If 404, treat as empty array (new posts won't have comment files yet)
+    } catch (error) {
+      console.warn('Failed to fetch server comments:', error);
     }
-    this.comments = await response.json();
+
+    // Fetch locally-approved comments from moderation dashboard
+    const localKey = `sde-comments-${this.postSlug}`;
+    const localCommentsStr = localStorage.getItem(localKey);
+    const localApprovedComments = localCommentsStr ? JSON.parse(localCommentsStr) : [];
+
+    // Merge and deduplicate (prefer server version if exists in both)
+    const merged = this.mergeLocalAndServerComments(serverComments, localApprovedComments);
+    this.comments = { post_slug: this.postSlug, comments: merged };
+  }
+
+  mergeLocalAndServerComments(serverComments, localApproved) {
+    // Create a map of all approved comments (prefer server version if exists in both)
+    const commentMap = new Map();
+
+    // Add server comments first (highest priority)
+    serverComments.filter(c => c.status === 'approved').forEach(comment => {
+      commentMap.set(comment.id, comment);
+    });
+
+    // Add local approved comments (only if not already in server)
+    localApproved.filter(c => c.status === 'approved').forEach(comment => {
+      if (!commentMap.has(comment.id)) {
+        commentMap.set(comment.id, comment);
+      }
+    });
+
+    // Return approved comments array
+    return Array.from(commentMap.values());
   }
 
   renderLocked() {
@@ -106,24 +137,32 @@ class CommentSection {
     // Filter approved comments only
     const approvedComments = this.comments.comments.filter(c => c.status === 'approved');
 
-    if (approvedComments.length === 0) {
-      container.innerHTML = `
+    // Include pending comments from localStorage for optimistic UI
+    const pendingComments = this.getPendingComments();
+    const allDisplayComments = [...approvedComments, ...pendingComments];
+
+    // Render main comment form at the top
+    let html = this.renderCommentForm();
+
+    if (allDisplayComments.length === 0) {
+      html += `
         <div class="comments-empty">
           No comments yet. Be the first to share your thoughts!
         </div>
       `;
       this.updateCount(0);
-      return;
+    } else {
+      // Build threaded structure
+      const commentTree = this.buildCommentTree(allDisplayComments);
+
+      // Render tree
+      html += commentTree.map(comment => this.renderCommentNode(comment, 0)).join('');
+
+      // Update count
+      this.updateCount(allDisplayComments.length);
     }
 
-    // Build threaded structure
-    const commentTree = this.buildCommentTree(approvedComments);
-
-    // Render tree
-    container.innerHTML = commentTree.map(comment => this.renderCommentNode(comment, 0)).join('');
-
-    // Update count
-    this.updateCount(approvedComments.length);
+    container.innerHTML = html;
 
     // Attach event listeners
     this.attachEventListeners();
@@ -155,7 +194,10 @@ class CommentSection {
     const avatarColor = this.getAvatarColor(comment.author_name);
     const avatarLetter = comment.author_name.charAt(0).toUpperCase();
     const timeAgo = this.timeAgo(comment.created_at);
-    const content = this.escapeHTML(comment.content).replace(/\n/g, '<br>');
+    const content = this.renderCommentContent(comment.content);
+    const isPending = comment.status === 'pending';
+    const likedComments = this.getLikedComments();
+    const isLiked = likedComments.has(comment.id);
 
     let html = `
       <div class="comment-thread">
@@ -167,16 +209,17 @@ class CommentSection {
             <div class="comment-header">
               <span class="comment-author">${this.escapeHTML(comment.author_name)}</span>
               <span class="comment-time">${timeAgo}</span>
+              ${isPending ? '<span class="comment-pending-badge">Pending Review</span>' : ''}
             </div>
             <div class="comment-content">${content}</div>
             <div class="comment-actions">
-              <button class="comment-like-btn" data-id="${comment.id}">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="${comment.likes > 0 ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-id="${comment.id}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
                 <span class="comment-like-count">${comment.likes > 0 ? comment.likes : ''}</span>
               </button>
-              <button class="comment-reply-btn" data-id="${comment.id}">Reply</button>
+              ${depth < this.maxDepth ? `<button class="comment-reply-btn" data-id="${comment.id}">Reply</button>` : ''}
             </div>
           </div>
         </div>
@@ -193,39 +236,365 @@ class CommentSection {
     return html;
   }
 
-  attachEventListeners() {
-    // Like button handlers
-    const likeButtons = document.querySelectorAll('.comment-like-btn');
-    likeButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.handleLike(btn);
+  renderCommentForm(parentId = null) {
+    const isReply = parentId !== null;
+    return `
+      <form class="comment-form ${isReply ? 'reply-form' : ''}" data-parent-id="${parentId || ''}">
+        <div class="comment-form-header">
+          <input type="text" class="comment-input" name="author_name" placeholder="Your name" required maxlength="100" />
+          <input type="email" class="comment-input" name="author_email" placeholder="Your email (not displayed)" required />
+        </div>
+        <div class="comment-editor">
+          <div class="comment-toolbar">
+            <button type="button" class="toolbar-btn" data-format="bold" title="Bold"><strong>B</strong></button>
+            <button type="button" class="toolbar-btn" data-format="italic" title="Italic"><em>I</em></button>
+            <button type="button" class="toolbar-btn" data-format="underline" title="Underline"><u>U</u></button>
+            <button type="button" class="toolbar-btn toolbar-emoji" data-format="emoji" title="Emoji">&#128578;</button>
+          </div>
+          <textarea class="comment-textarea" name="content" placeholder="Share your thoughts..." required maxlength="2000" rows="4"></textarea>
+        </div>
+        <div class="comment-form-footer">
+          <span class="comment-char-count"><span class="char-current">0</span>/2000</span>
+          <div class="comment-form-actions">
+            ${isReply ? '<button type="button" class="btn btn-outline btn-sm comment-cancel-reply">Cancel</button>' : ''}
+            <button type="submit" class="btn btn-primary btn-sm">
+              ${isReply ? 'Post Reply' : 'Post Comment'}
+            </button>
+          </div>
+        </div>
+        <div class="comment-form-notice">
+          <small>Comments are reviewed before appearing publicly. Your email is never displayed.</small>
+        </div>
+      </form>
+    `;
+  }
+
+  renderCommentContent(text) {
+    // First escape HTML to prevent XSS
+    let escaped = this.escapeHTML(text);
+
+    // Then apply formatting patterns (order matters)
+    // Bold: **text**
+    escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // Italic: *text* (but not if inside **)
+    escaped = escaped.replace(/(?<!\*)\*(?!\*)(.+?)\*(?!\*)/g, '<em>$1</em>');
+
+    // Underline: __text__
+    escaped = escaped.replace(/__(.+?)__/g, '<u>$1</u>');
+
+    // Newlines to <br>
+    escaped = escaped.replace(/\n/g, '<br>');
+
+    return escaped;
+  }
+
+  handleFormatting(textarea, format) {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selectedText = text.substring(start, end);
+
+    if (format === 'emoji') {
+      this.showEmojiPicker(textarea);
+      return;
+    }
+
+    let before = '', after = '';
+    switch (format) {
+      case 'bold':
+        before = after = '**';
+        break;
+      case 'italic':
+        before = after = '*';
+        break;
+      case 'underline':
+        before = after = '__';
+        break;
+    }
+
+    const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
+    textarea.value = newText;
+    textarea.focus();
+
+    // Set cursor after the inserted formatting
+    const newCursorPos = start + before.length + selectedText.length + after.length;
+    textarea.setSelectionRange(newCursorPos, newCursorPos);
+
+    // Update character count
+    this.updateCharCount(textarea);
+  }
+
+  showEmojiPicker(textarea) {
+    // Remove any existing picker
+    const existingPicker = document.querySelector('.emoji-picker');
+    if (existingPicker) {
+      existingPicker.remove();
+      return;
+    }
+
+    const emojis = ['❤️', '👍', '🔥', '👏', '🙏', '😢', '😠', '🤔', '✓', '⭐', '✨', '👋'];
+
+    const picker = document.createElement('div');
+    picker.className = 'emoji-picker';
+    emojis.forEach(emoji => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = emoji;
+      btn.addEventListener('click', () => {
+        const cursorPos = textarea.selectionStart;
+        const text = textarea.value;
+        textarea.value = text.substring(0, cursorPos) + emoji + text.substring(cursorPos);
+        textarea.focus();
+        textarea.setSelectionRange(cursorPos + emoji.length, cursorPos + emoji.length);
+        this.updateCharCount(textarea);
+        picker.remove();
       });
+      picker.appendChild(btn);
     });
 
-    // Reply button handlers (no-op for now - form comes in Plan 03)
-    const replyButtons = document.querySelectorAll('.comment-reply-btn');
-    replyButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        // TODO: Implement reply form in Plan 999.1-03
-        console.log('Reply to comment:', btn.dataset.id);
+    // Position picker below toolbar
+    const toolbar = textarea.closest('.comment-editor').querySelector('.comment-toolbar');
+    toolbar.style.position = 'relative';
+    toolbar.appendChild(picker);
+
+    // Close picker when clicking outside
+    setTimeout(() => {
+      document.addEventListener('click', function closeEmojiPicker(e) {
+        if (!picker.contains(e.target) && e.target.dataset.format !== 'emoji') {
+          picker.remove();
+          document.removeEventListener('click', closeEmojiPicker);
+        }
       });
+    }, 100);
+  }
+
+  updateCharCount(textarea) {
+    const form = textarea.closest('.comment-form');
+    const charCurrent = form.querySelector('.char-current');
+    if (charCurrent) {
+      charCurrent.textContent = textarea.value.length;
+    }
+  }
+
+  async submitComment(form) {
+    const formData = new FormData(form);
+    const author_name = formData.get('author_name').trim();
+    const author_email = formData.get('author_email').trim();
+    const content = formData.get('content').trim();
+    const parent_id = form.dataset.parentId || null;
+
+    // Validation
+    if (!author_name || author_name.length < 1 || author_name.length > 100) {
+      alert('Please enter a name (1-100 characters).');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(author_email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    if (!content || content.length < 1 || content.length > 2000) {
+      alert('Please enter a comment (1-2000 characters).');
+      return;
+    }
+
+    // Generate UUID (with fallback for older browsers)
+    const id = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : this.generateUUID();
+
+    // Build comment object
+    const comment = {
+      id,
+      post_slug: this.postSlug,
+      parent_id: parent_id === '' ? null : parent_id,
+      author_name,
+      author_email,
+      content,
+      likes: 0,
+      status: 'pending',
+      created_at: new Date().toISOString(),
+      moderated_at: null,
+      moderated_by: null
+    };
+
+    // Store in localStorage (for moderation dashboard to pick up)
+    this.savePendingComment(comment);
+
+    // Show success message
+    alert('Thank you! Your comment is being reviewed and will appear once approved.');
+
+    // Clear form
+    form.reset();
+    this.updateCharCount(form.querySelector('.comment-textarea'));
+
+    // If it's a reply form, remove it
+    if (parent_id) {
+      form.remove();
+    }
+
+    // Re-render comments to show pending comment optimistically
+    this.renderComments();
+  }
+
+  generateUUID() {
+    // Fallback UUID generation for older browsers
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
     });
   }
 
-  handleLike(button) {
-    // Local increment only (no persistence in this plan)
-    if (button.classList.contains('liked')) {
-      return; // Already liked
+  savePendingComment(comment) {
+    const key = 'sde-pending-comments';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(comment);
+    localStorage.setItem(key, JSON.stringify(existing));
+  }
+
+  getPendingComments() {
+    const key = 'sde-pending-comments';
+    const all = JSON.parse(localStorage.getItem(key) || '[]');
+    // Filter only comments for this post
+    return all.filter(c => c.post_slug === this.postSlug);
+  }
+
+  handleReplyClick(commentId) {
+    // Remove any existing inline reply form
+    const existingReplyForm = document.querySelector('.reply-form');
+    if (existingReplyForm) {
+      existingReplyForm.remove();
     }
 
-    button.classList.add('liked');
+    // Find the comment thread container
+    const commentCard = document.querySelector(`[data-id="${commentId}"]`).closest('.comment-thread');
+
+    // Insert reply form after the comment card, before any replies
+    const repliesContainer = commentCard.querySelector('.comment-replies');
+    const formHTML = this.renderCommentForm(commentId);
+
+    if (repliesContainer) {
+      repliesContainer.insertAdjacentHTML('afterbegin', formHTML);
+    } else {
+      commentCard.insertAdjacentHTML('beforeend', '<div class="comment-replies">' + formHTML + '</div>');
+    }
+
+    // Focus the name input
+    const replyForm = commentCard.querySelector('.reply-form');
+    replyForm.querySelector('[name="author_name"]').focus();
+
+    // Attach event listeners to the new form
+    this.attachFormListeners(replyForm);
+  }
+
+  attachEventListeners() {
+    // Use event delegation on the container for dynamically added elements
+    const container = document.getElementById('comments-container');
+    if (!container) return;
+
+    container.addEventListener('click', (e) => {
+      // Like button
+      if (e.target.closest('.comment-like-btn')) {
+        e.preventDefault();
+        const btn = e.target.closest('.comment-like-btn');
+        this.handleLike(btn.dataset.id);
+      }
+
+      // Reply button
+      if (e.target.closest('.comment-reply-btn')) {
+        e.preventDefault();
+        const btn = e.target.closest('.comment-reply-btn');
+        this.handleReplyClick(btn.dataset.id);
+      }
+
+      // Cancel reply button
+      if (e.target.closest('.comment-cancel-reply')) {
+        e.preventDefault();
+        const form = e.target.closest('.reply-form');
+        if (form) form.remove();
+      }
+
+      // Toolbar formatting buttons
+      if (e.target.closest('.toolbar-btn')) {
+        e.preventDefault();
+        const btn = e.target.closest('.toolbar-btn');
+        const form = btn.closest('.comment-form');
+        const textarea = form.querySelector('.comment-textarea');
+        const format = btn.dataset.format;
+        this.handleFormatting(textarea, format);
+      }
+    });
+
+    // Form submissions
+    container.addEventListener('submit', (e) => {
+      if (e.target.classList.contains('comment-form')) {
+        e.preventDefault();
+        this.submitComment(e.target);
+      }
+    });
+
+    // Textarea input for character count
+    container.addEventListener('input', (e) => {
+      if (e.target.classList.contains('comment-textarea')) {
+        this.updateCharCount(e.target);
+      }
+    });
+  }
+
+  attachFormListeners(form) {
+    // This is for dynamically added reply forms
+    // Character count update on input
+    const textarea = form.querySelector('.comment-textarea');
+    if (textarea) {
+      textarea.addEventListener('input', () => this.updateCharCount(textarea));
+    }
+  }
+
+  handleLike(commentId) {
+    const likedComments = this.getLikedComments();
+    const button = document.querySelector(`[data-id="${commentId}"].comment-like-btn`);
+    if (!button) return;
+
     const countSpan = button.querySelector('.comment-like-count');
     const currentCount = parseInt(countSpan.textContent || '0');
-    countSpan.textContent = currentCount + 1;
 
-    // TODO: Persist to server in future plan
+    if (likedComments.has(commentId)) {
+      // Unlike
+      likedComments.delete(commentId);
+      button.classList.remove('liked');
+      const newCount = Math.max(0, currentCount - 1);
+      countSpan.textContent = newCount > 0 ? newCount : '';
+
+      // Update SVG fill
+      const svg = button.querySelector('svg');
+      if (svg) svg.setAttribute('fill', 'none');
+    } else {
+      // Like
+      likedComments.add(commentId);
+      button.classList.add('liked');
+      countSpan.textContent = currentCount + 1;
+
+      // Update SVG fill
+      const svg = button.querySelector('svg');
+      if (svg) svg.setAttribute('fill', 'currentColor');
+    }
+
+    // Persist to localStorage
+    this.saveLikedComments(likedComments);
+  }
+
+  getLikedComments() {
+    const key = 'sde-liked-comments';
+    const data = JSON.parse(localStorage.getItem(key) || '[]');
+    return new Set(data);
+  }
+
+  saveLikedComments(likedSet) {
+    const key = 'sde-liked-comments';
+    localStorage.setItem(key, JSON.stringify([...likedSet]));
   }
 
   updateCount(count) {
