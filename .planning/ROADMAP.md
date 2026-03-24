@@ -187,9 +187,9 @@ Plans:
 - REQ-999.2-02: Remove emoji picker button and popup from comment form
 - REQ-999.2-03: Preserve core comment features (threading, likes, fund-gating, submission)
 
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 999.2-01-PLAN.md — Strip formatting toolbar, emoji picker, and related CSS for clean comment design (Wave 1)
+- [x] 999.2-01-PLAN.md — Strip formatting toolbar, emoji picker, and related CSS for clean comment design (Wave 1)
 
 **Definition of Done:** Comment form renders with clean textarea-only design. No formatting toolbar or emoji picker visible. All core features (threading, likes, fund-gating, moderation) still work.
