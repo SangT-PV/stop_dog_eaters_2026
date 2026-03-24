@@ -263,11 +263,15 @@ class CommentSection {
 
   renderCommentForm(parentId = null) {
     const isReply = parentId !== null;
+    // Get stored name and email from session storage
+    const storedName = sessionStorage.getItem('sde-author-name') || '';
+    const storedEmail = sessionStorage.getItem('sde-author-email') || '';
+
     return `
       <form class="chat-input-bar ${isReply ? 'reply-form' : ''}" data-parent-id="${parentId || ''}">
         <div class="chat-input-fields">
-          <input type="text" name="author_name" placeholder="Your name" required maxlength="100" />
-          <input type="email" name="author_email" placeholder="Email (not shown)" required />
+          <input type="text" name="author_name" placeholder="Your name (optional)" maxlength="100" value="${this.escapeHTML(storedName)}" />
+          <input type="email" name="author_email" placeholder="Email (optional, not shown)" value="${this.escapeHTML(storedEmail)}" />
         </div>
         <div class="chat-input-row">
           <textarea name="content" placeholder="Type a message..." required maxlength="2000" rows="1"></textarea>
@@ -308,25 +312,45 @@ class CommentSection {
 
   async submitComment(form) {
     const formData = new FormData(form);
-    const author_name = formData.get('author_name').trim();
-    const author_email = formData.get('author_email').trim();
+    let author_name = formData.get('author_name').trim();
+    let author_email = formData.get('author_email').trim();
     const content = formData.get('content').trim();
     const parent_id = form.dataset.parentId || null;
 
-    // Validation
-    if (!author_name || author_name.length < 1 || author_name.length > 100) {
-      alert('Please enter a name (1-100 characters).');
+    // Validation - only content is required
+    if (!content || content.length < 1 || content.length > 2000) {
+      alert('Please enter a comment (1-2000 characters).');
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(author_email)) {
+    // Validate name length if provided
+    if (author_name && author_name.length > 100) {
+      alert('Name must be 100 characters or less.');
+      return;
+    }
+
+    // Validate email format if provided
+    if (author_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(author_email)) {
       alert('Please enter a valid email address.');
       return;
     }
 
-    if (!content || content.length < 1 || content.length > 2000) {
-      alert('Please enter a comment (1-2000 characters).');
-      return;
+    // Use "Anonymous" if name not provided
+    if (!author_name) {
+      author_name = 'Anonymous';
+    }
+
+    // Use empty string for email if not provided
+    if (!author_email) {
+      author_email = '';
+    }
+
+    // Save name and email to sessionStorage for future use (if provided)
+    if (formData.get('author_name').trim()) {
+      sessionStorage.setItem('sde-author-name', formData.get('author_name').trim());
+    }
+    if (formData.get('author_email').trim()) {
+      sessionStorage.setItem('sde-author-email', formData.get('author_email').trim());
     }
 
     // Generate UUID (with fallback for older browsers)
