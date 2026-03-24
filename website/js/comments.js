@@ -496,9 +496,15 @@ class CommentSection {
       chatMessage.insertAdjacentHTML('beforeend', '<div class="chat-replies">' + formHTML + '</div>');
     }
 
-    // Focus the name input
+    // Focus the textarea after form insertion
     const replyForm = chatMessage.querySelector('.reply-form');
-    replyForm.querySelector('[name="author_name"]').focus();
+    if (replyForm) {
+      const textarea = replyForm.querySelector('textarea');
+      if (textarea) {
+        // Wait for DOM update, then focus
+        setTimeout(() => textarea.focus(), 100);
+      }
+    }
 
     // Attach event listeners to the new form
     this.attachFormListeners(replyForm);
@@ -544,6 +550,27 @@ class CommentSection {
     container.addEventListener('input', (e) => {
       if (e.target.tagName === 'TEXTAREA' && e.target.closest('.chat-input-bar')) {
         this.updateCharCount(e.target);
+      }
+    });
+
+    // Keyboard navigation
+    container.addEventListener('keydown', (e) => {
+      // Escape key to cancel reply form
+      if (e.key === 'Escape') {
+        const replyForm = e.target.closest('.chat-input-bar.reply-form');
+        if (replyForm) {
+          const cancelBtn = replyForm.querySelector('.comment-cancel-reply');
+          if (cancelBtn) cancelBtn.click();
+        }
+      }
+
+      // Ctrl+Enter or Cmd+Enter to submit form
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        const form = e.target.closest('form');
+        if (form && form.classList.contains('chat-input-bar')) {
+          e.preventDefault();
+          form.dispatchEvent(new Event('submit', { bubbles: true }));
+        }
       }
     });
   }
