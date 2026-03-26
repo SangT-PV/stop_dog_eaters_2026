@@ -239,7 +239,7 @@ Plans:
 **UI hint:** yes
 
 Plans:
-- [ ] 09-01-PLAN.md — Bold activism blog listing styles + site-wide large rounded corners (Wave 1)
+- [x] 09-01-PLAN.md — Bold activism blog listing styles + site-wide large rounded corners (Wave 1)
 - [ ] 09-02-PLAN.md — Editorial magazine article layout + teal gradient CTA box (Wave 2)
 
 ### Phase 10: Data Visualizations

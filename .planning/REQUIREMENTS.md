@@ -16,10 +16,10 @@ This milestone enhances the existing campaign website (v1.0) with modern engagem
 
 User-facing design improvements to elevate visual impact and match "professional campaign poster" brand guidelines.
 
-- [ ] **DESIGN-01**: User can see bold activism aesthetic on blog listing cards (large color blocks, oversized typography, stat callouts that grab attention)
+- [x] **DESIGN-01**: User can see bold activism aesthetic on blog listing cards (large color blocks, oversized typography, stat callouts that grab attention)
 - [ ] **DESIGN-02**: User can read articles in editorial magazine layout (generous whitespace, refined typography, focused reading experience)
 - [x] **DESIGN-03**: Developer can maintain CSS without inline style conflicts (extract all inline styles to semantic CSS classes)
-- [ ] **DESIGN-04**: User experiences brand-compliant large rounded corners (2-4rem per BRAND_GUIDELINES.md)
+- [x] **DESIGN-04**: User experiences brand-compliant large rounded corners (2-4rem per BRAND_GUIDELINES.md)
 
 ### Data Visualizations
 
