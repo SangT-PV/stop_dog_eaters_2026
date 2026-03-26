@@ -412,7 +412,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--teal);
   margin-bottom: 12px;
@@ -456,7 +456,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .problem-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 32px 28px;
   box-shadow: var(--shadow-sm);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
@@ -470,7 +470,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   top: 0; left: 0; right: 0;
   height: 3px;
   background: var(--red);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .problem-card:hover {
@@ -576,7 +576,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .help-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 40px 28px 32px;
   text-align: center;
   box-shadow: var(--shadow-sm);
@@ -623,17 +623,18 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .blog-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-left: 4px solid var(--teal);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
 .blog-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 12px 40px rgba(38,70,83,0.15);
 }
 
 .blog-card-img {
@@ -667,22 +668,35 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 }
 
 .blog-card h3 {
-  font-size: 1rem;
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
   margin-bottom: 10px;
-  line-height: 1.4;
   color: var(--slate);
   flex: 1;
 }
 
 .blog-card p {
-  font-size: 0.87rem;
-  line-height: 1.65;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-md);
   margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .blog-card-meta {
-  font-size: 0.78rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin-top: 16px;
   display: flex;
   align-items: center;
@@ -983,7 +997,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .team-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 32px 20px;
   text-align: center;
   box-shadow: var(--shadow-sm);
@@ -1054,7 +1068,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .transparency-box {
   background: var(--mist);
   border: 1px solid var(--border-dk);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 32px 36px;
   margin-top: 48px;
 }
@@ -1075,7 +1089,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 /* Donate tier cards */
 .donate-tiers { display: flex; flex-direction: column; gap: 20px; max-width: 700px; margin: 0 auto; }
-.donate-tier-card { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 28px 32px; box-shadow: var(--shadow); display: grid; grid-template-columns: 120px 1fr; gap: 24px; align-items: center; }
+.donate-tier-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 32px; box-shadow: var(--shadow); display: grid; grid-template-columns: 120px 1fr; gap: 24px; align-items: center; }
 .donate-tier-card--featured { border: 2px solid var(--teal); position: relative; }
 .donate-tier-badge { position: absolute; top: -12px; left: 32px; background: var(--teal); color: var(--white); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-pill); }
 .donate-tier-icon { text-align: center; }
@@ -1358,19 +1372,19 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   gap: 0;
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .blog-post-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(38,70,83,0.15);
 }
 
 .blog-post-img {
-  background: linear-gradient(160deg, var(--teal-dk), var(--slate));
+  background: linear-gradient(135deg, var(--teal), var(--slate));
   min-height: 170px;
   display: flex; align-items: center; justify-content: center;
   color: rgba(255,255,255,0.3);
@@ -1378,7 +1392,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 }
 
 .blog-post-body { padding: 24px 28px; }
-.blog-post-body h2 { font-size: 1.1rem; margin-bottom: 10px; line-height: 1.35; color: var(--slate); }
+.blog-post-body h2 { font-family: var(--font-head); font-weight: 900; letter-spacing: -0.02em; font-size: 1.1rem; margin-bottom: 10px; line-height: 1.35; color: var(--slate); }
 .blog-post-body p  { font-size: 0.88rem; line-height: 1.65; }
 
 .blog-card-meta {
@@ -2076,10 +2090,11 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 .timeline-month-title {
   font-family: var(--font-head);
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--teal-dk);
-  letter-spacing: -0.02em;
   margin: 0;
 }
 
@@ -2094,8 +2109,9 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .timeline-post-card {
   background: var(--white);
   border: 2px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 0;
+  box-shadow: var(--shadow);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -2116,7 +2132,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 .timeline-post-card:hover {
   border-color: var(--teal);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-lg);
   transform: translateX(8px);
 }
 
