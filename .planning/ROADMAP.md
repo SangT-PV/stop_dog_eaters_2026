@@ -219,10 +219,12 @@ Plans:
   1. All inline styles extracted to CSS utility classes (flex-center, grid-2col) and component classes (blog-card, stat-callout)
   2. Developer can modify design system without specificity wars
   3. CSS file organized by layers (base, layout, components, utilities)
-**Plans:** 1 plan
+**Plans:** 3 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Reorganize CSS into 4-layer architecture with utility classes and component stubs (Wave 1)
+- [ ] 08-01-PLAN.md — Extract inline styles from token.html and donate.html into CSS classes (Wave 1)
+- [ ] 08-02-PLAN.md — Extract inline styles from about.html and petition.html into CSS classes (Wave 2)
+- [ ] 08-03-PLAN.md — Extract remaining inline styles from post, blog, moderate, index + visual verification (Wave 3)
 
 ### Phase 9: Design System Enhancement
 **Goal:** Apply bold activism aesthetic to blog listing and editorial refinement to article reading
@@ -361,7 +363,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 999.2. Simplify Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
 | 1000. Chat-Style Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
 | 1001. UI/UX Brand Compliance | v1.0 Backlog | 3/3 | Complete | 2026-03-26 |
-| 8. CSS Refactoring Foundation | v2.0 | 0/1 | In progress | - |
+| 8. CSS Refactoring Foundation | v2.0 | 0/3 | In progress | - |
 | 9. Design System Enhancement | v2.0 | 0/0 | Not started | - |
 | 10. Data Visualizations | v2.0 | 0/0 | Not started | - |
 | 11. Scrollytelling Integration | v2.0 | 0/0 | Not started | - |
