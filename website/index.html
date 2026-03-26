@@ -170,6 +170,54 @@
     </div>
   </section>
 
+  <!-- DATA & RESEARCH -->
+  <section class="section data-research" id="data-research">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="eyebrow">Data & Research</span>
+        <h2>The Numbers Behind the Crisis</h2>
+        <p>Evidence-based data driving the case for change — sourced from Vietnamese health reports and national surveys.</p>
+      </div>
+
+      <!-- Stat Callouts -->
+      <div class="stat-callout-grid">
+        <div class="stat-callout">
+          <div class="stat-callout__number" data-count="5" data-suffix="M+" data-prefix="">0</div>
+          <div class="stat-callout__label">Dogs killed annually in Vietnam</div>
+        </div>
+        <div class="stat-callout">
+          <div class="stat-callout__number" data-count="95" data-suffix="%" data-prefix="">0</div>
+          <div class="stat-callout__label">Vietnamese support ending the trade</div>
+        </div>
+        <div class="stat-callout">
+          <div class="stat-callout__number" data-count="0" data-suffix="" data-prefix="">0</div>
+          <div class="stat-callout__label">Registered slaughterhouses</div>
+        </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="data-charts-grid">
+        <!-- Disease Trend Chart -->
+        <div class="data-chart-container">
+          <h3 class="data-chart-title">Disease Reports Linked to Dog Meat Trade</h3>
+          <div class="chart-wrapper">
+            <canvas id="disease-trend-chart" aria-label="Line chart showing rabies deaths and E. coli reports from 2018 to 2026" role="img"></canvas>
+          </div>
+          <p class="data-chart-source">Source: Vietnam Ministry of Health estimates, WHO rabies surveillance. Values marked as estimated where exact data unavailable.</p>
+        </div>
+
+        <!-- Opinion Timeline Chart -->
+        <div class="data-chart-container">
+          <h3 class="data-chart-title">Vietnamese Public Support for Ending the Dog Meat Trade</h3>
+          <div class="chart-wrapper">
+            <canvas id="opinion-chart" aria-label="Bar chart showing public support rising from 70% in 2019 to 95% in 2021" role="img"></canvas>
+          </div>
+          <p class="data-chart-source">Source: 2021 National Survey on attitudes toward dog meat consumption.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- HOW TO HELP -->
   <section class="section">
     <div class="container">
@@ -306,6 +354,10 @@
   <!-- Fund Roadmap Module (for celebration banner) -->
   <script src="js/fund-roadmap.js"></script>
 
+  <!-- Chart.js for data visualizations -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+  <!-- Data Charts Module -->
+  <script defer src="js/data-charts.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
