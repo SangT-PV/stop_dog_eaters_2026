@@ -724,6 +724,37 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 }
 
 /* --- Petition Page ----------------------------------------- */
+/* Petition eyebrow color override */
+.petition-header .eyebrow { color: var(--amber); }
+
+/* Petition target tags */
+.petition-targets { margin-top: 40px; padding: 24px; background: var(--mist); border-radius: 6px; }
+.petition-targets h3 { font-size: 1rem; color: var(--slate); margin-bottom: 14px; }
+.petition-target-tags { display: flex; gap: 12px; flex-wrap: wrap; }
+.petition-target-tag { padding: 6px 16px; border-radius: var(--radius-pill); font-size: 0.85rem; color: var(--white); }
+.petition-target-tag--navy { background: var(--slate); }
+.petition-target-tag--teal { background: var(--teal); }
+
+/* Petition list styling */
+.petition-argument-list { margin-top: 12px; padding-left: 20px; color: var(--text-md); font-size: 0.95rem; line-height: 1.8; }
+
+/* Petition notice box (success/info) */
+.petition-notice { background: #E8F5E9; border-left: 4px solid var(--teal); padding: 16px; margin: 24px 0; border-radius: 4px; }
+.petition-notice strong { color: var(--teal); display: block; margin-bottom: 8px; }
+.petition-notice p { margin: 0; font-size: 0.9rem; color: var(--text-md); }
+.petition-notice a { color: var(--teal); font-weight: 600; }
+
+/* Petition form overrides */
+.petition-form--disabled { opacity: 0.6; pointer-events: none; }
+.petition-submit-btn { width: 100%; font-size: 1.05rem; padding: 16px; }
+.petition-form-note { font-size: 0.78rem; color: var(--gray); margin-top: 14px; text-align: center; }
+
+/* Share petition section */
+.petition-share h2 { font-size: 1.6rem; margin-bottom: 12px; }
+.petition-share p { max-width: 540px; margin: 0 auto 28px; }
+.petition-share-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn--whatsapp { background: #25D366; color: var(--white); }
+
 .petition-hero {
   background: var(--slate);
   padding: 88px 0;
@@ -899,6 +930,37 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .form-consent input { width: auto; margin-top: 3px; flex-shrink: 0; accent-color: var(--teal); }
 
 /* --- About Page -------------------------------------------- */
+/* About page header */
+.about-header { background: var(--slate); padding: 70px 0; text-align: center; }
+.about-header .eyebrow { color: var(--amber); }
+.about-header h1 { color: var(--white); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 14px; }
+.about-header p { color: rgba(255,255,255,0.78); max-width: 600px; margin: 0 auto; }
+
+/* Lucky section overrides */
+.about-lucky-content { color: var(--text); }
+.about-lucky-content h2 { color: var(--slate); }
+.about-lucky-content p { color: var(--text-md); }
+.about-lucky-quote { border-left-color: var(--teal); color: var(--slate); }
+
+/* Mission principles (Locally Led, Evidence Based, Radically Transparent) */
+.about-principles { display: flex; flex-direction: column; gap: 16px; }
+.about-principle-card { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--teal); padding: 20px; border-radius: 6px; }
+.about-principle-card--amber { border-left-color: var(--amber); }
+.about-principle-card--red { border-left-color: var(--red); }
+.about-principle-card h3 { font-size: 1rem; margin-bottom: 6px; }
+.about-principle-card p { font-size: 0.9rem; }
+
+/* About transparency / fund usage */
+.about-transparency { max-width: 700px; margin: 0 auto; }
+.about-transparency-note { margin-top: 12px; }
+.about-fund-card { margin-top: 20px; background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 28px; }
+.about-fund-card h3 { font-size: 1rem; margin-bottom: 16px; color: var(--slate); }
+.about-fund-rows { display: flex; flex-direction: column; gap: 12px; }
+.about-fund-row { display: flex; justify-content: space-between; font-size: 0.92rem; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.about-fund-row:last-child { border-bottom: none; padding-bottom: 0; }
+.about-fund-percent { font-weight: 700; color: var(--teal); }
+.about-fund-footnote { font-size: 0.82rem; color: var(--gray); margin-top: 16px; }
+
 .team-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
