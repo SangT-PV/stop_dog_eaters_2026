@@ -251,12 +251,12 @@ Plans:
   2. User can see public opinion timeline showing 70% (2019) to 95% (2021) support shift
   3. User sees visual stat callouts emphasizing key numbers (5M dogs killed, 95% support, zero slaughterhouses)
   4. Charts render responsively on mobile (3G networks, low-end Android)
-**Plans:** TBD
+**Plans:** 2 plans
 **UI hint:** yes
 
 Plans:
-- [ ] 10-01: TBD
-
+- [ ] 10-01-PLAN.md — Core charts (disease trend + opinion bar) and stat callouts on index.html (Wave 1)
+- [ ] 10-02-PLAN.md — Blog sidebar stats widget + visual verification (Wave 2)
 ### Phase 11: Scrollytelling Integration
 **Goal:** Create engaging scroll-triggered visualizations that tell campaign story through progressive reveal
 **Depends on:** Phase 10
@@ -366,7 +366,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 1001. UI/UX Brand Compliance | v1.0 Backlog | 3/3 | Complete | 2026-03-26 |
 | 8. CSS Refactoring Foundation | v2.0 | 3/3 | Complete | 2026-03-26 |
 | 9. Design System Enhancement | v2.0 | 2/2 | Complete | 2026-03-26 |
-| 10. Data Visualizations | v2.0 | 0/0 | Not started | - |
+| 10. Data Visualizations | v2.0 | 0/2 | Not started | - |
 | 11. Scrollytelling Integration | v2.0 | 0/0 | Not started | - |
 | 12. Social Sharing | v2.0 | 0/0 | Not started | - |
 | 13. PWA Implementation | v2.0 | 0/0 | Not started | - |
