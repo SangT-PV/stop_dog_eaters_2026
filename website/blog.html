@@ -95,12 +95,40 @@
       <div class="blog-content-wrapper">
         <!-- Timeline View -->
         <div class="blog-timeline" id="blog-timeline" style="display:block;">
-          <p id="timeline-loading" style="color:var(--text-md); padding:40px 0;">Loading articles...</p>
+          <div id="timeline-loading" class="loading-spinner">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" opacity="0.25"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+            </svg>
+            Loading articles...
+          </div>
+          <div id="timeline-empty" class="empty-state" style="display:none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <h3>No articles found</h3>
+            <p>No articles match your selected filter. Try selecting a different topic or choose "All" to see everything.</p>
+          </div>
         </div>
 
         <!-- Grid View -->
         <div class="blog-list" id="blog-list" style="display:none;">
-          <p id="blog-loading" style="color:var(--text-md); padding:40px 0;">Loading articles...</p>
+          <div id="blog-loading" class="loading-spinner">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" opacity="0.25"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+            </svg>
+            Loading articles...
+          </div>
+          <div id="grid-empty" class="empty-state" style="display:none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <h3>No articles found</h3>
+            <p>No articles match your selected filter. Try selecting a different topic or choose "All" to see everything.</p>
+          </div>
         </div>
       </div>
 

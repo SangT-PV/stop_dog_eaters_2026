@@ -156,6 +156,19 @@
     }).join('');
   }
 
+  // Toggle empty state visibility
+  function updateEmptyStates(visibleCount) {
+    var timelineEmpty = document.getElementById('timeline-empty');
+    var gridEmpty = document.getElementById('grid-empty');
+    if (visibleCount === 0) {
+      if (timelineEmpty) timelineEmpty.style.display = 'block';
+      if (gridEmpty) gridEmpty.style.display = 'block';
+    } else {
+      if (timelineEmpty) timelineEmpty.style.display = 'none';
+      if (gridEmpty) gridEmpty.style.display = 'none';
+    }
+  }
+
   // Render current view
   function render() {
     var filtered = activeTag === 'All' ? allPosts : allPosts.filter(function (p) { return p.tag === activeTag; });
@@ -165,6 +178,8 @@
     } else {
       renderGrid(filtered);
     }
+
+    updateEmptyStates(filtered.length);
   }
 
   // Timeline scroll animation
