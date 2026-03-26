@@ -197,8 +197,8 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 1001-01-PLAN.md — Replace emoji icons with Lucide SVGs and fix accessibility for image placeholders (Wave 1)
-- [ ] 1001-02-PLAN.md — Add loading spinners, empty states, touch-action, and color alias cleanup (Wave 1)
+- [x] 1001-01-PLAN.md — Replace emoji icons with Lucide SVGs and fix accessibility for image placeholders (Wave 1) (667edad)
+- [x] 1001-02-PLAN.md — Add loading spinners, empty states, touch-action, and color alias cleanup (Wave 1) (e36f810, a2bab9f)
 - [x] 1001-03-PLAN.md — Enhanced interactive states, skip-to-content, reduced-motion, aria-live regions (Wave 2)
 
 **Definition of Done:** Zero emoji icons on site. All placeholders accessible. Loading states visible. Cards have hover shadows. Skip-to-content works. Reduced-motion honored. Human visual verification passed.
@@ -339,7 +339,7 @@ Plans:
 Plans:
 - [x] 16-01-PLAN.md — Update chat bubbles and action buttons with v2.0 design tokens (33ee49a, 553381b, 5631e0f)
 - [x] 16-02-PLAN.md — Replace toolbar text buttons with Lucide SVG icons and add generous editorial spacing (04c8ca2, 4d39923, 01c5b78)
-- [ ] 16-03-PLAN.md — Update Share Your Research section with v2.0 design tokens
+- [x] 16-03-PLAN.md — Update Share Your Research section with v2.0 design tokens (50f1f72, 307ab4e, 9f9020e, ab3943c, b496646)
 
 ---
 
@@ -360,7 +360,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 999.1. Community Engagement | v1.0 Backlog | 7/7 | Complete | 2026-03-24 |
 | 999.2. Simplify Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
 | 1000. Chat-Style Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
-| 1001. UI/UX Brand Compliance | v1.0 Backlog | 1/3 | In Progress|  |
+| 1001. UI/UX Brand Compliance | v1.0 Backlog | 3/3 | Complete | 2026-03-26 |
 | 8. CSS Refactoring Foundation | v2.0 | 0/1 | In progress | - |
 | 9. Design System Enhancement | v2.0 | 0/0 | Not started | - |
 | 10. Data Visualizations | v2.0 | 0/0 | Not started | - |
@@ -369,8 +369,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 13. PWA Implementation | v2.0 | 0/0 | Not started | - |
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
-| 16. Discussion UI Rebuild | v2.0 | 2/3 | In progress | - |
-| 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
+| 16. Discussion UI Rebuild | v2.0 | 3/3 | Complete | 2026-03-24 |
 
 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
@@ -382,12 +381,12 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 - REQ-16-03: Screen reader users can navigate comments with ARIA labels and live regions
 - REQ-16-04: Keyboard users can submit/cancel using standard shortcuts (Ctrl+Enter, Escape)
 **Depends on:** Phase 15
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans executed
 
 Plans:
 - [x] 16-01-PLAN.md — Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
-- [ ] 16-02-PLAN.md — Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1)
-- [ ] 16-03-PLAN.md — Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2)
+- [x] 16-02-PLAN.md — Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1) (04c8ca2)
+- [x] 16-03-PLAN.md — Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2) (50f1f72)
 
 ---
 
