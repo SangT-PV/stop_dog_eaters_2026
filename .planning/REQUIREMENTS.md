@@ -25,10 +25,10 @@ User-facing design improvements to elevate visual impact and match "professional
 
 Interactive charts and scrollytelling to establish data journalism credibility and tell campaign story effectively.
 
-- [ ] **VIZ-01**: User can view disease trend charts showing rabies spike and E. coli reports (Chart.js line/bar charts with real data)
-- [ ] **VIZ-02**: User can see public opinion timeline showing 70% (2019) → 95% (2021) support shift (Chart.js with clear visual progression)
+- [x] **VIZ-01**: User can view disease trend charts showing rabies spike and E. coli reports (Chart.js line/bar charts with real data)
+- [x] **VIZ-02**: User can see public opinion timeline showing 70% (2019) → 95% (2021) support shift (Chart.js with clear visual progression)
 - [ ] **VIZ-03**: User experiences scrollytelling narratives with progressive reveal (Scrollama-powered scroll-triggered animations for key stats)
-- [ ] **VIZ-04**: User sees visual stat callouts that emphasize key numbers (5M dogs killed, 95% support, zero slaughterhouses)
+- [x] **VIZ-04**: User sees visual stat callouts that emphasize key numbers (5M dogs killed, 95% support, zero slaughterhouses)
 
 ### Social Sharing
 
