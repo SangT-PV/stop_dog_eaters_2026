@@ -50,9 +50,9 @@
   </nav>
 
   <!-- PETITION HERO -->
-  <section class="petition-hero">
+  <section class="petition-hero petition-header">
     <div class="container">
-      <span class="eyebrow" style="color: var(--amber);">Open Petition</span>
+      <span class="eyebrow">Open Petition</span>
       <h1>Demand an Immediate End to the<br>Cruel and Unsafe Dog Meat Trade</h1>
       <p>Addressed to the Communist Party of Vietnam and Local Food Safety Management Authorities. Join citizens across Vietnam and the world in demanding change.</p>
       <a href="https://c.org/nLZTZdVNdJ" target="_blank" class="btn btn-primary btn-lg">Sign the Petition on Change.org</a>
@@ -85,7 +85,7 @@
         <div class="argument-block">
           <h3>Our Demand</h3>
           <p>We call on the Communist Party of Vietnam and Local Food Safety Management Authorities to:</p>
-          <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-md); font-size: 0.95rem; line-height: 1.8;">
+          <ul class="petition-argument-list">
             <li>Introduce and enforce legislation banning the commercial dog meat trade</li>
             <li>Criminalise the theft and trafficking of companion animals</li>
             <li>Establish clear animal welfare protections aligned with international standards</li>
@@ -94,11 +94,11 @@
         </div>
 
         <!-- Targets -->
-        <div style="margin-top: 40px; padding: 24px; background: var(--offwhite); border-radius: 6px;">
-          <h3 style="font-size: 1rem; color: var(--navy); margin-bottom: 14px;">Petition Targets</h3>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <span style="background: var(--navy); color: #fff; padding: 6px 16px; border-radius: 999px; font-size: 0.85rem;">Communist Party of Vietnam</span>
-            <span style="background: var(--teal); color: #fff; padding: 6px 16px; border-radius: 999px; font-size: 0.85rem;">Local Food Safety Management Authorities</span>
+        <div class="petition-targets">
+          <h3>Petition Targets</h3>
+          <div class="petition-target-tags">
+            <span class="petition-target-tag petition-target-tag--navy">Communist Party of Vietnam</span>
+            <span class="petition-target-tag petition-target-tag--teal">Local Food Safety Management Authorities</span>
           </div>
         </div>
       </div>
@@ -118,15 +118,15 @@
         </div>
         <div class="progress-label">Goal: 1,000 signatures</div>
 
-        <div style="background: #E8F5E9; border-left: 4px solid var(--teal); padding: 16px; margin: 24px 0; border-radius: 4px;">
-          <strong style="color: var(--teal); display: block; margin-bottom: 8px;">
+        <div class="petition-notice">
+          <strong>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
             Now Live on Change.org
           </strong>
-          <p style="margin: 0; font-size: 0.9rem; color: var(--text-md);">The official petition is now live! Sign directly on <a href="https://c.org/nLZTZdVNdJ" target="_blank" style="color: var(--teal); font-weight: 600;">Change.org</a> to join thousands demanding action.</p>
+          <p>The official petition is now live! Sign directly on <a href="https://c.org/nLZTZdVNdJ" target="_blank">Change.org</a> to join thousands demanding action.</p>
         </div>
 
-        <form id="petition-form" style="opacity: 0.6; pointer-events: none;">
+        <form id="petition-form" class="petition-form--disabled">
           <div class="form-field">
             <label for="signer-name">Full Name *</label>
             <input type="text" id="signer-name" name="name" placeholder="Your full name" required />
@@ -143,13 +143,13 @@
             <input type="checkbox" id="consent" name="consent" required />
             I agree to have my name displayed publicly on this petition and to receive campaign updates. I understand my data will not be shared with third parties.
           </label>
-          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.05rem; padding: 16px;">
+          <button type="submit" class="btn btn-primary petition-submit-btn">
             Sign the Petition
           </button>
         </form>
 
-        <p style="font-size: 0.78rem; color: var(--gray); margin-top: 14px; text-align: center;">
-          Sign directly on <a href="https://c.org/nLZTZdVNdJ" target="_blank" style="color: var(--teal); font-weight: 600;">Change.org</a>
+        <p class="petition-form-note">
+          Sign directly on <a href="https://c.org/nLZTZdVNdJ" target="_blank">Change.org</a>
         </p>
       </div>
 
@@ -158,14 +158,14 @@
 
   <!-- SHARE SECTION -->
   <section class="section-sm bg-offwhite">
-    <div class="container text-center">
+    <div class="container text-center petition-share">
       <span class="eyebrow">Amplify the Movement</span>
-      <h2 style="font-size: 1.6rem; margin-bottom: 12px;">Share This Petition</h2>
-      <p style="max-width: 540px; margin: 0 auto 28px;">Every share reaches new potential signatories. Help us reach 1,000 signatures.</p>
-      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <h2>Share This Petition</h2>
+      <p>Every share reaches new potential signatories. Help us reach 1,000 signatures.</p>
+      <div class="petition-share-buttons">
         <a href="#" class="btn btn-primary">Share on Facebook</a>
         <a href="#" class="btn btn-secondary">Share on X / Twitter</a>
-        <a href="#" class="btn" style="background: #25D366; color: #fff;">Share on WhatsApp</a>
+        <a href="#" class="btn btn--whatsapp">Share on WhatsApp</a>
       </div>
     </div>
   </section>
