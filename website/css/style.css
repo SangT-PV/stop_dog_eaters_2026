@@ -1091,6 +1091,11 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 /* Token CTA buttons */
 .token-cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
+/* Token CTA section (on donate page) */
+.token-cta-section { align-items: center; justify-content: space-between; }
+.token-cta-section-title { color: var(--white); font-size: 1.2rem; margin-bottom: 6px; }
+.token-cta-section-text { color: rgba(255,255,255,0.82); font-size: 0.92rem; margin: 0; }
+
 /* --- Article/Post Page (Prose Styling) -------------------- */
 .prose {
   max-width: 720px;
@@ -3316,6 +3321,10 @@ select.comment-input {
   color: var(--text);
   line-height: 1.4;
 }
+
+/* ====== LAYER 4: UTILITIES ====== */
+/* Centered intro paragraph */
+.intro-text { max-width: 600px; margin: 0 auto; color: var(--text-md); }
 
 /* ====== RESPONSIVE OVERRIDES ====== */
 /* --- Responsive -------------------------------------------- */
