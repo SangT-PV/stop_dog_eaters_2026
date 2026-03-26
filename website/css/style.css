@@ -26,7 +26,8 @@
   --border:    #e2e8f0;
   --border-dk: #c8d4dc;
 
-  /* Backward-compat aliases (legacy references) */
+  /* Backward-compat aliases — DEPRECATED: migrate to semantic tokens (--slate, --red, --teal, --mist) */
+  /* --navy maps to --slate, --offwhite maps to --mist, --amber has no brand equivalent */
   --navy:      #264653;
   --amber:     #E8A838;
   --offwhite:  #F8F9FA;
@@ -107,6 +108,12 @@ p:last-child { margin-bottom: 0; }
 .will-animate.animated {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* --- Touch Optimization ------------------------------------ */
+button, .btn, a[href], input[type="submit"], input[type="button"],
+[role="button"], .sidebar-tag, .view-btn, .nav-toggle {
+  touch-action: manipulation;
 }
 
 /* --- Buttons ----------------------------------------------- */
@@ -460,9 +467,26 @@ p:last-child { margin-bottom: 0; }
 }
 
 .problem-card .card-icon {
-  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 18px;
-  display: block;
+}
+
+.card-icon svg {
+  color: var(--teal);
+  stroke: var(--teal);
+  flex-shrink: 0;
+}
+
+.problem-card:nth-child(1) .card-icon svg { color: var(--red); stroke: var(--red); }
+.problem-card:nth-child(2) .card-icon svg { color: var(--amber, #E8A838); stroke: var(--amber, #E8A838); }
+.problem-card:nth-child(3) .card-icon svg { color: var(--teal); stroke: var(--teal); }
+
+.placeholder-icon {
+  color: var(--teal);
+  stroke: var(--teal);
+  opacity: 0.6;
 }
 
 .problem-card h3 {
@@ -3146,6 +3170,62 @@ select.comment-input {
 
 /* Visibility */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+/* --- Loading Spinner (blog page) --------------------------- */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--text-md);
+  font-size: 0.9rem;
+}
+
+.loading-spinner svg {
+  color: var(--teal);
+  animation: spin 1s linear infinite;
+}
+
+/* --- Empty State ------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--text-md);
+}
+
+.empty-state svg {
+  color: var(--border-dk);
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 1.1rem;
+  color: var(--slate);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+/* --- Mission Grid (about.html) ----------------------------- */
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .mission-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* --- Screen Reader Utilities ------------------------------- */
 .sr-announce { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .hidden { display: none; }
 .visible { visibility: visible; }
