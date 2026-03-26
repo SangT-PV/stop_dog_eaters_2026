@@ -993,6 +993,33 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 .transparency-box p { font-size: 0.92rem; }
 
+/* Donate page header */
+.donate-header { background: var(--slate); padding: 70px 0; text-align: center; }
+.donate-header .eyebrow { color: var(--amber); }
+.donate-header h1 { color: var(--white); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 14px; }
+.donate-header p { color: rgba(255,255,255,0.78); max-width: 580px; margin: 0 auto; }
+
+/* Donate tier cards */
+.donate-tiers { display: flex; flex-direction: column; gap: 20px; max-width: 700px; margin: 0 auto; }
+.donate-tier-card { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 28px 32px; box-shadow: var(--shadow); display: grid; grid-template-columns: 120px 1fr; gap: 24px; align-items: center; }
+.donate-tier-card--featured { border: 2px solid var(--teal); position: relative; }
+.donate-tier-badge { position: absolute; top: -12px; left: 32px; background: var(--teal); color: var(--white); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-pill); }
+.donate-tier-icon { text-align: center; }
+.donate-tier-label { font-family: var(--font-head); font-size: 1.8rem; font-weight: bold; color: var(--teal); }
+.donate-tier-label--amber { color: var(--amber); }
+.donate-tier-sublabel { font-size: 0.82rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; }
+.donate-tier-title { font-size: 1.05rem; margin-bottom: 8px; }
+.donate-tier-desc { font-size: 0.9rem; margin-bottom: 0; }
+
+/* Fund breakdown */
+.donate-breakdown-list { margin: 12px 0 16px 20px; color: var(--text-md); font-size: 0.92rem; line-height: 2; }
+.donate-breakdown-section { margin-top: 48px; }
+.donate-breakdown-title { font-size: 1.1rem; margin-bottom: 16px; text-align: center; color: var(--slate); }
+.donate-fund-tracker-title { text-align: center; font-size: 1.4rem; margin-bottom: 32px; color: var(--slate); }
+
+/* Transparency container */
+.donate-transparency { max-width: 700px; margin: 0 auto; }
+
 /* --- Token Page -------------------------------------------- */
 .token-hero {
   background: var(--slate);
@@ -1039,6 +1066,30 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   max-width: 580px;
   margin: 0 auto 36px;
 }
+
+/* Token page warning banner */
+.token-warning-banner { background: #fff3cd; border-bottom: 2px solid var(--amber); padding: 16px 0; }
+.token-warning-text { font-size: 0.88rem; color: #7a5c00; margin: 0; }
+
+/* Token info grid */
+.token-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+
+/* Token info rows (Symbol, Platform, Launch, Contract) */
+.token-info-list { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+.token-info-row { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--mist); border-radius: 6px; }
+.token-info-icon { width: 40px; height: 40px; background: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: bold; flex-shrink: 0; }
+.token-info-label { font-weight: 700; font-size: 0.9rem; color: var(--slate); }
+.token-info-value { font-size: 0.88rem; color: var(--text-md); }
+
+/* Token step flow (How It Works) */
+.token-steps { display: flex; flex-direction: column; gap: 20px; margin-top: 12px; }
+.token-step-row { display: flex; gap: 16px; align-items: flex-start; }
+.token-step-number { width: 36px; height: 36px; background: var(--amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: bold; color: var(--slate); flex-shrink: 0; }
+.token-step-title { font-size: 0.95rem; margin-bottom: 5px; }
+.token-step-text { font-size: 0.88rem; }
+
+/* Token CTA buttons */
+.token-cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
 /* --- Article/Post Page (Prose Styling) -------------------- */
 .prose {
@@ -3287,6 +3338,9 @@ select.comment-input {
   .footer-grid  { grid-template-columns: 1fr 1fr; }
   .team-grid    { grid-template-columns: repeat(2, 1fr); }
   .donate-grid  { grid-template-columns: 1fr; }
+
+  .token-info-grid { grid-template-columns: 1fr; gap: 32px; }
+  .donate-tier-card { grid-template-columns: 1fr; text-align: center; }
 
   .blog-main-grid { grid-template-columns: 1fr; }
   .blog-post-card { grid-template-columns: 1fr; }
