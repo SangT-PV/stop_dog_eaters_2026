@@ -883,6 +883,28 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   margin-top: 0.5rem;
 }
 
+/* Compact stat callout for sidebar (Phase 10 per D-15) */
+.stat-callout--compact {
+  padding: 1rem 1rem 1rem 1.25rem;
+  border-left-width: 3px;
+}
+.stat-callout--compact .stat-callout__number {
+  font-size: 1.8rem;
+}
+.stat-callout--compact .stat-callout__label {
+  font-size: 0.75rem;
+}
+
+.sidebar-stats {
+  margin-top: 2rem;
+}
+.sidebar-stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
 /* --- Component: Scrolly Section (Phase 11 stub) ------------- */
 .scrolly-section {
   /* Scrollytelling wrapper — Phase 11 will add Scrollama integration */
