@@ -21,7 +21,7 @@ created: 2026-03-26
 | Preset | not applicable |
 | Component library | none (pure CSS) |
 | Icon library | Lucide Icons (CDN) |
-| Font | Montserrat Black 900 (headings), Inter 400/500/700 (body) |
+| Font | Montserrat Black 900 (headings), Inter 400 (body) |
 
 **Note:** Project uses plain HTML/CSS/JS (no frameworks, no build tools) per v1.0 constraint. Design tokens managed via CSS custom properties in `website/css/style.css`.
 
@@ -55,25 +55,31 @@ Declared values (8-point scale from existing design system):
 
 Bold activism for listing views + editorial magazine for article reading.
 
+**Consolidated Type Scale (4 sizes, 2 weights):**
+
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
-| Display | 3rem+ (48px+) | Montserrat 900 | 1.0 | Stat callout numbers |
-| Heading L | 1.6rem (25.6px) | Montserrat 900 | 1.2 | Article H2 in prose |
-| Heading M | 1.3rem (20.8px) | Montserrat 900 | 1.2 | Article H3 in prose |
-| Heading S | 1.25rem (20px) | Montserrat 900 | 1.3 | Blog card titles |
-| Body Large | 1.05rem (16.8px) | Inter 500 | 1.85 | Article prose paragraphs |
-| Body | 1rem (16px) | Inter 400 | 1.7 | Default body text |
-| Body Small | 0.9rem (14.4px) | Inter 400 | 1.6 | Blog card excerpts |
-| Label | 0.8rem (12.8px) | Inter 500 | 1.4 | Blog card meta (author, date) |
-| Tag | 0.7rem (11.2px) | Inter 700 | 1 | Uppercase tag badges |
+| Display | 3rem (48px) | Montserrat 900 | 1.0 | Stat callout numbers, hero headlines |
+| Heading | 1.5rem (24px) | Montserrat 900 | 1.2 | All heading levels (H2, H3), blog card titles |
+| Body | 1rem (16px) | Inter 400 | 1.7 | Default body text, labels, blog card excerpts |
+| Small | 0.875rem (14px) | Inter 400 | 1.6 | Secondary text, captions, meta (author, date), tags |
+
+**Weight Variation Strategy:**
+- **Montserrat 900:** All emphasis (headings H2/H3, blog card titles, stat labels, CTAs)
+- **Inter 400:** All body content (paragraphs, excerpts, meta, tags)
+- Use **uppercase** + **letter-spacing** for secondary hierarchy (tags, eyebrows, meta) instead of weight variation
 
 **Letter-spacing refinements:**
-- Blog card titles: `-0.02em` (tight)
-- Blog card meta: `0.04em` (uppercase)
-- Tag badges: `0.1em` (uppercase pills)
-- Section eyebrows: `0.12em` (authority)
+- Heading (blog card titles): `-0.02em` (tight, bold)
+- Small (blog card meta): `0.04em` (uppercase)
+- Small (tag badges): `0.1em` (uppercase pills)
+- Small (section eyebrows): `0.12em` (authority)
 
-**Source:** Pre-populated from BRAND_GUIDELINES.md and 09-CONTEXT.md decisions D-15 through D-18.
+**Line-height refinement for article prose:**
+- Article paragraphs: 1.85 (generous reading comfort)
+- Article headings: 1.2 (tight hierarchy)
+
+**Source:** Consolidated from BRAND_GUIDELINES.md and 09-CONTEXT.md decisions D-15 through D-18. Reduced from 9 sizes to 4, and from 4 weights to 2 per checker requirements.
 
 ---
 
@@ -187,21 +193,21 @@ Large rounded corners per brand guidelines.
 Components to be enhanced in Phase 09:
 
 ### Blog Listing Components (Bold Activism)
-- **`.blog-card-bold`** — Full-width teal left accent border (4px), dramatic hover shadow, Montserrat Black titles at 1.25rem
+- **`.blog-card-bold`** — Full-width teal left accent border (4px), dramatic hover shadow, Montserrat Black titles at Heading size (1.5rem)
 - **`.blog-card-editorial`** — Clean variant with subtle accents and generous whitespace
 - **`.timeline-post-card`** — Timeline view with teal dot pulse animation
-- **`.blog-tag`** — Color-coded pill badges (uppercase Montserrat Bold)
+- **`.blog-tag`** — Color-coded pill badges (uppercase, Small size with letter-spacing 0.1em)
 
 ### Article Reading Components (Editorial Magazine)
-- **`.post-prose`** — Article prose wrapper with max-width 680px, generous padding (3rem 0), line-height 1.85
-- **`.post-heading`** — Article headings with Montserrat Black 900, margin-top 2.5rem for section separation
-- **`.pull-quote`** — Large left border (4px teal), italic Montserrat, 1.15rem
+- **`.post-prose`** — Article prose wrapper with max-width 680px, generous padding (3rem 0), line-height 1.85, Body size (1rem)
+- **`.post-heading`** — Article headings with Montserrat Black 900, Heading size (1.5rem), margin-top 2.5rem for section separation
+- **`.pull-quote`** — Large left border (4px teal), italic Montserrat, Heading size (1.5rem)
 - **`.post-cta-box`** — Teal gradient CTA box at article end with prominent "Sign the Petition" button
 
 ### Data Components
-- **`.stat-callout`** — Visual stat emphasis with large Montserrat Black number (3rem+), teal color, left border accent (4px red)
+- **`.stat-callout`** — Visual stat emphasis with large Montserrat Black number at Display size (3rem), teal color, left border accent (4px red)
 - **`.stat-callout__number`** — Display-size number
-- **`.stat-callout__label`** — Uppercase label
+- **`.stat-callout__label`** — Uppercase label at Small size
 
 ### Existing Components to Preserve
 - Navigation, footer, petition form, comment UI (already refined in Phase 16)
