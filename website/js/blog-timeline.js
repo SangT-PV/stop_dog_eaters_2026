@@ -55,7 +55,7 @@
     var timeline = document.getElementById('blog-timeline');
 
     if (!posts.length) {
-      timeline.innerHTML = '<p style="color:var(--text-md);padding:40px 0;">No articles found for this topic.</p>';
+      timeline.innerHTML = '';
       return;
     }
 
@@ -127,7 +127,7 @@
     var list = document.getElementById('blog-list');
 
     if (!posts.length) {
-      list.innerHTML = '<p style="color:var(--text-md);padding:40px 0;">No articles found for this topic.</p>';
+      list.innerHTML = '';
       return;
     }
 
@@ -158,14 +158,9 @@
 
   // Toggle empty state visibility
   function updateEmptyStates(visibleCount) {
-    var timelineEmpty = document.getElementById('timeline-empty');
-    var gridEmpty = document.getElementById('grid-empty');
-    if (visibleCount === 0) {
-      if (timelineEmpty) timelineEmpty.style.display = 'block';
-      if (gridEmpty) gridEmpty.style.display = 'block';
-    } else {
-      if (timelineEmpty) timelineEmpty.style.display = 'none';
-      if (gridEmpty) gridEmpty.style.display = 'none';
+    var emptyEl = document.getElementById('blog-empty');
+    if (emptyEl) {
+      emptyEl.style.display = visibleCount === 0 ? 'block' : 'none';
     }
   }
 

@@ -102,14 +102,6 @@
             </svg>
             Loading articles...
           </div>
-          <div id="timeline-empty" class="empty-state" style="display:none;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <h3>No articles found</h3>
-            <p>No articles match your selected filter. Try selecting a different topic or choose "All" to see everything.</p>
-          </div>
         </div>
 
         <!-- Grid View -->
@@ -121,14 +113,16 @@
             </svg>
             Loading articles...
           </div>
-          <div id="grid-empty" class="empty-state" style="display:none;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <h3>No articles found</h3>
-            <p>No articles match your selected filter. Try selecting a different topic or choose "All" to see everything.</p>
-          </div>
+        </div>
+
+        <!-- Empty state (shared, outside render containers so innerHTML doesn't wipe it) -->
+        <div id="blog-empty" class="empty-state" style="display:none;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <h3>No articles found</h3>
+          <p>No articles match your selected filter. Try selecting a different topic or choose "All" to see everything.</p>
         </div>
       </div>
 
