@@ -3,7 +3,7 @@
 **Total Plans:** 34 across 7 phases + 3 backlog phases (v1.0) + 9 phases (v2.0)
 **Completed:** 20 of 34 v1.0 plans + 2 of 3 Phase 16 plans
 **Current Milestone:** v2.0 Design & Engagement Enhancement
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-03-26
 
 ---
 
@@ -235,11 +235,12 @@ Plans:
   2. User reads articles in clean editorial magazine layout (generous whitespace, refined typography)
   3. All elements use large rounded corners (2-4rem per brand guidelines)
   4. Visual hierarchy clearly distinguishes campaign urgency vs content readability
-**Plans:** TBD
+**Plans:** 2 plans
 **UI hint:** yes
 
 Plans:
-- [ ] 09-01: TBD
+- [ ] 09-01-PLAN.md — Bold activism blog listing styles + site-wide large rounded corners (Wave 1)
+- [ ] 09-02-PLAN.md — Editorial magazine article layout + teal gradient CTA box (Wave 2)
 
 ### Phase 10: Data Visualizations
 **Goal:** Establish data journalism credibility with disease trend charts, opinion timeline, and stat callouts
@@ -363,8 +364,8 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 999.2. Simplify Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
 | 1000. Chat-Style Comment UI | v1.0 Backlog | 1/1 | Complete | 2026-03-24 |
 | 1001. UI/UX Brand Compliance | v1.0 Backlog | 3/3 | Complete | 2026-03-26 |
-| 8. CSS Refactoring Foundation | v2.0 | 0/3 | In progress | - |
-| 9. Design System Enhancement | v2.0 | 0/0 | Not started | - |
+| 8. CSS Refactoring Foundation | v2.0 | 3/3 | Complete | 2026-03-26 |
+| 9. Design System Enhancement | v2.0 | 0/2 | Not started | - |
 | 10. Data Visualizations | v2.0 | 0/0 | Not started | - |
 | 11. Scrollytelling Integration | v2.0 | 0/0 | Not started | - |
 | 12. Social Sharing | v2.0 | 0/0 | Not started | - |
