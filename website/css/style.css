@@ -1277,11 +1277,15 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .token-cta-section-text { color: rgba(255,255,255,0.82); font-size: 0.92rem; margin: 0; }
 
 /* --- Article/Post Page (Prose Styling) -------------------- */
+/* Editorial magazine layout (D-06) */
 .prose {
-  max-width: 720px;
+  max-width: 680px;
   margin: 0 auto;
   color: var(--text);
-  line-height: 1.8;
+  line-height: 1.85;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1.05rem;
 }
 
 .prose > * + * {
@@ -1289,8 +1293,8 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 }
 
 .prose p {
-  font-size: 1.125rem;
-  line-height: 1.9;
+  font-size: 1.05rem;
+  line-height: 1.85;
   color: var(--text);
   margin-bottom: 1.75em;
 }
@@ -1307,32 +1311,39 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .prose a {
   color: var(--teal);
   text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 3px;
-  transition: color 0.2s, text-decoration-color 0.2s;
+  text-underline-offset: 2px;
+  transition: color 0.3s ease;
 }
 
 .prose a:hover {
   color: var(--teal-dk);
-  text-decoration-color: var(--teal-dk);
+}
+
+.prose a:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
 }
 
 .prose h2 {
-  font-size: 1.75rem;
-  line-height: 1.3;
-  margin-top: 2.5em;
-  margin-bottom: 1em;
-  color: var(--slate);
+  font-family: var(--font-head);
   font-weight: 900;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--slate);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .prose h3 {
-  font-size: 1.4rem;
-  line-height: 1.35;
-  margin-top: 2em;
-  margin-bottom: 0.85em;
-  color: var(--slate);
+  font-family: var(--font-head);
   font-weight: 900;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--slate);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .prose h4 {
@@ -1363,15 +1374,18 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 .prose blockquote {
   border-left: 4px solid var(--teal);
-  padding-left: 1.5em;
-  margin: 2em 0;
+  padding-left: 1.5rem;
+  margin: 2rem 0;
   font-style: italic;
-  color: var(--text-md);
-  font-size: 1.15rem;
-  line-height: 1.75;
+  color: var(--slate);
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 .prose blockquote p {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
   margin-bottom: 0.5em;
 }
 
@@ -1412,6 +1426,46 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   box-shadow: var(--shadow-sm);
 }
 
+/* Editorial pull quote (D-08) */
+.pull-quote {
+  border-left: 4px solid var(--teal);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--slate);
+}
+
+.pull-quote p {
+  font-family: inherit;
+  font-style: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin-bottom: 0;
+}
+
+/* Article prose wrapper (editorial magazine layout) */
+.post-prose {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+
+/* Article section heading (within prose) */
+.post-heading {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--slate);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
 /* --- Article/Post Page --------------------------------------------- */
 /* Post page layout */
 .post-container { max-width: 1000px; padding: 64px 32px 80px 32px; }
@@ -1420,7 +1474,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .post-banner { width: 100%; height: auto; border-radius: 16px; margin: 0 0 48px 0; box-shadow: var(--shadow-lg); }
 .post-tag-block { display: block; margin-bottom: 20px; }
 .post-title { font-family: var(--font-head); font-size: clamp(2.4rem, 5.5vw, 3.5rem); line-height: 1.12; margin-bottom: 32px; color: var(--slate); font-weight: 900; letter-spacing: -0.03em; }
-.post-byline { display: flex; align-items: center; gap: 14px; font-size: 0.98rem; color: var(--text-md); margin-bottom: 64px; padding-bottom: 32px; border-bottom: 3px solid var(--border); }
+.post-byline { display: flex; align-items: center; gap: 14px; font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; color: var(--text-md); margin-bottom: 64px; padding-bottom: 32px; border-bottom: 3px solid var(--border); }
 .post-byline-author { font-weight: 700; color: var(--slate); }
 .post-byline-dot { color: var(--teal); opacity: 0.5; }
 .post-byline-date { font-weight: 500; }
