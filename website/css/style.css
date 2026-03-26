@@ -656,8 +656,8 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   display: inline-block;
   background: rgba(42,157,143,0.10);
   color: var(--teal-dk);
-  font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-family: var(--font-head);
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -665,6 +665,53 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   border-radius: var(--radius-pill);
   margin-bottom: 12px;
   border: 1px solid rgba(42,157,143,0.20);
+  transition: transform 0.2s ease;
+}
+
+.blog-tag:hover {
+  transform: scale(1.05);
+}
+
+.blog-tag:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Tag badge color variants per category (D-20) */
+.blog-tag--health {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--red);
+}
+
+.blog-tag--regulation {
+  background: var(--teal);
+  color: var(--white);
+  border-color: var(--teal);
+}
+
+.blog-tag--theft {
+  background: var(--amber);
+  color: var(--white);
+  border-color: var(--amber);
+}
+
+.blog-tag--support {
+  background: var(--slate);
+  color: var(--white);
+  border-color: var(--slate);
+}
+
+.blog-tag--lucky {
+  background: var(--red-lt);
+  color: var(--white);
+  border-color: var(--red-lt);
+}
+
+.blog-tag--updates {
+  background: var(--teal-lt);
+  color: var(--white);
+  border-color: var(--teal-lt);
 }
 
 .blog-card h3 {
@@ -705,25 +752,70 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 /* --- Component: Blog Card Variants (Phase 9 stubs) ---------- */
 .blog-card-bold {
-  /* Bold activism variant — Phase 9 will add color blocks, oversized type */
+  border-left: 4px solid var(--teal);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.blog-card-bold:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(38,70,83,0.15);
+}
+
+.blog-card-bold h3 {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
 .blog-card-editorial {
   /* Editorial magazine variant — Phase 9 will add whitespace, subtle accents */
 }
 
+/* Blog card entrance animation (IntersectionObserver) */
+.blog-card[data-animate],
+.blog-post-card[data-animate],
+.timeline-post-card[data-animate] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.blog-card[data-animate].is-visible,
+.blog-post-card[data-animate].is-visible,
+.timeline-post-card[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .blog-card[data-animate],
+  .blog-post-card[data-animate],
+  .timeline-post-card[data-animate] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* --- Component: Stat Callout (Phase 9 stub) ----------------- */
 .stat-callout {
-  /* Visual stat emphasis component — Phase 9 will add dramatic styling */
-  text-align: center;
-  padding: 2rem;
+  text-align: left;
+  padding: 2rem 2rem 2rem 2.5rem;
   border-radius: var(--radius-lg);
+  border-left: 4px solid var(--red);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
 }
 .stat-callout__number {
   font-family: var(--font-head);
   font-weight: 900;
   font-size: 3rem;
   line-height: 1;
-  color: var(--red);
+  color: var(--teal);
 }
 .stat-callout__label {
   font-size: 0.875rem;
