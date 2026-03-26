@@ -222,7 +222,7 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Extract inline styles from token.html and donate.html into CSS classes (Wave 1)
+- [x] 08-01-PLAN.md — Extract inline styles from token.html and donate.html into CSS classes (Wave 1)
 - [ ] 08-02-PLAN.md — Extract inline styles from about.html and petition.html into CSS classes (Wave 2)
 - [ ] 08-03-PLAN.md — Extract remaining inline styles from post, blog, moderate, index + visual verification (Wave 3)
 
