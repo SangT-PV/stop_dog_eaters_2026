@@ -54,7 +54,7 @@
     <div class="container">
       <span class="eyebrow">Campaign Research & Updates</span>
       <h1>The SDE Blog</h1>
-      <p style="color: var(--text-md); max-width: 560px;">
+      <p class="blog-header-desc">
         Daily AI-researched content covering public health risks, pet theft reports, community perspectives, and campaign updates — published every morning at 8:00 AM.
       </p>
 
@@ -81,7 +81,7 @@
   </div>
 
   <!-- Community Post Submission (unlocks at $2.5K per D-05) -->
-  <div class="container" style="margin-bottom: 32px;">
+  <div class="container blog-container-spaced">
     <div id="community-submit">
       <!-- Rendered by community-posts.js -->
     </div>
@@ -94,7 +94,7 @@
       <!-- Posts — rendered dynamically from data/index.json -->
       <div class="blog-content-wrapper">
         <!-- Timeline View -->
-        <div class="blog-timeline" id="blog-timeline" style="display:block;">
+        <div class="blog-timeline" id="blog-timeline">
           <div id="timeline-loading" class="loading-spinner">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
               <circle cx="12" cy="12" r="10" opacity="0.25"/>
@@ -140,22 +140,22 @@
         </div>
 
         <h3>About the Content</h3>
-        <p style="font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 24px;">
+        <p class="blog-sidebar-desc">
           Articles are researched daily using Manus AI to surface local reports, then synthesised by Claude into balanced, evidence-based post themes. Content is reviewed by Tuan Anh before publication.
         </p>
 
         <h3>Subscribe</h3>
-        <p style="font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 14px;">
+        <p class="blog-sidebar-follow-desc">
           Get daily updates delivered to your Telegram.
         </p>
-        <a href="#" class="btn btn-primary" style="width: 100%; display: block; text-align: center;" target="_blank">
+        <a href="#" class="btn btn-primary blog-sidebar-cta" target="_blank">
           Join Telegram Channel
         </a>
 
-        <div style="margin-top: 32px; background: var(--offwhite); border-radius: 6px; padding: 20px;">
-          <h3 style="font-size: 0.95rem; margin-bottom: 10px;">Sign the Petition</h3>
-          <p style="font-size: 0.85rem; color: var(--text-md); margin-bottom: 14px;">Haven't signed yet? Add your name today.</p>
-          <a href="petition.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Sign Now</a>
+        <div class="blog-sidebar-petition">
+          <h3>Sign the Petition</h3>
+          <p>Haven't signed yet? Add your name today.</p>
+          <a href="petition.html" class="btn btn-primary blog-sidebar-cta">Sign Now</a>
         </div>
       </aside>
 

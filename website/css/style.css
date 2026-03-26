@@ -434,6 +434,18 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 .section-header.text-center p { margin: 0 auto; }
 
+/* Index page */
+.index-cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.index-transparency-pledge { font-size: 1rem; max-width: 680px; margin: 0 auto; }
+.index-transparency-pledge strong { color: var(--white); }
+.index-pledge-link { color: var(--amber); font-weight: 700; }
+
+/* Section header with flex layout (blog listing on index) */
+.section-header-flex { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+
+/* Telegram join button override */
+.btn--telegram { background: var(--teal); color: var(--white); }
+
 /* --- Problem Cards ----------------------------------------- */
 .problem-grid {
   display: grid;
@@ -1294,6 +1306,30 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   box-shadow: var(--shadow-sm);
 }
 
+/* --- Article/Post Page --------------------------------------------- */
+/* Post page layout */
+.post-container { max-width: 1000px; padding: 64px 32px 80px 32px; }
+.post-loading { text-align: center; padding: 80px 0; color: var(--text-md); }
+.post-article { max-width: 750px; margin: 0 auto; }
+.post-banner { width: 100%; height: auto; border-radius: 16px; margin: 0 0 48px 0; box-shadow: var(--shadow-lg); }
+.post-tag-block { display: block; margin-bottom: 20px; }
+.post-title { font-family: var(--font-head); font-size: clamp(2.4rem, 5.5vw, 3.5rem); line-height: 1.12; margin-bottom: 32px; color: var(--slate); font-weight: 900; letter-spacing: -0.03em; }
+.post-byline { display: flex; align-items: center; gap: 14px; font-size: 0.98rem; color: var(--text-md); margin-bottom: 64px; padding-bottom: 32px; border-bottom: 3px solid var(--border); }
+.post-byline-author { font-weight: 700; color: var(--slate); }
+.post-byline-dot { color: var(--teal); opacity: 0.5; }
+.post-byline-date { font-weight: 500; }
+
+/* Post CTA box (call-to-action after article) */
+.post-cta-box { margin-top: 80px; background: linear-gradient(135deg, rgba(42,157,143,0.08) 0%, rgba(230,57,70,0.06) 100%); border: 3px solid var(--teal); border-radius: var(--radius-lg); padding: 56px 64px; text-align: center; max-width: 750px; margin-left: auto; margin-right: auto; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.post-cta-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--teal) 0%, var(--red) 100%); }
+.post-cta-heading { font-family: var(--font-head); font-size: 1.75rem; font-weight: 900; margin-bottom: 18px; color: var(--slate); letter-spacing: -0.02em; }
+.post-cta-text { font-size: 1.12rem; color: var(--text); margin-bottom: 36px; line-height: 1.75; font-weight: 500; max-width: 540px; margin-left: auto; margin-right: auto; }
+.post-cta-btn { font-size: 1.08rem; padding: 18px 48px; box-shadow: var(--shadow-red); }
+
+/* Post error state */
+.post-error { text-align: center; padding: 80px 0; }
+.post-error p { color: var(--text-md); }
+
 /* --- Blog Page --------------------------------------------- */
 .blog-header {
   padding: 64px 0 52px;
@@ -1353,6 +1389,23 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   align-items: center;
   gap: 6px;
 }
+
+/* Blog page header description */
+.blog-header-desc { color: var(--text-md); max-width: 560px; }
+
+/* Blog sidebar extras */
+.blog-sidebar-petition { margin-top: 32px; background: var(--mist); border-radius: 6px; padding: 20px; }
+.blog-sidebar-petition h3 { font-size: 0.95rem; margin-bottom: 10px; }
+.blog-sidebar-petition p { font-size: 0.85rem; color: var(--text-md); margin-bottom: 14px; }
+.blog-sidebar-petition .btn,
+.blog-sidebar-cta { width: 100%; display: block; text-align: center; }
+
+/* Blog sidebar Telegram description */
+.blog-sidebar-desc { font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 24px; }
+.blog-sidebar-follow-desc { font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 14px; }
+
+/* Blog container spacing */
+.blog-container-spaced { margin-bottom: 32px; }
 
 .blog-sidebar { position: sticky; top: 80px; }
 
@@ -2844,6 +2897,13 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .celebration-close:hover { opacity: 1; }
 
 /* --- Moderation Dashboard --------------------------------------- */
+/* Moderation layout */
+.mod-container { max-width: 900px; padding: 40px 24px; }
+.mod-title { margin-bottom: 8px; }
+.mod-subtitle { color: var(--text-md); margin-bottom: 32px; }
+.mod-submit-btn { width: 100%; margin-top: 12px; }
+.mod-gate-error { color: var(--red); font-size: 0.85rem; margin-top: 10px; }
+
 .mod-gate { display: flex; align-items: center; justify-content: center; min-height: 60vh; padding: 40px 24px; }
 .mod-gate-card { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius-lg); padding: 48px 40px; max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow); }
 .mod-gate-card h2 { margin-bottom: 8px; }
@@ -3341,6 +3401,10 @@ select.comment-input {
     grid-template-columns: 1fr;
     gap: 32px;
   }
+
+  .post-container { padding: 32px 16px 48px 16px; }
+  .post-cta-box { padding: 32px 24px; }
+  .post-byline { flex-wrap: wrap; gap: 8px; }
 }
 
 /* --- Screen Reader Utilities ------------------------------- */

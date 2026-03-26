@@ -42,17 +42,17 @@
       <p>Enter the moderation password to continue.</p>
       <form id="mod-gate-form">
         <input type="password" id="mod-password" class="comment-input" placeholder="Password" required />
-        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 12px;">Enter Dashboard</button>
+        <button type="submit" class="btn btn-primary mod-submit-btn">Enter Dashboard</button>
       </form>
-      <div id="mod-gate-error" style="display:none; color: var(--red); font-size: 0.85rem; margin-top: 10px;"></div>
+      <div id="mod-gate-error" class="mod-gate-error" style="display:none;"></div>
     </div>
   </div>
 
   <!-- MODERATION DASHBOARD (hidden until authenticated) -->
   <div id="mod-dashboard" class="mod-dashboard" style="display:none;">
-    <div class="container" style="max-width: 900px; padding: 40px 24px;">
-      <h1 style="margin-bottom: 8px;">Moderation Dashboard</h1>
-      <p style="color: var(--text-md); margin-bottom: 32px;">Review and approve community submissions. All content requires approval before appearing publicly.</p>
+    <div class="container mod-container">
+      <h1 class="mod-title">Moderation Dashboard</h1>
+      <p class="mod-subtitle">Review and approve community submissions. All content requires approval before appearing publicly.</p>
 
       <!-- Export button -->
       <div class="mod-export-btn">
