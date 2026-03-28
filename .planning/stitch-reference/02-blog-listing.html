@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Archive | Stop Dog Eaters Investigative Blog</title>
+<!-- Google Fonts: Newsreader for Serif, Inter for Sans (closest to requested Segoe UI/Inter) -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#3f484a",
+              "primary-fixed": "#a8eef7",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdad5",
+              "on-error": "#ffffff",
+              "primary-container": "#1d6a72",
+              "inverse-surface": "#31302d",
+              "on-surface": "#1c1c18",
+              "surface": "#fdf9f3",
+              "on-tertiary-fixed": "#410000",
+              "inverse-primary": "#8dd2db",
+              "surface-variant": "#e6e2dc",
+              "secondary": "#535e7c",
+              "secondary-fixed": "#dae2ff",
+              "primary": "#005158",
+              "on-tertiary-container": "#ffd2cb",
+              "on-primary-container": "#a2e7f0",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#1c1c18",
+              "background": "#fdf9f3",
+              "primary-fixed-dim": "#8dd2db",
+              "tertiary": "#91160e",
+              "on-primary": "#ffffff",
+              "surface-dim": "#ddd9d4",
+              "on-secondary-fixed-variant": "#3b4663",
+              "surface-container-high": "#ebe8e2",
+              "tertiary-fixed-dim": "#ffb4a9",
+              "error-container": "#ffdad6",
+              "surface-bright": "#fdf9f3",
+              "tertiary-container": "#b33023",
+              "on-secondary-container": "#545e7d",
+              "surface-tint": "#1a6870",
+              "on-primary-fixed": "#001f23",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#f4f0ea",
+              "outline-variant": "#bec8ca",
+              "on-tertiary-fixed-variant": "#8e130c",
+              "surface-container-highest": "#e6e2dc",
+              "outline": "#6f797a",
+              "on-primary-fixed-variant": "#004f56",
+              "surface-container-low": "#f7f3ed",
+              "secondary-fixed-dim": "#bbc6e9",
+              "on-secondary-fixed": "#0f1b35",
+              "surface-container": "#f1ede7",
+              "secondary-container": "#cfd9fd",
+              "on-error-container": "#93000a",
+              "amber-accent": "#e8a838"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .serif-display { font-family: 'Newsreader', serif; }
+      .timeline-line::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #e6e2dc;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- 1. Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#fdf9f3]/80 dark:bg-[#1c1c18]/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-8 h-20 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#005158] dark:text-[#4db6ac] font-['Newsreader']">
+                Stop Dog Eaters
+            </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-[#535e7c] dark:text-[#9ea7c0] hover:text-[#005158] transition-colors" href="#">Reports</a>
+<a class="text-[#005158] dark:text-[#4db6ac] font-bold border-b-2 border-[#005158] pb-1" href="#">Action</a>
+<a class="text-[#535e7c] dark:text-[#9ea7c0] hover:text-[#005158] transition-colors" href="#">Theft</a>
+<a class="text-[#535e7c] dark:text-[#9ea7c0] hover:text-[#005158] transition-colors" href="#">About</a>
+<button class="bg-primary text-on-primary px-8 py-2.5 rounded-full font-bold hover:bg-primary-container transition-all Active:scale-95 duration-150 ease-in-out">
+                    Sign Now
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-6 max-w-screen-2xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Main Content Area -->
+<div class="lg:col-span-8 space-y-16">
+<!-- 2. Blog Header -->
+<header class="space-y-6">
+<h1 class="text-6xl md:text-8xl font-headline font-bold tracking-tight text-primary leading-none">
+                        The SDE Blog
+                    </h1>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<p class="text-xl text-secondary max-w-xl font-medium leading-relaxed">
+                            Chronicles of intervention, investigative dossiers on the illicit meat trade, and the legislative roadmap to total abolition.
+                        </p>
+<div class="flex items-center bg-surface-container-low p-1 rounded-full w-fit">
+<button class="flex items-center gap-2 px-6 py-2 rounded-full bg-primary text-white shadow-sm">
+<span class="material-symbols-outlined text-sm">view_headline</span>
+<span class="text-sm font-bold">Timeline</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-2 rounded-full text-secondary hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">grid_view</span>
+<span class="text-sm font-bold">Grid</span>
+</button>
+</div>
+</div>
+</header>
+<!-- 3. Share Your Research Section -->
+<section class="bg-surface-container-low rounded-xl p-10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<span class="bg-amber-accent/20 text-amber-900 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Research Fund Access</span>
+<span class="material-symbols-outlined text-amber-accent" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h2 class="text-3xl font-headline font-bold mb-8 text-primary">Share Your Investigative Findings</h2>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary ml-1">Report Title</label>
+<input class="w-full bg-white/50 border-none border-b-2 border-outline-variant focus:border-primary focus:ring-0 rounded-sm py-4 px-4 text-lg font-headline" placeholder="The Yulin Corridor Intercept..." type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary ml-1">Investigation Topic</label>
+<select class="w-full bg-white/50 border-none border-b-2 border-outline-variant focus:border-primary focus:ring-0 rounded-sm py-4 px-4 font-medium">
+<option>Select Topic</option>
+<option>Pet Theft Recovery</option>
+<option>Transport Logistics</option>
+<option>Legislative Loophole</option>
+<option>Rescue Veterinary Data</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary ml-1">Contextual Evidence &amp; Summary</label>
+<textarea class="w-full bg-white/50 border-none border-b-2 border-outline-variant focus:border-primary focus:ring-0 rounded-sm py-4 px-4 text-lg" placeholder="Describe the coordinates, dates, and primary actors identified..." rows="3"></textarea>
+</div>
+<button class="bg-primary text-on-primary px-10 py-4 rounded-full font-bold hover:shadow-lg transition-all flex items-center gap-3">
+<span class="material-symbols-outlined">send</span>
+                                Submit to The Archive
+                            </button>
+</form>
+</div>
+</section>
+<!-- 4. Blog Posts Area (Timeline View) -->
+<div class="relative pl-12 timeline-line">
+<div class="space-y-16">
+<!-- Timeline Item 1 -->
+<article class="relative">
+<div class="absolute -left-[52px] top-6 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white ring-8 ring-surface">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="mb-4">
+<time class="text-sm font-bold tracking-widest text-secondary uppercase">October 24, 2024 — 14:20 GMT</time>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl p-8 shadow-[0px_20px_40px_rgba(28,28,24,0.04)] hover:shadow-[0px_20px_40px_rgba(28,28,24,0.08)] transition-all border-l-8 border-primary">
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="w-full md:w-1/3 aspect-[4/3] rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="dramatic close-up of a wooden table with printed dossiers, a vintage camera, and low warm lighting creating high contrast shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU8wNAecQrQYWYWdNYZeH9MQGa6b9AhsVGeoGvTW1itoLEGj-RFkg6KT8MJY3sRBHBtZV-9Qjp0JmQ0r10SVa-83GbxT5SaSlhRPCgUUE7ZWAuwUrP7lOKQM_f1Gok3aH5bdJDN8AYykTkrUYDEG2FvRuoaaC0bfbfWwhxwJk8Ys8MTNHJ0QHeWeO3sjuHCWEd38jXcZNlG7me7bFuDnhk-9yU_Q1BZBPwmfIlXPkVdC87N6jzJ0F8R8_T3FRbUZOzAV24brQrDXE"/>
+</div>
+<div class="flex-1 space-y-4">
+<span class="bg-tertiary text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Pet Theft</span>
+<h3 class="text-3xl font-headline font-bold leading-tight group-hover:text-primary transition-colors cursor-pointer">The Invisible Leash: Unmasking the Suburban Collection Rings</h3>
+<p class="text-secondary leading-relaxed">Recent investigative efforts have uncovered a coordinated network operating across provincial borders, targeting residential areas under the guise of municipal services.</p>
+<div class="flex items-center gap-4 pt-4 border-t border-surface-variant">
+<div class="w-8 h-8 rounded-full bg-secondary-container"></div>
+<span class="text-xs font-bold text-on-surface">By Elena Thorne, Investigative Lead</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Timeline Item 2 -->
+<article class="relative">
+<div class="absolute -left-[52px] top-6 w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-white ring-8 ring-surface">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</div>
+<div class="mb-4">
+<time class="text-sm font-bold tracking-widest text-secondary uppercase">October 21, 2024 — 09:00 GMT</time>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl p-8 shadow-[0px_20px_40px_rgba(28,28,24,0.04)] hover:shadow-[0px_20px_40px_rgba(28,28,24,0.08)] transition-all border-l-8 border-primary">
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="w-full md:w-1/3 aspect-[4/3] rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="close-up of a dark polished wood courtroom gavel resting on a legal document with cinematic side lighting and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUP_HFm-rdojgJKS5sSaPRLK69Ip94x3whCfyj-6wCHpWWMGh7uFw25Cy_LfhKRSsCkV4a8IDfKtHuBA46E20ucr7b9Ro8jiAxNXioZoWBgqKAMJ4S5WAtQMdoYeOs3MewvEnigBAuq5BdJ2PLLlgxKdZeBi3IF6Sk_1rr0nZbdkueAjHRU05nZdIw1Qd4mHmDCXwsw9F5Cja9jPvBWaizTVl6a7qSQ7chXU8M03rloZQgCazDnhrv2NAxGM9L-z3ZhrjYpBO-1x0"/>
+</div>
+<div class="flex-1 space-y-4">
+<span class="bg-secondary text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Regulation</span>
+<h3 class="text-3xl font-headline font-bold leading-tight group-hover:text-primary transition-colors cursor-pointer">Article 14: The Legal Wedge We Need</h3>
+<p class="text-secondary leading-relaxed">A deep dive into the proposed constitutional amendment that could finally close the door on 'traditional' loopholes used by illegal slaughterhouses.</p>
+<div class="flex items-center gap-4 pt-4 border-t border-surface-variant">
+<div class="w-8 h-8 rounded-full bg-secondary-container"></div>
+<span class="text-xs font-bold text-on-surface">By Dr. Marcus Chen, Legal Scholar</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+<!-- 6. Empty State (Hidden) -->
+<div class="hidden flex-col items-center justify-center py-20 bg-surface-container rounded-xl border-2 border-dashed border-outline-variant">
+<span class="material-symbols-outlined text-6xl text-secondary mb-4">search_off</span>
+<h3 class="text-2xl font-headline font-bold text-primary">No articles found</h3>
+<p class="text-secondary">Refine your filters or search keywords to explore the archive.</p>
+</div>
+<!-- 7. Loading State (Hidden) -->
+<div class="hidden flex justify-center py-10">
+<div class="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+</div>
+</div>
+<!-- 5. Sidebar -->
+<aside class="lg:col-span-4 space-y-12">
+<!-- Topic Filter -->
+<section class="bg-white p-8 rounded-xl shadow-[0px_20px_40px_rgba(28,28,24,0.02)]">
+<h4 class="text-xs font-bold uppercase tracking-widest text-secondary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Archive Categories
+                    </h4>
+<div class="flex flex-wrap gap-2">
+<button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-bold">All</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-secondary hover:bg-primary-container hover:text-white transition-all text-sm font-bold">Health</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-secondary hover:bg-primary-container hover:text-white transition-all text-sm font-bold">Pet Theft</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-secondary hover:bg-primary-container hover:text-white transition-all text-sm font-bold">Regulation</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-secondary hover:bg-primary-container hover:text-white transition-all text-sm font-bold">Support</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-secondary hover:bg-primary-container hover:text-white transition-all text-sm font-bold">Lucky</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-secondary hover:bg-primary-container hover:text-white transition-all text-sm font-bold">Updates</button>
+</div>
+</section>
+<!-- Statistics Widget -->
+<section class="bg-primary text-white p-8 rounded-xl overflow-hidden relative">
+<div class="absolute -bottom-10 -right-10 opacity-10">
+<span class="material-symbols-outlined text-[160px]">analytics</span>
+</div>
+<h4 class="text-xs font-bold uppercase tracking-widest text-primary-fixed mb-8">Live Impact Metrics</h4>
+<div class="space-y-8 relative z-10">
+<div>
+<div class="text-5xl font-headline font-extrabold leading-none mb-1">5M+</div>
+<div class="text-xs font-bold uppercase tracking-widest text-on-primary-container">Lives impacted annually</div>
+</div>
+<div>
+<div class="text-5xl font-headline font-extrabold leading-none mb-1">95%</div>
+<div class="text-xs font-bold uppercase tracking-widest text-on-primary-container">Theft recovery rate (2024)</div>
+</div>
+<div>
+<div class="text-5xl font-headline font-extrabold leading-none mb-1">0</div>
+<div class="text-xs font-bold uppercase tracking-widest text-on-primary-container">Remaining legal slaughterhouses by 2030</div>
+</div>
+</div>
+</section>
+<!-- AI Content Info -->
+<section class="bg-surface-container-low p-8 rounded-xl border border-surface-variant/30">
+<h4 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+                        AI Stewardship
+                    </h4>
+<p class="text-sm text-secondary leading-relaxed">
+                        The Archive uses neural sorting to identify patterns in supply chain logistics. Every report is cross-verified by our human legal team to ensure judicial admissibility.
+                    </p>
+</section>
+<!-- Telegram CTA -->
+<section class="group cursor-pointer bg-gradient-to-br from-[#0088cc] to-[#0077b5] p-8 rounded-xl text-white shadow-xl hover:translate-y-[-4px] transition-all">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-4xl">send</span>
+<span class="material-symbols-outlined text-2xl group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+<h4 class="text-2xl font-headline font-bold mb-2">Join Telegram</h4>
+<p class="text-sm opacity-90 leading-relaxed">Get real-time intercept alerts and operational updates directly to your encrypted device.</p>
+</section>
+<!-- Sign the Petition Widget -->
+<section class="bg-white p-8 rounded-xl shadow-[0px_40px_60px_rgba(0,81,88,0.06)] border-t-8 border-amber-accent">
+<h4 class="text-xl font-headline font-bold text-primary mb-4">The Final Abolition Bill</h4>
+<p class="text-sm text-secondary mb-6 leading-relaxed">We are 84,000 signatures away from mandatory parliamentary review. Your name is the weight we need.</p>
+<div class="w-full bg-surface-container-high h-2 rounded-full mb-6">
+<div class="bg-amber-accent h-full w-[72%] rounded-full shadow-[0_0_10px_#e8a838]"></div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-full font-bold hover:bg-primary-container transition-colors">Sign the Petition</button>
+</section>
+</aside></div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#005158] dark:bg-[#002a2e] w-full py-16 px-8 mt-20">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-screen-2xl mx-auto">
+<div class="space-y-4">
+<div class="font-['Newsreader'] text-white text-2xl">Stop Dog Eaters</div>
+<p class="text-[#fdf9f3]/60 font-body text-xs uppercase tracking-widest leading-loose">© 2024 Stop Dog Eaters.<br/>An Investigative Dossier.</p>
+</div>
+<div class="space-y-4">
+<h5 class="font-headline text-white font-bold">Campaign</h5>
+<ul class="space-y-2">
+<li><a class="font-['Inter'] text-xs uppercase tracking-widest text-[#fdf9f3]/60 hover:text-white transition-colors" href="#">The Petition</a></li>
+<li><a class="font-['Inter'] text-xs uppercase tracking-widest text-[#fdf9f3]/60 hover:text-white transition-colors" href="#">Research Fund</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="font-headline text-white font-bold">Transparency</h5>
+<ul class="space-y-2">
+<li><a class="font-['Inter'] text-xs uppercase tracking-widest text-[#fdf9f3]/60 hover:text-white transition-colors" href="#">Legal Disclosure</a></li>
+<li><a class="font-['Inter'] text-xs uppercase tracking-widest text-[#fdf9f3]/60 hover:text-white transition-colors" href="#">Telegram Access</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="font-headline text-white font-bold">Join the Force</h5>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-white/60 hover:text-amber-accent cursor-pointer transition-colors">share</span>
+<span class="material-symbols-outlined text-white/60 hover:text-amber-accent cursor-pointer transition-colors">mail</span>
+<span class="material-symbols-outlined text-white/60 hover:text-amber-accent cursor-pointer transition-colors">shield</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

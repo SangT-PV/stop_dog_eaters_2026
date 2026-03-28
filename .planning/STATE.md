@@ -107,6 +107,7 @@ Recent decisions affecting current work:
 
 - Phase 16 added: Rebuild Discussion and Share Your Research UI components
 - Phase 16 COMPLETE: All 3 plans executed (design tokens, icons, accessibility)
+- Phase 17 added: Stitch Design System Implementation — full site redesign from Stitch project (6 screens, Tailwind-to-CSS migration)
 
 ### Pending Todos
 

@@ -373,6 +373,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 | 16. Discussion UI Rebuild | v2.0 | 3/3 | Complete | 2026-03-24 |
+| 17. Stitch Design Implementation | v2.0 | 0/7 | Not started | - |
 
 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
@@ -390,6 +391,33 @@ Plans:
 - [x] 16-01-PLAN.md — Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
 - [x] 16-02-PLAN.md — Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1) (04c8ca2)
 - [x] 16-03-PLAN.md — Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2) (50f1f72)
+
+### Phase 17: Stitch Design System Implementation
+
+**Goal:** Apply new design from Stitch project (6 screens) across all 7 website pages. Migrate fonts (Newsreader/Inter), icons (Material Symbols), color system (MD3 surface layers), shadows, animations, and page layouts while preserving all existing JS functionality (blog fetching, comments, fund-gating, voting, fund tracker).
+**Requirements**: DESIGN-05 (Stitch redesign alignment)
+**Depends on:** Phase 10 (current v2.0 work complete)
+**Reference**: `.planning/stitch-reference/DESIGN-REFERENCE.md` + 6 HTML files in `.planning/stitch-reference/`
+**Stitch Project ID**: `3228691723159845624`
+**Success Criteria** (what must be TRUE):
+  1. All pages visually match Stitch designs (nav, hero, cards, footer, typography)
+  2. Font system migrated: Newsreader (headlines) + Inter (body) replace Georgia/Segoe UI
+  3. Icon system migrated: Material Symbols Outlined replace Lucide inline SVGs
+  4. Color system expanded: MD3 surface layers (surface, surface-container, surface-container-low/high/highest)
+  5. All existing JS functionality preserved (blog, comments, fund-gating, voting, charts, moderation)
+  6. Responsive on mobile (3G networks, low-end Android)
+  7. WCAG AA accessibility maintained
+**Plans:** TBD (7 plans estimated)
+**UI hint:** yes
+
+Plans:
+- [ ] 17-01: Design system foundation — CSS variables, fonts, icons, nav, footer (shared components)
+- [ ] 17-02: Homepage redesign (hero, stats, problem cards, Lucky, data, action, blog preview)
+- [ ] 17-03: Blog listing + post detail page redesign
+- [ ] 17-04: Petition page redesign
+- [ ] 17-05: Donate page redesign
+- [ ] 17-06: Token page redesign (fund tracker, roadmap, voting)
+- [ ] 17-07: About page + responsive QA + visual verification
 
 ---
 
