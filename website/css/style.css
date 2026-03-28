@@ -3908,6 +3908,487 @@ select.comment-input {
 /* Centered intro paragraph */
 .intro-text { max-width: 600px; margin: 0 auto; color: var(--text-md); }
 
+/* ====== STITCH BLOG LISTING (17-03) ====== */
+
+/* --- Blog Page Header (Stitch 02) -------------------------- */
+.blog-page-header {
+  padding: 4rem 0 3rem;
+  background: var(--surface);
+}
+.blog-page-header h1 {
+  font-family: var(--font-head);
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+.blog-page-header p {
+  font-size: 1.25rem;
+  color: var(--on-surface-variant);
+  max-width: 36rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+.blog-header-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* --- View Toggle (Stitch 02) -------------------------------- */
+.view-toggle {
+  display: inline-flex;
+  background: var(--surface-container-low);
+  border-radius: var(--radius-pill);
+  padding: 0.25rem;
+}
+.view-toggle .view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--on-surface-variant);
+  transition: all 0.2s;
+}
+.view-toggle .view-btn .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+.view-toggle .view-btn.active {
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-sm);
+}
+.view-toggle .view-btn:hover:not(.active) {
+  background: var(--surface-container-high);
+}
+
+/* --- Blog 2-Column Layout (Stitch 02) ---------------------- */
+.blog-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 2rem var(--section-px) 4rem;
+}
+@media (min-width: 1024px) {
+  .blog-layout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* --- Sidebar Sections (Stitch 02) --------------------------- */
+.sidebar-section {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+.sidebar-section h4 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--on-surface-variant);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sidebar-section h4 .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+/* Sidebar filter pills (Stitch override) */
+.sidebar-section .sidebar-tag-list {
+  margin-bottom: 0;
+}
+.sidebar-section .sidebar-tag {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+}
+.sidebar-section .sidebar-tag.active {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+.sidebar-section .sidebar-tag:not(.active) {
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  border-color: var(--surface-container-high);
+}
+.sidebar-section .sidebar-tag:not(.active):hover {
+  background: var(--primary-container);
+  color: var(--on-primary);
+  border-color: var(--primary-container);
+}
+
+/* --- Sidebar Stats Widget (dark, Stitch 02) ----------------- */
+.sidebar-stats-widget {
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 2rem;
+}
+.sidebar-stats-widget h4 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--primary-fixed);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sidebar-stats-widget h4 .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+.sidebar-stats-widget-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.sidebar-stats-widget-item .stat-number {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 3rem;
+  color: var(--on-primary);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.sidebar-stats-widget-item .stat-label-sm {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.7);
+}
+
+/* --- Sidebar Telegram CTA (Stitch 02) ----------------------- */
+.sidebar-telegram {
+  display: block;
+  background: linear-gradient(135deg, #0088cc, #0077b5);
+  color: white;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: transform 0.3s;
+  text-decoration: none;
+  margin-bottom: 2rem;
+}
+.sidebar-telegram:hover {
+  transform: translateY(-4px);
+  color: white;
+}
+.sidebar-telegram-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.sidebar-telegram-header .material-symbols-outlined:first-child {
+  font-size: 2.5rem;
+}
+.sidebar-telegram-arrow {
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+.sidebar-telegram:hover .sidebar-telegram-arrow {
+  transform: translateX(4px);
+}
+.sidebar-telegram-title {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+.sidebar-telegram p {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  color: white;
+  margin: 0;
+}
+
+/* --- Sidebar Petition Widget (Stitch 02) -------------------- */
+.sidebar-petition-widget p {
+  font-size: 0.875rem;
+  color: var(--on-surface-variant);
+  margin-bottom: 1rem;
+}
+
+/* --- Community Form Section (Stitch 02) --------------------- */
+.community-form-section {
+  background: var(--surface-container-low);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.community-form-section:empty {
+  display: none;
+}
+
+/* --- Timeline View Override (Stitch 02 style) --------------- */
+.timeline-view {
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline-view::before {
+  content: '';
+  position: absolute;
+  left: 1.25rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--outline-variant);
+}
+
+.timeline-post-card-stitch {
+  position: relative;
+  margin-bottom: 4rem;
+}
+.timeline-dot-stitch {
+  position: absolute;
+  left: -3.25rem;
+  top: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-primary);
+  box-shadow: 0 0 0 0.5rem var(--surface);
+  z-index: 2;
+}
+.timeline-dot-stitch .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+.timeline-post-card-stitch .blog-post-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border-left: 8px solid var(--primary);
+  transition: box-shadow 0.3s;
+}
+.timeline-post-card-stitch .blog-post-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* ====== STITCH BLOG POST DETAIL (17-03) ====== */
+
+/* --- Post Header (Stitch 04) ------------------------------- */
+.post-header-stitch {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+}
+.post-header-stitch .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  color: var(--primary-container);
+  margin-bottom: 2rem;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.post-header-stitch .back-link:hover {
+  color: var(--primary);
+}
+.post-header-stitch .back-link .material-symbols-outlined {
+  font-size: 1rem;
+}
+
+/* Post title Stitch override */
+.post-title-stitch {
+  font-family: var(--font-head);
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  color: var(--primary);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 50rem;
+  margin-bottom: 1rem;
+}
+
+/* Post meta Stitch style */
+.post-meta-stitch {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid var(--outline-variant);
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+}
+.post-meta-stitch .post-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-primary);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+.post-meta-stitch .post-meta-text {
+  font-size: 0.875rem;
+}
+.post-meta-stitch .post-meta-text .post-author-name {
+  font-weight: 700;
+  color: var(--on-surface);
+}
+.post-meta-stitch .post-meta-text .post-publish-info {
+  color: var(--on-surface-variant);
+  font-style: italic;
+}
+
+/* Post banner Stitch style */
+.post-banner-stitch {
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto 5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: block;
+}
+
+/* --- Post Prose (Stitch 04) --------------------------------- */
+.post-prose-stitch {
+  max-width: 42.5rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  font-family: var(--font-head);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: var(--on-surface);
+}
+
+/* Serif dropcap */
+.serif-dropcap::first-letter,
+.post-prose-stitch .prose > p:first-of-type::first-letter {
+  float: left;
+  font-size: 5rem;
+  line-height: 4rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  font-family: var(--font-head);
+  color: var(--primary);
+}
+
+/* Blockquote Stitch override for post prose */
+.post-prose-stitch .prose blockquote {
+  margin: 4rem -3rem 4rem -6rem;
+  border-left: 4px solid var(--primary-container);
+  padding-left: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.post-prose-stitch .prose blockquote::before {
+  display: none;
+}
+.post-prose-stitch .prose blockquote p {
+  font-family: var(--font-head);
+  font-size: 1.875rem;
+  font-style: italic;
+  color: var(--primary-container);
+  line-height: 1.35;
+}
+
+/* --- Post CTA Box Stitch Override (teal gradient) ----------- */
+.post-cta-box-stitch {
+  background: linear-gradient(135deg, var(--primary-container) 0%, var(--primary-fixed) 100%);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin: 4rem auto;
+  max-width: 42.5rem;
+  color: var(--on-primary);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.post-cta-box-stitch::after {
+  content: '';
+  position: absolute;
+  right: -3rem;
+  bottom: -3rem;
+  width: 16rem;
+  height: 16rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  filter: blur(3rem);
+}
+.post-cta-box-stitch h3 {
+  font-family: var(--font-head);
+  font-size: 1.875rem;
+  color: var(--on-primary);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+.post-cta-box-stitch p {
+  color: rgba(255,255,255,0.9);
+  max-width: 31rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.post-cta-box-stitch .btn {
+  background: var(--on-primary);
+  color: var(--primary-container);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  position: relative;
+  z-index: 1;
+}
+.post-cta-box-stitch .btn:hover {
+  background: var(--surface-container-low);
+  color: var(--primary);
+}
+
+/* Discussion heading Stitch override */
+.comments-section-stitch h2 {
+  font-family: var(--font-head);
+  font-size: 1.875rem;
+  color: var(--primary);
+  border-bottom: 1px solid var(--outline-variant);
+  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+}
+
 /* ====== RESPONSIVE OVERRIDES ====== */
 /* --- Responsive -------------------------------------------- */
 @media (max-width: 960px) {
@@ -3939,11 +4420,17 @@ select.comment-input {
   .donate-tier-card { grid-template-columns: 1fr; text-align: center; }
 
   .blog-main-grid { grid-template-columns: 1fr; }
+  .blog-layout { grid-template-columns: 1fr; }
   .blog-post-card { grid-template-columns: 1fr; }
   .blog-post-img  { min-height: 120px; }
 
   .petition-widget-card { position: static; }
   .blog-sidebar { position: static; }
+
+  /* Stitch post detail responsive */
+  .post-header-stitch { padding: 0 1rem 2rem; }
+  .post-prose-stitch .prose blockquote { margin-left: 0; margin-right: 0; }
+  .post-banner-stitch { margin-bottom: 3rem; }
 
   /* Timeline responsive */
   .timeline-container::before,

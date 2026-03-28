@@ -50,47 +50,37 @@
     </div>
   </nav>
 
-  <!-- BLOG HEADER -->
-  <div class="blog-header">
+  <!-- BLOG PAGE HEADER -->
+  <div class="blog-page-header pt-nav">
     <div class="container">
-      <span class="eyebrow">Campaign Research & Updates</span>
       <h1>The SDE Blog</h1>
-      <p class="blog-header-desc">
-        Daily AI-researched content covering public health risks, pet theft reports, community perspectives, and campaign updates — published every morning at 8:00 AM.
-      </p>
-
-      <!-- View Toggle -->
-      <div class="blog-view-toggle">
-        <button type="button" class="view-btn active" data-view="timeline">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-          Timeline
-        </button>
-        <button type="button" class="view-btn" data-view="grid">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
-            <rect x="14" y="14" width="7" height="7"/>
-          </svg>
-          Grid
-        </button>
+      <p>Daily AI-researched content covering public health risks, pet theft reports, community perspectives, and campaign updates.</p>
+      <div class="blog-header-controls">
+        <!-- View Toggle -->
+        <div class="view-toggle">
+          <button type="button" class="view-btn active" data-view="timeline">
+            <span class="material-symbols-outlined">view_headline</span>
+            Timeline
+          </button>
+          <button type="button" class="view-btn" data-view="grid">
+            <span class="material-symbols-outlined">grid_view</span>
+            Grid
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Community Post Submission (unlocks at $2.5K per D-05) -->
-  <div class="container blog-container-spaced">
-    <div id="community-submit">
-      <!-- Rendered by community-posts.js -->
-    </div>
-  </div>
+  <!-- BLOG LAYOUT: 2-col grid -->
+  <div class="blog-layout">
 
-  <!-- BLOG MAIN -->
-  <div class="container">
-    <div class="blog-main-grid">
+    <!-- MAIN CONTENT -->
+    <div class="blog-main">
+
+      <!-- Community Post Submission (unlocks at $2.5K per D-05) -->
+      <div class="community-form-section" id="community-submit">
+        <!-- Rendered by community-posts.js -->
+      </div>
 
       <!-- Posts — rendered dynamically from data/index.json -->
       <div class="blog-content-wrapper">
@@ -127,9 +117,17 @@
         </div>
       </div>
 
-      <!-- Sidebar -->
-      <aside class="blog-sidebar">
-        <h3>Filter by Topic</h3>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="blog-sidebar">
+
+      <!-- Topic Filter Pills -->
+      <div class="sidebar-section">
+        <h4>
+          <span class="material-symbols-outlined">filter_list</span>
+          Archive Categories
+        </h4>
         <div class="sidebar-tag-list" id="tag-filter">
           <button type="button" class="sidebar-tag active" data-tag="All">All</button>
           <button type="button" class="sidebar-tag" data-tag="Public Health">Public Health</button>
@@ -139,48 +137,60 @@
           <button type="button" class="sidebar-tag" data-tag="Lucky's Story">Lucky's Story</button>
           <button type="button" class="sidebar-tag" data-tag="Campaign Updates">Campaign Updates</button>
         </div>
+      </div>
 
-        <h3>About the Content</h3>
+      <!-- Statistics Widget (dark) -->
+      <div class="sidebar-stats-widget">
+        <h4>
+          <span class="material-symbols-outlined">analytics</span>
+          Live Impact Metrics
+        </h4>
+        <div class="sidebar-stats-widget-list">
+          <div class="sidebar-stats-widget-item">
+            <div class="stat-number">5M+</div>
+            <div class="stat-label-sm">Lives impacted annually</div>
+          </div>
+          <div class="sidebar-stats-widget-item">
+            <div class="stat-number">95%</div>
+            <div class="stat-label-sm">Public support to end trade</div>
+          </div>
+          <div class="sidebar-stats-widget-item">
+            <div class="stat-number">0</div>
+            <div class="stat-label-sm">Registered slaughterhouses</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Content Info -->
+      <div class="sidebar-section">
+        <h4>
+          <span class="material-symbols-outlined">smart_toy</span>
+          AI Stewardship
+        </h4>
         <p class="blog-sidebar-desc">
           Articles are researched daily using Manus AI to surface local reports, then synthesised by Claude into balanced, evidence-based post themes. Content is reviewed by Tuan Anh before publication.
         </p>
+      </div>
 
-        <h3>Subscribe</h3>
-        <p class="blog-sidebar-follow-desc">
-          Get daily updates delivered to your Telegram.
-        </p>
-        <a href="#" class="btn btn-primary blog-sidebar-cta" target="_blank">
-          Join Telegram Channel
-        </a>
-
-        <!-- Key Statistics (per D-15: compact stat callouts in sidebar) -->
-        <div class="sidebar-stats">
-          <h3>Key Statistics</h3>
-          <div class="sidebar-stat-list">
-            <div class="stat-callout stat-callout--compact">
-              <div class="stat-callout__number">5M+</div>
-              <div class="stat-callout__label">Dogs killed annually</div>
-            </div>
-            <div class="stat-callout stat-callout--compact">
-              <div class="stat-callout__number">95%</div>
-              <div class="stat-callout__label">Public support</div>
-            </div>
-            <div class="stat-callout stat-callout--compact">
-              <div class="stat-callout__number">0</div>
-              <div class="stat-callout__label">Registered slaughterhouses</div>
-            </div>
-          </div>
-          <a href="index.html#data-research" class="btn btn-secondary blog-sidebar-cta">See Full Data</a>
+      <!-- Telegram CTA -->
+      <a href="#" class="sidebar-telegram" target="_blank">
+        <div class="sidebar-telegram-header">
+          <span class="material-symbols-outlined">send</span>
+          <span class="material-symbols-outlined sidebar-telegram-arrow">arrow_forward</span>
         </div>
+        <h4 class="sidebar-telegram-title">Join Telegram</h4>
+        <p>Get real-time alerts and daily campaign updates directly to your device.</p>
+      </a>
 
-        <div class="blog-sidebar-petition">
-          <h3>Sign the Petition</h3>
-          <p>Haven't signed yet? Add your name today.</p>
-          <a href="petition.html" class="btn btn-primary blog-sidebar-cta">Sign Now</a>
-        </div>
-      </aside>
+      <!-- Sign the Petition Widget -->
+      <div class="sidebar-section sidebar-petition-widget">
+        <h4>Sign the Petition</h4>
+        <p>Haven't signed yet? Add your name today.</p>
+        <a href="petition.html" class="btn btn-primary blog-sidebar-cta">Sign Now</a>
+      </div>
 
-    </div>
+    </aside>
+
   </div>
 
   <!-- FOOTER -->
