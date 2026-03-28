@@ -407,16 +407,16 @@ Plans:
   5. All existing JS functionality preserved (blog, comments, fund-gating, voting, charts, moderation)
   6. Responsive on mobile (3G networks, low-end Android)
   7. WCAG AA accessibility maintained
-**Plans:** 4/7 plans executed
+**Plans:** 6/7 plans executed
 **UI hint:** yes
 
 Plans:
 - [x] 17-01-PLAN.md -- Design system foundation: CSS variables, fonts, icons, nav, footer (Wave 1)
-- [ ] 17-02-PLAN.md -- Homepage redesign: hero, stats, problem cards, Lucky, data, action, blog preview (Wave 2)
-- [ ] 17-03-PLAN.md -- Blog listing + post detail page redesign (Wave 2)
-- [x] 17-04-PLAN.md -- Petition page redesign (Wave 2)
-- [x] 17-05-PLAN.md -- Donate page redesign (Wave 2)
-- [x] 17-06-PLAN.md -- Token page redesign: fund tracker, roadmap, voting (Wave 2)
+- [x] 17-02-PLAN.md -- Homepage redesign: hero, stats, problem cards, Lucky, data, action, blog preview (Wave 2) (c1a34c6, 270f8a1)
+- [x] 17-03-PLAN.md -- Blog listing + post detail page redesign (Wave 2) (ac39cb1, 92a3c76)
+- [x] 17-04-PLAN.md -- Petition page redesign (Wave 2) (b748bd9)
+- [x] 17-05-PLAN.md -- Donate page redesign (Wave 2) (320f81c, fddd8c1)
+- [x] 17-06-PLAN.md -- Token page redesign: fund tracker, roadmap, voting (Wave 2) (5956cc5, 73c715d)
 - [ ] 17-07-PLAN.md -- About page + responsive QA + visual verification (Wave 3)
 
 ---
