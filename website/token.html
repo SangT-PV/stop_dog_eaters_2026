@@ -166,97 +166,84 @@
   </section>
 
   <!-- FUND TRACKER DASHBOARD -->
-  <section class="section bg-offwhite">
-    <div class="container">
-      <div class="text-center donate-breakdown-section">
-        <span class="eyebrow">Campaign Fund Tracker</span>
-        <h2 class="donate-fund-tracker-title">Total Raised Across All Channels</h2>
-        <p class="intro-text">
-          Full transparency on every dollar raised and spent. All proceeds fund professional advocacy and community outreach activities.
-        </p>
+  <section class="fund-dashboard-section">
+    <div class="fund-dashboard-top">
+      <div>
+        <h2>Fund Transparency Dashboard</h2>
+        <p>Real-time allocation of community resources. Every dollar is tracked to ensure maximum impact for animal welfare.</p>
       </div>
-
-      <div id="fund-tracker-container" class="fund-tracker-container">
-        <!-- Summary Metrics -->
+      <div class="fund-summary-cards">
         <div id="fund-summary" class="fund-summary">
-          <div class="fund-metric">
-            <div class="fund-metric-value">$0</div>
-            <div class="fund-metric-label">Total Raised</div>
+          <div class="fund-summary-card">
+            <div class="label">Total Raised</div>
+            <div class="fund-metric-value value">$0</div>
           </div>
-          <div class="fund-metric">
-            <div class="fund-metric-value">$0</div>
-            <div class="fund-metric-label">Total Spent</div>
+          <div class="fund-summary-card">
+            <div class="label">Total Spent</div>
+            <div class="fund-metric-value value">$0</div>
           </div>
-          <div class="fund-metric">
-            <div class="fund-metric-value">$0</div>
-            <div class="fund-metric-label">Balance</div>
+          <div class="fund-summary-card fund-summary-card--accent">
+            <div class="label">Balance</div>
+            <div class="fund-metric-value value">$0</div>
           </div>
-        </div>
-
-        <!-- Fund Sources -->
-        <div class="donate-breakdown-section">
-          <h3 class="donate-fund-tracker-title">Funding Sources</h3>
-          <div id="fund-sources" class="fund-sources">
-            <!-- Populated by JavaScript -->
-          </div>
-        </div>
-
-        <!-- Allocation Chart -->
-        <div class="donate-breakdown-section">
-          <h3 class="donate-fund-tracker-title">Budget Allocation</h3>
-          <canvas id="allocation-chart" width="400" height="400"></canvas>
-        </div>
-
-        <!-- Budget Allocations -->
-        <div class="donate-breakdown-section">
-          <h3 class="donate-fund-tracker-title">Category Breakdown</h3>
-          <div id="fund-allocations" class="fund-allocations">
-            <!-- Populated by JavaScript -->
-          </div>
-        </div>
-
-        <!-- Recent Expenses -->
-        <div>
-          <h3 class="donate-fund-tracker-title">Recent Expenses</h3>
-          <div id="fund-expenses">
-            <!-- Populated by JavaScript -->
-          </div>
-        </div>
-
-        <!-- Last Updated -->
-        <div id="fund-last-updated" class="fund-last-updated">
-          Last updated: Loading...
         </div>
       </div>
+    </div>
+
+    <div id="fund-tracker-container" class="fund-dashboard-grid">
+      <!-- Allocation Chart -->
+      <div class="fund-dashboard-card">
+        <h3>Budget Allocation</h3>
+        <canvas id="allocation-chart" width="400" height="400"></canvas>
+      </div>
+
+      <!-- Fund Sources / Category Breakdown -->
+      <div class="fund-dashboard-card">
+        <h3>Category Breakdown</h3>
+        <div id="fund-sources" class="fund-sources">
+          <!-- Populated by JavaScript -->
+        </div>
+        <div id="fund-allocations" class="fund-allocations">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Recent Expenses -->
+      <div class="fund-dashboard-card">
+        <h3>Recent Expenses</h3>
+        <div id="fund-expenses">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Last Updated -->
+    <div id="fund-last-updated" class="fund-last-updated" style="color: rgba(137,171,173,1); text-align: center; margin-top: 2rem; font-size: 0.75rem;">
+      Last updated: Loading...
     </div>
   </section>
 
   <!-- FUND-GATED COMMUNITY ROADMAP -->
-  <section class="section">
-    <div class="container">
-      <div class="text-center donate-breakdown-section">
-        <span class="eyebrow">Community Features Roadmap</span>
-        <h2 class="donate-fund-tracker-title">Unlock Features Together</h2>
-        <p class="intro-text">
-          As our campaign grows, new community features unlock at each funding milestone. Every dollar brings us closer to the next feature.
-        </p>
-      </div>
-      <div id="fund-roadmap" class="fund-roadmap-container">
-        <!-- Rendered by fund-roadmap.js -->
-      </div>
+  <section class="roadmap-section">
+    <h2>Development Roadmap</h2>
+    <p style="color: var(--on-surface-variant); font-size: 1.125rem; max-width: 42rem; margin: 0 auto 4rem; text-align: center;">
+      As our fundraising milestones are met, we unlock new features and tools for the community to scale our advocacy globally.
+    </p>
+    <div id="fund-roadmap" class="fund-roadmap-container">
+      <!-- Rendered by fund-roadmap.js -->
     </div>
   </section>
 
   <!-- FEATURE VOTING ($10K+ tier) -->
-  <section class="section bg-offwhite">
-    <div class="container">
-      <div class="text-center donate-breakdown-section">
-        <span class="eyebrow">Community Priorities</span>
-        <h2 class="donate-fund-tracker-title">Vote on What We Build Next</h2>
-        <p class="intro-text">
-          When our campaign reaches $10K+, the community decides which features and initiatives we prioritize.
-        </p>
+  <section class="voting-section">
+    <div class="voting-glass-card">
+      <div class="voting-icon">
+        <span class="material-symbols-outlined" style="font-size: 2.5rem;">how_to_vote</span>
       </div>
+      <h2>Governance &amp; Community Voting</h2>
+      <p>
+        Direct democratic control over treasury allocation. This feature will unlock once the Community Fund reaches the $10,000 threshold.
+      </p>
       <div id="feature-voting" class="feature-voting-container">
         <!-- Rendered by feature-voting.js -->
       </div>

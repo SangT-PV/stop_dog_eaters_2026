@@ -5203,10 +5203,197 @@ select.comment-input {
   .token-cta-inner { flex-direction: column; text-align: center; }
 }
 
+/* --- Fund Transparency Dashboard (Stitch 06 dark bg) ------- */
+.fund-dashboard-section {
+  background: var(--primary-container);
+  padding: var(--section-py) var(--section-px);
+}
+.fund-dashboard-top {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+.fund-dashboard-section h2 {
+  font-family: var(--font-head);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--on-primary);
+  margin-bottom: 1rem;
+}
+.fund-dashboard-section > p,
+.fund-dashboard-top > div:first-child > p {
+  color: rgba(137,171,173,1);
+  font-size: 1.125rem;
+  max-width: 42rem;
+  margin-bottom: 0;
+}
+.fund-summary-cards .fund-summary {
+  display: flex;
+  gap: 1rem;
+}
+.fund-summary-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  min-width: 8.75rem;
+}
+.fund-summary-card .label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(137,171,173,1);
+  margin-bottom: 0.25rem;
+}
+.fund-summary-card .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--on-primary);
+}
+.fund-summary-card--accent {
+  background: rgba(0,108,81,0.2);
+  border-color: rgba(0,108,81,0.3);
+}
+.fund-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.fund-dashboard-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.fund-dashboard-card h3 {
+  color: var(--on-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+}
+
+/* --- Fund-gated Roadmap (Stitch 06) ------------------------ */
+.roadmap-section {
+  padding: var(--section-py) var(--section-px);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  text-align: center;
+}
+.roadmap-section h2 {
+  font-family: var(--font-head);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  text-align: left;
+}
+.milestone-card {
+  background: var(--surface-container-low);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border-bottom: 4px solid var(--outline-variant);
+  position: relative;
+  transition: transform 0.2s;
+}
+.milestone-card--completed {
+  opacity: 0.6;
+  border-bottom-color: var(--primary-container);
+}
+.milestone-card--active {
+  background: var(--surface);
+  border-bottom-color: var(--amber);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+  z-index: 20;
+}
+.milestone-card--locked {
+  opacity: 0.4;
+}
+.milestone-amount {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+.milestone-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+.milestone-card--completed .milestone-status { color: var(--primary-container); }
+.milestone-card--active .milestone-status { color: var(--amber); }
+.milestone-card--locked .milestone-status { color: var(--outline); }
+
+/* --- Feature Voting (Stitch 06 frosted glass) -------------- */
+.voting-section {
+  padding: var(--section-py) var(--section-px);
+  background: var(--surface-container-high);
+  position: relative;
+  overflow: hidden;
+}
+.voting-glass-card {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-xl);
+  padding: 4rem;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: var(--shadow);
+}
+.voting-glass-card .voting-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: 50%;
+  margin-bottom: 2rem;
+}
+.voting-glass-card h2 {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+.voting-glass-card > p {
+  color: var(--on-surface-variant);
+  font-size: 1.125rem;
+  max-width: 36rem;
+  margin: 0 auto 2.5rem;
+}
+
 /* Token page (Stitch 06) responsive */
 @media (max-width: 768px) {
   .token-hero-inner { grid-template-columns: 1fr; }
   .token-info-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .fund-dashboard-grid { grid-template-columns: 1fr; }
+  .fund-dashboard-top { flex-direction: column; align-items: flex-start; }
+  .fund-summary-cards .fund-summary { flex-direction: column; }
+  .roadmap-grid { grid-template-columns: 1fr 1fr; }
+  .voting-glass-card { padding: 2rem; }
 }
 
 /* ====== RESPONSIVE OVERRIDES ====== */
