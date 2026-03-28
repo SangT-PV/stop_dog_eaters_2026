@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Design & Engagement Enhancement
-status: Phase complete — ready for verification
-stopped_at: Completed 10-02-PLAN.md
-last_updated: "2026-03-26T16:49:33.200Z"
+status: Ready to execute
+stopped_at: Completed 17-01-PLAN.md
+last_updated: "2026-03-28T18:01:44.664Z"
 progress:
-  total_phases: 9
+  total_phases: 10
   completed_phases: 4
-  total_plans: 10
-  completed_plans: 11
+  total_plans: 17
+  completed_plans: 12
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** 95% of Vietnamese support ending the dog meat trade. Our content must amplify this democratic mandate with credible, locally-sourced research and clear calls to action.
-**Current focus:** Phase 10 — data-visualizations
+**Current focus:** Phase 17 — stitch-design-system-implementation
 
 ## Current Position
 
-Phase: 10 (data-visualizations) — EXECUTING
-Plan: 2 of 2
+Phase: 17 (stitch-design-system-implementation) — EXECUTING
+Plan: 2 of 7
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Plan: 2 of 2
 | Phase 09 P02 | 207 | 2 tasks | 2 files |
 | Phase 10 P01 | 242 | 2 tasks | 3 files |
 | Phase 10 P02 | 242 | 2 tasks | 2 files |
+| Phase 17 P01 | 267 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,8 @@ Recent decisions affecting current work:
 - [Phase 09]: Prose narrowed to 680px with 1.85 line-height for editorial magazine reading comfort
 - [Phase 10]: Reused existing Phase 9 .stat-callout component instead of creating duplicates for maintainability
 - [Phase 10]: Reused .stat-callout component from Plan 10-01 with new --compact modifier for DRY maintainability
+- [Phase 17]: Newsreader/Inter typography system replaces Georgia/Montserrat — Stitch MD3 alignment
+- [Phase 17]: Nav changed from sticky to fixed with frosted-glass backdrop-filter — requires .pt-nav offset utility
 
 ### Roadmap Evolution
 
@@ -130,8 +133,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-26T16:49:33.196Z
-Stopped at: Completed 10-02-PLAN.md
+Last session: 2026-03-28T18:01:44.660Z
+Stopped at: Completed 17-01-PLAN.md
 Resume file: None
 
 **Next action:** Phase 1001 and Phase 16 complete. Begin Phase 8 (CSS Refactoring Foundation) — discuss requirements and create plan
