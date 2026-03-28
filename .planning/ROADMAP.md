@@ -9,26 +9,26 @@
 
 ## Milestones
 
-- ✅ **v1.0 Launch** - Phases 1-7 + backlog (shipped 2026-03-24)
-- 🚧 **v2.0 Design & Engagement Enhancement** - Phases 8-15 (in progress)
+- â **v1.0 Launch** - Phases 1-7 + backlog (shipped 2026-03-24)
+- ð§ **v2.0 Design & Engagement Enhancement** - Phases 8-15 (in progress)
 
 ---
 
 <details>
-<summary>✅ v1.0 Launch (Phases 1-7 + Backlog) - SHIPPED 2026-03-24</summary>
+<summary>â v1.0 Launch (Phases 1-7 + Backlog) - SHIPPED 2026-03-24</summary>
 
 ## Phase 1: Website & Brand Foundation (SDE-001)
 **Status:** Complete
 **Jira:** SDE-001
 **Owner:** Hieu (Lead Frontend)
 
-- [x] 01-01-PLAN.md — Website structure and navigation (1a48d7d)
-- [x] 01-02-PLAN.md — Petition page layout and widget placeholder (1a48d7d)
-- [x] 01-03-PLAN.md — Brand design system v2 implementation (d995e79)
-- [x] 01-04-PLAN.md — Hero section with Lucky's story framework (d995e79)
-- [x] 01-05-PLAN.md — Transparency statement on donate page (d995e79)
+- [x] 01-01-PLAN.md â Website structure and navigation (1a48d7d)
+- [x] 01-02-PLAN.md â Petition page layout and widget placeholder (1a48d7d)
+- [x] 01-03-PLAN.md â Brand design system v2 implementation (d995e79)
+- [x] 01-04-PLAN.md â Hero section with Lucky's story framework (d995e79)
+- [x] 01-05-PLAN.md â Transparency statement on donate page (d995e79)
 
-**Definition of Done:** Website live on stopdogeaters.info with petition widget active and transparency page published. ✅ ACHIEVED
+**Definition of Done:** Website live on stopdogeaters.info with petition widget active and transparency page published. â ACHIEVED
 
 ---
 
@@ -37,10 +37,10 @@
 **Jira:** SDE-002
 **Owner:** Tuan Anh (Social Manager) + All
 
-- [x] 02-01-PLAN.md — Draft Change.org petition text (title, targets, 3 core arguments) (352cb95)
-- [x] 02-02-PLAN.md — Tone review and local framing refinement (c6d6565)
-- [x] 02-03-PLAN.md — Publish on Change.org and embed link on website (7510911 - LIVE: https://c.org/nLZTZdVNdJ)
-- [ ] 02-04-PLAN.md — Prepare initial outreach list (Vietnamese communities, expat groups, animal welfare orgs)
+- [x] 02-01-PLAN.md â Draft Change.org petition text (title, targets, 3 core arguments) (352cb95)
+- [x] 02-02-PLAN.md â Tone review and local framing refinement (c6d6565)
+- [x] 02-03-PLAN.md â Publish on Change.org and embed link on website (7510911 - LIVE: https://c.org/nLZTZdVNdJ)
+- [ ] 02-04-PLAN.md â Prepare initial outreach list (Vietnamese communities, expat groups, animal welfare orgs)
 
 **Definition of Done:** Petition live on Change.org, linked prominently from homepage, initial outreach list prepared.
 
@@ -51,15 +51,15 @@
 **Jira:** SDE-003
 **Owner:** Siva (Lead Developer)
 
-- [x] 03-01-PLAN.md — Windows Task Scheduler setup with run.bat (98ebf40)
-- [x] 03-02-PLAN.md — AWS Bedrock integration with Claude Sonnet 4.6 (98ebf40)
-- [x] 03-03-PLAN.md — CMS-to-Telegram auto-post pipeline (98ebf40)
-- [x] 03-04-PLAN.md — Facebook Page distribution with env-var opt-in (98ebf40)
-- [x] 03-05-PLAN.md — Content verification guardrails (95% stat + Change.org link enforcement) (98ebf40)
-- [x] 03-06-PLAN.md — Two-stage pipeline (generate for review → publish to live) (98ebf40)
-- [x] 03-07-PLAN.md — HTML preview system saved to automation/previews/ (98ebf40)
+- [x] 03-01-PLAN.md â Windows Task Scheduler setup with run.bat (98ebf40)
+- [x] 03-02-PLAN.md â AWS Bedrock integration with Claude Sonnet 4.6 (98ebf40)
+- [x] 03-03-PLAN.md â CMS-to-Telegram auto-post pipeline (98ebf40)
+- [x] 03-04-PLAN.md â Facebook Page distribution with env-var opt-in (98ebf40)
+- [x] 03-05-PLAN.md â Content verification guardrails (95% stat + Change.org link enforcement) (98ebf40)
+- [x] 03-06-PLAN.md â Two-stage pipeline (generate for review â publish to live) (98ebf40)
+- [x] 03-07-PLAN.md â HTML preview system saved to automation/previews/ (98ebf40)
 
-**Definition of Done:** Automation loop runs without manual intervention for 48 hours; Telegram posts publishing daily. ✅ ACHIEVED (tested end-to-end)
+**Definition of Done:** Automation loop runs without manual intervention for 48 hours; Telegram posts publishing daily. â ACHIEVED (tested end-to-end)
 
 ---
 
@@ -68,13 +68,13 @@
 **Jira:** SDE-004
 **Owner:** Siva (Lead Developer)
 
-- [x] 04-01-PLAN.md — Update blog_publisher.py for split storage (write individual post files + append to index.json) (8380e08)
-- [x] 04-02-PLAN.md — Update blog.html to fetch data/index.json instead of posts.json (8380e08)
-- [x] 04-03-PLAN.md — Update post.html to fetch data/posts/{id}.json for individual post (8380e08)
-- [x] 04-04-PLAN.md — Migrate existing seed posts from posts.json to new structure (8380e08)
-- [x] 04-05-PLAN.md — Remove legacy posts.json after migration verified (01c1073)
+- [x] 04-01-PLAN.md â Update blog_publisher.py for split storage (write individual post files + append to index.json) (8380e08)
+- [x] 04-02-PLAN.md â Update blog.html to fetch data/index.json instead of posts.json (8380e08)
+- [x] 04-03-PLAN.md â Update post.html to fetch data/posts/{id}.json for individual post (8380e08)
+- [x] 04-04-PLAN.md â Migrate existing seed posts from posts.json to new structure (8380e08)
+- [x] 04-05-PLAN.md â Remove legacy posts.json after migration verified (01c1073)
 
-**Definition of Done:** Blog listing and detail pages load from split files; Cloudflare CDN can cache individual posts; legacy posts.json removed. ✅ ACHIEVED
+**Definition of Done:** Blog listing and detail pages load from split files; Cloudflare CDN can cache individual posts; legacy posts.json removed. â ACHIEVED
 
 ---
 
@@ -83,8 +83,8 @@
 **Jira:** SDE-005
 **Owner:** Tuan Anh (Social Manager) + Uyen (Designer)
 
-- [ ] 05-01-PLAN.md — Define content pillars and tone guide for AI-generated posts
-- [ ] 05-02-PLAN.md — Set up Telegram channel moderation workflow and escalation rules
+- [ ] 05-01-PLAN.md â Define content pillars and tone guide for AI-generated posts
+- [ ] 05-02-PLAN.md â Set up Telegram channel moderation workflow and escalation rules
 
 **Definition of Done:** Content pillars documented; moderation workflow active; Tuan Anh reviewed first 10 AI posts.
 
@@ -95,10 +95,10 @@
 **Jira:** SDE-006
 **Owner:** All (coordinated by Siva + Uyen)
 
-- [ ] 06-01-PLAN.md — Draft Kickstarter pitch copy (lead with unregulated trade, public safety, community mandate)
-- [ ] 06-02-PLAN.md — Build "Why We Care" visual asset package (Lucky photography + infographics)
-- [x] 06-03-PLAN.md — Implement fund tracking dashboard (team view + public summary) (85bd8f8)
-- [ ] 06-04-PLAN.md — Publish transparency statement linking funds to specific activities
+- [ ] 06-01-PLAN.md â Draft Kickstarter pitch copy (lead with unregulated trade, public safety, community mandate)
+- [ ] 06-02-PLAN.md â Build "Why We Care" visual asset package (Lucky photography + infographics)
+- [x] 06-03-PLAN.md â Implement fund tracking dashboard (team view + public summary) (85bd8f8)
+- [ ] 06-04-PLAN.md â Publish transparency statement linking funds to specific activities
 
 **Definition of Done:** Kickstarter page ready for review; fund tracker live; transparency statement published.
 
@@ -109,9 +109,9 @@
 **Jira:** SDE-007
 **Owner:** Siva (Lead Developer) + Uyen (Designer)
 
-- [ ] 07-01-PLAN.md — Execute SDE token launch on pump.fun
-- [ ] 07-02-PLAN.md — Embed token link on website token.html with fund tracker placeholder
-- [ ] 07-03-PLAN.md — Create token announcement visual assets and cross-promote on all channels
+- [ ] 07-01-PLAN.md â Execute SDE token launch on pump.fun
+- [ ] 07-02-PLAN.md â Embed token link on website token.html with fund tracker placeholder
+- [ ] 07-03-PLAN.md â Create token announcement visual assets and cross-promote on all channels
 
 **Definition of Done:** SDE token live on pump.fun, embedded on website, announcement pushed across Telegram/Facebook/website.
 
@@ -146,15 +146,15 @@
 **Plans:** 7/7 plans complete
 
 Plans:
-- [x] 999.1-01-PLAN.md — Data contracts + comment rendering module on post.html (Wave 1)
-- [x] 999.1-02-PLAN.md — Fund-gated roadmap timeline on token.html + celebration banner (Wave 1)
-- [x] 999.1-03-PLAN.md — Comment submission form with formatting toolbar + threading + likes (Wave 2)
-- [x] 999.1-04-PLAN.md — Moderation dashboard (moderate.html) with approve/reject workflow (Wave 2)
-- [x] 999.1-05-PLAN.md — Community post submission on blog.html + moderation wiring (Wave 3)
-- [x] 999.1-06-PLAN.md — AI engagement bot automation module (Wave 3)
-- [x] 999.1-07-PLAN.md — Feature voting system + blog feed integration + final verification (Wave 4)
+- [x] 999.1-01-PLAN.md â Data contracts + comment rendering module on post.html (Wave 1)
+- [x] 999.1-02-PLAN.md â Fund-gated roadmap timeline on token.html + celebration banner (Wave 1)
+- [x] 999.1-03-PLAN.md â Comment submission form with formatting toolbar + threading + likes (Wave 2)
+- [x] 999.1-04-PLAN.md â Moderation dashboard (moderate.html) with approve/reject workflow (Wave 2)
+- [x] 999.1-05-PLAN.md â Community post submission on blog.html + moderation wiring (Wave 3)
+- [x] 999.1-06-PLAN.md â AI engagement bot automation module (Wave 3)
+- [x] 999.1-07-PLAN.md â Feature voting system + blog feed integration + final verification (Wave 4)
 
-**Definition of Done:** All 5 community features tier-gated and functional. Comments, community posts, AI bot, voting, and roadmap working. Moderation dashboard operational for Tuan Anh. ✅ ACHIEVED
+**Definition of Done:** All 5 community features tier-gated and functional. Comments, community posts, AI bot, voting, and roadmap working. Moderation dashboard operational for Tuan Anh. â ACHIEVED
 
 ### Phase 999.2: Simplify Comment UI - Clean Design Inspired by akaytruyen.com (COMPLETE)
 
@@ -168,9 +168,9 @@ Plans:
 **Plans:** 1/1 plans complete
 
 Plans:
-- [x] 999.2-01-PLAN.md — Strip formatting toolbar, emoji picker, and related CSS for clean comment design (Wave 1)
+- [x] 999.2-01-PLAN.md â Strip formatting toolbar, emoji picker, and related CSS for clean comment design (Wave 1)
 
-**Definition of Done:** Comment form renders with clean textarea-only design. No formatting toolbar or emoji picker visible. All core features (threading, likes, fund-gating, moderation) still work. ✅ ACHIEVED
+**Definition of Done:** Comment form renders with clean textarea-only design. No formatting toolbar or emoji picker visible. All core features (threading, likes, fund-gating, moderation) still work. â ACHIEVED
 
 ### Phase 1000: Chat-Style Comment UI (COMPLETE)
 
@@ -185,9 +185,9 @@ Plans:
 **Plans:** 1/1 plans complete
 
 Plans:
-- [x] 1000-01-PLAN.md — Replace card-based comment CSS and JS rendering with chat-bubble UI (Wave 1) (7290e32, bb99eb0, 234bc52)
+- [x] 1000-01-PLAN.md â Replace card-based comment CSS and JS rendering with chat-bubble UI (Wave 1) (7290e32, bb99eb0, 234bc52)
 
-**Definition of Done:** Comments render as chat bubbles with speech-bubble shape. Input bar at bottom with circular send button. All existing features preserved (threading, likes, replies, fund-gating, pending badges, bot comments). Human-verified visually. ✅ ACHIEVED
+**Definition of Done:** Comments render as chat bubbles with speech-bubble shape. Input bar at bottom with circular send button. All existing features preserved (threading, likes, replies, fund-gating, pending badges, bot comments). Human-verified visually. â ACHIEVED
 
 ### Phase 1001: UI/UX Brand Compliance Fixes
 
@@ -197,9 +197,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [x] 1001-01-PLAN.md — Replace emoji icons with Lucide SVGs and fix accessibility for image placeholders (Wave 1) (667edad)
-- [x] 1001-02-PLAN.md — Add loading spinners, empty states, touch-action, and color alias cleanup (Wave 1) (e36f810, a2bab9f)
-- [x] 1001-03-PLAN.md — Enhanced interactive states, skip-to-content, reduced-motion, aria-live regions (Wave 2)
+- [x] 1001-01-PLAN.md â Replace emoji icons with Lucide SVGs and fix accessibility for image placeholders (Wave 1) (667edad)
+- [x] 1001-02-PLAN.md â Add loading spinners, empty states, touch-action, and color alias cleanup (Wave 1) (e36f810, a2bab9f)
+- [x] 1001-03-PLAN.md â Enhanced interactive states, skip-to-content, reduced-motion, aria-live regions (Wave 2)
 
 **Definition of Done:** Zero emoji icons on site. All placeholders accessible. Loading states visible. Cards have hover shadows. Skip-to-content works. Reduced-motion honored. Human visual verification passed.
 
@@ -207,7 +207,7 @@ Plans:
 
 ---
 
-## 🚧 v2.0 Design & Engagement Enhancement (Phases 8-15)
+## ð§ v2.0 Design & Engagement Enhancement (Phases 8-15)
 
 **Milestone Goal:** Transform the blog from functional (7/10 UI/UX score) to emotionally compelling with bold visual design, data-driven storytelling, and modern engagement tools
 
@@ -222,9 +222,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [x] 08-01-PLAN.md — Extract inline styles from token.html and donate.html into CSS classes (Wave 1)
-- [x] 08-02-PLAN.md — Extract inline styles from about.html and petition.html into CSS classes (Wave 2)
-- [x] 08-03-PLAN.md — Extract remaining inline styles from post, blog, moderate, index + visual verification (Wave 3)
+- [x] 08-01-PLAN.md â Extract inline styles from token.html and donate.html into CSS classes (Wave 1)
+- [x] 08-02-PLAN.md â Extract inline styles from about.html and petition.html into CSS classes (Wave 2)
+- [x] 08-03-PLAN.md â Extract remaining inline styles from post, blog, moderate, index + visual verification (Wave 3)
 
 ### Phase 9: Design System Enhancement
 **Goal:** Apply bold activism aesthetic to blog listing and editorial refinement to article reading
@@ -239,8 +239,8 @@ Plans:
 **UI hint:** yes
 
 Plans:
-- [x] 09-01-PLAN.md — Bold activism blog listing styles + site-wide large rounded corners (Wave 1)
-- [x] 09-02-PLAN.md — Editorial magazine article layout + teal gradient CTA box (Wave 2)
+- [x] 09-01-PLAN.md â Bold activism blog listing styles + site-wide large rounded corners (Wave 1)
+- [x] 09-02-PLAN.md â Editorial magazine article layout + teal gradient CTA box (Wave 2)
 
 ### Phase 10: Data Visualizations
 **Goal:** Establish data journalism credibility with disease trend charts, opinion timeline, and stat callouts
@@ -255,8 +255,8 @@ Plans:
 **UI hint:** yes
 
 Plans:
-- [x] 10-01-PLAN.md — Core charts (disease trend + opinion bar) and stat callouts on index.html (Wave 1)
-- [x] 10-02-PLAN.md — Blog sidebar stats widget + visual verification (Wave 2)
+- [x] 10-01-PLAN.md â Core charts (disease trend + opinion bar) and stat callouts on index.html (Wave 1)
+- [x] 10-02-PLAN.md â Blog sidebar stats widget + visual verification (Wave 2)
 ### Phase 11: Scrollytelling Integration
 **Goal:** Create engaging scroll-triggered visualizations that tell campaign story through progressive reveal
 **Depends on:** Phase 10
@@ -340,16 +340,16 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [x] 16-01-PLAN.md — Update chat bubbles and action buttons with v2.0 design tokens (33ee49a, 553381b, 5631e0f)
-- [x] 16-02-PLAN.md — Replace toolbar text buttons with Lucide SVG icons and add generous editorial spacing (04c8ca2, 4d39923, 01c5b78)
-- [x] 16-03-PLAN.md — Update Share Your Research section with v2.0 design tokens (50f1f72, 307ab4e, 9f9020e, ab3943c, b496646)
+- [x] 16-01-PLAN.md â Update chat bubbles and action buttons with v2.0 design tokens (33ee49a, 553381b, 5631e0f)
+- [x] 16-02-PLAN.md â Replace toolbar text buttons with Lucide SVG icons and add generous editorial spacing (04c8ca2, 4d39923, 01c5b78)
+- [x] 16-03-PLAN.md â Update Share Your Research section with v2.0 design tokens (50f1f72, 307ab4e, 9f9020e, ab3943c, b496646)
 
 ---
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 15
+Phases execute in numeric order: 8 â 9 â 10 â 11 â 12 â 13 â 14 â 15
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -373,7 +373,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 | 16. Discussion UI Rebuild | v2.0 | 3/3 | Complete | 2026-03-24 |
-| 17. Stitch Design Implementation | v2.0 | 0/7 | Not started | - |
+| 17. Stitch Design Implementation | v2.0 | 0/7 | Planning complete | - |
 
 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
@@ -388,9 +388,9 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14 → 
 **Plans:** 3/3 plans executed
 
 Plans:
-- [x] 16-01-PLAN.md — Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
-- [x] 16-02-PLAN.md — Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1) (04c8ca2)
-- [x] 16-03-PLAN.md — Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2) (50f1f72)
+- [x] 16-01-PLAN.md â Apply v2.0 design tokens to chat-bubble comment UI (large rounded corners, dramatic hover shadows, semantic typography) (Wave 1)
+- [x] 16-02-PLAN.md â Redesign community post form with editorial aesthetic and Lucide icons for toolbar (Wave 1) (04c8ca2)
+- [x] 16-03-PLAN.md â Add accessibility enhancements (ARIA labels, keyboard navigation, loading states, success banners) (Wave 2) (50f1f72)
 
 ### Phase 17: Stitch Design System Implementation
 
@@ -407,17 +407,17 @@ Plans:
   5. All existing JS functionality preserved (blog, comments, fund-gating, voting, charts, moderation)
   6. Responsive on mobile (3G networks, low-end Android)
   7. WCAG AA accessibility maintained
-**Plans:** TBD (7 plans estimated)
+**Plans:** 7 plans
 **UI hint:** yes
 
 Plans:
-- [ ] 17-01: Design system foundation — CSS variables, fonts, icons, nav, footer (shared components)
-- [ ] 17-02: Homepage redesign (hero, stats, problem cards, Lucky, data, action, blog preview)
-- [ ] 17-03: Blog listing + post detail page redesign
-- [ ] 17-04: Petition page redesign
-- [ ] 17-05: Donate page redesign
-- [ ] 17-06: Token page redesign (fund tracker, roadmap, voting)
-- [ ] 17-07: About page + responsive QA + visual verification
+- [ ] 17-01-PLAN.md -- Design system foundation: CSS variables, fonts, icons, nav, footer (Wave 1)
+- [ ] 17-02-PLAN.md -- Homepage redesign: hero, stats, problem cards, Lucky, data, action, blog preview (Wave 2)
+- [ ] 17-03-PLAN.md -- Blog listing + post detail page redesign (Wave 2)
+- [ ] 17-04-PLAN.md -- Petition page redesign (Wave 2)
+- [ ] 17-05-PLAN.md -- Donate page redesign (Wave 2)
+- [ ] 17-06-PLAN.md -- Token page redesign: fund tracker, roadmap, voting (Wave 2)
+- [ ] 17-07-PLAN.md -- About page + responsive QA + visual verification (Wave 3)
 
 ---
 
