@@ -373,7 +373,7 @@ Phases execute in numeric order: 8 â 9 â 10 â 11 â 12 â
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 | 16. Discussion UI Rebuild | v2.0 | 3/3 | Complete | 2026-03-24 |
-| 17. Stitch Design Implementation | v2.0 | 1/7 | In Progress|  |
+| 17. Stitch Design Implementation | v2.0 | 2/7 | In Progress|  |
 
 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
@@ -407,14 +407,14 @@ Plans:
   5. All existing JS functionality preserved (blog, comments, fund-gating, voting, charts, moderation)
   6. Responsive on mobile (3G networks, low-end Android)
   7. WCAG AA accessibility maintained
-**Plans:** 1/7 plans executed
+**Plans:** 2/7 plans executed
 **UI hint:** yes
 
 Plans:
 - [x] 17-01-PLAN.md -- Design system foundation: CSS variables, fonts, icons, nav, footer (Wave 1)
 - [ ] 17-02-PLAN.md -- Homepage redesign: hero, stats, problem cards, Lucky, data, action, blog preview (Wave 2)
 - [ ] 17-03-PLAN.md -- Blog listing + post detail page redesign (Wave 2)
-- [ ] 17-04-PLAN.md -- Petition page redesign (Wave 2)
+- [x] 17-04-PLAN.md -- Petition page redesign (Wave 2)
 - [ ] 17-05-PLAN.md -- Donate page redesign (Wave 2)
 - [ ] 17-06-PLAN.md -- Token page redesign: fund tracker, roadmap, voting (Wave 2)
 - [ ] 17-07-PLAN.md -- About page + responsive QA + visual verification (Wave 3)
