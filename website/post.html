@@ -58,33 +58,43 @@
     </div>
 
     <article id="post-article" class="post-article" style="display:none;">
-      <a href="blog.html" class="post-back-link">
-        &larr; Back to Blog
-      </a>
-      <img id="post-banner" class="post-banner" style="display:none;" alt="Article banner" />
-      <span id="post-tag" class="blog-tag post-tag-block"></span>
-      <h1 id="post-title" class="post-title"></h1>
-      <div class="post-byline">
-        <span id="post-author" class="post-byline-author"></span>
-        <span class="post-byline-dot">&middot;</span>
-        <span id="post-date" class="post-byline-date"></span>
+
+      <!-- Post Header -->
+      <div class="post-header-stitch">
+        <a href="blog.html" class="back-link">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Back to Blog
+        </a>
+        <img id="post-banner" class="post-banner-stitch" style="display:none;" alt="Article banner" />
+        <span id="post-tag" class="blog-tag post-tag-block"></span>
+        <h1 id="post-title" class="post-title-stitch"></h1>
+        <div class="post-meta-stitch">
+          <div class="post-avatar" id="post-avatar"></div>
+          <div class="post-meta-text">
+            <span id="post-author" class="post-author-name"></span>
+            <span id="post-date" class="post-publish-info"></span>
+          </div>
+        </div>
       </div>
-      <div id="post-body" class="prose"></div>
+
+      <!-- Article Prose -->
+      <div class="post-prose-stitch">
+        <div id="post-body" class="prose"></div>
+      </div>
 
     </article>
 
     <!-- CTA -->
-    <div class="post-cta-box">
-      <div class="post-cta-accent"></div>
-      <p class="post-cta-heading">Take Action Against the Unregulated Trade</p>
-      <p class="post-cta-text">
+    <div class="post-cta-box-stitch">
+      <h3>Take Action Against the Unregulated Trade</h3>
+      <p>
         Join 95% of Vietnamese citizens who support ending the dog meat trade. Add your voice to the petition.
       </p>
-      <a href="petition.html" class="btn btn-primary post-cta-btn">Sign the Petition</a>
+      <a href="petition.html" class="btn">Sign the Petition</a>
     </div>
 
     <!-- COMMENTS SECTION -->
-    <div id="comments-section" class="comments-section">
+    <div id="comments-section" class="comments-section comments-section-stitch">
       <h2>Discussion <span class="comments-count" id="comments-count"></span></h2>
       <div id="comments-container">
         <!-- Rendered by comments.js -->
@@ -180,13 +190,19 @@
           document.getElementById('post-tag').textContent = post.tag;
           document.getElementById('post-title').textContent = post.title;
           document.getElementById('post-author').textContent = post.author;
-          document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          document.getElementById('post-date').textContent = 'Published on ' + new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
           // Display banner if available
           if (post.banner_url) {
             var banner = document.getElementById('post-banner');
             banner.src = post.banner_url;
             banner.style.display = 'block';
+          }
+
+          // Set author avatar initial
+          var avatarEl = document.getElementById('post-avatar');
+          if (avatarEl && post.author) {
+            avatarEl.textContent = post.author.charAt(0).toUpperCase();
           }
 
           // Sanitize AI-generated HTML before insertion to prevent XSS
