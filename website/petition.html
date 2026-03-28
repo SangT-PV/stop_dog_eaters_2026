@@ -51,123 +51,138 @@
   </nav>
 
   <!-- PETITION HERO -->
-  <section class="petition-hero petition-header">
-    <div class="container">
-      <span class="eyebrow">Open Petition</span>
-      <h1>Demand an Immediate End to the<br>Cruel and Unsafe Dog Meat Trade</h1>
-      <p>Addressed to the Communist Party of Vietnam and Local Food Safety Management Authorities. Join citizens across Vietnam and the world in demanding change.</p>
-      <a href="https://c.org/nLZTZdVNdJ" target="_blank" class="btn btn-primary btn-lg">Sign the Petition on Change.org</a>
-    </div>
-  </section>
-
-  <!-- PETITION BODY -->
-  <div class="container">
-    <div class="petition-layout">
-
-      <!-- Arguments -->
-      <div class="petition-arguments">
-        <h2>Why This Petition Matters</h2>
-
-        <div class="argument-block">
-          <h3>Scale of Cruelty</h3>
-          <p>An estimated 5 million dogs are killed annually in Vietnam alone. A significant proportion are stolen family pets or strays, transported hundreds of kilometres in severely overcrowded, inhumane conditions. These are not wild animals — they are companion animals with owners, names, and families.</p>
-        </div>
-
-        <div class="argument-block">
-          <h3>Zero Regulation — Serious Public Health Risk</h3>
-          <p>The trade operates entirely outside Vietnam's food safety framework. There are no registered slaughterhouses, no veterinary inspections, and no hygiene standards. Independent health authorities have documented the trade as a confirmed vector for <strong>rabies</strong>, <strong>E. coli</strong>, and <strong>salmonella</strong> — posing risks not only to consumers but to the broader public through uncontrolled disease spread.</p>
-        </div>
-
-        <div class="argument-block">
-          <h3>Locally Led — 95% of Vietnamese Support This</h3>
-          <p>This is not an outside movement imposing foreign values. A 2021 survey of Vietnamese citizens found that <strong>95% support ending the dog meat trade</strong>. The government's failure to act is not a reflection of public will — it is a failure of political will. We are asking authorities to listen to their own people.</p>
-        </div>
-
-        <div class="argument-block">
-          <h3>Our Demand</h3>
-          <p>We call on the Communist Party of Vietnam and Local Food Safety Management Authorities to:</p>
-          <ul class="petition-argument-list">
-            <li>Introduce and enforce legislation banning the commercial dog meat trade</li>
-            <li>Criminalise the theft and trafficking of companion animals</li>
-            <li>Establish clear animal welfare protections aligned with international standards</li>
-            <li>Allocate resources to community transition support for those economically dependent on the trade</li>
-          </ul>
-        </div>
-
-        <!-- Targets -->
+  <header class="petition-hero">
+    <div style="display:grid;grid-template-columns:1fr;gap:3rem;align-items:end;" class="petition-hero-grid">
+      <div>
+        <span class="eyebrow">Official Mandate — File No. 8824</span>
+        <h1>Demand an Immediate End to the Cruel and Unsafe Dog Meat Trade</h1>
         <div class="petition-targets">
-          <h3>Petition Targets</h3>
-          <div class="petition-target-tags">
-            <span class="petition-target-tag petition-target-tag--navy">Communist Party of Vietnam</span>
-            <span class="petition-target-tag petition-target-tag--teal">Local Food Safety Management Authorities</span>
-          </div>
+          <span class="target-label">Addressed To:</span>
+          <span class="target-badge">Communist Party of Vietnam</span>
+          <span class="target-badge target-badge--secondary">Local Food Safety Management Authorities</span>
         </div>
       </div>
-
-      <!-- Sign Widget -->
-      <div id="sign" class="petition-widget-card">
-        <h3>Add Your Signature</h3>
-        <p>Join thousands standing with the 95% of Vietnamese who want this trade ended.</p>
-
-        <div class="petition-count">
-          <div class="count-num">247</div>
-          <div class="count-label">signatures</div>
-        </div>
-
-        <div class="progress-bar-wrap">
-          <div class="progress-bar" data-target="1000" data-current="247" style="width: 0%"></div>
-        </div>
-        <div class="progress-label">Goal: 1,000 signatures</div>
-
-        <div class="petition-notice">
-          <strong>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            Now Live on Change.org
-          </strong>
-          <p>The official petition is now live! Sign directly on <a href="https://c.org/nLZTZdVNdJ" target="_blank">Change.org</a> to join thousands demanding action.</p>
-        </div>
-
-        <form id="petition-form" class="petition-form--disabled">
-          <div class="form-field">
-            <label for="signer-name">Full Name *</label>
-            <input type="text" id="signer-name" name="name" placeholder="Your full name" required />
-          </div>
-          <div class="form-field">
-            <label for="signer-email">Email Address *</label>
-            <input type="email" id="signer-email" name="email" placeholder="your@email.com" required />
-          </div>
-          <div class="form-field">
-            <label for="signer-country">Country</label>
-            <input type="text" id="signer-country" name="country" placeholder="Vietnam" />
-          </div>
-          <label class="form-consent">
-            <input type="checkbox" id="consent" name="consent" required />
-            I agree to have my name displayed publicly on this petition and to receive campaign updates. I understand my data will not be shared with third parties.
-          </label>
-          <button type="submit" class="btn btn-primary petition-submit-btn">
-            Sign the Petition
-          </button>
-        </form>
-
-        <p class="petition-form-note">
-          Sign directly on <a href="https://c.org/nLZTZdVNdJ" target="_blank">Change.org</a>
-        </p>
+      <div>
+        <a href="https://c.org/nLZTZdVNdJ" target="_blank" class="petition-hero-link">
+          Sign the Petition on Change.org
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
       </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT: Two-column layout -->
+  <div class="petition-content">
+
+    <!-- Left Column: Evidence & Arguments -->
+    <div class="petition-evidence">
+
+      <section class="petition-section petition-section--bordered">
+        <h2>Scale of Cruelty</h2>
+        <p>An estimated <strong>5 million dogs</strong> are killed annually in Vietnam alone. A significant proportion are stolen family pets or strays, transported hundreds of kilometres in severely overcrowded, inhumane conditions. These are not wild animals — they are companion animals with owners, names, and families.</p>
+      </section>
+
+      <section class="petition-section petition-section--bg">
+        <h2>Zero Regulation — Serious Public Health Risk</h2>
+        <p>The trade operates entirely outside Vietnam's food safety framework. There are no registered slaughterhouses, no veterinary inspections, and no hygiene standards. Independent health authorities have documented the trade as a confirmed vector for <strong>rabies</strong>, <strong>E. coli</strong>, and <strong>salmonella</strong> — posing risks not only to consumers but to the broader public through uncontrolled disease spread.</p>
+      </section>
+
+      <section class="petition-section petition-section--bordered-teal">
+        <h2>Locally Led — 95% of Vietnamese Support This</h2>
+        <p>This is not an outside movement imposing foreign values. A 2021 survey of Vietnamese citizens found that <strong>95% support ending the dog meat trade</strong>. The government's failure to act is not a reflection of public will — it is a failure of political will. We are asking authorities to listen to their own people.</p>
+      </section>
+
+      <section class="petition-demand">
+        <h2>Our Demand</h2>
+        <ul class="petition-demand-list">
+          <li>
+            <span class="demand-num">01</span>
+            <p>Introduce and enforce legislation banning the commercial dog meat trade across all provinces.</p>
+          </li>
+          <li>
+            <span class="demand-num">02</span>
+            <p>Criminalise the theft and trafficking of companion animals with enforceable penalties.</p>
+          </li>
+          <li>
+            <span class="demand-num">03</span>
+            <p>Establish clear animal welfare protections aligned with international standards and WHO guidelines.</p>
+          </li>
+          <li>
+            <span class="demand-num">04</span>
+            <p>Allocate resources to community transition support for those economically dependent on the trade.</p>
+          </li>
+        </ul>
+      </section>
 
     </div>
+
+    <!-- Right Column: Sticky Sign Widget -->
+    <div class="petition-sign-widget" id="sign">
+      <div class="petition-sign-card">
+        <div class="petition-sign-inner">
+
+          <div class="petition-sign-header">
+            <span class="petition-sign-count">247</span>
+            <span class="petition-sign-goal">Goal: 1,000 Signatures</span>
+          </div>
+
+          <div class="petition-progress">
+            <div class="petition-progress-fill progress-bar" data-target="1000" data-current="247" style="width: 0%"></div>
+          </div>
+
+          <div class="petition-sign-live">
+            <span class="material-symbols-outlined">check_circle</span>
+            Now Live on Change.org
+          </div>
+
+          <form id="petition-form" class="petition-form">
+            <div>
+              <label for="signer-name">Full Name</label>
+              <input type="text" id="signer-name" name="name" placeholder="Johnathan Q. Public" required />
+            </div>
+            <div>
+              <label for="signer-email">Email Address</label>
+              <input type="email" id="signer-email" name="email" placeholder="advocate@example.com" required />
+            </div>
+            <div>
+              <label for="signer-country">Country</label>
+              <input type="text" id="signer-country" name="country" placeholder="Vietnam" />
+            </div>
+            <label class="form-consent">
+              <input type="checkbox" id="consent" name="consent" required />
+              I consent to receiving campaign updates and acknowledge my signature will be recorded publicly.
+            </label>
+            <button type="submit" class="petition-submit">
+              Sign the Petition
+            </button>
+          </form>
+
+          <div class="petition-sign-note">
+            <a href="https://c.org/nLZTZdVNdJ" target="_blank">Sign directly on Change.org</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- SHARE SECTION -->
-  <section class="section-sm bg-offwhite">
-    <div class="container text-center petition-share">
-      <span class="eyebrow">Amplify the Movement</span>
-      <h2>Share This Petition</h2>
-      <p>Every share reaches new potential signatories. Help us reach 1,000 signatures.</p>
-      <div class="petition-share-buttons">
-        <a href="#" class="btn btn-primary">Share on Facebook</a>
-        <a href="#" class="btn btn-secondary">Share on X / Twitter</a>
-        <a href="#" class="btn btn--whatsapp">Share on WhatsApp</a>
-      </div>
+  <section class="petition-share">
+    <h3>Share This Petition to Multiply the Impact</h3>
+    <div class="petition-share-buttons">
+      <button class="petition-share-btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')">
+        <span class="material-symbols-outlined">share</span>
+        Facebook
+      </button>
+      <button class="petition-share-btn" onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent('Demand an end to the cruel dog meat trade. Sign the petition!'),'_blank')">
+        <span class="material-symbols-outlined">crossword</span>
+        X (Twitter)
+      </button>
+      <button class="petition-share-btn" onclick="window.open('https://wa.me/?text='+encodeURIComponent('Sign the petition to end the dog meat trade: '+location.href),'_blank')">
+        <span class="material-symbols-outlined">send</span>
+        WhatsApp
+      </button>
     </div>
   </section>
 
