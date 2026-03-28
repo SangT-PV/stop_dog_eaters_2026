@@ -119,83 +119,116 @@
   </section>
 
   <!-- TRANSPARENCY -->
-  <section class="section" id="transparency">
-    <div class="container">
-      <div class="section-header text-center">
-        <span class="eyebrow">Full Transparency</span>
-        <h2>How Every Dollar Is Used</h2>
-        <p>We made this commitment publicly from day one. No exceptions.</p>
-      </div>
-
-      <div class="transparency-box donate-transparency">
-        <h3>Our Pledge to Donors</h3>
+  <section class="transparency-section" id="transparency">
+    <div class="transparency-grid">
+      <!-- Left: Pledge -->
+      <div class="transparency-pledge">
+        <h2>Our Pledge to Donors</h2>
         <p>
-          100% of all funds raised through Change.org, Kickstarter, and the SDE token are used exclusively for:
+          We operate with institutional-grade financial oversight. Every dollar is tracked, audited, and deployed toward high-impact community engagement.
         </p>
-        <ul class="donate-breakdown-list">
-          <li>Hiring qualified professionals to manage community communication</li>
-          <li>Running targeted awareness campaigns on social platforms</li>
-          <li>Producing research reports and campaign content</li>
-          <li>Platform and infrastructure costs necessary to operate the campaign</li>
+        <ul>
+          <li>
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Community Managers: 45%</span>
+          </li>
+          <li>
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Awareness Campaigns: 30%</span>
+          </li>
+          <li>
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Field Research: 15%</span>
+          </li>
+          <li>
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Infrastructure: 10%</span>
+          </li>
         </ul>
-        <p>
-          Core team members do not receive personal compensation from campaign funds. A public fund dashboard will be made available within 30 days of launch.
-        </p>
       </div>
 
-      <!-- INTERACTIVE FUND TRACKER -->
-      <div class="donate-breakdown-section">
-        <h3 class="donate-fund-tracker-title">Live Fund Tracker</h3>
-        <div id="fund-tracker-container" class="fund-tracker-container">
-          <!-- Summary Metrics -->
-          <div id="fund-summary" class="fund-summary">
-            <div class="fund-metric">
-              <div class="fund-metric-value">$0</div>
-              <div class="fund-metric-label">Total Raised</div>
+      <!-- Right: Fund Dashboard -->
+      <div>
+        <div class="fund-dashboard-header">
+          <span>Live Fund Tracker</span>
+          <span id="fund-last-updated" class="last-updated">Last Updated: Loading...</span>
+        </div>
+
+        <!-- Metric Cards -->
+        <div id="fund-tracker-container">
+          <div id="fund-summary" class="fund-metrics">
+            <div class="fund-metric-card">
+              <div class="label">Total Raised</div>
+              <div class="fund-metric-value value value--raised">$0</div>
             </div>
-            <div class="fund-metric">
-              <div class="fund-metric-value">$0</div>
-              <div class="fund-metric-label">Total Spent</div>
+            <div class="fund-metric-card">
+              <div class="label">Total Spent</div>
+              <div class="fund-metric-value value value--spent">$0</div>
             </div>
-            <div class="fund-metric">
-              <div class="fund-metric-value">$0</div>
-              <div class="fund-metric-label">Balance</div>
+            <div class="fund-metric-card">
+              <div class="label">Balance</div>
+              <div class="fund-metric-value value value--balance">$0</div>
             </div>
           </div>
 
-          <!-- Fund Sources -->
-          <div class="donate-breakdown-section">
-            <h4 class="donate-breakdown-title">Funding Sources</h4>
-            <div id="fund-sources" class="fund-sources">
-              <!-- Populated by JavaScript -->
-            </div>
-          </div>
-
-          <!-- Budget Allocations -->
-          <div class="donate-breakdown-section">
-            <h4 class="donate-breakdown-title">Budget Allocation by Category</h4>
+          <!-- Allocation Table -->
+          <div class="fund-allocation-stitch">
+            <h3>Budget Allocation</h3>
             <div id="fund-allocations" class="fund-allocations">
               <!-- Populated by JavaScript -->
             </div>
-          </div>
+            <div class="fund-progress-row">
+              <div class="row-header">
+                <span>Personnel (Professionals)</span>
+                <span>68% of Budget</span>
+              </div>
+              <div class="fund-progress-bar">
+                <div class="fund-progress-fill" style="width: 68%"></div>
+              </div>
+            </div>
+            <div class="fund-progress-row">
+              <div class="row-header">
+                <span>Field Operations</span>
+                <span>22% of Budget</span>
+              </div>
+              <div class="fund-progress-bar">
+                <div class="fund-progress-fill" style="width: 22%"></div>
+              </div>
+            </div>
+            <div class="fund-progress-row">
+              <div class="row-header">
+                <span>Administrative Costs</span>
+                <span>10% of Budget</span>
+              </div>
+              <div class="fund-progress-bar">
+                <div class="fund-progress-fill" style="width: 10%"></div>
+              </div>
+            </div>
 
-          <!-- Last Updated -->
-          <div id="fund-last-updated" class="fund-last-updated">
-            Last updated: Loading...
+            <!-- Funding Sources -->
+            <div class="fund-sources-stitch">
+              <div id="fund-sources">
+                <!-- Populated by JavaScript; static fallback badges below -->
+              </div>
+              <span class="fund-source-badge">Kickstarter (42%)</span>
+              <span class="fund-source-badge">Change.org (28%)</span>
+              <span class="fund-source-badge">Private Grants (20%)</span>
+              <span class="fund-source-badge">SDE Token (10%)</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ALSO: TOKEN CTA -->
-  <section class="section-sm bg-teal">
-    <div class="container token-cta-row token-cta-section">
+  <!-- SDE TOKEN CTA -->
+  <section class="token-cta-banner">
+    <div class="token-cta-inner">
       <div>
-        <h3 class="token-cta-section-title">Support via the SDE Token</h3>
-        <p class="token-cta-section-text">The SDE token on pump.fun provides an additional community fundraising channel for the campaign.</p>
+        <h2>Support via the SDE Token</h2>
+        <p>Leveraging decentralized finance for transparent, rapid action deployment.</p>
       </div>
-      <a href="token.html" class="btn btn-secondary">Learn About SDE Token</a>
+      <a href="token.html" class="token-cta-link">Explore Token Economics</a>
     </div>
   </section>
 
