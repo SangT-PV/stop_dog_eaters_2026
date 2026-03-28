@@ -4586,6 +4586,205 @@ select.comment-input {
   margin-bottom: 3rem;
 }
 
+/* --- Donate Page (Stitch Design) ------------------------------- */
+
+/* Donate hero */
+.donate-hero {
+  padding: var(--section-py) var(--section-px);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.donate-hero .eyebrow {
+  color: var(--primary-container);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+.donate-hero h1 {
+  font-family: var(--font-head);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+.donate-hero p {
+  font-size: 1.25rem;
+  color: var(--on-surface-variant);
+  line-height: 1.7;
+  max-width: 42rem;
+  border-left: 4px solid var(--primary-container);
+  padding-left: 2rem;
+}
+
+/* Platform cards (2-column grid) */
+.platform-cards {
+  background: var(--surface-container-low);
+  padding: 5rem var(--section-px);
+}
+.platform-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.platform-card {
+  background: var(--surface);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.platform-card:hover { transform: translateY(-4px); }
+.platform-card .featured-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0,108,81,0.1);
+  color: var(--secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+}
+.platform-card h2 {
+  font-family: var(--font-head);
+  font-size: 1.875rem;
+  margin-bottom: 1rem;
+}
+.platform-card p {
+  color: var(--on-surface-variant);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.platform-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: var(--primary-container);
+  transition: gap 0.2s;
+  text-decoration: none;
+}
+.platform-card-link:hover { gap: 1rem; }
+.platform-card-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  opacity: 0.2;
+  font-size: 3.75rem;
+}
+
+/* Kickstarter tier cards (3-column grid) */
+.tier-section {
+  padding: var(--section-py) var(--section-px);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.tier-section h2 {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-style: italic;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+.tier-section .accent-bar {
+  height: 4px;
+  width: 5rem;
+  background: var(--amber);
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.tier-card {
+  padding: 2.5rem;
+  border-top: 2px solid var(--outline-variant);
+}
+.tier-card .tier-label {
+  font-weight: 700;
+  color: var(--primary-container);
+  margin-bottom: 1rem;
+}
+.tier-card h3 {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.tier-card p {
+  color: var(--on-surface-variant);
+  margin-bottom: 2rem;
+}
+.tier-card button {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+}
+.tier-card button:hover {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.tier-card--featured {
+  background: var(--surface-container-highest);
+  border-top: 4px solid var(--amber);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+  position: relative;
+  z-index: 10;
+}
+.tier-card--featured .most-popular {
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--amber);
+  color: var(--primary);
+  padding: 0.25rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+.tier-card--featured button {
+  background: var(--primary-container);
+  color: var(--on-primary);
+  border-color: var(--primary-container);
+}
+.tier-card--locked {
+  opacity: 0.6;
+  filter: grayscale(1);
+}
+.tier-card--locked .tier-label {
+  color: var(--outline);
+}
+.tier-card--locked button {
+  border-color: var(--outline);
+  color: var(--outline);
+  cursor: not-allowed;
+}
+
 /* ====== RESPONSIVE OVERRIDES ====== */
 /* --- Responsive -------------------------------------------- */
 @media (max-width: 960px) {
@@ -4614,6 +4813,11 @@ select.comment-input {
 
   .token-info-grid { grid-template-columns: 1fr; gap: 32px; }
   .donate-tier-card { grid-template-columns: 1fr; text-align: center; }
+
+  /* Stitch donate responsive */
+  .platform-cards-grid { grid-template-columns: 1fr; }
+  .tier-grid { grid-template-columns: 1fr; }
+  .tier-card--featured { transform: scale(1); }
 
   .blog-main-grid { grid-template-columns: 1fr; }
   .blog-layout { grid-template-columns: 1fr; }

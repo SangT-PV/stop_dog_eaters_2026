@@ -50,86 +50,70 @@
     </div>
   </nav>
 
-  <!-- HEADER -->
-  <section class="donate-header">
-    <div class="container">
-      <span class="eyebrow">Fund the Movement</span>
-      <h1>Support the Campaign</h1>
-      <p>
-        Every contribution funds the professional community outreach and advocacy work that keeps this movement alive and growing. 100% transparent. 100% accountable.
-      </p>
-    </div>
+  <!-- DONATE HERO -->
+  <section class="donate-hero">
+    <span class="eyebrow">Our Mission</span>
+    <h1>Support the Campaign</h1>
+    <p>
+      100% of all funds raised are used exclusively for hiring professionals to manage community communication and social activities. Full transparency. No personal compensation for core team.
+    </p>
   </section>
 
-  <!-- DONATE PLATFORMS -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header text-center">
-        <span class="eyebrow">Choose Your Platform</span>
-        <h2>Two Ways to Contribute</h2>
-        <p>Both platforms are fully transparent — all funds go directly to community communication and advocacy activities.</p>
+  <!-- PLATFORM CARDS -->
+  <section class="platform-cards">
+    <div class="platform-cards-grid">
+      <!-- Change.org Card -->
+      <div class="platform-card">
+        <span class="material-symbols-outlined platform-card-icon">campaign</span>
+        <div>
+          <span class="featured-badge">Featured</span>
+          <h2>Change.org</h2>
+          <p>Direct Campaign Support. Contribute directly to the advocacy and legal fund to end dog meat consumption through institutional change.</p>
+        </div>
+        <a href="https://c.org/nLZTZdVNdJ" class="platform-card-link" target="_blank">
+          VISIT CAMPAIGN <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
       </div>
-      <div class="donate-grid">
-        <div class="donate-card featured">
-          <div class="platform">Change.org</div>
-          <h3>Direct Campaign Support</h3>
-          <p>Support the petition campaign directly on Change.org. Your contribution helps us maintain the petition platform, reach wider audiences, and fund professional community managers who keep the conversation going.</p>
-          <a href="https://c.org/nLZTZdVNdJ" class="btn btn-primary" target="_blank">Donate on Change.org</a>
+      <!-- Kickstarter Card -->
+      <div class="platform-card">
+        <div>
+          <span class="featured-badge" style="background: rgba(65,72,72,0.1); color: var(--on-surface-variant);">Multi-Tiered</span>
+          <h2>Kickstarter</h2>
+          <p>Backer Tiers &amp; Rewards. Support the structural growth of the organization while receiving exclusive updates and community recognition.</p>
         </div>
-        <div class="donate-card">
-          <div class="platform">Kickstarter</div>
-          <h3>Backer Tiers &amp; Rewards</h3>
-          <p>Back the campaign on Kickstarter and choose a tier that reflects your level of commitment. From Awareness Advocates to Community Dialogue Sponsors, every tier directly funds specific campaign activities.</p>
-          <a href="#" class="btn btn-secondary" target="_blank">Back on Kickstarter</a>
-        </div>
+        <a href="#tiers" class="platform-card-link" style="color: var(--primary);">
+          SEE REWARDS <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- KICKSTARTER TIERS -->
-  <section class="section bg-offwhite">
-    <div class="container">
-      <div class="section-header text-center">
-        <span class="eyebrow">Kickstarter</span>
-        <h2>Campaign Tiers</h2>
-        <p>Each tier funds a specific, defined set of campaign activities.</p>
+  <section class="tier-section" id="tiers">
+    <h2>Kickstarter Tiers</h2>
+    <div class="accent-bar"></div>
+    <div class="tier-grid">
+      <!-- T1 -->
+      <div class="tier-card">
+        <div class="tier-label">T1</div>
+        <h3>Awareness Advocate</h3>
+        <p>Get exclusive behind-the-scenes updates and your name listed in our official supporter registry.</p>
+        <button>Select Tier</button>
       </div>
-      <div class="donate-tiers">
-
-        <div class="donate-tier-card">
-          <div class="donate-tier-icon">
-            <div class="donate-tier-label">T1</div>
-            <div class="donate-tier-sublabel">Awareness Advocate</div>
-          </div>
-          <div>
-            <h3 class="donate-tier-title">Awareness Advocate</h3>
-            <p class="donate-tier-desc">Join as a supporter. Receive campaign updates, early access to research reports, and your name listed as a campaign supporter. Funds daily content production and petition outreach.</p>
-          </div>
-        </div>
-
-        <div class="donate-tier-card donate-tier-card--featured">
-          <div class="donate-tier-badge">Most Popular</div>
-          <div class="donate-tier-icon">
-            <div class="donate-tier-label">T2</div>
-            <div class="donate-tier-sublabel">Community Sponsor</div>
-          </div>
-          <div>
-            <h3 class="donate-tier-title">Community Dialogue Sponsor</h3>
-            <p class="donate-tier-desc">Directly fund targeted community outreach sessions in Vietnam. Receive a personalised thank-you, sponsor credit on the website, and detailed reporting on how your contribution was used.</p>
-          </div>
-        </div>
-
-        <div class="donate-tier-card">
-          <div class="donate-tier-icon">
-            <div class="donate-tier-label donate-tier-label--amber">T3</div>
-            <div class="donate-tier-sublabel">Coming Soon</div>
-          </div>
-          <div>
-            <h3 class="donate-tier-title">Tier 3 — Details Coming Soon</h3>
-            <p class="donate-tier-desc">A higher-commitment tier with co-branding opportunities and direct involvement in campaign planning. Details to be confirmed before Kickstarter launch.</p>
-          </div>
-        </div>
-
+      <!-- T2 - Featured -->
+      <div class="tier-card tier-card--featured">
+        <div class="most-popular">Most Popular</div>
+        <div class="tier-label" style="color: var(--amber);">T2</div>
+        <h3>Community Dialogue Sponsor</h3>
+        <p>Directly fund outreach sessions and receive prominent sponsor credit in our quarterly impact reports.</p>
+        <button>Select Tier</button>
+      </div>
+      <!-- T3 - Locked -->
+      <div class="tier-card tier-card--locked">
+        <div class="tier-label">T3</div>
+        <h3>Coming Soon</h3>
+        <p>High-impact sponsorship opportunities are currently being finalized by our legal team.</p>
+        <button disabled>Details TBD</button>
       </div>
     </div>
   </section>
