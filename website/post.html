@@ -216,13 +216,16 @@
           var dateStr = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
           document.getElementById('post-date').textContent = 'Published on ' + dateStr + ' \u2022 ' + readTime + ' min read';
 
-          // Display banner if available (show the wrapper)
+          // Display banner (use post banner or default rescue image)
+          var bannerWrap = document.getElementById('post-banner-wrap');
+          var banner = document.getElementById('post-banner');
           if (post.banner_url) {
-            var bannerWrap = document.getElementById('post-banner-wrap');
-            var banner = document.getElementById('post-banner');
             banner.src = post.banner_url;
-            bannerWrap.style.display = 'block';
+          } else {
+            banner.src = 'assets/images/home/ImageGallery/image-08.png';
+            banner.alt = 'A rescue worker comforting a dog in Vietnam';
           }
+          bannerWrap.style.display = 'block';
 
           // Set author avatar initial
           var avatarEl = document.getElementById('post-avatar');

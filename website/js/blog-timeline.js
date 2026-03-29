@@ -107,12 +107,11 @@
       html += '<div class="tl-card">';
       html += '<div class="tl-card-inner">';
 
-      // Image (left side)
-      if (post.banner_url) {
-        html += '<a href="' + postUrl + '" class="tl-card-img">';
-        html += '<img src="' + escapeHTML(post.banner_url) + '" alt="' + escapeHTML(post.title) + '" loading="lazy" />';
-        html += '</a>';
-      }
+      // Image (left side — use banner or default rescue image)
+      var imgSrc = post.banner_url || 'assets/images/home/ImageGallery/image-08.png';
+      html += '<a href="' + postUrl + '" class="tl-card-img">';
+      html += '<img src="' + escapeHTML(imgSrc) + '" alt="' + escapeHTML(post.title) + '" loading="lazy" />';
+      html += '</a>';
 
       // Content (right side)
       html += '<div class="tl-card-body">';
