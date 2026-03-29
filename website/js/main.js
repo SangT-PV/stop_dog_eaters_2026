@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Animate stats on scroll (Intersection Observer) -----
-  const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+  const statNumbers = document.querySelectorAll('.stat-number[data-count], .stat-callout__number[data-count]');
   if (statNumbers.length) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -60,6 +60,35 @@ document.addEventListener('DOMContentLoaded', () => {
       const display = Number.isInteger(target) ? Math.floor(current) : parseFloat(current.toFixed(1));
       el.textContent = prefix + display.toLocaleString() + suffix;
     }, duration / steps);
+  }
+
+  // --- Homepage dynamic blog cards from index.json ---------
+  const blogGrid = document.getElementById('homepage-blog-grid');
+  if (blogGrid) {
+    fetch('data/index.json')
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(posts => {
+        const latest = posts.slice(0, 3);
+        blogGrid.innerHTML = latest.map(post => {
+          const dateStr = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+          const bannerHtml = post.banner_url
+            ? '<img src="' + post.banner_url + '" alt="' + post.title.replace(/"/g, '&quot;') + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">'
+            : '<span>Article image</span>';
+          return '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="blog-card" style="text-decoration:none;color:inherit;">'
+            + '<div class="blog-card-img" role="img" aria-label="' + post.title.replace(/"/g, '&quot;') + '">' + bannerHtml + '</div>'
+            + '<div class="blog-card-body">'
+            + '<span class="blog-tag">' + (post.tag || 'Update') + '</span>'
+            + '<h3>' + post.title + '</h3>'
+            + '<p>' + (post.excerpt || '') + '</p>'
+            + '<div class="blog-card-meta"><span>' + (post.author || 'AI Research Team') + '</span> &middot; <span>' + dateStr + '</span></div>'
+            + '</div></a>';
+        }).join('');
+      })
+      .catch(() => {
+        blogGrid.innerHTML = '<div class="blog-card"><div class="blog-card-img" role="img" aria-label="Blog article illustration"><span>Article image</span></div><div class="blog-card-body"><span class="blog-tag">Public Health</span><h3>The Hidden Rabies Risk in Vietnam\'s Unregulated Dog Meat Trade</h3><p>New reports highlight how informal slaughter practices create direct exposure pathways for rabies and other zoonotic diseases.</p><div class="blog-card-meta"><span>AI Research Team</span> &middot; <span>March 2026</span></div></div></div>'
+          + '<div class="blog-card"><div class="blog-card-img" role="img" aria-label="Blog article illustration"><span>Article image</span></div><div class="blog-card-body"><span class="blog-tag">Pet Theft</span><h3>Stolen in the Night: How Pet Theft Feeds the Dog Meat Supply Chain</h3><p>An investigation into how organised theft networks operate in rural and urban Vietnam, targeting family pets.</p><div class="blog-card-meta"><span>AI Research Team</span> &middot; <span>March 2026</span></div></div></div>'
+          + '<div class="blog-card"><div class="blog-card-img" role="img" aria-label="Blog article illustration"><span>Article image</span></div><div class="blog-card-body"><span class="blog-tag">Public Support</span><h3>95% of Vietnamese Want the Trade to End. So Why Hasn\'t It?</h3><p>Breaking down the 2021 survey results and the political and economic barriers that stand between public opinion and policy change.</p><div class="blog-card-meta"><span>AI Research Team</span> &middot; <span>March 2026</span></div></div></div>';
+      });
   }
 
   // --- Petition progress bar -------------------------------
