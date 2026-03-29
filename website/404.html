@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- For Cloudflare Workers: configure wrangler.toml to serve this as the 404 handler -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moderation Dashboard — Stop Dog Eaters</title>
-  <meta name="description" content="Content moderation dashboard for Stop Dog Eaters campaign." />
+  <title>Page Not Found — Stop Dog Eaters</title>
+  <meta name="description" content="The page you are looking for does not exist. Return to the Stop Dog Eaters campaign." />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -12,11 +13,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&display=swap" as="style">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- NAV -->
   <nav class="nav">
@@ -37,51 +38,30 @@
     </div>
   </nav>
 
-  <!-- PASSWORD GATE -->
-  <div id="mod-gate" class="mod-gate pt-nav">
-    <div class="mod-gate-card">
-      <h2>Moderation Access</h2>
-      <p>Enter the moderation password to continue.</p>
-      <form id="mod-gate-form">
-        <input type="password" id="mod-password" class="comment-input" placeholder="Password" required />
-        <button type="submit" class="btn btn-primary mod-submit-btn">Enter Dashboard</button>
-      </form>
-      <div id="mod-gate-error" class="mod-gate-error" style="display:none;"></div>
-    </div>
-  </div>
+  <!-- 404 CONTENT -->
+  <main class="section pt-nav" id="main-content" style="min-height: 60vh; display: flex; align-items: center;">
+    <div class="container text-center">
+      <div style="font-family: var(--font-head); font-size: 8rem; font-weight: 900; color: var(--primary-container); line-height: 1; margin-bottom: 1rem;">404</div>
+      <h1 style="font-size: 2rem; margin-bottom: 1rem;">Page Not Found</h1>
+      <p style="max-width: 480px; margin: 0 auto 2.5rem; color: var(--on-surface-variant); font-size: 1.125rem;">
+        The page you are looking for does not exist. But 5 million dogs still need your voice.
+      </p>
 
-  <!-- MODERATION DASHBOARD (hidden until authenticated) -->
-  <div id="mod-dashboard" class="mod-dashboard pt-nav" style="display:none;">
-    <div class="container mod-container">
-      <h1 class="mod-title">Moderation Dashboard</h1>
-      <p class="mod-subtitle">Review and approve community submissions. All content requires approval before appearing publicly.</p>
-
-      <!-- Export button -->
-      <div class="mod-export-btn">
-        <button id="export-comments-btn" class="btn btn-outline">Export Approved Comments to JSON</button>
+      <div style="margin-bottom: 3rem;">
+        <img src="assets/images/lucky/dog-lucky-footer.png"
+             alt="Lucky the Vietnamese Ta dog — campaign mascot"
+             style="width: 180px; height: 180px; object-fit: cover; border-radius: 50%; margin: 0 auto; box-shadow: var(--shadow);"
+             loading="lazy" />
       </div>
 
-      <!-- Tab navigation -->
-      <div class="mod-tabs">
-        <button class="mod-tab active" data-tab="comments">Comments <span class="mod-tab-count" id="comments-count">0</span></button>
-        <button class="mod-tab" data-tab="posts">Community Posts <span class="mod-tab-count" id="posts-count">0</span></button>
-      </div>
-
-      <!-- Comments tab -->
-      <div id="mod-comments" class="mod-tab-content">
-        <div id="mod-comments-list">
-          <!-- Rendered by moderation.js -->
-        </div>
-      </div>
-
-      <!-- Community Posts tab -->
-      <div id="mod-posts" class="mod-tab-content" style="display:none;">
-        <div id="mod-posts-list">
-          <!-- Rendered by moderation.js -->
-        </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+        <a href="index.html" class="btn btn-primary">Home</a>
+        <a href="blog.html" class="btn btn-secondary">Blog</a>
+        <a href="petition.html" class="btn btn-outline">Petition</a>
+        <a href="donate.html" class="btn btn-outline">Donate</a>
       </div>
     </div>
-  </div>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -91,8 +71,8 @@
           <h3>Stop<span>Dog</span>Eaters</h3>
           <p>A community-led campaign to end the cruel and unregulated dog meat trade in Vietnam and across Asia.</p>
           <div class="footer-social">
-            <a href="#" aria-label="Website"><span class="material-symbols-outlined">public</span></a>
-            <a href="#" aria-label="Telegram"><span class="material-symbols-outlined">send</span></a>
+            <a href="https://www.instagram.com/lucky_sde_26" aria-label="Instagram" target="_blank" rel="noopener"><span class="material-symbols-outlined" aria-hidden="true">public</span></a>
+            <a href="https://t.me/stopdogeaters" aria-label="Telegram" target="_blank" rel="noopener"><span class="material-symbols-outlined" aria-hidden="true">send</span></a>
           </div>
         </div>
         <div class="footer-col">
@@ -128,6 +108,5 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/moderation.js"></script>
 </body>
 </html>

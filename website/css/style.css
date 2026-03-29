@@ -517,9 +517,7 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 }
 
 .data-research-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 3rem;
+  display: block;
 }
 
 .stat-callout-grid {
@@ -3913,6 +3911,36 @@ select.comment-input {
   }
 }
 
+@keyframes nav-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Accessibility: Focus-Visible -------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--primary-container);
+  outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.nav-cta a:focus-visible {
+  outline: 2px solid var(--primary-container);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(29,106,114,0.2);
+}
+
+.nav-links a:focus-visible {
+  outline: 2px solid var(--primary-container);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.footer-col a:focus-visible,
+.footer-social a:focus-visible {
+  outline: 2px solid var(--on-primary);
+  outline-offset: 2px;
+}
+
 /* ====== LAYER 4: UTILITIES — Single-purpose helper classes ====== */
 
 /* Nav offset — adds padding-top to clear the fixed nav (5rem height) */
@@ -5559,21 +5587,23 @@ select.comment-input {
 @media (max-width: 768px) {
   .section  { padding: 64px 0; }
 
-  /* Nav collapse — frosted glass dropdown */
+  /* Nav collapse — solid dropdown with slide animation */
   .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 5rem; left: 0; right: 0;
-    background: rgba(255,255,255,0.95);
+    background: #ffffff;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     padding: 1.5rem;
     box-shadow: var(--shadow-lg);
     gap: 0.5rem;
     z-index: 99;
+    border-bottom: 2px solid var(--outline-variant);
+    border-radius: 0 0 var(--radius) var(--radius);
   }
-  .nav-links.open { display: flex; }
+  .nav-links.open { display: flex; animation: nav-slide-down 0.2s ease-out; }
   .nav-toggle { display: flex; }
   .nav-links a {
     padding: 0.75rem 1rem;
