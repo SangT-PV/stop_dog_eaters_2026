@@ -54,7 +54,7 @@ class FundRoadmap {
     const currentRaised = this.funds.summary.total_raised;
 
     // Tier order for roadmap display
-    const tierOrder = ['comments', 'community_posts', 'ai_bot', 'feature_voting'];
+    const tierOrder = ['comments', 'community_posts', 'my_pet', 'feature_voting', 'pet_competition'];
 
     // Determine state for each tier
     const tiers = tierOrder.map((tierKey) => {

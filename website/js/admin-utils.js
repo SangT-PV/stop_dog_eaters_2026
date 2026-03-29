@@ -106,10 +106,9 @@ class AdminUtils {
 
     // Clone config and unlock all features
     const adminConfig = JSON.parse(JSON.stringify(config));
-    adminConfig.current_unlocks.comments = true;
-    adminConfig.current_unlocks.community_posts = true;
-    adminConfig.current_unlocks.ai_bot = true;
-    adminConfig.current_unlocks.feature_voting = true;
+    Object.keys(adminConfig.current_unlocks).forEach(key => {
+      adminConfig.current_unlocks[key] = true;
+    });
 
     return adminConfig;
   }

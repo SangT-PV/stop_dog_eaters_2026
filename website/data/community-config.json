@@ -13,24 +13,31 @@
       "feature": "Community Post Creation",
       "description": "Submit your own articles and research for community review"
     },
-    "ai_bot": {
+    "my_pet": {
       "amount": 5000,
       "label": "$5K",
-      "feature": "AI Engagement Bot",
-      "description": "Automated responses with brand voice for instant education"
+      "feature": "My Pet Section",
+      "description": "Share your pet's story, find missing pets, and connect pets with adoptive families"
     },
     "feature_voting": {
       "amount": 10000,
-      "label": "$10K+",
+      "label": "$10K",
       "feature": "Feature Voting System",
       "description": "Community decides campaign priorities through democratic voting"
+    },
+    "pet_competition": {
+      "amount": 25000,
+      "label": "$25K",
+      "feature": "Annual Pet Competition",
+      "description": "Community-voted annual pet showcase celebrating rescued and beloved companions"
     }
   },
   "current_unlocks": {
     "comments": false,
     "community_posts": false,
-    "ai_bot": false,
-    "feature_voting": false
+    "my_pet": false,
+    "feature_voting": false,
+    "pet_competition": false
   },
   "celebration_banner": {
     "active": false,
