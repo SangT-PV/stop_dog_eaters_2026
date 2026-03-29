@@ -374,7 +374,7 @@ Phases execute in numeric order: 8 â 9 â 10 â 11 â 12 â
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 | 16. Discussion UI Rebuild | v2.0 | 3/3 | Complete | 2026-03-24 |
 | 17. Stitch Design Implementation | v2.0 | 6/7 | In Progress|  |
-| 18. Go-Live Readiness Fixes | v2.0 | 1/5 | In Progress|  |
+| 18. Go-Live Readiness Fixes | v2.0 | 2/5 | In Progress|  |
 
 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
@@ -440,11 +440,11 @@ Plans:
   11. Privacy policy and terms pages exist (M3)
   12. Custom 404 page with navigation (M5)
   13. E2E re-audit passes with zero CRITICAL and zero HIGH issues
-**Plans:** 1/5 plans executed
+**Plans:** 2/5 plans executed
 
 Plans:
 - [x] 18-01-PLAN.md -- CRITICAL fixes: placeholder images, OG share image, fund allocation alignment, dead links, petition form (Wave 1) [C1-C5]
-- [ ] 18-02-PLAN.md -- HIGH fixes: dynamic blog cards, stat counter animation, Material Symbols a11y, X/Twitter icon, skip-nav, admin-utils removal (Wave 1) [H1-H7]
+- [x] 18-02-PLAN.md -- HIGH fixes: dynamic blog cards, stat counter animation, Material Symbols a11y, X/Twitter icon, skip-nav, admin-utils removal (Wave 1) [H1-H7]
 - [ ] 18-03-PLAN.md -- MEDIUM fixes: mobile nav polish, blog banners, privacy/terms pages, duplicate stats, 404 page, focus-visible styles (Wave 2) [M1-M6]
 - [ ] 18-04-PLAN.md -- LOW fixes: font loading optimization, Chart.js self-hosting, dynamic copyright year (Wave 2) [L1-L3]
 - [ ] 18-05-PLAN.md -- E2E re-audit: full regression test across all 7 pages, desktop + mobile, verify all 19 issues resolved (Wave 3)
