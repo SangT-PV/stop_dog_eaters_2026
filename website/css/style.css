@@ -4116,7 +4116,7 @@ select.comment-input {
 
 /* --- Blog Page Header (Stitch 02) -------------------------- */
 .blog-page-header {
-  padding: 4rem 0 3rem;
+  padding: 2rem 0 3rem;
   background: var(--surface);
 }
 .blog-page-header h1 {
