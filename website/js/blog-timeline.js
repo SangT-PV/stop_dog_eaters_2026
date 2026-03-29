@@ -50,7 +50,34 @@
     return grouped;
   }
 
-  // Render Timeline View
+  // Tag-to-icon mapping for timeline dots
+  var tagIcons = {
+    'Public Health': 'warning',
+    'Pet Theft': 'pets',
+    'Regulation': 'gavel',
+    'Public Support': 'groups',
+    "Lucky's Story": 'favorite',
+    'Campaign Updates': 'campaign',
+    'Community': 'forum'
+  };
+  var tagColors = {
+    'Public Health': 'var(--tertiary-container)',
+    'Pet Theft': 'var(--tertiary-container)',
+    'Regulation': 'var(--on-surface-variant)',
+    'Public Support': 'var(--primary)',
+    "Lucky's Story": 'var(--amber)',
+    'Campaign Updates': 'var(--primary-container)',
+    'Community': 'var(--on-surface-variant)'
+  };
+
+  // Format date for timeline (uppercase style)
+  function formatDateTimeline(iso) {
+    var d = new Date(iso);
+    var opts = { year: 'numeric', month: 'long', day: 'numeric' };
+    return d.toLocaleDateString('en-US', opts).toUpperCase();
+  }
+
+  // Render Timeline View (Stitch design)
   function renderTimeline(posts) {
     var timeline = document.getElementById('blog-timeline');
 
@@ -59,61 +86,52 @@
       return;
     }
 
-    var grouped = groupPostsByYearMonth(posts);
-    var years = Object.keys(grouped).sort().reverse();
-
     var html = '<div class="timeline-container">';
 
-    years.forEach(function (year) {
-      var months = Object.keys(grouped[year]).sort().reverse();
+    posts.forEach(function (post) {
+      var icon = tagIcons[post.tag] || 'article';
+      var dotColor = tagColors[post.tag] || 'var(--primary)';
+      var postUrl = 'post.html?id=' + encodeURIComponent(post.id);
 
-      html += '<div class="timeline-year-section" data-year="' + year + '">';
-      html += '<div class="timeline-year-marker">';
-      html += '<h2 class="timeline-year-title">' + year + '</h2>';
+      html += '<article class="tl-item">';
+
+      // Timeline dot with icon
+      html += '<div class="tl-dot" style="background:' + dotColor + '">';
+      html += '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1">' + icon + '</span>';
       html += '</div>';
 
-      months.forEach(function (monthYear) {
-        var monthPosts = grouped[year][monthYear];
-        var monthName = formatMonthYear(monthPosts[0].date);
+      // Timestamp
+      html += '<time class="tl-time">' + formatDateTimeline(post.date) + '</time>';
 
-        html += '<div class="timeline-month-section" data-month="' + monthYear + '">';
-        html += '<div class="timeline-month-marker">';
-        html += '<div class="timeline-dot"></div>';
-        html += '<h3 class="timeline-month-title">' + monthName + '</h3>';
-        html += '</div>';
+      // Card
+      html += '<div class="tl-card">';
+      html += '<div class="tl-card-inner">';
 
-        html += '<div class="timeline-posts">';
+      // Image (left side)
+      if (post.banner_url) {
+        html += '<a href="' + postUrl + '" class="tl-card-img">';
+        html += '<img src="' + escapeHTML(post.banner_url) + '" alt="' + escapeHTML(post.title) + '" loading="lazy" />';
+        html += '</a>';
+      }
 
-        monthPosts.forEach(function (post) {
-          html += '<article class="timeline-post-card">';
+      // Content (right side)
+      html += '<div class="tl-card-body">';
+      html += '<span class="tl-tag" style="background:' + dotColor + '">' + escapeHTML(post.tag) + '</span>';
+      if (post.author && post.author.indexOf('(Community)') !== -1) {
+        html += '<span class="community-badge">Community</span>';
+      }
+      html += '<h3 class="tl-title"><a href="' + postUrl + '">' + escapeHTML(post.title) + '</a></h3>';
+      html += '<p class="tl-excerpt">' + escapeHTML(post.excerpt) + '</p>';
+      html += '<div class="tl-author">';
+      html += '<div class="tl-avatar"></div>';
+      html += '<span>By ' + escapeHTML(post.author) + '</span>';
+      html += '</div>';
+      html += '</div>'; // tl-card-body
 
-          // Add banner image if available
-          if (post.banner_url) {
-            html += '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="timeline-post-image">';
-            html += '<img src="' + escapeHTML(post.banner_url) + '" alt="' + escapeHTML(post.title) + '" loading="lazy" />';
-            html += '</a>';
-          }
+      html += '</div>'; // tl-card-inner
+      html += '</div>'; // tl-card
 
-          html += '<div class="timeline-post-content">';
-          html += '<span class="blog-tag">' + escapeHTML(post.tag) + '</span>';
-          // Add community badge if author contains "(Community)"
-          if (post.author && post.author.indexOf('(Community)') !== -1) {
-            html += '<span class="community-badge">Community</span>';
-          }
-          html += '<h4><a href="post.html?id=' + encodeURIComponent(post.id) + '">' + escapeHTML(post.title) + '</a></h4>';
-          html += '<p class="timeline-post-excerpt">' + escapeHTML(post.excerpt) + '</p>';
-          html += '<div class="timeline-post-meta">';
-          html += '<span>' + escapeHTML(post.author) + '</span> · <span>' + formatDate(post.date) + '</span>';
-          html += '</div>';
-          html += '</div>'; // timeline-post-content
-          html += '</article>';
-        });
-
-        html += '</div>'; // timeline-posts
-        html += '</div>'; // timeline-month-section
-      });
-
-      html += '</div>'; // timeline-year-section
+      html += '</article>';
     });
 
     html += '</div>'; // timeline-container

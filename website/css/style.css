@@ -2254,128 +2254,32 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .post-error { text-align: center; padding: 80px 0; }
 .post-error p { color: var(--text-md); }
 
-/* --- Blog Page --------------------------------------------- */
-.blog-header {
-  padding: 64px 0 52px;
-  background: var(--mist);
-  border-bottom: 1px solid var(--border);
-}
-
-.blog-header h1 {
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  margin-bottom: 10px;
-}
-
-.blog-main-grid {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 56px;
-  padding: 64px 0;
-  align-items: start;
-}
-
+/* --- Blog Page (old pre-Stitch rules removed — see STITCH BLOG LISTING section) --- */
 .blog-list { display: flex; flex-direction: column; gap: 24px; }
-
 .blog-post-card {
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 0;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  background: white;
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 20px 40px rgba(28,28,24,0.04);
+  border-left: 8px solid var(--primary);
+  transition: box-shadow 0.3s;
 }
-
-.blog-post-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(38,70,83,0.15);
-}
-
+.blog-post-card:hover { box-shadow: 0 20px 40px rgba(28,28,24,0.08); }
 .blog-post-img {
-  background: linear-gradient(135deg, var(--teal), var(--slate));
+  background: linear-gradient(135deg, var(--primary-container), var(--primary));
   min-height: 170px;
   display: flex; align-items: center; justify-content: center;
   color: rgba(255,255,255,0.3);
   font-size: 0.78rem;
 }
-
 .blog-post-body { padding: 24px 28px; }
-.blog-post-body h2 { font-family: var(--font-head); font-weight: 900; letter-spacing: -0.02em; font-size: 1.1rem; margin-bottom: 10px; line-height: 1.35; color: var(--slate); }
-.blog-post-body p  { font-size: 0.88rem; line-height: 1.65; }
-
-.blog-card-meta {
-  font-size: 0.78rem;
-  color: var(--gray);
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Blog page header description */
-.blog-header-desc { color: var(--text-md); max-width: 560px; }
-
-/* Blog sidebar extras */
-.blog-sidebar-petition { margin-top: 32px; background: var(--mist); border-radius: 6px; padding: 20px; }
-.blog-sidebar-petition h3 { font-size: 0.95rem; margin-bottom: 10px; }
-.blog-sidebar-petition p { font-size: 0.85rem; color: var(--text-md); margin-bottom: 14px; }
-.blog-sidebar-petition .btn,
-.blog-sidebar-cta { width: 100%; display: block; text-align: center; }
-
-/* Blog sidebar Telegram description */
-.blog-sidebar-desc { font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 24px; }
-.blog-sidebar-follow-desc { font-size: 0.88rem; color: var(--text-md); line-height: 1.6; margin-bottom: 14px; }
-
-/* Blog container spacing */
-.blog-container-spaced { margin-bottom: 32px; }
-
-.blog-sidebar { position: sticky; top: 80px; }
-
-.blog-sidebar h3 {
-  font-size: 0.88rem;
-  color: var(--slate);
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--border);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-}
-
-.sidebar-tag-list {
-  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px;
-}
-
-.sidebar-tag {
-  /* Reset button defaults for accessibility */
-  appearance: none;
-  font-family: inherit;
-  line-height: inherit;
-
-  background: var(--mist);
-  color: var(--text-md);
-  font-size: 0.8rem;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-
-.sidebar-tag:hover,
-.sidebar-tag:focus,
-.sidebar-tag.active {
-  background: var(--teal);
-  color: var(--white);
-  border-color: var(--teal);
-}
-
-.sidebar-tag:focus {
-  outline: 2px solid var(--teal);
-  outline-offset: 2px;
-}
+.blog-post-body h2 { font-family: var(--font-head); font-weight: 700; font-size: 1.25rem; margin-bottom: 10px; line-height: 1.3; color: var(--on-surface); }
+.blog-post-body p { font-size: 0.9rem; line-height: 1.7; color: var(--on-surface-variant); }
+.blog-card-meta { font-size: 0.8rem; color: var(--on-surface-variant); margin-top: 14px; display: flex; align-items: center; gap: 6px; }
+.blog-card-meta span:first-child { font-weight: 700; color: var(--on-surface); }
 
 /* --- Transparency Box ------------------------------------- */
 .transparency-box h3 {
@@ -2874,289 +2778,8 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   }
 }
 
-/* --- Blog View Toggle -------------------------------------- */
-.blog-view-toggle {
-  display: inline-flex;
-  gap: 8px;
-  margin-top: 28px;
-  padding: 6px;
-  background: rgba(38,70,83,0.08);
-  border-radius: var(--radius-pill);
-  border: 2px solid var(--border);
-}
-
-.view-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-md);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-btn svg {
-  transition: transform 0.2s ease;
-}
-
-.view-btn:hover {
-  color: var(--slate);
-  transform: translateY(-1px);
-}
-
-.view-btn:hover svg {
-  transform: scale(1.1);
-}
-
-.view-btn.active {
-  background: var(--white);
-  color: var(--teal);
-  box-shadow: var(--shadow-sm);
-}
-
-/* --- Blog Timeline ----------------------------------------- */
-.blog-content-wrapper {
-  width: 100%;
-}
-
-.timeline-container {
-  position: relative;
-  width: 100%;
-  padding: 40px 0 60px 0;
-}
-
-/* Static vertical line */
-.timeline-container::before {
-  content: '';
-  position: absolute;
-  left: 24px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    var(--border) 5%,
-    var(--border) 95%,
-    transparent 100%
-  );
-}
-
-/* Animated vertical line */
-.timeline-line-animated {
-  position: absolute;
-  left: 24px;
-  top: 0;
-  width: 3px;
-  height: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--teal) 0%,
-    var(--teal-lt) 50%,
-    transparent 100%
-  );
-  transition: height 0.1s ease-out;
-  pointer-events: none;
-}
-
-/* Year Section */
-.timeline-year-section {
-  margin-bottom: 48px;
-}
-
-.timeline-year-marker {
-  position: relative;
-  padding-left: 72px;
-  margin-bottom: 32px;
-}
-
-.timeline-year-marker::before {
-  content: '';
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  background: var(--slate);
-  border: 4px solid var(--white);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--border), var(--shadow);
-  z-index: 2;
-}
-
-.timeline-year-title {
-  font-family: var(--font-head);
-  font-size: 3rem;
-  font-weight: 900;
-  color: var(--slate);
-  letter-spacing: -0.03em;
-  margin: 0;
-  line-height: 1;
-}
-
-/* Month Section */
-.timeline-month-section {
-  position: relative;
-  margin-bottom: 40px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.timeline-month-section.timeline-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.timeline-month-marker {
-  position: relative;
-  padding-left: 72px;
-  margin-bottom: 24px;
-}
-
-.timeline-dot {
-  position: absolute;
-  left: 18px;
-  top: 8px;
-  width: 12px;
-  height: 12px;
-  background: var(--teal);
-  border: 3px solid var(--white);
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px var(--teal-lt), var(--shadow-sm);
-  z-index: 2;
-}
-
-.timeline-month-title {
-  font-family: var(--font-head);
-  font-size: 1.1rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--teal-dk);
-  margin: 0;
-}
-
-/* Timeline Posts */
-.timeline-posts {
-  padding-left: 72px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.timeline-post-card {
-  background: var(--white);
-  border: 2px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 0;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.timeline-post-card::before {
-  content: '';
-  position: absolute;
-  left: -72px;
-  top: 28px;
-  width: 40px;
-  height: 2px;
-  background: var(--border);
-  transition: all 0.3s ease;
-}
-
-.timeline-post-card:hover {
-  border-color: var(--teal);
-  box-shadow: var(--shadow-lg);
-  transform: translateX(8px);
-}
-
-.timeline-post-card:hover::before {
-  background: var(--teal);
-  width: 48px;
-}
-
-/* Timeline post image */
-.timeline-post-image {
-  display: block;
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.timeline-post-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.timeline-post-card:hover .timeline-post-image img {
-  transform: scale(1.05);
-}
-
-/* Timeline post content */
-.timeline-post-content {
-  padding: 24px 28px;
-  flex: 1;
-}
-
-.timeline-post-card .blog-tag {
-  display: inline-block;
-  margin-bottom: 12px;
-}
-
-.timeline-post-card h4 {
-  font-family: var(--font-head);
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: var(--slate);
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  margin: 0 0 12px 0;
-}
-
-.timeline-post-card h4 a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.timeline-post-card h4 a:hover {
-  color: var(--teal);
-}
-
-.timeline-post-excerpt {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-md);
-  margin-bottom: 16px;
-}
-
-.timeline-post-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.85rem;
-  color: var(--text-md);
-}
-
-.timeline-post-meta span:first-child {
-  font-weight: 700;
-  color: var(--slate);
-}
+/* --- Blog View Toggle + Timeline (old pre-Stitch) — REMOVED, see STITCH BLOG LISTING section --- */
+.blog-content-wrapper { width: 100%; }
 
 /* --- Fund Tracker Dashboard -------------------------------------- */
 .fund-tracker-container {
@@ -4430,25 +4053,29 @@ select.comment-input {
   font-family: var(--font-head);
   font-size: clamp(3rem, 7vw, 5rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--primary);
   line-height: 1;
   margin-bottom: 1.5rem;
 }
-.blog-page-header p {
+.blog-header-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .blog-header-row {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+.blog-header-desc {
   font-size: 1.25rem;
   color: var(--on-surface-variant);
   max-width: 36rem;
   font-weight: 500;
   line-height: 1.7;
-}
-.blog-header-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1.5rem;
-  margin-top: 2rem;
 }
 
 /* --- View Toggle (Stitch 02) -------------------------------- */
@@ -4457,6 +4084,7 @@ select.comment-input {
   background: var(--surface-container-low);
   border-radius: var(--radius-pill);
   padding: 0.25rem;
+  flex-shrink: 0;
 }
 .view-toggle .view-btn {
   display: inline-flex;
@@ -4481,7 +4109,7 @@ select.comment-input {
   box-shadow: var(--shadow-sm);
 }
 .view-toggle .view-btn:hover:not(.active) {
-  background: var(--surface-container-high);
+  background: var(--surface-container-highest);
 }
 
 /* --- Blog 2-Column Layout (Stitch 02) ---------------------- */
@@ -4489,25 +4117,35 @@ select.comment-input {
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
-  max-width: var(--max-w);
+  max-width: 1440px;
   margin: 0 auto;
   padding: 2rem var(--section-px) 4rem;
 }
 @media (min-width: 1024px) {
   .blog-layout {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 8fr 4fr;
   }
+}
+.blog-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
 /* --- Sidebar Sections (Stitch 02) --------------------------- */
+.blog-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 .sidebar-section {
-  background: var(--surface);
+  background: white;
   padding: 2rem;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 40px rgba(28,28,24,0.02);
 }
 .sidebar-section h4 {
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -4523,29 +4161,31 @@ select.comment-input {
 }
 
 /* Sidebar filter pills (Stitch override) */
-.sidebar-section .sidebar-tag-list {
-  margin-bottom: 0;
+.sidebar-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
-.sidebar-section .sidebar-tag {
+.sidebar-tag {
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 700;
   border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
 }
-.sidebar-section .sidebar-tag.active {
+.sidebar-tag.active {
   background: var(--primary);
   color: var(--on-primary);
-  border-color: var(--primary);
 }
-.sidebar-section .sidebar-tag:not(.active) {
+.sidebar-tag:not(.active) {
   background: var(--surface-container-high);
   color: var(--on-surface-variant);
-  border-color: var(--surface-container-high);
 }
-.sidebar-section .sidebar-tag:not(.active):hover {
+.sidebar-tag:not(.active):hover {
   background: var(--primary-container);
   color: var(--on-primary);
-  border-color: var(--primary-container);
 }
 
 /* --- Sidebar Stats Widget (dark, Stitch 02) ----------------- */
@@ -4553,12 +4193,22 @@ select.comment-input {
   background: var(--primary);
   color: var(--on-primary);
   padding: 2rem;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   overflow: hidden;
   position: relative;
-  margin-bottom: 2rem;
+}
+.sidebar-stats-widget::after {
+  content: 'analytics';
+  font-family: 'Material Symbols Outlined';
+  font-size: 10rem;
+  position: absolute;
+  bottom: -2.5rem;
+  right: -2.5rem;
+  opacity: 0.1;
+  pointer-events: none;
 }
 .sidebar-stats-widget h4 {
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -4576,6 +4226,8 @@ select.comment-input {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: relative;
+  z-index: 1;
 }
 .sidebar-stats-widget-item .stat-number {
   font-family: var(--font-head);
@@ -4593,18 +4245,24 @@ select.comment-input {
   color: rgba(255,255,255,0.7);
 }
 
+/* --- Sidebar AI Stewardship --------------------------------- */
+.blog-sidebar-desc {
+  font-size: 0.875rem;
+  color: var(--on-surface-variant);
+  line-height: 1.7;
+}
+
 /* --- Sidebar Telegram CTA (Stitch 02) ----------------------- */
 .sidebar-telegram {
   display: block;
   background: linear-gradient(135deg, #0088cc, #0077b5);
   color: white;
   padding: 2rem;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   cursor: pointer;
   transition: transform 0.3s;
   text-decoration: none;
-  margin-bottom: 2rem;
 }
 .sidebar-telegram:hover {
   transform: translateY(-4px);
@@ -4642,73 +4300,336 @@ select.comment-input {
 }
 
 /* --- Sidebar Petition Widget (Stitch 02) -------------------- */
+.sidebar-petition-widget {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 40px 60px rgba(0,81,88,0.06);
+  border-top: 8px solid var(--amber);
+}
+.sidebar-petition-title {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
 .sidebar-petition-widget p {
   font-size: 0.875rem;
   color: var(--on-surface-variant);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+.sidebar-petition-progress {
+  width: 100%;
+  height: 0.5rem;
+  background: var(--surface-container-high);
+  border-radius: var(--radius-pill);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+.sidebar-petition-progress-bar {
+  height: 100%;
+  background: var(--amber);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 10px var(--amber);
+}
+.sidebar-petition-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.sidebar-petition-btn:hover {
+  background: var(--primary-container);
+  color: var(--on-primary);
 }
 
 /* --- Community Form Section (Stitch 02) --------------------- */
 .community-form-section {
   background: var(--surface-container-low);
-  border-radius: var(--radius-lg);
-  padding: var(--card-padding);
+  border-radius: var(--radius);
+  padding: 2.5rem;
   position: relative;
   overflow: hidden;
-  margin-bottom: 2rem;
 }
 .community-form-section:empty {
   display: none;
 }
+.community-submit-section {
+  position: relative;
+}
+.community-blur-circle {
+  position: absolute;
+  top: -8rem;
+  right: -4rem;
+  width: 16rem;
+  height: 16rem;
+  background: rgba(29,106,114,0.1);
+  border-radius: 50%;
+  filter: blur(48px);
+  pointer-events: none;
+}
+.community-form-inner {
+  position: relative;
+  z-index: 1;
+}
+.community-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.community-access-badge {
+  background: rgba(232,168,56,0.2);
+  color: #92400e;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.community-verified-icon {
+  color: var(--amber);
+  font-size: 1.25rem;
+}
+.community-submit-section h3 {
+  font-family: var(--font-head);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+.community-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.community-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .community-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.community-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.community-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--on-surface-variant);
+  padding-left: 0.25rem;
+}
+.community-input {
+  width: 100%;
+  background: rgba(255,255,255,0.5);
+  border: none;
+  border-bottom: 2px solid var(--outline-variant);
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: var(--font-head);
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+.community-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary);
+}
+.community-textarea {
+  font-family: var(--font-body);
+  resize: vertical;
+}
+.community-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.community-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 1rem 2.5rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.community-submit-btn:hover {
+  box-shadow: var(--shadow-lg);
+}
+.community-submit-btn .material-symbols-outlined {
+  font-size: 1.25rem;
+}
 
-/* --- Timeline View Override (Stitch 02 style) --------------- */
-.timeline-view {
+/* --- Timeline View (Stitch 02 design) ----------------------- */
+.timeline-container {
   position: relative;
   padding-left: 3rem;
 }
-.timeline-view::before {
+.timeline-container::before {
   content: '';
   position: absolute;
   left: 1.25rem;
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--outline-variant);
+  background: var(--surface-container-highest);
 }
 
-.timeline-post-card-stitch {
+/* Individual timeline item */
+.tl-item {
   position: relative;
   margin-bottom: 4rem;
 }
-.timeline-dot-stitch {
+.tl-dot {
   position: absolute;
   left: -3.25rem;
   top: 1.5rem;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--on-primary);
+  color: white;
   box-shadow: 0 0 0 0.5rem var(--surface);
   z-index: 2;
 }
-.timeline-dot-stitch .material-symbols-outlined {
+.tl-dot .material-symbols-outlined {
   font-size: 1.125rem;
 }
-
-.timeline-post-card-stitch .blog-post-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
+.tl-time {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.tl-card {
+  background: white;
+  border-radius: var(--radius);
   padding: 2rem;
-  box-shadow: var(--shadow);
+  box-shadow: 0 20px 40px rgba(28,28,24,0.04);
   border-left: 8px solid var(--primary);
   transition: box-shadow 0.3s;
 }
-.timeline-post-card-stitch .blog-post-card:hover {
-  box-shadow: var(--shadow-hover);
+.tl-card:hover {
+  box-shadow: 0 20px 40px rgba(28,28,24,0.08);
+}
+.tl-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .tl-card-inner {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+.tl-card-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .tl-card-img {
+    width: 33%;
+  }
+}
+.tl-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.5s;
+}
+.tl-card-img:hover img {
+  filter: grayscale(0%);
+}
+.tl-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.tl-tag {
+  display: inline-block;
+  width: fit-content;
+  padding: 0.25rem 1rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: white;
+}
+.tl-title {
+  font-family: var(--font-head);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--on-surface);
+  transition: color 0.2s;
+}
+.tl-card:hover .tl-title,
+.tl-title a:hover {
+  color: var(--primary);
+}
+.tl-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.tl-excerpt {
+  font-size: 1rem;
+  color: var(--on-surface-variant);
+  line-height: 1.7;
+  margin: 0;
+}
+.tl-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--surface-container-highest);
+  margin-top: auto;
+}
+.tl-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--surface-container-high);
+  flex-shrink: 0;
+}
+.tl-author span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--on-surface);
 }
 
 /* ====== STITCH BLOG POST DETAIL (17-03) ====== */
@@ -5529,69 +5450,7 @@ select.comment-input {
   .post-prose-stitch .prose blockquote { margin-left: 0; margin-right: 0; }
   .post-banner-stitch { margin-bottom: 3rem; }
 
-  /* Timeline responsive */
-  .timeline-container::before,
-  .timeline-line-animated {
-    left: 16px;
-  }
-
-  .timeline-year-marker {
-    padding-left: 56px;
-  }
-
-  .timeline-year-marker::before {
-    left: 8px;
-    width: 16px;
-    height: 16px;
-    border-width: 3px;
-  }
-
-  .timeline-year-title {
-    font-size: 2rem;
-  }
-
-  .timeline-month-marker {
-    padding-left: 56px;
-  }
-
-  .timeline-dot {
-    left: 12px;
-    width: 10px;
-    height: 10px;
-  }
-
-  .timeline-month-title {
-    font-size: 1.2rem;
-  }
-
-  .timeline-posts {
-    padding-left: 56px;
-  }
-
-  .timeline-post-card {
-    padding: 0;
-  }
-
-  .timeline-post-content {
-    padding: 20px 24px;
-  }
-
-  .timeline-post-image {
-    height: 160px;
-  }
-
-  .timeline-post-card::before {
-    left: -56px;
-    width: 28px;
-  }
-
-  .timeline-post-card:hover::before {
-    width: 32px;
-  }
-
-  .timeline-post-card h4 {
-    font-size: 1.1rem;
-  }
+  /* Old timeline responsive rules removed — see STITCH BLOG LISTING section */
 }
 
 @media (max-width: 768px) {
@@ -5661,14 +5520,17 @@ select.comment-input {
   /* Lucky section */
   .lucky-inner { grid-template-columns: 1fr; gap: 2rem; }
 
-  .blog-view-toggle {
-    margin-top: 24px;
-  }
+  /* Blog layout responsive */
+  .blog-layout { grid-template-columns: 1fr; }
 
-  .view-btn {
-    padding: 8px 16px;
-    font-size: 0.85rem;
-  }
+  /* Timeline responsive */
+  .timeline-container { padding-left: 2rem; }
+  .tl-dot { left: -2.25rem; width: 2rem; height: 2rem; }
+  .tl-dot .material-symbols-outlined { font-size: 0.875rem; }
+  .tl-card { padding: 1.5rem; }
+  .tl-card-inner { flex-direction: column; }
+  .tl-card-img { width: 100%; }
+  .tl-title { font-size: 1.35rem; }
 
   /* About page responsive */
   .about-hero h1 { font-size: 2.5rem; }

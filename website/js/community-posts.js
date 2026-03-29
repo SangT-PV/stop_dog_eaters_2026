@@ -86,56 +86,48 @@ class CommunityPosts {
 
     container.innerHTML = `
       <div class="community-submit-section">
-        <h3>Share Your Research</h3>
-        <p>Submit an article or research report to the SDE blog. All submissions are reviewed by our editorial team before publication.</p>
-        <form class="community-form" id="community-form">
-          <div class="community-form-row">
-            <input type="text" name="author_name" placeholder="Your name" required maxlength="100" class="comment-input" />
-            <input type="email" name="author_email" placeholder="Your email (for notifications)" required class="comment-input" />
+        <div class="community-blur-circle"></div>
+        <div class="community-form-inner">
+          <div class="community-badge-row">
+            <span class="community-access-badge">Research Fund Access</span>
+            <span class="material-symbols-outlined community-verified-icon" style="font-variation-settings:'FILL' 1">verified</span>
           </div>
-          <input type="text" name="title" placeholder="Article title (5-200 characters)" required minlength="5" maxlength="200" class="comment-input" style="width:100%; margin-bottom:12px;" />
-          <select name="tag" class="comment-input" style="width:100%; margin-bottom:12px;" required>
-            <option value="">Select a topic...</option>
-            <option value="Public Health">Public Health</option>
-            <option value="Pet Theft">Pet Theft</option>
-            <option value="Regulation">Regulation</option>
-            <option value="Public Support">Public Support</option>
-            <option value="Lucky's Story">Lucky's Story</option>
-            <option value="Campaign Updates">Campaign Updates</option>
-            <option value="Community">Community</option>
-          </select>
-          <div class="comment-editor">
-            <div class="comment-toolbar">
-              <button type="button" class="toolbar-btn" data-format="bold" aria-label="Bold">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
-                  <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
-                </svg>
-              </button>
-              <button type="button" class="toolbar-btn" data-format="italic" aria-label="Italic">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="19" y1="4" x2="10" y2="4"></line>
-                  <line x1="14" y1="20" x2="5" y2="20"></line>
-                  <line x1="15" y1="4" x2="9" y2="20"></line>
-                </svg>
-              </button>
-              <button type="button" class="toolbar-btn" data-format="underline" aria-label="Underline">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
-                  <line x1="4" y1="21" x2="20" y2="21"></line>
-                </svg>
-              </button>
+          <h3>Share Your Investigative Findings</h3>
+          <form class="community-form" id="community-form">
+            <div class="community-form-grid">
+              <div class="community-field">
+                <label class="community-label">Report Title</label>
+                <input type="text" name="title" placeholder="The Yulin Corridor Intercept..." required minlength="5" maxlength="200" class="community-input" />
+              </div>
+              <div class="community-field">
+                <label class="community-label">Investigation Topic</label>
+                <select name="tag" class="community-input" required>
+                  <option value="">Select Topic</option>
+                  <option value="Public Health">Public Health</option>
+                  <option value="Pet Theft">Pet Theft Recovery</option>
+                  <option value="Regulation">Legislative Loophole</option>
+                  <option value="Public Support">Public Support</option>
+                  <option value="Lucky's Story">Lucky's Story</option>
+                  <option value="Campaign Updates">Campaign Updates</option>
+                  <option value="Community">Community</option>
+                </select>
+              </div>
             </div>
-            <textarea name="content" class="comment-textarea" placeholder="Write your article content (100-5000 characters)..." required minlength="100" maxlength="5000" rows="10"></textarea>
-          </div>
-          <div class="comment-form-footer">
-            <span class="comment-char-count"><span class="char-current">0</span>/5000</span>
-            <button type="submit" class="btn btn-primary">Submit for Review</button>
-          </div>
-          <div class="comment-form-notice">
-            <small>Submissions are reviewed before publication. You'll be notified at your email when your article is published.</small>
-          </div>
-        </form>
+            <div class="community-field">
+              <label class="community-label">Contextual Evidence & Summary</label>
+              <textarea name="content" class="community-input community-textarea" placeholder="Describe the coordinates, dates, and primary actors identified..." required minlength="100" maxlength="5000" rows="3"></textarea>
+            </div>
+            <input type="hidden" name="author_name" value="Anonymous Researcher" />
+            <input type="hidden" name="author_email" value="" />
+            <div class="community-form-actions">
+              <button type="submit" class="community-submit-btn">
+                <span class="material-symbols-outlined">send</span>
+                Submit to The Archive
+              </button>
+              <span class="comment-char-count"><span class="char-current">0</span>/5000</span>
+            </div>
+          </form>
+        </div>
       </div>
     `;
 
@@ -153,19 +145,8 @@ class CommunityPosts {
       this.submitPost(form);
     });
 
-    // Formatting toolbar
-    const toolbarButtons = form.querySelectorAll('.toolbar-btn');
-    toolbarButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const textarea = form.querySelector('.comment-textarea');
-        const format = btn.dataset.format;
-        this.handleFormatting(textarea, format);
-      });
-    });
-
     // Character count
-    const textarea = form.querySelector('.comment-textarea');
+    const textarea = form.querySelector('.community-textarea');
     if (textarea) {
       textarea.addEventListener('input', () => this.updateCharCount(textarea));
     }
@@ -203,8 +184,9 @@ class CommunityPosts {
   }
 
   updateCharCount(textarea) {
-    const form = textarea.closest('.community-form');
-    const charCurrent = form.querySelector('.char-current');
+    const actions = textarea.closest('.community-form') || textarea.closest('.community-submit-section');
+    if (!actions) return;
+    const charCurrent = actions.querySelector('.char-current');
     if (charCurrent) {
       charCurrent.textContent = textarea.value.length;
     }

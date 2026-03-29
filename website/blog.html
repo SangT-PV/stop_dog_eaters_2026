@@ -54,10 +54,9 @@
   <div class="blog-page-header pt-nav">
     <div class="container">
       <h1>The SDE Blog</h1>
-      <p>Daily AI-researched content covering public health risks, pet theft reports, community perspectives, and campaign updates.</p>
-      <div class="blog-header-controls">
-        <!-- View Toggle -->
-        <div class="view-toggle">
+      <div class="blog-header-row">
+        <p class="blog-header-desc">Chronicles of intervention, investigative dossiers on the illicit meat trade, and the legislative roadmap to total abolition.</p>
+        <div class="view-toggle blog-view-toggle">
           <button type="button" class="view-btn active" data-view="timeline">
             <span class="material-symbols-outlined">view_headline</span>
             Timeline
@@ -183,10 +182,13 @@
       </a>
 
       <!-- Sign the Petition Widget -->
-      <div class="sidebar-section sidebar-petition-widget">
-        <h4>Sign the Petition</h4>
-        <p>Haven't signed yet? Add your name today.</p>
-        <a href="petition.html" class="btn btn-primary blog-sidebar-cta">Sign Now</a>
+      <div class="sidebar-petition-widget">
+        <h4 class="sidebar-petition-title">The Final Abolition Bill</h4>
+        <p>We are 84,000 signatures away from mandatory parliamentary review. Your name is the weight we need.</p>
+        <div class="sidebar-petition-progress">
+          <div class="sidebar-petition-progress-bar" id="petition-progress-bar" style="width:72%"></div>
+        </div>
+        <a href="petition.html" class="sidebar-petition-btn">Sign the Petition</a>
       </div>
 
     </aside>
