@@ -98,6 +98,25 @@ body {
   display: inline-flex;
 }
 
+/* Skip Navigation */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 1rem 2rem;
+  z-index: 200;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-sm) 0;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 img { max-width: 100%; display: block; }
 a   { color: var(--teal); text-decoration: none; }
 a:hover { color: var(--teal-dk); }
