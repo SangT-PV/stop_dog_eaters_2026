@@ -1,9 +1,9 @@
 # Stop Dog Eaters Campaign - Implementation Roadmap
 
-**Total Plans:** 34 across 7 phases + 3 backlog phases (v1.0) + 9 phases (v2.0)
-**Completed:** 20 of 34 v1.0 plans + 2 of 3 Phase 16 plans
+**Total Plans:** 34 across 7 phases + 3 backlog phases (v1.0) + 10 phases (v2.0)
+**Completed:** 20 of 34 v1.0 plans + 17 of 22 v2.0 plans
 **Current Milestone:** v2.0 Design & Engagement Enhancement
-**Last Updated:** 2026-03-26
+**Last Updated:** 2026-03-29
 
 ---
 
@@ -373,7 +373,8 @@ Phases execute in numeric order: 8 â 9 â 10 â 11 â 12 â
 | 14. Performance Optimization | v2.0 | 0/0 | Not started | - |
 | 15. Accessibility & UX Polish | v2.0 | 0/0 | Not started | - |
 | 16. Discussion UI Rebuild | v2.0 | 3/3 | Complete | 2026-03-24 |
-| 17. Stitch Design Implementation | v2.0 | 4/7 | In Progress|  |
+| 17. Stitch Design Implementation | v2.0 | 6/7 | In Progress|  |
+| 18. Go-Live Readiness Fixes | v2.0 | 1/5 | In Progress|  |
 
 
 ### Phase 16: Rebuild Discussion and Share Your Research UI components
@@ -418,6 +419,35 @@ Plans:
 - [x] 17-05-PLAN.md -- Donate page redesign (Wave 2) (320f81c, fddd8c1)
 - [x] 17-06-PLAN.md -- Token page redesign: fund tracker, roadmap, voting (Wave 2) (5956cc5, 73c715d)
 - [ ] 17-07-PLAN.md -- About page + responsive QA + visual verification (Wave 3)
+
+### Phase 18: Go-Live Readiness Fixes
+
+**Goal:** Fix all 19 issues identified in the 2026-03-29 E2E go-live audit. Resolve 5 CRITICAL blockers, 7 HIGH-priority issues, 6 MEDIUM items, and 3 LOW items to achieve production-ready status.
+**Requirements:** GO-LIVE-AUDIT (all 19 findings from `.planning/reviews/2026-03-29-go-live-e2e-audit.md`)
+**Depends on:** Phase 17 (Stitch design system complete)
+**Reference:** `.planning/reviews/2026-03-29-go-live-e2e-audit.md`
+**Success Criteria** (what must be TRUE):
+  1. Zero placeholder images visible -- Lucky hero/story photos or professional fallback in place (C1)
+  2. OG share image exists and renders on Facebook/Twitter/Telegram link previews (C2)
+  3. Fund allocation percentages identical across about, donate, and token pages (C3)
+  4. Zero dead `#` links -- all CTAs wired to real destinations or replaced with "Coming Soon" (C4)
+  5. Petition form either posts to real API or redirects entirely to Change.org (C5)
+  6. Homepage blog cards dynamically loaded from data/index.json (H1)
+  7. Data & Research stat counters animate to correct values (H3)
+  8. All Material Symbols have aria-hidden="true" on decorative icons (H4)
+  9. Skip navigation link present on all pages (H6)
+  10. admin-utils.js removed from production HTML (H7)
+  11. Privacy policy and terms pages exist (M3)
+  12. Custom 404 page with navigation (M5)
+  13. E2E re-audit passes with zero CRITICAL and zero HIGH issues
+**Plans:** 1/5 plans executed
+
+Plans:
+- [x] 18-01-PLAN.md -- CRITICAL fixes: placeholder images, OG share image, fund allocation alignment, dead links, petition form (Wave 1) [C1-C5]
+- [ ] 18-02-PLAN.md -- HIGH fixes: dynamic blog cards, stat counter animation, Material Symbols a11y, X/Twitter icon, skip-nav, admin-utils removal (Wave 1) [H1-H7]
+- [ ] 18-03-PLAN.md -- MEDIUM fixes: mobile nav polish, blog banners, privacy/terms pages, duplicate stats, 404 page, focus-visible styles (Wave 2) [M1-M6]
+- [ ] 18-04-PLAN.md -- LOW fixes: font loading optimization, Chart.js self-hosting, dynamic copyright year (Wave 2) [L1-L3]
+- [ ] 18-05-PLAN.md -- E2E re-audit: full regression test across all 7 pages, desktop + mobile, verify all 19 issues resolved (Wave 3)
 
 ---
 

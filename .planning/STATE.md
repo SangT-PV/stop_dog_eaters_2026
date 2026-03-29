@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Design & Engagement Enhancement
-status: Paused — Wave 2 complete, Wave 3 pending
-stopped_at: Completed 17-06-PLAN.md (all Wave 2 done)
-last_updated: "2026-03-29T12:00:00.000Z"
+status: Ready to execute
+stopped_at: Completed 18-01-PLAN.md
+last_updated: "2026-03-29T04:50:51.349Z"
 progress:
-  total_phases: 10
+  total_phases: 11
   completed_phases: 4
-  total_plans: 17
-  completed_plans: 17
+  total_plans: 22
+  completed_plans: 18
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 17 (stitch-design-system-implementation) — EXECUTING
-Plan: 6 of 7 (17-07 remaining — Wave 3)
+Plan: 2 of 7
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Plan: 6 of 7 (17-07 remaining — Wave 3)
 | Phase 17 P04 | 3min | 1 tasks | 2 files |
 | Phase 17 P05 | 273 | 2 tasks | 2 files |
 | Phase 17 P06 | 5min | 2 tasks | 2 files |
+| Phase 18 P01 | 265 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -112,12 +113,16 @@ Recent decisions affecting current work:
 - [Phase 17]: Transparency section uses 5/7 grid layout (pledge left, fund dashboard right) matching Stitch 05-donate reference
 - [Phase 17]: Restructured fund tracker from vertical layout to 3-column dark dashboard grid
 - [Phase 17]: Wrapped voting section in frosted glass card for locked state presentation
+- [Phase 18]: Copied stop-dog-eaters__banner.png as og-share.png (PNG format) for social previews
+- [Phase 18]: Replaced footer Website icon with Instagram link per CTA links.md
+- [Phase 18]: Used window.open for Change.org redirect preserving form validation UX
 
 ### Roadmap Evolution
 
 - Phase 16 added: Rebuild Discussion and Share Your Research UI components
 - Phase 16 COMPLETE: All 3 plans executed (design tokens, icons, accessibility)
 - Phase 17 added: Stitch Design System Implementation — full site redesign from Stitch project (6 screens, Tailwind-to-CSS migration)
+- Phase 18 added: Go-Live Readiness Fixes — 5 plans covering all 19 issues from 2026-03-29 E2E audit (5 CRITICAL, 7 HIGH, 6 MEDIUM, 3 LOW)
 
 ### Pending Todos
 
@@ -140,8 +145,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-29
-Stopped at: Phase 17 Wave 2 complete (plans 17-02 through 17-06 — 12 commits)
+Last session: 2026-03-29T04:50:51.345Z
+Stopped at: Completed 18-01-PLAN.md
 Resume file: None
 
 **Next action:** Execute 17-07 (Wave 3: About page + moderate.html + responsive QA + visual verification), then run full E2E UAT across all 7 pages.
