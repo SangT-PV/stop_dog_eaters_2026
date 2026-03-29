@@ -258,10 +258,13 @@
     if (el && el.dataset.tag) applyFilter(el.dataset.tag);
   });
 
-  document.querySelector('.blog-view-toggle').addEventListener('click', function (e) {
-    var btn = e.target.closest('.view-btn');
-    if (btn && btn.dataset.view) switchView(btn.dataset.view);
-  });
+  var viewToggle = document.querySelector('.blog-view-toggle');
+  if (viewToggle) {
+    viewToggle.addEventListener('click', function (e) {
+      var btn = e.target.closest('.view-btn');
+      if (btn && btn.dataset.view) switchView(btn.dataset.view);
+    });
+  }
 
   // Load posts
   fetch('data/index.json')
