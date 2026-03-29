@@ -124,7 +124,8 @@
       html += '<p class="tl-excerpt">' + escapeHTML(post.excerpt) + '</p>';
       html += '<div class="tl-author">';
       html += '<div class="tl-avatar"></div>';
-      html += '<span>By ' + escapeHTML(post.author) + '</span>';
+      var displayAuthor = (post.author && post.author.indexOf('(Community)') !== -1) ? escapeHTML(post.author) : 'SDE Research Team';
+      html += '<span>By ' + displayAuthor + '</span>';
       html += '</div>';
       html += '</div>'; // tl-card-body
 
@@ -167,7 +168,7 @@
           '<h2><a href="post.html?id=' + encodeURIComponent(p.id) + '" style="color:inherit;text-decoration:none;">' + escapeHTML(p.title) + '</a></h2>' +
           '<p>' + escapeHTML(p.excerpt) + '</p>' +
           '<div class="blog-card-meta">' +
-            '<span>' + escapeHTML(p.author) + '</span> &middot; <span>' + formatDate(p.date) + '</span>' +
+            '<span>' + ((p.author && p.author.indexOf('(Community)') !== -1) ? escapeHTML(p.author) : 'SDE Research Team') + '</span> &middot; <span>' + formatDate(p.date) + '</span>' +
           '</div>' +
         '</div>' +
         '</article>';
