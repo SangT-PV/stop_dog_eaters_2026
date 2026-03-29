@@ -87,41 +87,87 @@ _TOPIC_TEMPLATES = [
 ]
 
 
+def _get_today_angle() -> str:
+    """Rotate through angles daily: health → cruelty → regulation → support → lucky."""
+    angles = ['health', 'cruelty', 'regulation', 'support', 'cruelty']
+    return angles[date.today().toordinal() % len(angles)]
+
+
+def _get_recent_titles(n: int = 5) -> list[str]:
+    """Load recent post titles from index.json to avoid duplicates."""
+    index_path = Path(__file__).parent.parent / 'website' / 'data' / 'index.json'
+    try:
+        posts = json.loads(index_path.read_text(encoding='utf-8'))
+        return [p['title'] for p in posts[:n]]
+    except Exception:
+        return []
+
+
+_RESEARCH_INTERVAL_DAYS = 3  # Run fresh research every N days; reuse on other days
+
+
+def _find_latest_research() -> Path | None:
+    """Find the most recent research file in inputs/."""
+    config.INPUTS_DIR.mkdir(parents=True, exist_ok=True)
+    files = sorted(config.INPUTS_DIR.glob('????-??-??.txt'), reverse=True)
+    return files[0] if files else None
+
+
+def _research_is_fresh(latest: Path) -> bool:
+    """Check if the latest research file is within the reuse window."""
+    try:
+        file_date = date.fromisoformat(latest.stem)
+        age_days = (date.today() - file_date).days
+        return age_days < _RESEARCH_INTERVAL_DAYS
+    except ValueError:
+        return False
+
+
 def _get_research_input() -> tuple[str, str]:
     """
     Returns (research_text, angle).
-    Priority:
-      1. Today's manual input file (inputs/YYYY-MM-DD.txt)
-      2. Run automated research (Perplexity + Manus AI) and save
-      3. Fallback to rotating topic templates
+    Strategy:
+      1. Today's file exists → use it
+      2. Recent file (< 3 days old) exists → reuse it (Claude varies the angle)
+      3. No recent file → run fresh Perplexity + Manus research
+      4. All else fails → fallback to rotating topic templates
     """
     config.INPUTS_DIR.mkdir(parents=True, exist_ok=True)
     today_file = config.INPUTS_DIR / f'{date.today().isoformat()}.txt'
+    angle = _get_today_angle()
 
-    # Priority 1: Manual research file already exists
+    # Priority 1: Today's research already exists
     if today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
-        log.info(f'Using existing research input: {today_file.name}')
-        health_keywords = {'health', 'disease', 'rabies', 'ecoli', 'e. coli', 'salmonella', 'food safety'}
-        angle = 'health' if any(kw in text.lower() for kw in health_keywords) else 'cruelty'
+        log.info(f'Using today\'s research: {today_file.name}')
         return text, angle
 
-    # Priority 2: Run automated research if APIs are configured
+    # Priority 2: Reuse recent research (Claude varies via angle rotation + dedup)
+    latest = _find_latest_research()
+    if latest and _research_is_fresh(latest):
+        text = latest.read_text(encoding='utf-8').strip()
+        age = (date.today() - date.fromisoformat(latest.stem)).days
+        log.info(f'Reusing recent research: {latest.name} ({age}d old, angle: {angle})')
+        return text, angle
+
+    # Priority 3: Run fresh automated research
     if config.PERPLEXITY_ENABLED or config.MANUS_ENABLED:
-        log.info('No input file found — running automated research...')
+        log.info('Research is stale or missing — running fresh Perplexity + Manus...')
         try:
             research_agent.run_and_save()
-            # Now read the file we just created
             if today_file.exists():
                 text = today_file.read_text(encoding='utf-8').strip()
-                log.info(f'Automated research complete: {today_file.name}')
-                health_keywords = {'health', 'disease', 'rabies', 'ecoli', 'e. coli', 'salmonella', 'food safety'}
-                angle = 'health' if any(kw in text.lower() for kw in health_keywords) else 'cruelty'
+                log.info(f'Fresh research complete: {today_file.name}')
                 return text, angle
         except Exception as e:
-            log.warning(f'Automated research failed: {e} — falling back to templates')
+            log.warning(f'Automated research failed: {e}')
+            # Fall through to reuse stale research or templates
+            if latest:
+                text = latest.read_text(encoding='utf-8').strip()
+                log.info(f'Falling back to stale research: {latest.name}')
+                return text, angle
 
-    # Priority 3: Fallback to rotating topic templates
+    # Priority 4: Fallback to rotating topic templates
     idx = date.today().toordinal() % len(_TOPIC_TEMPLATES)
     angle, text = _TOPIC_TEMPLATES[idx]
     log.info(f'Using topic template #{idx} (angle: {angle})')
@@ -134,9 +180,10 @@ def generate(dry_run: bool = False) -> None:
 
     research_text, angle = _get_research_input()
 
-    log.info(f'Calling Claude (angle: {angle}) ...')
+    recent_titles = _get_recent_titles()
+    log.info(f'Calling Claude (angle: {angle}, dedup: {len(recent_titles)} recent titles) ...')
     try:
-        post_data = claude_client.synthesise_post(research_text, angle)
+        post_data = claude_client.synthesise_post(research_text, angle, recent_titles)
     except Exception as e:
         log.error(f'Claude synthesis failed: {e}')
         raise

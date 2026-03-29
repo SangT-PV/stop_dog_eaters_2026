@@ -35,18 +35,35 @@ _VALID_TAGS = {
 }
 
 
-def synthesise_post(research_text: str, angle: str) -> dict:
+_ANGLE_GUIDANCE = {
+    'health': 'Focus on PUBLIC HEALTH: rabies data, food safety violations, disease outbreaks, WHO reports. Tag: Public Health.',
+    'cruelty': 'Focus on PET THEFT & CRUELTY: stolen pets, transport conditions, family impact, rescue stories. Tag: Pet Theft.',
+    'regulation': 'Focus on REGULATION GAPS: zero slaughterhouses, enforcement failures, legal reform efforts, international comparisons. Tag: Regulation.',
+    'support': 'Focus on PUBLIC SUPPORT: the 95% survey, cultural shift, youth attitudes, local advocacy movements, community voices. Tag: Public Support.',
+}
+
+
+def synthesise_post(research_text: str, angle: str, recent_titles: list[str] = None) -> dict:
     """
-    Given raw research text and an angle ('health' or 'cruelty'),
+    Given raw research text and an angle,
     call Claude to generate a blog post.
 
     Returns a dict with keys:
       title, tag, excerpt, body_html, telegram_message, facebook_post
     """
+    dedup_block = ''
+    if recent_titles:
+        titles_list = '\n'.join(f'  - {t}' for t in recent_titles)
+        dedup_block = f'\n\nRECENT POSTS (DO NOT repeat these titles or angles — find a FRESH angle):\n{titles_list}\n'
+
+    angle_instruction = _ANGLE_GUIDANCE.get(angle, _ANGLE_GUIDANCE['health'])
+
     prompt = f"""RESEARCH INPUT:
 {research_text}
 
 CONTENT ANGLE: {angle}
+{angle_instruction}
+{dedup_block}
 
 Generate a STRUCTURED blog post with newsletter-style formatting and source citations. Respond with ONLY a valid JSON object (no markdown fences) with exactly these fields:
 

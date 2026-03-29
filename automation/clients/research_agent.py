@@ -26,22 +26,26 @@ from config import (
 
 log = logging.getLogger(__name__)
 
-# Search queries for each language
-ENGLISH_QUERIES = [
-    "Vietnam dog meat trade latest news 2026",
-    "Vietnam pet theft dog stealing news",
-    "Vietnam dog meat ban legislation news",
-    "Vietnam dog meat health risks food safety",
-    "Vietnam animal welfare dog protection news",
-]
+def _dated_queries() -> tuple[list[str], list[str]]:
+    """Generate date-aware queries so Perplexity prioritises recent news."""
+    today = date.today()
+    month_year = today.strftime('%B %Y')  # e.g. "March 2026"
 
-VIETNAMESE_QUERIES = [
-    "thịt chó Việt Nam tin tức mới nhất",  # Dog meat Vietnam latest news
-    "buôn bán thịt chó Việt Nam",          # Dog meat trade Vietnam
-    "trộm cắp chó Việt Nam",               # Dog theft Vietnam
-    "cấm thịt chó Việt Nam",               # Ban dog meat Vietnam
-    "vệ sinh an toàn thực phẩm thịt chó",  # Food safety dog meat
-]
+    en = [
+        f"Vietnam dog meat trade news {month_year}",
+        f"Vietnam pet theft dog stealing incidents {month_year}",
+        f"Vietnam dog meat ban legislation progress {month_year}",
+        f"Vietnam dog meat rabies food safety reports {month_year}",
+        f"Vietnam animal welfare dog rescue news {month_year}",
+    ]
+    vi = [
+        f"thịt chó Việt Nam tin tức {today.strftime('%m/%Y')}",
+        f"buôn bán thịt chó Việt Nam {today.strftime('%m/%Y')}",
+        f"trộm cắp chó Việt Nam {today.year}",
+        f"cấm thịt chó luật Việt Nam {today.year}",
+        f"dịch bệnh dại chó Việt Nam {today.year}",
+    ]
+    return en, vi
 
 
 def search_perplexity(query: str, language: str = "en") -> Optional[Dict]:
@@ -80,6 +84,7 @@ def search_perplexity(query: str, language: str = "en") -> Optional[Dict]:
             ],
             "temperature": 0.2,
             "max_tokens": 1000,
+            "search_recency_filter": "week",  # Prioritise results from the last 7 days
         }
 
         response = requests.post(url, headers=headers, json=payload, timeout=60)
@@ -181,28 +186,28 @@ def search_manus_ai() -> Optional[str]:
         }
 
         # Research prompt for Manus agent
-        prompt = """Research the latest Vietnamese news about the dog meat trade (thịt chó) from these sources:
+        today_str = date.today().isoformat()
+        prompt = f"""Research the latest news about Vietnam's dog meat trade (thịt chó, buôn bán chó mèo).
 
-1. VnExpress.net - search for: "thịt chó", "buôn bán chó", "dịch bệnh dại"
-2. Tuổi Trẻ (tuoitre.vn) - search for: "thịt chó", "trộm cắp chó"
-3. Thanh Niên (thanhnien.vn) - search for: "thịt chó Việt Nam", "cấm thịt chó"
-4. VietnamNet - search for: "an toàn thực phẩm thịt chó"
+Search broadly across ALL available Vietnamese and international sources — news sites, government portals, NGO reports, social media, forums, and local journalism. Do not limit to specific websites.
 
-Focus on:
-- Recent events (last 7-30 days)
-- Health warnings or disease outbreaks (rabies, E. coli, salmonella)
-- Legislative changes or proposals
-- Public opinion surveys
-- Pet theft incidents
-- Local government announcements
+Time focus: Prioritise events from the last 7 days (today is {today_str}), but include significant developments from the last 30 days if highly relevant.
 
-Provide:
-- Article titles with dates
-- Key facts and statistics
-- Source URLs
-- Brief summaries in both Vietnamese and English
+Topics to cover:
+- Pet theft rings and police operations (trộm cắp chó)
+- Rabies outbreaks or food safety incidents linked to dog meat
+- Legislative progress — national or provincial bans, enforcement actions
+- Public opinion shifts, surveys, community advocacy
+- Rescue operations, shelter news, adoption campaigns
+- International pressure or diplomatic developments
 
-Format the output as a structured report with clear sections."""
+For each finding provide:
+- Article title and publication date
+- Source name and URL
+- Key facts, statistics, or quotes
+- Brief summary in English
+
+Format as a structured research report with clear sections."""
 
         payload = {
             "prompt": prompt,
@@ -303,24 +308,25 @@ def run_research() -> str:
         Combined research text
     """
     log.info("Starting automated research...")
+    en_queries, vi_queries = _dated_queries()
 
     # 1. Search English sources via Perplexity
     english_results = []
-    for query in ENGLISH_QUERIES:
+    for query in en_queries:
         result = search_perplexity(query, language="en")
         if result:
             english_results.append(result)
 
-    log.info(f"Perplexity English searches completed: {len(english_results)}/{len(ENGLISH_QUERIES)}")
+    log.info(f"Perplexity English searches completed: {len(english_results)}/{len(en_queries)}")
 
     # 2. Search Vietnamese sources via Perplexity
     vietnamese_results = []
-    for query in VIETNAMESE_QUERIES:
+    for query in vi_queries:
         result = search_perplexity(query, language="vi")
         if result:
             vietnamese_results.append(result)
 
-    log.info(f"Perplexity Vietnamese searches completed: {len(vietnamese_results)}/{len(VIETNAMESE_QUERIES)}")
+    log.info(f"Perplexity Vietnamese searches completed: {len(vietnamese_results)}/{len(vi_queries)}")
 
     # 3. Scrape local sources via Manus AI
     manus_content = search_manus_ai()
