@@ -204,7 +204,11 @@ def generate(dry_run: bool = False) -> None:
 
     log.info('Source Check passed.')
 
-    # Generate infographic banner via Nova Canvas
+    # Set slug/id early so banner uses it for filename
+    from publishers.blog_publisher import _slugify
+    post_data['id'] = _slugify(post_data.get('title', 'post'))
+
+    # Generate infographic banner
     if config.BANNER_ENABLED:
         try:
             banner_url = banner_generator.generate_banner(post_data)
