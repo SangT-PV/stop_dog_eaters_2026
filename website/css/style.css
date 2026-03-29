@@ -5537,9 +5537,30 @@ select.comment-input {
   .hero-inner,
   .lucky-inner { grid-template-columns: 1fr; }
 
-  /* Show images on mobile — stack below text */
+  /* Show images on mobile — stack above text, constrain height */
   .hero-image,
-  .lucky-image { order: -1; }
+  .lucky-image {
+    order: -1;
+    max-height: 320px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-image img,
+  .hero-image-placeholder,
+  .lucky-image img,
+  .lucky-image-placeholder {
+    max-height: 320px;
+    width: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    transform: none;
+    aspect-ratio: auto;
+    height: auto;
+  }
+  .hero-image-badge { display: none; }
+  .lucky-image::after { display: none; }
 
   .hero-sub { max-width: 100%; }
 
