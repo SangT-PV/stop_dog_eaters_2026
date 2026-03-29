@@ -29,13 +29,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
-  <script>
-    // Token page is admin-only until launch
-    // Uses same session key as AdminUtils (set by ?admin=true on any page)
-    if (sessionStorage.getItem('sde-admin-authenticated') !== 'true') {
-      window.location.replace('index.html');
-    }
-  </script>
+
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -58,6 +52,22 @@
       </button>
     </div>
   </nav>
+
+  <!-- PASSWORD GATE -->
+  <div id="token-gate" class="mod-gate pt-nav">
+    <div class="mod-gate-card">
+      <h2>Admin Access Required</h2>
+      <p>The SDE Token page is not yet public. Enter the admin password to continue.</p>
+      <form id="token-gate-form">
+        <input type="password" id="token-password" class="comment-input" placeholder="Password" required />
+        <button type="submit" class="btn btn-primary mod-submit-btn">Enter Token Page</button>
+      </form>
+      <div id="token-gate-error" class="mod-gate-error" style="display:none;">Incorrect password.</div>
+    </div>
+  </div>
+
+  <!-- TOKEN CONTENT (hidden until authenticated) -->
+  <div id="token-content" style="display:none;">
 
   <!-- TOKEN HERO -->
   <section class="token-hero pt-nav" id="main-content">
@@ -174,6 +184,8 @@
     </div>
   </section>
 
+  </div><!-- end #token-content -->
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
@@ -219,5 +231,37 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script>
+    // Token page password gate (same password as moderate.html)
+    (function() {
+      var HASH = '6f2caa2e0740a6b4563a0ca4463b14fbb832887f6ac9d075809e5a168ba27b21';
+      var gate = document.getElementById('token-gate');
+      var content = document.getElementById('token-content');
+      var form = document.getElementById('token-gate-form');
+      var errorEl = document.getElementById('token-gate-error');
+
+      // Check if already authenticated this session
+      if (sessionStorage.getItem('sde-admin-authenticated') === 'true') {
+        gate.style.display = 'none';
+        content.style.display = 'block';
+        return;
+      }
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        var pw = document.getElementById('token-password').value;
+        var enc = new TextEncoder();
+        var buf = await crypto.subtle.digest('SHA-256', enc.encode(pw));
+        var hash = Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2,'0'); }).join('');
+        if (hash === HASH) {
+          sessionStorage.setItem('sde-admin-authenticated', 'true');
+          gate.style.display = 'none';
+          content.style.display = 'block';
+        } else {
+          errorEl.style.display = 'block';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
