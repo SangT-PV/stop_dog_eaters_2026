@@ -256,14 +256,30 @@
     </div>
   </section>
 
-  <!-- SDE TOKEN CTA (admin-only — hidden until token launches) -->
-  <section class="token-cta-banner" id="token-cta" style="display:none;">
-    <div class="token-cta-inner">
-      <div>
-        <h2>Support via the SDE Token</h2>
-        <p>Leveraging decentralized finance for transparent, rapid action deployment.</p>
+  <!-- FUND-GATED COMMUNITY ROADMAP -->
+  <section class="roadmap-section">
+    <h2>Development Roadmap</h2>
+    <p style="color: var(--on-surface-variant); font-size: 1.125rem; max-width: 42rem; margin: 0 auto 4rem; text-align: center;">
+      As our fundraising milestones are met, we unlock new features and tools for the community to scale our advocacy globally.
+    </p>
+    <div id="fund-roadmap" class="fund-roadmap-container">
+      <!-- Rendered by fund-roadmap.js -->
+    </div>
+  </section>
+
+  <!-- FEATURE VOTING ($10K+ tier) -->
+  <section class="voting-section">
+    <div class="voting-glass-card">
+      <div class="voting-icon">
+        <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 2.5rem;">how_to_vote</span>
       </div>
-      <a href="token.html" class="token-cta-link">Explore Token Economics</a>
+      <h2>Governance &amp; Community Voting</h2>
+      <p>
+        Direct democratic control over campaign priorities. This feature will unlock once the Community Fund reaches the $10,000 threshold.
+      </p>
+      <div id="feature-voting" class="feature-voting-container">
+        <!-- Rendered by feature-voting.js -->
+      </div>
     </div>
   </section>
 
@@ -312,6 +328,12 @@
 
   <!-- Fund Tracker Module -->
   <script src="js/fund-tracker.js"></script>
+
+  <!-- Fund Roadmap Module -->
+  <script src="js/fund-roadmap.js"></script>
+
+  <!-- Feature Voting Module -->
+  <script src="js/feature-voting.js"></script>
 
   <script src="js/main.js"></script>
 </body>

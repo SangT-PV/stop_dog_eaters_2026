@@ -29,6 +29,12 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
+  <script>
+    // Token page is admin-only until launch
+    if (!sessionStorage.getItem('admin-mode')) {
+      window.location.replace('index.html');
+    }
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -167,91 +173,6 @@
     </div>
   </section>
 
-  <!-- FUND TRACKER DASHBOARD -->
-  <section class="fund-dashboard-section">
-    <div class="fund-dashboard-top">
-      <div>
-        <h2>Fund Transparency Dashboard</h2>
-        <p>Real-time allocation of community resources. Every dollar is tracked to ensure maximum impact for animal welfare.</p>
-      </div>
-      <div class="fund-summary-cards">
-        <div id="fund-summary" class="fund-summary">
-          <div class="fund-summary-card">
-            <div class="label">Total Raised</div>
-            <div class="fund-metric-value value">$0</div>
-          </div>
-          <div class="fund-summary-card">
-            <div class="label">Total Spent</div>
-            <div class="fund-metric-value value">$0</div>
-          </div>
-          <div class="fund-summary-card fund-summary-card--accent">
-            <div class="label">Balance</div>
-            <div class="fund-metric-value value">$0</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="fund-tracker-container" class="fund-dashboard-grid">
-      <!-- Allocation Chart -->
-      <div class="fund-dashboard-card">
-        <h3>Budget Allocation</h3>
-        <canvas id="allocation-chart" width="400" height="400"></canvas>
-      </div>
-
-      <!-- Fund Sources / Category Breakdown -->
-      <div class="fund-dashboard-card">
-        <h3>Category Breakdown</h3>
-        <div id="fund-sources" class="fund-sources">
-          <!-- Populated by JavaScript -->
-        </div>
-        <div id="fund-allocations" class="fund-allocations">
-          <!-- Populated by JavaScript -->
-        </div>
-      </div>
-
-      <!-- Recent Expenses -->
-      <div class="fund-dashboard-card">
-        <h3>Recent Expenses</h3>
-        <div id="fund-expenses">
-          <!-- Populated by JavaScript -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Last Updated -->
-    <div id="fund-last-updated" class="fund-last-updated" style="color: rgba(137,171,173,1); text-align: center; margin-top: 2rem; font-size: 0.75rem;">
-      Last updated: Loading...
-    </div>
-  </section>
-
-  <!-- FUND-GATED COMMUNITY ROADMAP -->
-  <section class="roadmap-section">
-    <h2>Development Roadmap</h2>
-    <p style="color: var(--on-surface-variant); font-size: 1.125rem; max-width: 42rem; margin: 0 auto 4rem; text-align: center;">
-      As our fundraising milestones are met, we unlock new features and tools for the community to scale our advocacy globally.
-    </p>
-    <div id="fund-roadmap" class="fund-roadmap-container">
-      <!-- Rendered by fund-roadmap.js -->
-    </div>
-  </section>
-
-  <!-- FEATURE VOTING ($10K+ tier) -->
-  <section class="voting-section">
-    <div class="voting-glass-card">
-      <div class="voting-icon">
-        <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 2.5rem;">how_to_vote</span>
-      </div>
-      <h2>Governance &amp; Community Voting</h2>
-      <p>
-        Direct democratic control over treasury allocation. This feature will unlock once the Community Fund reaches the $10,000 threshold.
-      </p>
-      <div id="feature-voting" class="feature-voting-container">
-        <!-- Rendered by feature-voting.js -->
-      </div>
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
@@ -295,18 +216,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- Chart.js for fund allocation visualization (self-hosted) -->
-  <script defer src="js/vendor/chart.umd.min.js"></script>
-
-  <!-- Fund Tracker Module -->
-  <script src="js/fund-tracker.js"></script>
-
-  <!-- Fund Roadmap Module -->
-  <script src="js/fund-roadmap.js"></script>
-
-  <!-- Feature Voting Module -->
-  <script src="js/feature-voting.js"></script>
 
   <script src="js/main.js"></script>
 </body>
