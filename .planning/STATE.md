@@ -136,7 +136,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+1. **Migrate static JSON storage to Neon PostgreSQL** (database) — Future scaling milestone. When community traction requires real-time moderation and high-volume submissions, migrate from static `.json` files to Neon Serverless Postgres with Vercel API routes.
 
 ### Blockers/Concerns
 
