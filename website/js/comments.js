@@ -242,7 +242,7 @@ class CommentSection {
           <div class="chat-bubble-wrap">
             <div class="chat-meta">
               <span class="chat-author">${this.escapeHTML(comment.author_name)}</span>
-              ${isBot ? '<span class="bot-badge">Bot</span>' : ''}
+              ${isBot ? '<span class="bot-badge">Verified Source</span>' : ''}
               <span class="chat-time">${timeAgo}</span>
               ${isPending ? '<span class="comment-pending-badge">Pending</span>' : ''}
             </div>

@@ -50,23 +50,22 @@
     </div>
   </nav>
 
-  <!-- POST CONTENT -->
-  <div class="container post-container">
+  <!-- POST PAGE -->
+  <main class="post-page">
 
     <div id="post-loading" class="post-loading">
       Loading article...
     </div>
 
-    <article id="post-article" class="post-article" style="display:none;">
+    <article id="post-article" style="display:none;">
 
-      <!-- Post Header -->
+      <!-- Post Header (1024px) -->
       <div class="post-header-stitch">
         <a href="blog.html" class="back-link">
           <span class="material-symbols-outlined">arrow_back</span>
           Back to Blog
         </a>
-        <img id="post-banner" class="post-banner-stitch" style="display:none;" alt="Article banner" />
-        <span id="post-tag" class="blog-tag post-tag-block"></span>
+        <span id="post-tag" class="post-tag-stitch"></span>
         <h1 id="post-title" class="post-title-stitch"></h1>
         <div class="post-meta-stitch">
           <div class="post-avatar" id="post-avatar"></div>
@@ -77,25 +76,40 @@
         </div>
       </div>
 
-      <!-- Article Prose -->
+      <!-- Banner Image (wider breakout: 1280px) -->
+      <div class="post-banner-wrap" id="post-banner-wrap" style="display:none;">
+        <img id="post-banner" class="post-banner-stitch" alt="Article banner" />
+      </div>
+
+      <!-- Article Prose (680px) -->
       <div class="post-prose-stitch">
         <div id="post-body" class="prose"></div>
       </div>
 
+      <!-- CTA (inline with prose width) -->
+      <div class="post-cta-box-stitch">
+        <div class="post-cta-content">
+          <h3>Protect Public Health Today</h3>
+          <p>
+            Our legislative team is working with global health leaders to ban unregulated slaughterhouses.
+            Your signature is the leverage we need.
+          </p>
+          <a href="petition.html" class="post-cta-btn-stitch">
+            Sign the National Petition
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
+        <div class="post-cta-blur"></div>
+      </div>
+
     </article>
 
-    <!-- CTA -->
-    <div class="post-cta-box-stitch">
-      <h3>Take Action Against the Unregulated Trade</h3>
-      <p>
-        Join 95% of Vietnamese citizens who support ending the dog meat trade. Add your voice to the petition.
-      </p>
-      <a href="petition.html" class="btn">Sign the Petition</a>
-    </div>
-
-    <!-- COMMENTS SECTION -->
+    <!-- Discussion Section (800px) -->
     <div id="comments-section" class="comments-section comments-section-stitch">
-      <h2>Discussion <span class="comments-count" id="comments-count"></span></h2>
+      <div class="comments-header-stitch">
+        <h2>Community Discussion</h2>
+        <span class="comments-count" id="comments-count"></span>
+      </div>
       <div id="comments-container">
         <!-- Rendered by comments.js -->
       </div>
@@ -105,7 +119,7 @@
       <p>Article not found. <a href="blog.html">Return to the blog &rarr;</a></p>
     </div>
 
-  </div>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -189,14 +203,22 @@
 
           document.getElementById('post-tag').textContent = post.tag;
           document.getElementById('post-title').textContent = post.title;
-          document.getElementById('post-author').textContent = post.author;
-          document.getElementById('post-date').textContent = 'Published on ' + new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          document.getElementById('post-author').textContent = 'By ' + post.author;
 
-          // Display banner if available
+          // Calculate read time from body_html word count
+          var tempDiv = document.createElement('div');
+          tempDiv.innerHTML = post.body_html;
+          var wordCount = (tempDiv.textContent || tempDiv.innerText || '').split(/\s+/).filter(Boolean).length;
+          var readTime = Math.max(1, Math.ceil(wordCount / 200));
+          var dateStr = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          document.getElementById('post-date').textContent = 'Published on ' + dateStr + ' \u2022 ' + readTime + ' min read';
+
+          // Display banner if available (show the wrapper)
           if (post.banner_url) {
+            var bannerWrap = document.getElementById('post-banner-wrap');
             var banner = document.getElementById('post-banner');
             banner.src = post.banner_url;
-            banner.style.display = 'block';
+            bannerWrap.style.display = 'block';
           }
 
           // Set author avatar initial
