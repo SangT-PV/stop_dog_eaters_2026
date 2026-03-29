@@ -5537,8 +5537,9 @@ select.comment-input {
   .hero-inner,
   .lucky-inner { grid-template-columns: 1fr; }
 
+  /* Show images on mobile — stack below text */
   .hero-image,
-  .lucky-image { display: none; }
+  .lucky-image { order: -1; }
 
   .hero-sub { max-width: 100%; }
 
@@ -5632,10 +5633,10 @@ select.comment-input {
     grid-template-columns: 1fr;
   }
   .chart-wrapper {
-    max-height: 280px;
+    max-height: 320px;
   }
   .chart-wrapper canvas {
-    max-height: 280px;
+    max-height: 320px;
   }
 
   .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
