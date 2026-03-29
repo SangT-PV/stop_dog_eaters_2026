@@ -3876,6 +3876,9 @@ select.comment-input {
 
 /* ====== LAYER 4: UTILITIES — Single-purpose helper classes ====== */
 
+/* Nav offset — adds padding-top to clear the fixed nav (5rem height) */
+.pt-nav { padding-top: 5rem; }
+
 /* Display */
 .flex-center { display: flex; align-items: center; justify-content: center; }
 .flex-col { display: flex; flex-direction: column; }
