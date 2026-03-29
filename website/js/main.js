@@ -110,61 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { bar.style.width = pct + '%'; }, 300);
   }
 
-  // --- Petition form submission ----------------------------
-  const petitionForm = document.getElementById('petition-form');
-  if (petitionForm) {
-    petitionForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = petitionForm.querySelector('button[type="submit"]');
-      const name  = petitionForm.querySelector('#signer-name').value.trim();
-      const email = petitionForm.querySelector('#signer-email').value.trim();
-      const consent = petitionForm.querySelector('#consent').checked;
-
-      if (!name || !email) {
-        showFormMessage(petitionForm, 'Please fill in your name and email.', 'error');
-        return;
-      }
-
-      // Validate email format
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showFormMessage(petitionForm, 'Please enter a valid email address.', 'error');
-        return;
-      }
-
-      if (!consent) {
-        showFormMessage(petitionForm, 'Please agree to the terms to sign the petition.', 'error');
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Redirecting...';
-
-      // Open Change.org petition in new tab
-      window.open('https://c.org/nLZTZdVNdJ', '_blank');
-      showFormMessage(petitionForm, 'Redirecting to Change.org to complete your signature...', 'success');
-      btn.disabled = false;
-      btn.textContent = 'Sign the Petition';
-    });
-  }
-
-  function showFormMessage(form, message, type) {
-    let msgEl = form.querySelector('.form-message');
-    if (!msgEl) {
-      msgEl = document.createElement('div');
-      msgEl.className = 'form-message';
-      form.insertBefore(msgEl, form.querySelector('button[type="submit"]'));
-    }
-    msgEl.textContent = message;
-    msgEl.style.cssText = `
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      margin-bottom: 14px;
-      background: ${type === 'success' ? '#e6f4ea' : '#fdecea'};
-      color: ${type === 'success' ? '#2d6a3f' : '#c0392b'};
-      border: 1px solid ${type === 'success' ? '#a8d5b5' : '#f5c6c6'};
-    `;
-  }
 
   // --- Scroll-triggered entrance animations ----------------
   const animatables = document.querySelectorAll(

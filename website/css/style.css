@@ -1331,82 +1331,70 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   font-variation-settings: 'FILL' 1;
 }
 
-/* Petition form (bottom-border style) */
-.petition-form {
+/* CTA widget */
+.petition-cta-widget {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
-.petition-form input,
-.petition-form select {
-  width: 100%;
-  border: 0;
-  border-bottom: 2px solid var(--outline);
-  background: transparent;
-  padding: 0.75rem 0;
-  font-family: var(--font-body);
+.petition-cta-message {
   font-size: 1rem;
-  font-weight: 500;
-  color: var(--primary);
-  transition: border-color 0.2s;
-  outline: none;
-}
-.petition-form input:focus,
-.petition-form select:focus {
-  border-color: var(--primary-container);
-}
-.petition-form label {
-  display: block;
-  font-size: 0.6875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-weight: 700;
-  color: var(--outline);
-  margin-bottom: 0.25rem;
-}
-.petition-form .form-consent {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  font-size: 0.75rem;
+  line-height: 1.6;
   color: var(--on-surface-variant);
-  line-height: 1.5;
 }
-.petition-form .form-consent input[type="checkbox"] {
-  width: auto;
-  margin-top: 0.125rem;
-  flex-shrink: 0;
-  border: 1px solid var(--outline);
-  accent-color: var(--primary-container);
+.petition-cta-message strong {
+  color: var(--primary);
 }
 
-/* Submit button */
+/* Submit button (now a link) */
 .petition-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   width: 100%;
   background: var(--tertiary-container);
-  color: var(--on-tertiary);
+  color: #fff;
   font-weight: 900;
-  padding: 1rem;
+  padding: 1.125rem 1.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.15rem;
   font-size: 0.875rem;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-body);
+  text-decoration: none;
+  text-align: center;
 }
 .petition-submit:hover {
   background: var(--tertiary);
-  color: var(--on-tertiary);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(179,48,35,0.3);
 }
-.petition-sign-note {
-  text-align: center;
-  padding-top: 0.5rem;
+.petition-submit .material-symbols-outlined {
+  font-size: 1.25rem;
 }
-.petition-sign-note a {
-  font-size: 0.75rem;
-  font-weight: 700;
+.petition-trust-signals {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid var(--outline-variant);
+  padding-top: 1.25rem;
+}
+.petition-trust-signals li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
   color: var(--outline);
+}
+.petition-trust-signals .material-symbols-outlined {
+  font-size: 1rem;
+  color: var(--primary-container);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
