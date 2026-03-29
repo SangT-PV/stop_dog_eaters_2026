@@ -243,7 +243,7 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
         'banner_url': banner_url,  # Add banner URL
         'tag': post_data['tag'],
         'date': today,
-        'author': 'AI Research Team',
+        'author': 'SDE Research Team',
         'telegram_message': telegram_message,
         'facebook_post': facebook_post,
     }
@@ -262,7 +262,7 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
         'banner_url': banner_url,  # Include banner for preview images
         'tag': post_data['tag'],
         'date': today,
-        'author': 'AI Research Team',
+        'author': 'SDE Research Team',
     }
 
     index.insert(0, index_entry)

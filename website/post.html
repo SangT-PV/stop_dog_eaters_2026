@@ -186,7 +186,17 @@
 
       fetch('data/posts/' + id + '.json')
         .then(function (r) {
-          if (!r.ok) throw new Error('Post not found');
+          if (!r.ok) {
+            var localPosts = [];
+            try { 
+              localPosts = JSON.parse(localStorage.getItem('sde-approved-blog-posts') || '[]'); 
+            } catch(e) {}
+            var localPost = localPosts.find(function(p) { return p.id === id; });
+            if (localPost) {
+              return localPost;
+            }
+            throw new Error('Post not found');
+          }
           return r.json();
         })
         .then(function (post) {
