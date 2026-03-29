@@ -18,7 +18,7 @@ import logging
 import re
 from pathlib import Path
 
-from config import BANNER_DIR, BANNER_PROVIDER, GEMINI_API_KEY
+from config import BANNER_DIR, BANNER_PROVIDER, GEMINI_API_KEY, GEMINI_IMAGE_MODEL
 
 log = logging.getLogger(__name__)
 
@@ -128,39 +128,43 @@ def _generate_gemini(prompt: str, slug: str) -> str | None:
 
     client = genai.Client(api_key=GEMINI_API_KEY)
 
-    # Try Imagen 4 first
-    try:
-        response = client.models.generate_images(
-            model='imagen-4.0-generate-001',
-            prompt=prompt,
-            config=types.GenerateImagesConfig(
-                number_of_images=1,
-                aspect_ratio='16:9',
-                safety_filter_level='BLOCK_LOW_AND_ABOVE',
-            ),
-        )
-        if response.generated_images:
-            image = response.generated_images[0].image
-            return _save_banner(image.image_bytes, slug)
-        log.warning('Imagen 4 returned no images — trying flash-image fallback')
-    except Exception as e:
-        log.warning(f'Imagen 4 failed: {e} — trying flash-image fallback')
+    model = GEMINI_IMAGE_MODEL
+    log.info(f'Using Gemini model: {model}')
 
-    # Fallback to gemini-2.5-flash-image
-    try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash-image',
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_modalities=['IMAGE', 'TEXT'],
-            ),
-        )
-        for part in response.candidates[0].content.parts:
-            if part.inline_data and part.inline_data.mime_type.startswith('image/'):
-                return _save_banner(part.inline_data.data, slug)
-        log.error('Gemini flash-image returned no image parts')
-    except Exception as e:
-        log.error(f'Gemini flash-image also failed: {e}')
+    # Route based on model type: generate_images for imagen-*, generateContent for others
+    if model.startswith('imagen-'):
+        try:
+            response = client.models.generate_images(
+                model=model,
+                prompt=prompt,
+                config=types.GenerateImagesConfig(
+                    number_of_images=1,
+                    aspect_ratio='16:9',
+                    safety_filter_level='BLOCK_LOW_AND_ABOVE',
+                ),
+            )
+            if response.generated_images:
+                image = response.generated_images[0].image
+                return _save_banner(image.image_bytes, slug)
+            log.warning(f'{model} returned no images')
+        except Exception as e:
+            log.warning(f'{model} failed: {e}')
+    else:
+        # Multimodal models (Nano Banana, etc.) use generateContent
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_modalities=['IMAGE', 'TEXT'],
+                ),
+            )
+            for part in response.candidates[0].content.parts:
+                if part.inline_data and part.inline_data.mime_type.startswith('image/'):
+                    return _save_banner(part.inline_data.data, slug)
+            log.warning(f'{model} returned no image parts')
+        except Exception as e:
+            log.warning(f'{model} failed: {e}')
 
     return None
 

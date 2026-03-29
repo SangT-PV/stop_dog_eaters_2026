@@ -25,6 +25,7 @@ BANNER_DIR = (_here.parent / 'website' / 'assets' / 'images' / 'posts').resolve(
 # Google Gemini — used for banner generation (if BANNER_PROVIDER=gemini)
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 GEMINI_ENABLED = bool(GEMINI_API_KEY)
+GEMINI_IMAGE_MODEL = os.getenv('GEMINI_IMAGE_MODEL', 'gemini-2.5-flash-image')
 
 # Telegram — optional; publishing is skipped when these are not set
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
