@@ -155,16 +155,16 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-29T07:05:00Z
-Stopped at: Phase 18 plans 01-04 complete + post-audit fixes. Plan 18-05 (E2E re-audit) deferred to next session.
+Last session: 2026-03-29T09:00:00Z
+Stopped at: Phase 18 complete — all 19 audit issues fixed + extensive polish (token isolation, blog images, admin mode, social links). Re-audit verdict READY.
 Resume file: None
 
-**Next action:** Run `/gsd:execute-phase 18 --wave 3` to execute plan 18-05 (full E2E re-audit across all pages). This is the final verification gate before go-live.
+**Next action:** Deploy to production. Push to main, trigger Cloudflare Pages deployment, verify live site. Then start Phase 19 or address blog content diversity (3 latest posts have duplicate topics).
 
-**Post-audit changes not yet in 18-05 re-audit:**
-- Token page password-gated (like moderate.html)
-- SDE token references removed from all non-token pages
-- Roadmap + Voting moved from token to donate page
-- Donate page transparency section deduplicated (pledge vs tracker)
-- admin-utils.js restored with conditional loading (only when ?admin=true)
-- Contact email set to stop.dog.eaters.sde@gmail.com on privacy/terms
+**Key decisions this session:**
+- SDE Token references removed from all non-token pages; token.html password-gated
+- Roadmap + Voting sections moved from token.html to donate.html
+- admin-utils.js loads synchronously via document.write, persists via sessionStorage
+- Blog post images: each post gets unique fallback; 3 latest SVG banners replaced with real campaign photos
+- Contact email: stop.dog.eaters.sde@gmail.com
+- Footer social links: Instagram, TikTok, Threads, Telegram (from CTA links.md)
