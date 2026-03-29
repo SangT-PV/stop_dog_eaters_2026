@@ -26,7 +26,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -166,23 +167,7 @@
       </div>
 
       <div class="data-research-grid">
-        <!-- Stat Callouts (left column) -->
-        <div class="stat-callout-grid">
-          <div class="stat-callout">
-            <div class="stat-callout__number" data-count="5" data-suffix="M+" data-prefix="">0</div>
-            <div class="stat-callout__label">Dogs killed annually in Vietnam</div>
-          </div>
-          <div class="stat-callout">
-            <div class="stat-callout__number" data-count="95" data-suffix="%" data-prefix="">0</div>
-            <div class="stat-callout__label">Vietnamese support ending the trade</div>
-          </div>
-          <div class="stat-callout">
-            <div class="stat-callout__number" data-count="0" data-suffix="" data-prefix="">0</div>
-            <div class="stat-callout__label">Registered slaughterhouses</div>
-          </div>
-        </div>
-
-        <!-- Charts Grid (right column) -->
+        <!-- Charts Grid (stat callouts removed — already displayed in stats bar above) -->
         <div class="data-charts-grid">
           <!-- Disease Trend Chart -->
           <div class="data-chart-container">
@@ -350,8 +335,8 @@
   <!-- Fund Roadmap Module (for celebration banner) -->
   <script src="js/fund-roadmap.js"></script>
 
-  <!-- Chart.js for data visualizations -->
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+  <!-- Chart.js for data visualizations (self-hosted) -->
+  <script defer src="js/vendor/chart.umd.min.js"></script>
   <!-- Data Charts Module -->
   <script defer src="js/data-charts.js"></script>
   <script src="js/main.js"></script>

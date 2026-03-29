@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Dynamic copyright year -----------------------------------
+  const footerYear = document.querySelector('.footer-bottom span');
+  if (footerYear) {
+    footerYear.textContent = footerYear.textContent.replace(/\d{4}/, new Date().getFullYear());
+  }
+
   // --- Active nav link based on current page ---------------
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(link => {
