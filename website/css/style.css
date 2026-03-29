@@ -5541,19 +5541,19 @@ select.comment-input {
   .hero-image,
   .lucky-image {
     order: -1;
-    max-height: 320px;
-    overflow: hidden;
+    max-height: 360px;
+    overflow: visible;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
   }
   .hero-image img,
   .hero-image-placeholder,
   .lucky-image img,
   .lucky-image-placeholder {
-    max-height: 320px;
+    max-height: 300px;
     width: auto;
-    margin: 0 auto;
+    margin: 2rem auto 0;
     object-fit: contain;
     transform: none;
     aspect-ratio: auto;
