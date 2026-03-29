@@ -56,6 +56,17 @@
       <h1 class="mod-title">Moderation Dashboard</h1>
       <p class="mod-subtitle">Review and approve community submissions. All content requires approval before appearing publicly.</p>
 
+      <div style="background-color: var(--error-container); color: var(--on-error-container); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--error);">
+        <h3 style="margin-top: 0; display: flex; align-items: center; gap: 8px; font-size: 1.1rem;">
+          <span class="material-symbols-outlined">warning</span> 
+          Local API Server Required for Permanent Publishing
+        </h3>
+        <p style="margin-bottom: 0;">To permanently write approved posts to the repository database, you must run this dashboard locally using the built-in moderation API. If you approve posts on the live website (or without the API running), they will only be saved temporarily in your local browser cache.</p>
+        <p style="margin-bottom: 0; margin-top: 0.5rem; font-family: monospace; background: rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 4px; font-size: 0.9rem;">
+          <strong>Instructions:</strong> Close your browser, open the project folder on your computer, and double-click the <code>moderator-start-up.bat</code> file.
+        </p>
+      </div>
+
       <!-- Export button -->
       <div class="mod-export-btn">
         <button id="export-comments-btn" class="btn btn-outline">Export Approved Comments to JSON</button>
