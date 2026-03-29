@@ -1,14 +1,16 @@
 """
-SDE Banner Generator — Dual Provider (Gemini + Nova Canvas)
+SDE Banner Generator — Tri-Provider (Gemini + Vertex + Nova Canvas)
 ===========================================================
 
 Generates contextual infographic banners for blog posts.
-Supports two providers controlled by BANNER_PROVIDER env var:
-  - 'gemini': Google Gemini Imagen 4 (rich infographics, paid plan required)
-  - 'nova':   AWS Bedrock Nova Canvas (illustrated scenes, struong-aws-bedrock)
+Supports multiple providers controlled by BANNER_PROVIDER env var:
+  - 'gemini': Google AI Studio Gemini/Imagen (needs GEMINI_API_KEY)
+  - 'vertex': Google Cloud Vertex AI (needs GOOGLE_CLOUD_PROJECT + AD credentials)
+  - 'nova':   AWS Bedrock Nova Canvas (struong-aws-bedrock)
 
 Switch provider in .env:
   BANNER_PROVIDER=gemini   (default)
+  BANNER_PROVIDER=vertex
   BANNER_PROVIDER=nova
 """
 
@@ -18,7 +20,10 @@ import logging
 import re
 from pathlib import Path
 
-from config import BANNER_DIR, BANNER_PROVIDER, GEMINI_API_KEY, GEMINI_IMAGE_MODEL
+from config import (
+    BANNER_DIR, BANNER_PROVIDER, GEMINI_API_KEY, GEMINI_IMAGE_MODEL,
+    GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION
+)
 
 log = logging.getLogger(__name__)
 
@@ -169,6 +174,72 @@ def _generate_gemini(prompt: str, slug: str) -> str | None:
     return None
 
 
+# --- Vertex AI provider ---
+
+def _build_vertex_prompt(post_data: dict) -> str:
+    """Optimized prompt for raw Imagen 3 via Vertex (highly descriptive)."""
+    title = post_data.get('title', '')
+    tag = post_data.get('tag', 'Vietnamese Animal Welfare')
+    excerpt = post_data.get('excerpt', '')
+    
+    # Dynamically change the visual scene based on the blog post's category tag
+    tag_visuals = {
+        'Public Health': 'medical professionals, rabies awareness context, community health, and the dangers of unregulated meat',
+        'Pet Theft': 'beloved family pets in danger in Vietnamese urban streets, showing the profound emotional impact on families losing their companions',
+        'Regulation': 'government legislation, law enforcement intervening, official documents, and justice for animals',
+        'Public Support': 'communities uniting in Vietnam, people protesting peacefully, and overwhelming love for dogs as family members',
+        "Lucky's Story": 'a heartwarming, emotional scene of a loyal rescued dog living safely and happily with a loving Vietnamese family',
+        'Campaign Updates': 'advocates working hard, social media awareness, and progress towards ending the trade'
+    }
+    visual_theme = tag_visuals.get(tag, 'the deep emotional connection between Vietnamese families and their dogs, and the urgent need to protect them')
+    
+    return f"""A highly detailed, professional editorial illustration serving as a blog header banner. 
+Theme context: {tag} - {excerpt}
+
+The artwork must clearly depict {visual_theme}. 
+Visual Style: High-quality vector journalism, dignified, mature colors (deep navy #1a2540, teal #1d6a72, amber #e8a838). Atmospheric lighting that conveys the appropriate mood (urgent, heartbreaking, or hopeful) but remains respectful and not excessively graphic. 
+Text Elements: 
+1. Render the main article title clearly in large, elegant typography: "{title}"
+2. Render exactly the text "StopDogEaters.info" neatly in the bottom right corner as a small watermark logo.
+
+Ensure flawless spelling. The illustration should immediately tell the emotional story accurately based on the theme."""
+
+
+def _generate_vertex(prompt: str, slug: str) -> str | None:
+    """Generate banner using Google Cloud Vertex AI."""
+    import vertexai
+    from vertexai.preview.vision_models import ImageGenerationModel
+
+    if not GOOGLE_CLOUD_PROJECT:
+        log.error('GOOGLE_CLOUD_PROJECT is not set for Vertex AI')
+        return None
+
+    try:
+        vertexai.init(project=GOOGLE_CLOUD_PROJECT, location=GOOGLE_CLOUD_LOCATION)
+        # Vertex heavily favors 'imagen-3.0-generate-xxx' naming schemes
+        model_name = GEMINI_IMAGE_MODEL if GEMINI_IMAGE_MODEL.startswith('imagen-') else 'imagen-3.0-generate-001'
+        log.info(f'Using Vertex AI model: {model_name}')
+
+        model = ImageGenerationModel.from_pretrained(model_name)
+        
+        response = model.generate_images(
+            prompt=prompt,
+            number_of_images=1,
+            aspect_ratio='16:9',
+            person_generation='ALLOW_ADULT',
+        )
+
+        if response:
+            image_bytes = response[0]._image_bytes
+            return _save_banner(image_bytes, slug)
+
+        log.warning('Vertex AI returned no images')
+    except Exception as e:
+        log.warning(f'Vertex AI failed: {e}')
+
+    return None
+
+
 # --- Nova Canvas provider ---
 
 def _generate_nova(prompt: str, slug: str) -> str | None:
@@ -215,11 +286,11 @@ def _generate_nova(prompt: str, slug: str) -> str | None:
 def generate_banner(post_data: dict) -> str | None:
     """
     Generate an infographic banner for a blog post.
-    Uses BANNER_PROVIDER config to choose Gemini or Nova Canvas.
-    Falls back to the other provider if the primary fails.
+    Uses BANNER_PROVIDER config to choose Gemini, Vertex, or Nova Canvas.
+    Falls back to another provider if the primary fails.
 
     Returns:
-        Relative URL path to saved PNG, or None if both failed
+        Relative URL path to saved PNG, or None if all failed
     """
     slug = post_data.get('id', 'untitled')
     provider = BANNER_PROVIDER.lower()
@@ -233,6 +304,15 @@ def generate_banner(post_data: dict) -> str | None:
         log.warning('Gemini failed — falling back to Nova Canvas')
         nova_prompt = _build_nova_prompt(post_data)
         return _generate_nova(nova_prompt, slug)
+    elif provider == 'vertex':
+        prompt = _build_vertex_prompt(post_data)
+        result = _generate_vertex(prompt, slug)
+        if result:
+            return result
+        if GEMINI_API_KEY:
+            log.warning('Vertex failed — falling back to Gemini')
+            return _generate_gemini(prompt, slug)
+        return None
     else:
         prompt = _build_nova_prompt(post_data)
         result = _generate_nova(prompt, slug)

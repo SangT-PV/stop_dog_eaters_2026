@@ -27,6 +27,10 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 GEMINI_ENABLED = bool(GEMINI_API_KEY)
 GEMINI_IMAGE_MODEL = os.getenv('GEMINI_IMAGE_MODEL', 'gemini-2.5-flash-image')
 
+# Google Vertex AI — used for banner generation (if BANNER_PROVIDER=vertex)
+GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', '')
+GOOGLE_CLOUD_LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
+
 # Telegram — optional; publishing is skipped when these are not set
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID', '')
