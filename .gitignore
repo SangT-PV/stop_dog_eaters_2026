@@ -23,9 +23,15 @@ node_modules/
 .claude/settings.local.json
 .claude/worktrees/
 .playwright-mcp/
+.swarm/
 
-# Testing artifacts
+# Planning & testing artifacts
 .planning/.testing/
+.planning/phases/
+.planning/reviews/
+
+# Automation generated files (not the website data — those are committed)
+automation/register-task.ps1
 
 # Extracted PDF preview images
 pdf_pages/
