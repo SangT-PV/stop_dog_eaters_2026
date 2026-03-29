@@ -98,21 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       btn.disabled = true;
-      btn.textContent = 'Signing...';
+      btn.textContent = 'Redirecting...';
 
-      // TODO: Replace with real API endpoint (Siva to wire up)
-      setTimeout(() => {
-        showFormMessage(petitionForm, 'Thank you for signing! Please share to amplify the movement.', 'success');
-        petitionForm.reset();
-        btn.disabled = false;
-        btn.textContent = 'Sign the Petition';
-
-        const countEl = document.querySelector('.count-num');
-        if (countEl) {
-          const current = parseInt(countEl.textContent.replace(/,/g, ''), 10);
-          countEl.textContent = (current + 1).toLocaleString();
-        }
-      }, 1200);
+      // Open Change.org petition in new tab
+      window.open('https://c.org/nLZTZdVNdJ', '_blank');
+      showFormMessage(petitionForm, 'Redirecting to Change.org to complete your signature...', 'success');
+      btn.disabled = false;
+      btn.textContent = 'Sign the Petition';
     });
   }
 
