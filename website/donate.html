@@ -326,6 +326,9 @@
     </div>
   </footer>
 
+  <!-- Admin utils: only loaded when ?admin=true -->
+  <script>if(new URLSearchParams(location.search).has('admin')){var s=document.createElement('script');s.src='js/admin-utils.js';document.head.appendChild(s);}</script>
+
   <!-- Fund Tracker Module -->
   <script src="js/fund-tracker.js"></script>
 

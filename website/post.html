@@ -166,6 +166,8 @@
     </div>
   </footer>
 
+  <!-- Admin utils: only loaded when ?admin=true -->
+  <script>if(new URLSearchParams(location.search).has('admin')){var s=document.createElement('script');s.src='js/admin-utils.js';document.head.appendChild(s);}</script>
   <script src="js/main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="js/comments.js"></script>

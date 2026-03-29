@@ -31,7 +31,8 @@
   <link rel="stylesheet" href="css/style.css" />
   <script>
     // Token page is admin-only until launch
-    if (!sessionStorage.getItem('admin-mode')) {
+    // Uses same session key as AdminUtils (set by ?admin=true on any page)
+    if (sessionStorage.getItem('sde-admin-authenticated') !== 'true') {
       window.location.replace('index.html');
     }
   </script>
