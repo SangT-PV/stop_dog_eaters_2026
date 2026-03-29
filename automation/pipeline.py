@@ -34,7 +34,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 import config
-from clients import claude_client, research_agent
+from clients import claude_client, research_agent, banner_generator
 from publishers import blog_publisher, telegram_client, facebook_client
 from content import content_verifier
 
@@ -204,6 +204,18 @@ def generate(dry_run: bool = False) -> None:
 
     log.info('Source Check passed.')
 
+    # Generate infographic banner via Nova Canvas
+    if config.BANNER_ENABLED:
+        try:
+            banner_url = banner_generator.generate_banner(post_data)
+            if banner_url:
+                post_data['banner_url'] = banner_url
+                log.info(f'Banner generated: {banner_url}')
+        except Exception as e:
+            log.warning(f'Banner generation failed (continuing without banner): {e}')
+    else:
+        log.info('Banner generation disabled — skipping.')
+
     if dry_run:
         log.info('[DRY RUN] Nothing saved.')
         sys.stdout.buffer.write(json.dumps(post_data, indent=2, ensure_ascii=False).encode('utf-8') + b'\n')
@@ -234,7 +246,8 @@ def publish(for_date: date = None) -> None:
 
     if config.TELEGRAM_ENABLED:
         try:
-            telegram_client.send_message(post_data['telegram_message'])
+            tg_msg = post_data['telegram_message'] + f'\n\n📖 Read the full article: {post_url}'
+            telegram_client.send_message(tg_msg)
             log.info('Sent to Telegram channel.')
         except Exception as e:
             log.error(f'Telegram send failed (posts.json still updated): {e}')
@@ -245,6 +258,7 @@ def publish(for_date: date = None) -> None:
         fb_post = post_data.get('facebook_post', '').strip()
         if fb_post:
             try:
+                fb_post += f'\n\n📖 Read the full article: {post_url}'
                 result = facebook_client.post_to_page(fb_post, link=post_url)
                 log.info(f'Posted to Facebook: {result.get("id")}')
             except Exception as e:

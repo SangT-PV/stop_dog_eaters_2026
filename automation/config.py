@@ -17,6 +17,10 @@ PERPLEXITY_ENABLED = bool(PERPLEXITY_API_KEY)
 MANUS_API_KEY = os.getenv('MANUS_API_KEY', '')
 MANUS_ENABLED = bool(MANUS_API_KEY)
 
+# Banner Generation — uses AWS Bedrock Nova Canvas (struong-aws-bedrock profile)
+BANNER_ENABLED = os.getenv('BANNER_ENABLED', 'true').lower() == 'true'
+BANNER_DIR = (_here.parent / 'website' / 'assets' / 'images' / 'posts').resolve()
+
 # Telegram — optional; publishing is skipped when these are not set
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID', '')

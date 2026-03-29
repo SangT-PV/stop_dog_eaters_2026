@@ -134,6 +134,33 @@ CRITICAL FORMATTING RULES:
             raw = re.sub(r'^```(?:json)?\s*', '', raw)
             raw = re.sub(r'\s*```$', '', raw)
 
+            # Extract the first complete JSON object if Claude adds trailing text
+            brace_depth = 0
+            json_end = -1
+            in_string = False
+            escape_next = False
+            for i, ch in enumerate(raw):
+                if escape_next:
+                    escape_next = False
+                    continue
+                if ch == '\\' and in_string:
+                    escape_next = True
+                    continue
+                if ch == '"' and not escape_next:
+                    in_string = not in_string
+                    continue
+                if in_string:
+                    continue
+                if ch == '{':
+                    brace_depth += 1
+                elif ch == '}':
+                    brace_depth -= 1
+                    if brace_depth == 0:
+                        json_end = i + 1
+                        break
+            if json_end > 0:
+                raw = raw[:json_end]
+
             post = json.loads(raw)
 
             # Normalise tag
