@@ -168,8 +168,8 @@
     </div>
   </footer>
 
-  <!-- Admin utils: only loaded when ?admin=true -->
-  <script>if(new URLSearchParams(location.search).has('admin'))document.write('<scr'+'ipt src="js/admin-utils.js"></scr'+'ipt>');</script>
+  <!-- Admin utils: loaded when ?admin=true or session already authenticated -->
+  <script>if(new URLSearchParams(location.search).has('admin')||sessionStorage.getItem('sde-admin-authenticated')==='true')document.write('<scr'+'ipt src="js/admin-utils.js"></scr'+'ipt>');</script>
   <script src="js/main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="js/comments.js"></script>

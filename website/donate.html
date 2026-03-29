@@ -261,8 +261,8 @@
     </div>
   </footer>
 
-  <!-- Admin utils: only loaded when ?admin=true -->
-  <script>if(new URLSearchParams(location.search).has('admin'))document.write('<scr'+'ipt src="js/admin-utils.js"></scr'+'ipt>');</script>
+  <!-- Admin utils: loaded when ?admin=true or session already authenticated -->
+  <script>if(new URLSearchParams(location.search).has('admin')||sessionStorage.getItem('sde-admin-authenticated')==='true')document.write('<scr'+'ipt src="js/admin-utils.js"></scr'+'ipt>');</script>
 
   <!-- Fund Tracker Module -->
   <script src="js/fund-tracker.js"></script>
