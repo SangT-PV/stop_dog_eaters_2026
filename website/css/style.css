@@ -4637,14 +4637,21 @@ select.comment-input {
 
 /* ====== STITCH BLOG POST DETAIL (17-03) ====== */
 
-/* --- Post Header (Stitch 04) ------------------------------- */
+/* --- Post Page Layout ------------------------------------ */
+.post-page {
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+}
+
+/* --- Post Header (1024px max) ------------------------------- */
 .post-header-stitch {
   max-width: 64rem;
   margin: 0 auto;
   padding: 0 2rem 3rem;
 }
 .post-header-stitch .back-link {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
@@ -4660,21 +4667,34 @@ select.comment-input {
   color: var(--primary);
 }
 .post-header-stitch .back-link .material-symbols-outlined {
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 
-/* Post title Stitch override */
+/* Post tag badge (solid dark) */
+.post-tag-stitch {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 0.25rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Post title */
 .post-title-stitch {
   font-family: var(--font-head);
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-size: clamp(2.75rem, 5vw, 3.75rem);
   color: var(--primary);
-  line-height: 1.15;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   max-width: 50rem;
   margin-bottom: 1rem;
 }
 
-/* Post meta Stitch style */
+/* Post meta with border-top divider */
 .post-meta-stitch {
   display: flex;
   align-items: center;
@@ -4695,30 +4715,38 @@ select.comment-input {
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 1.25rem;
+  flex-shrink: 0;
 }
 .post-meta-stitch .post-meta-text {
   font-size: 0.875rem;
 }
 .post-meta-stitch .post-meta-text .post-author-name {
+  display: block;
   font-weight: 700;
   color: var(--on-surface);
 }
 .post-meta-stitch .post-meta-text .post-publish-info {
+  display: block;
   color: var(--on-surface-variant);
   font-style: italic;
 }
 
-/* Post banner Stitch style */
-.post-banner-stitch {
-  width: 100%;
+/* --- Post Banner (wider breakout: 1280px) ------------------- */
+.post-banner-wrap {
   max-width: 80rem;
   margin: 0 auto 5rem;
-  border-radius: var(--radius-lg);
+  padding: 0 1rem;
+}
+.post-banner-stitch {
+  width: 100%;
+  height: 38rem;
+  object-fit: cover;
+  border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   display: block;
 }
 
-/* --- Post Prose (Stitch 04) --------------------------------- */
+/* --- Post Prose (680px) ------------------------------------ */
 .post-prose-stitch {
   max-width: 42.5rem;
   margin: 0 auto;
@@ -4741,7 +4769,7 @@ select.comment-input {
   color: var(--primary);
 }
 
-/* Blockquote Stitch override for post prose */
+/* Blockquote pull-quote (negative margins) */
 .post-prose-stitch .prose blockquote {
   margin: 4rem -3rem 4rem -6rem;
   border-left: 4px solid var(--primary-container);
@@ -4763,10 +4791,10 @@ select.comment-input {
   line-height: 1.35;
 }
 
-/* --- Post CTA Box Stitch Override (teal gradient) ----------- */
+/* --- Post CTA Box (teal gradient) -------------------------- */
 .post-cta-box-stitch {
   background: linear-gradient(135deg, var(--primary-container) 0%, var(--primary-fixed) 100%);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   padding: 2.5rem;
   margin: 4rem auto;
   max-width: 42.5rem;
@@ -4775,8 +4803,11 @@ select.comment-input {
   position: relative;
   overflow: hidden;
 }
-.post-cta-box-stitch::after {
-  content: '';
+.post-cta-content {
+  position: relative;
+  z-index: 1;
+}
+.post-cta-blur {
   position: absolute;
   right: -3rem;
   bottom: -3rem;
@@ -4791,37 +4822,63 @@ select.comment-input {
   font-size: 1.875rem;
   color: var(--on-primary);
   margin-bottom: 1rem;
-  position: relative;
-  z-index: 1;
 }
 .post-cta-box-stitch p {
   color: rgba(255,255,255,0.9);
   max-width: 31rem;
   margin-bottom: 2rem;
-  position: relative;
-  z-index: 1;
 }
-.post-cta-box-stitch .btn {
+.post-cta-btn-stitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background: var(--on-primary);
   color: var(--primary-container);
+  font-weight: 700;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  padding: 1rem 2.5rem;
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
-  position: relative;
-  z-index: 1;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
 }
-.post-cta-box-stitch .btn:hover {
+.post-cta-btn-stitch:hover {
   background: var(--surface-container-low);
   color: var(--primary);
 }
+.post-cta-btn-stitch .material-symbols-outlined {
+  font-size: 1.25rem;
+}
 
-/* Discussion heading Stitch override */
-.comments-section-stitch h2 {
-  font-family: var(--font-head);
-  font-size: 1.875rem;
-  color: var(--primary);
+/* --- Discussion Section (800px) ----------------------------- */
+.comments-section-stitch {
+  max-width: 50rem;
+  margin: 8rem auto 0;
+  padding: 0 1.5rem;
+  border-top: none;
+  padding-top: 0;
+}
+.comments-header-stitch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid var(--outline-variant);
   padding-bottom: 1rem;
   margin-bottom: 3rem;
+}
+.comments-header-stitch h2 {
+  font-family: var(--font-head);
+  font-size: 1.875rem;
+  color: var(--primary);
+  margin: 0;
+}
+.comments-header-stitch .comments-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--on-surface-variant);
 }
 
 /* --- Donate Page (Stitch Design) ------------------------------- */
@@ -5451,7 +5508,11 @@ select.comment-input {
   /* Stitch post detail responsive */
   .post-header-stitch { padding: 0 1rem 2rem; }
   .post-prose-stitch .prose blockquote { margin-left: 0; margin-right: 0; }
-  .post-banner-stitch { margin-bottom: 3rem; }
+  .post-banner-wrap { margin-bottom: 3rem; }
+  .post-banner-stitch { height: 20rem; }
+  .post-title-stitch { font-size: clamp(2rem, 6vw, 2.75rem); }
+  .post-cta-box-stitch { margin-left: 1rem; margin-right: 1rem; }
+  .comments-section-stitch { margin-top: 4rem; }
 
   /* Old timeline responsive rules removed — see STITCH BLOG LISTING section */
 }
@@ -5624,6 +5685,16 @@ select.comment-input {
 }
 
 @media (max-width: 640px) {
+  /* Blog grid card — stack image above content */
+  .blog-post-card { grid-template-columns: 1fr; }
+  .blog-post-img { min-height: 160px; }
+
+  /* Team grid — single column on small phones */
+  .team-grid { grid-template-columns: 1fr; }
+
+  /* Sidebar tag pills — increase touch target */
+  .sidebar-tag { padding: 0.625rem 1.25rem; min-height: 44px; }
+
   /* Chat input bar responsive */
   .chat-input-bar .chat-input-fields {
     grid-template-columns: 1fr;
