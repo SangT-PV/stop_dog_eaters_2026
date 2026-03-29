@@ -75,11 +75,15 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(posts => {
         const latest = posts.slice(0, 3);
-        blogGrid.innerHTML = latest.map(post => {
+        const homeFallbacks = [
+          'assets/images/home/dog-rescue.png',
+          'assets/images/home/ImageGallery/image-07.png',
+          'assets/images/home/ImageGallery/image-03.png'
+        ];
+        blogGrid.innerHTML = latest.map((post, i) => {
           const dateStr = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-          const bannerHtml = post.banner_url
-            ? '<img src="' + post.banner_url + '" alt="' + post.title.replace(/"/g, '&quot;') + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">'
-            : '<span>Article image</span>';
+          const imgSrc = post.banner_url || homeFallbacks[i % homeFallbacks.length];
+          const bannerHtml = '<img src="' + imgSrc + '" alt="' + post.title.replace(/"/g, '&quot;') + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">';
           return '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="blog-card" style="text-decoration:none;color:inherit;">'
             + '<div class="blog-card-img" role="img" aria-label="' + post.title.replace(/"/g, '&quot;') + '">' + bannerHtml + '</div>'
             + '<div class="blog-card-body">'

@@ -218,14 +218,26 @@
           var dateStr = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
           document.getElementById('post-date').textContent = 'Published on ' + dateStr + ' \u2022 ' + readTime + ' min read';
 
-          // Display banner (use post banner or default rescue image)
+          // Display banner (use post banner or pick unique fallback from post ID hash)
           var bannerWrap = document.getElementById('post-banner-wrap');
           var banner = document.getElementById('post-banner');
           if (post.banner_url) {
             banner.src = post.banner_url;
           } else {
-            banner.src = 'assets/images/home/ImageGallery/image-08.png';
-            banner.alt = 'A rescue worker comforting a dog in Vietnam';
+            var postFallbacks = [
+              'assets/images/home/ImageGallery/image-01.png',
+              'assets/images/home/ImageGallery/image-03.png',
+              'assets/images/home/ImageGallery/image-05.png',
+              'assets/images/home/ImageGallery/image-07.png',
+              'assets/images/home/ImageGallery/image-08.png',
+              'assets/images/home/dog-rescue.png',
+              'assets/images/home/production-consumption.png',
+              'assets/images/home/health-concern.png',
+              'assets/images/lucky/dog-lucky-footer.png'
+            ];
+            var hash = post.id.split('').reduce(function(a,c){return a+c.charCodeAt(0);},0);
+            banner.src = postFallbacks[hash % postFallbacks.length];
+            banner.alt = 'Stop Dog Eaters campaign — ending the cruel trade';
           }
           bannerWrap.style.display = 'block';
 

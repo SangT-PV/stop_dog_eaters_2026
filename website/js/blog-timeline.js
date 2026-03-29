@@ -88,7 +88,7 @@
 
     var html = '<div class="timeline-container">';
 
-    posts.forEach(function (post) {
+    posts.forEach(function (post, postIndex) {
       var icon = tagIcons[post.tag] || 'article';
       var dotColor = tagColors[post.tag] || 'var(--primary)';
       var postUrl = 'post.html?id=' + encodeURIComponent(post.id);
@@ -107,8 +107,19 @@
       html += '<div class="tl-card">';
       html += '<div class="tl-card-inner">';
 
-      // Image (left side — use banner or default rescue image)
-      var imgSrc = post.banner_url || 'assets/images/home/ImageGallery/image-08.png';
+      // Image (left side — use banner or rotate through unique fallbacks)
+      var fallbackImages = [
+        'assets/images/home/ImageGallery/image-01.png',
+        'assets/images/home/ImageGallery/image-03.png',
+        'assets/images/home/ImageGallery/image-05.png',
+        'assets/images/home/ImageGallery/image-07.png',
+        'assets/images/home/ImageGallery/image-08.png',
+        'assets/images/home/dog-rescue.png',
+        'assets/images/home/production-consumption.png',
+        'assets/images/home/health-concern.png',
+        'assets/images/lucky/dog-lucky-footer.png'
+      ];
+      var imgSrc = post.banner_url || fallbackImages[postIndex % fallbackImages.length];
       html += '<a href="' + postUrl + '" class="tl-card-img">';
       html += '<img src="' + escapeHTML(imgSrc) + '" alt="' + escapeHTML(post.title) + '" loading="lazy" />';
       html += '</a>';
@@ -149,10 +160,20 @@
       return;
     }
 
-    list.innerHTML = posts.map(function (p) {
-      var imageHtml = p.banner_url
-        ? '<img src="' + escapeHTML(p.banner_url) + '" alt="' + escapeHTML(p.title) + '" loading="lazy" style="width:100%; height:100%; object-fit:cover;" />'
-        : '<span>Article image</span>';
+    var gridFallbacks = [
+      'assets/images/home/ImageGallery/image-01.png',
+      'assets/images/home/ImageGallery/image-03.png',
+      'assets/images/home/ImageGallery/image-05.png',
+      'assets/images/home/ImageGallery/image-07.png',
+      'assets/images/home/ImageGallery/image-08.png',
+      'assets/images/home/dog-rescue.png',
+      'assets/images/home/production-consumption.png',
+      'assets/images/home/health-concern.png',
+      'assets/images/lucky/dog-lucky-footer.png'
+    ];
+    list.innerHTML = posts.map(function (p, idx) {
+      var imgSrc = p.banner_url || gridFallbacks[idx % gridFallbacks.length];
+      var imageHtml = '<img src="' + escapeHTML(imgSrc) + '" alt="' + escapeHTML(p.title) + '" loading="lazy" style="width:100%; height:100%; object-fit:cover;" />';
 
       var communityBadge = '';
       if (p.author && p.author.indexOf('(Community)') !== -1) {
