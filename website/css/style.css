@@ -4794,7 +4794,8 @@ select.comment-input {
 }
 .post-banner-stitch {
   width: 100%;
-  max-height: 24rem;
+  height: auto;
+  max-height: 65vh;
   object-fit: cover;
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
@@ -5586,7 +5587,6 @@ select.comment-input {
   .post-header-stitch { padding: 0 1rem 2rem; }
   .post-prose-stitch .prose blockquote { margin-left: 0; margin-right: 0; }
   .post-banner-wrap { margin-bottom: 3rem; }
-  .post-banner-stitch { height: 20rem; }
   .post-title-stitch { font-size: clamp(2rem, 6vw, 2.75rem); }
   .post-cta-box-stitch { margin-left: 1rem; margin-right: 1rem; }
   .comments-section-stitch { margin-top: 4rem; }

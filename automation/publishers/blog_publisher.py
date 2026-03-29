@@ -205,19 +205,21 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
     post_filename = f'{slug}.json'
 
     # Copy banner SVG to website assets if it exists
-    banner_url = None
-    try:
-        banner_svg_source = Path(__file__).parent.parent / 'previews' / today[:4] / today[5:7] / f'{today}-banner.svg'
-        if banner_svg_source.exists():
-            banners_dir = WEBSITE_ASSETS_DIR / 'banners'
-            banners_dir.mkdir(parents=True, exist_ok=True)
-            banner_destination = banners_dir / f'{slug}.svg'
-            import shutil
-            shutil.copy2(banner_svg_source, banner_destination)
-            banner_url = f'/assets/banners/{slug}.svg'
-            log.info(f'Banner copied to website: {banner_url}')
-    except Exception as e:
-        log.warning(f'Banner copy failed: {e}')
+    # Fallback to SVG banner if AI banner generation wasn't provided
+    banner_url = post_data.get('banner_url')
+    if not banner_url:
+        try:
+            banner_svg_source = Path(__file__).parent.parent / 'previews' / today[:4] / today[5:7] / f'{today}-banner.svg'
+            if banner_svg_source.exists():
+                banners_dir = WEBSITE_ASSETS_DIR / 'banners'
+                banners_dir.mkdir(parents=True, exist_ok=True)
+                banner_destination = banners_dir / f'{slug}.svg'
+                import shutil
+                shutil.copy2(banner_svg_source, banner_destination)
+                banner_url = f'/assets/banners/{slug}.svg'
+                log.info(f'Banner copied to website: {banner_url}')
+        except Exception as e:
+            log.warning(f'Banner copy failed: {e}')
 
     # Sanitize AI-generated HTML to prevent XSS
     sanitized_body_html = _sanitize_html(post_data['body_html'])
