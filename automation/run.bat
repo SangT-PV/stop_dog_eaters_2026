@@ -19,3 +19,16 @@ if %ERRORLEVEL% NEQ 0 (
     echo [%date% %time%] Stage 2 failed with code %ERRORLEVEL% >> logs\run.log
     exit /b 1
 )
+
+:: Stage 3: Auto-commit and Push to GitHub
+echo [%date% %time%] Committing and pushing to GitHub...
+cd ..
+git add website/data/posts/ website/data/index.json website/assets/images/posts/
+git commit -m "Auto-publish daily AI post - %date%"
+git push origin master
+if %ERRORLEVEL% NEQ 0 (
+    echo [%date% %time%] Stage 3 (Git Push) failed with code %ERRORLEVEL% >> automation\logs\run.log
+    exit /b 1
+)
+
+echo [%date% %time%] Pipeline completed successfully! >> automation\logs\run.log
