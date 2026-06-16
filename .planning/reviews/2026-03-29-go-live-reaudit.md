@@ -4,6 +4,8 @@ date: 2026-03-29
 auditor: Automated regression + manual code inspection
 scope: Full website (7 pages + privacy + terms + 404), Desktop + Mobile
 verdict: READY
+verification_method: static code analysis (2026-03-29) + live browser verification (2026-06-16, Playwright @ localhost:8000)
+browser_verified: true
 issues_total: 19
 issues_resolved: 19
 issues_remaining: 0
@@ -140,3 +142,49 @@ All 6 MEDIUM and 3 LOW items are addressed, adding privacy/terms pages, custom 4
 *Re-audit completed: 2026-03-29*
 *Original audit: 2026-03-29-go-live-e2e-audit.md (verdict: NOT READY)*
 *This audit: 2026-03-29-go-live-reaudit.md (verdict: READY)*
+
+---
+
+## Browser Verification Addendum (2026-06-16)
+
+The original 2026-03-29 re-audit above was produced by **static code analysis only** — the
+human-verify browser checkpoint (plan 18-05, Task 2) was deferred. This addendum closes that
+gap. Run locally via `python -m http.server 8000` + Playwright, viewports 1280px and 375px.
+
+### Method
+- All 10 go-live pages served locally and loaded in a real browser
+- Per page: console error-level messages captured, network requests filtered for `cdn.jsdelivr.net`
+- Mobile nav exercised on index/petition/blog at 375px
+- Skip-to-content + focus-visible verified by keyboard Tab
+- Petition redirect path inspected in source + confirmed as a real anchor
+
+### Results — all PASS
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| All 10 pages HTTP 200 | PASS | curl loop: index, petition, blog, post, about, donate, token, privacy, terms, 404 all 200 |
+| Zero console errors (×10 pages) | PASS | Only output anywhere = 1 benign font-preload warning on pages with the Newsreader preload; 0 errors |
+| Zero `cdn.jsdelivr.net` requests | PASS | Network filter returned nothing on every page; Chart.js served from `js/vendor/chart.umd.min.js` (205KB) |
+| C1 real hero image | PASS | index hero renders Lucky photo, no placeholder text (screenshot) |
+| C3 fund allocation = funds.json | PASS | funds.json = 32/28/20/10/6/4/0 = 100% (7 categories) |
+| C5 petition → Change.org | PASS | `<a href="https://c.org/nLZTZdVNdJ" target="_blank" rel="noopener">`; no fake setTimeout handler in main.js (only setTimeout is a progress-bar animation) |
+| H1 dynamic blog cards | PASS | blog.html renders 20+ `<article>` cards from index.json; homepage shows 3 latest |
+| H5 X/Twitter icon | PASS | petition.html share button uses real X logo SVG, not "crossword" Material Symbol |
+| H6 skip-nav | PASS | "Skip to main content" link appears on first Tab (screenshot) |
+| M1 mobile nav | PASS | 375px nav opens with solid white background on index/petition/blog (screenshots) |
+| M6 focus-visible | PASS | 6 `:focus-visible` rules in style.css; focus ring visible on Tab |
+| L3 dynamic year | PASS | footer shows "© 2026"; getFullYear() in main.js |
+| token.html isolation | PASS | non-admin sees "Admin Access Required" password gate; no token content leaked |
+
+### Non-blocking cosmetic observation (NOT one of the 19 issues)
+- In the **open** mobile menu, the "Sign Now" pill renders dark-text-on-dark-pill (low contrast)
+  while the menu panel is white. Cosmetic only, outside the go-live audit scope. Logged for a
+  future polish pass; does not affect the READY verdict.
+
+### Screenshots
+`.planning/.testing/playwright-*.png` (gitignored) — desktop 1280px for all pages, 375px nav-open for index/petition/blog, skip-link focus state.
+
+**Browser-verified verdict: READY.** Static analysis confirmed by live runtime behavior. A
+separate live-site (workers.dev) pass is still recommended post-deploy per the deployment checklist above.
+
+*Browser verification: 2026-06-16 (plan 18-05 Task 2 closeout)*
