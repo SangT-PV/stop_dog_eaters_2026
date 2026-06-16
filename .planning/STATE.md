@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Design & Engagement Enhancement
-status: Phase 18 implementation complete — running E2E re-audit (18-05)
-stopped_at: "Starting Plan 18-05 — E2E re-audit: browser verification across all pages, desktop + mobile, verify all 19 issues resolved"
+status: Phase 18 COMPLETE — all 5 plans executed, go-live verdict browser-verified READY
+stopped_at: "Plan 18-05 complete (45149e4) — browser-verified go-live re-audit: 10/10 pages, 0 console errors, 0 CDN requests, all 19 issues hold at runtime. Phase 18 done. Next: deploy + live-site pass."
 last_updated: "2026-06-16T06:26:04.000Z"
-last_activity: "2026-06-16 -- Starting Plan 18-05 E2E re-audit (browser verification)"
+last_activity: "2026-06-16 -- Plan 18-05 complete: browser-verified go-live re-audit (verdict READY)"
 progress:
   total_phases: 11
   completed_phases: 4
   total_plans: 22
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 
 ## Current Position
 
-Phase: 18 (go-live-readiness-fixes) — EXECUTING
-Plan: 4 of 5 complete (18-01, 18-02, 18-03, 18-04) — NOW STARTING 18-05: E2E re-audit (browser verification)
-Status: In progress
-Last activity: 2026-06-16 -- Starting 18-05 browser-verified re-audit + fix loop
+Phase: 18 (go-live-readiness-fixes) — COMPLETE
+Plan: 5 of 5 complete (18-01, 18-02, 18-03, 18-04, 18-05)
+Status: Phase 18 done. Go-live verdict browser-verified READY. Ready to deploy.
+Last activity: 2026-06-16 -- 18-05 browser-verified re-audit complete (45149e4)
 
 ## Performance Metrics
 
@@ -129,6 +129,8 @@ Recent decisions affecting current work:
 - [Phase 18]: M2 blog banner fallback not needed — JS already conditionally renders banners
 - [Phase 18]: Footer focus styles use --on-primary (white) for visibility on dark background
 - [Phase 18]: data-research-grid changed to display:block after stat column removal
+- [Phase 18-05]: Go-live re-audit browser-verified (Playwright local) — 10/10 pages 0 console errors, 0 CDN requests, all 19 issues hold at runtime; verdict READY. Static re-audit report kept + addendum appended rather than rewritten.
+- [Phase 18-05]: Non-blocking cosmetic flag (NOT a go-live issue): open mobile menu "Sign Now" pill renders dark-on-dark — future polish candidate.
 
 ### Roadmap Evolution
 

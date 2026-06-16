@@ -66,7 +66,7 @@ completed: 2026-06-16
 
 ## Task Commits
 
-1. **Browser-verified re-audit + closeout** — `{hash}` docs(planning): browser-verify go-live re-audit (plan 18-05)
+1. **Browser-verified re-audit + closeout** — `45149e4` docs(planning): browser-verify go-live re-audit (plan 18-05)
 
 ## Deviations from Plan
 
