@@ -164,7 +164,7 @@ Last session: 2026-03-29T09:00:00Z
 Stopped at: Phase 18 complete — all 19 audit issues fixed + extensive polish (token isolation, blog images, admin mode, social links). Re-audit verdict READY.
 Resume file: None
 
-**Next action:** Deploy to production. Push to main, trigger Cloudflare Pages deployment, verify live site. Then start Phase 19 or address blog content diversity (3 latest posts have duplicate topics).
+**Next action:** Site migrated to Vercel (https://stop-dog-eaters.vercel.app, project stop-dog-eaters, account sang-7322 — see DEPLOYMENT.md). Custom domain stopdogeaters.info added to the Vercel project; PENDING: set GoDaddy DNS `A @ 76.76.21.21` (+ `A www 76.76.21.21` or `CNAME www cname.vercel-dns.com`), then retire the old Cloudflare Workers deploy once the domain verifies. Then Phase 19 or blog content diversity.
 
 **Key decisions this session:**
 - SDE Token references removed from all non-token pages; token.html password-gated

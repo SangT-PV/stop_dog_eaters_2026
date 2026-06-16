@@ -4,8 +4,9 @@
 
 This is the Stop Dog Eaters (SDE) campaign — a grassroots movement to end the cruel and unregulated dog meat trade in Vietnam and Asia. The campaign combines:
 - Static website (stopdogeaters.info) with petition, blog, donate, and token pages
-  - **Live URL:** https://stop-dog-eaters.tdx4829.workers.dev/ (Cloudflare Workers)
-  - **Final domain:** stopdogeaters.info (to be configured)
+  - **Live URL:** https://stop-dog-eaters.vercel.app (Vercel, account `sang-7322`) — see [DEPLOYMENT.md](DEPLOYMENT.md)
+  - **Custom domain:** stopdogeaters.info (DNS at GoDaddy → Vercel; pending DNS record + verification)
+  - **Migrated off:** Cloudflare Workers (stop-dog-eaters.tdx4829.workers.dev) — retire after domain verifies
 - AI-powered content automation (Claude Haiku 4.5 via AWS Bedrock)
 - Daily Telegram/Facebook distribution
 - Transparent crowdfunding (Change.org + Kickstarter)
@@ -422,14 +423,11 @@ python -m http.server 8000
 
 **Live Testing:**
 ```bash
-# Current live URL: https://stop-dog-eaters.tdx4829.workers.dev/
+# Current live URL: https://stop-dog-eaters.vercel.app (Vercel; custom domain stopdogeaters.info pending DNS)
 # Test same checklist as local, but on live domain
 
-curl -I https://stop-dog-eaters.tdx4829.workers.dev/data/posts.json
-# Expected: 200 OK (Phase 3) or 404 after Phase 4 migration
-
-curl -I https://stop-dog-eaters.tdx4829.workers.dev/data/index.json
-# Expected: 200 OK after Phase 4
+curl -I https://stop-dog-eaters.vercel.app/data/index.json
+# Expected: 200 OK (data files serve correctly on Vercel)
 ```
 
 ### Known Issues (as of 2026-03-23)

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /token.html
+Disallow: /moderate.html
+Disallow: /test-password.html
+
+Sitemap: https://stopdogeaters.info/sitemap.xml
