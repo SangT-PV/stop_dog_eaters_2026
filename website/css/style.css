@@ -255,8 +255,17 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
   font-size: 1.5rem;
   letter-spacing: -0.04em;
   color: var(--primary);
+  display: flex;
+  align-items: center;
 }
 .nav-logo span { color: var(--primary); }
+.nav-logo img {
+  max-height: 57px;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  display: block;
+}
 
 .nav-links {
   display: flex;
@@ -2318,6 +2327,14 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 }
 
 .footer-brand h3 span { color: var(--on-primary); }
+.footer-logo {
+  max-height: 30px;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+  display: block;
+}
 .footer-brand p {
   color: rgba(161,161,170,1);
   font-size: 0.875rem;
@@ -5596,6 +5613,14 @@ select.comment-input {
 
 @media (max-width: 768px) {
   .section  { padding: 64px 0; }
+  .nav-inner {
+    position: relative;
+  }
+  .nav-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   /* Nav collapse — solid dropdown with slide animation */
   .nav-links {

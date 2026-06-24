@@ -520,7 +520,7 @@ class ModerationDashboard {
 
   async publishCommentToAPI(comment) {
     try {
-      const response = await fetch('http://localhost:5000/api/publish-comment', {
+      const response = await fetch('http://localhost:5001/api/publish-comment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -546,7 +546,7 @@ class ModerationDashboard {
 
   async publishPostToAPI(blogPost) {
     try {
-      const response = await fetch('http://localhost:5000/api/publish-post', {
+      const response = await fetch('http://localhost:5001/api/publish-post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
