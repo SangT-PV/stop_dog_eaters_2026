@@ -221,6 +221,10 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
         except Exception as e:
             log.warning(f'Banner copy failed: {e}')
 
+    # Ensure banner_url always starts with '/' so it resolves from website root on subpages
+    if banner_url and not banner_url.startswith('/'):
+        banner_url = '/' + banner_url
+
     # Sanitize AI-generated HTML to prevent XSS
     sanitized_body_html = _sanitize_html(post_data['body_html'])
 
