@@ -4,9 +4,10 @@
 
 This is the Stop Dog Eaters (SDE) campaign — a grassroots movement to end the cruel and unregulated dog meat trade in Vietnam and Asia. The campaign combines:
 - Static website (stopdogeaters.info) with petition, blog, donate, and token pages
-  - **Live URL:** https://stop-dog-eaters.vercel.app (Vercel, account `sang-7322`) — see [DEPLOYMENT.md](DEPLOYMENT.md)
-  - **Custom domain:** stopdogeaters.info (DNS at GoDaddy → Vercel; pending DNS record + verification)
-  - **Migrated off:** Cloudflare Workers (stop-dog-eaters.tdx4829.workers.dev) — retire after domain verifies
+  - **Live URL:** https://stopdogeaters.info (verified live 2026-07-28) — see [DEPLOYMENT.md](DEPLOYMENT.md)
+  - **Hosting:** Vercel, account `sang-7322`, project `stop-dog-eaters`, root dir `website/`
+  - **Deploys from:** `SangT-PV/stop_dog_eaters_2026` (private), branch `master` — **NOT the org repo**
+  - **Migrated off:** Cloudflare Workers (stop-dog-eaters.tdx4829.workers.dev) — safe to retire
 - AI-powered content automation (Claude Haiku 4.5 via AWS Bedrock)
 - Daily Telegram/Facebook distribution
 - Transparent crowdfunding (Change.org + Kickstarter)
@@ -358,11 +359,49 @@ git status
 3. Run `update-planning-state START` before coding
 4. Implement changes
 5. Commit with conventional format: `type(scope): description`
-6. Run `update-planning-state END` after commit
-7. **Verify clean state again** before moving to next plan
+6. **Push to BOTH remotes** (see below) — pushing to only one breaks the site or the team
+7. Run `update-planning-state END` after commit
+8. **Verify clean state again** before moving to next plan
 
 Never skip planning state updates — hooks enforce freshness.
 Never start new work with uncommitted changes from previous work.
+
+### 🚨 Two remotes — ALWAYS push to both
+
+| Remote | URL | Role |
+|--------|-----|------|
+| `private` | `github.com/SangT-PV/stop_dog_eaters_2026` | **Vercel deploy source** — push here or the live site never updates |
+| `origin` | `github.com/pedalverse/stop_dog_eaters_2026` | Team/org copy (Hieu, Siva, Tuan Anh, Uyen) — no deploy hook |
+
+```bash
+git push private master && git push origin master
+```
+
+**Why both:** Vercel is git-connected to the **private personal repo only**. The org repo has
+no deploy hook. Push only to `origin` → the team sees the change but the site stays stale
+(this is exactly how 14 posts went undeployed between 2026-06-16 and 2026-07-28). Push only to
+`private` → the site updates but teammates diverge.
+
+> This is **not** the vendored-fork pattern from the global CLAUDE.md (origin + upstream,
+> never push upstream). Both remotes here are legitimate push targets, and `private` is not a
+> GitHub fork of `origin` — they are independent repos sharing history.
+
+**GitHub account gotcha:** these are private repos that only **`SangT-PV`** can access.
+`gh auth status` frequently shows `RyotaKun` as the active account, and Windows Credential
+Manager serves that token even after `gh auth switch` — producing a misleading
+`remote: Repository not found`. That error means *wrong account*, not missing repo. Fix:
+
+```bash
+gh auth switch --hostname github.com --user SangT-PV
+# If Credential Manager still wins, pass the token for one command:
+TOKEN=$(gh auth token -h github.com -u SangT-PV)
+git -c credential.helper= \
+    -c credential.helper='!f() { echo "username=SangT-PV"; echo "password='"$TOKEN"'"; }; f' \
+    push private master
+```
+
+Deploy details, the `master`-not-`main` production branch, and the Vercel API verification
+command live in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
@@ -430,21 +469,27 @@ curl -I https://stop-dog-eaters.vercel.app/data/index.json
 # Expected: 200 OK (data files serve correctly on Vercel)
 ```
 
-### Known Issues (as of 2026-03-23)
-- **Live site data files 404**: `data/posts.json` and `data/posts/*.json` not deployed yet
-- **Blog.html redirects**: Cloudflare Pages rewrites `/blog.html` → `/blog` (307 redirect)
-- **Resolution**: Deploy `website/data/` directory to Cloudflare Pages
+### Known Issues (as of 2026-07-28)
+- **`og:image` is hardcoded** at `post.html:14` (`assets/og-share.png`), so all 93 posts share
+  one social preview image and per-post banners never reach Twitter/Facebook.
+- **No pipeline failure alerting** — the 2026-07 outage ran 27 days unnoticed because
+  `run.bat` logged only `Stage 1 failed with code 1`.
+- **`run.bat` pushes to `origin` only** — it must push to `private` too, or the site won't
+  deploy. See Git Workflow below.
+- Resolved 2026-07-28: data files 404 (Vercel serves them), Cloudflare `/blog.html` redirect
+  (no longer on Cloudflare), stale live site (git-connected deploys now work).
 
 ### Deployment Checklist
-Before pushing to live:
+Deploys are **automatic on push to `private master`**. Before pushing:
 1. ✅ All local tests pass
 2. ✅ No console errors
 3. ✅ Blog posts render correctly
 4. ✅ Data files accessible
 5. ✅ Planning state updated (START/END)
-6. ✅ Commit pushed to main
-7. ✅ Cloudflare Pages deployment triggered
-8. ✅ Live site tested after deploy
+6. ✅ `gh auth switch --user SangT-PV` (RyotaKun cannot see these private repos)
+7. ✅ **Pushed to BOTH remotes**: `git push private master && git push origin master`
+8. ✅ `vercel ls stop-dog-eaters` — newest row says **Production**, not Preview
+9. ✅ Live site tested after deploy (`curl -s https://stopdogeaters.info/data/index.json`)
 
 **Never skip E2E testing** — even for "small" changes. Frontend regressions are user-facing and damage trust.
 

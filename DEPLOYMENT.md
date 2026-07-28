@@ -9,14 +9,59 @@
 | Platform | Vercel |
 | Account | `sang-7322` |
 | Project name | `stop-dog-eaters` |
+| Project ID | `prj_3fgBEHe9NkF8SHOcW7M6j3qrFe3n` |
 | Live URL | https://stop-dog-eaters.vercel.app |
 | Custom domain | `stopdogeaters.info` (+ `www.stopdogeaters.info`) |
 | Registrar (DNS) | **GoDaddy** (nameservers `ns37/ns38.domaincontrol.com`) |
-| Deploy root | `website/` |
+| **Deploys from** | **`SangT-PV/stop_dog_eaters_2026` (private) — NEVER the org repo** |
+| Production branch | `master` (not `main`) |
+| Root directory | `website` (set in the Vercel project, not the CLI) |
 | Build step | none — static HTML/CSS/JS |
-| Last deployed | 2026-06-16 |
+| Last deployed | 2026-07-28 (auto, from git push) |
 
-## Deploy command
+## 🚨 Two remotes — every push goes to BOTH
+
+Vercel deploys **only** from the private personal repo. The `pedalverse` org repo is the
+team's shared copy and is **not** connected to any deploy. Pushing to only one leaves either
+the site stale or the team out of sync.
+
+| Remote | URL | Role |
+|--------|-----|------|
+| `private` | `github.com/SangT-PV/stop_dog_eaters_2026` | **Vercel deploy source.** Push here → production deploys. |
+| `origin` | `github.com/pedalverse/stop_dog_eaters_2026` | Team/org copy (Hieu, Siva et al.). No deploy hook. |
+
+```bash
+# Push to both — required after every commit
+git push private master && git push origin master
+```
+
+> This is NOT the vendored-fork pattern (origin + upstream, never push upstream). Both
+> remotes here are push targets. `private` is not a GitHub fork of `origin` — they are
+> independent repos that share history.
+
+**GitHub account:** both repos need the **`SangT-PV`** account. `gh auth status` often shows
+`RyotaKun` as active, and Windows Credential Manager will serve that token — which fails with
+a misleading `Repository not found` on these private repos. Fix before pushing:
+
+```bash
+gh auth switch --hostname github.com --user SangT-PV
+```
+
+If Credential Manager still wins, pass the token explicitly for the one command:
+
+```bash
+TOKEN=$(gh auth token -h github.com -u SangT-PV)
+git -c credential.helper= \
+    -c credential.helper='!f() { echo "username=SangT-PV"; echo "password='"$TOKEN"'"; }; f' \
+    push private master
+```
+
+## Deploying
+
+**Normal path — automatic.** Push to `private master` and Vercel builds production. No CLI
+step. Verify with `vercel ls stop-dog-eaters` (newest row should read `Production`).
+
+**Manual fallback** (CLI auth only, bypasses git):
 
 ```bash
 cd website && vercel deploy --prod --yes --name stop-dog-eaters
@@ -37,6 +82,28 @@ Vercel printed these as the recommended (`a`) configuration when the domains wer
 
 ## Gotchas
 
+- **Push to BOTH remotes.** Only `private` deploys; only `origin` reaches the team. See above.
+- **Production branch is `master`.** Vercel defaults new git connections to `main`. A push to
+  `master` while Vercel expects `main` builds a **Preview**, not production — the site silently
+  stays stale. Verify with the API check below.
+- **Root directory must be `website`.** The git integration defaults to the repo root, which
+  would serve the wrong tree. Set on the project, not per-deploy.
+- **Preview URLs are auth-gated** — fetching one returns an HTML login page, not your JSON.
+  Don't read a `JSONDecodeError` on a preview URL as a broken deploy.
+- **`vercel project inspect` does NOT print the git link** — it showed "no git" even when a
+  connection existed. Use the API for the authoritative answer:
+  ```bash
+  TOKEN=$(python -c "import json,io,os;print(json.load(io.open(os.path.expanduser('~/AppData/Roaming/com.vercel.cli/Data/auth.json'),encoding='utf-8'))['token'])")
+  curl -s -H "Authorization: Bearer $TOKEN" \
+    "https://api.vercel.com/v9/projects/stop-dog-eaters?teamId=team_f4A1MJ6wnHsrCS5WSaRW0j3v" \
+    | python -c "import json,sys;d=json.load(sys.stdin);l=d.get('link') or {};print(l.get('org'),l.get('repo'),l.get('productionBranch'),d.get('rootDirectory'))"
+  ```
+  Setting the production branch needs the **v2** endpoint (`PATCH /v2/projects/<id>/branch`);
+  the v9 project PATCH rejects a `link` property.
+- **History lesson (2026-06-16 → 2026-07-28):** the project was created by a one-off CLI deploy
+  with **no git connection**, so `run.bat`'s "Push to GitHub to deploy" comment was wrong for
+  6 weeks. 14 posts reached GitHub and never the live site. Under the old Cloudflare Pages
+  setup push-to-deploy was automatic; the Vercel migration didn't carry that over.
 - **`.vercel/` is gitignored** — local link only. This file is the durable record.
 - **Always `--name stop-dog-eaters`** — deploy root is `website/`, so without `--name` Vercel
   would create a project called `website`.

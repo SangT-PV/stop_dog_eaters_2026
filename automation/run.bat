@@ -20,14 +20,24 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-:: Stage 3: Auto-commit and Push to GitHub
+:: Stage 3: Auto-commit and push to BOTH remotes
+::   private (SangT-PV) = Vercel deploy source — the site only updates from this one
+::   origin  (pedalverse) = team copy, no deploy hook
+:: Pushing to only one leaves either the site stale or the team out of sync.
 echo [%date% %time%] Committing and pushing to GitHub...
 cd ..
 git add website/data/posts/ website/data/index.json website/assets/images/posts/ website/assets/banners/
 git commit -m "Auto-publish daily AI post - %date%"
+
+git push private master
+if %ERRORLEVEL% NEQ 0 (
+    echo [%date% %time%] Stage 3 push to PRIVATE failed with code %ERRORLEVEL% - site will NOT deploy >> automation\logs\run.log
+    exit /b 1
+)
+
 git push origin master
 if %ERRORLEVEL% NEQ 0 (
-    echo [%date% %time%] Stage 3 (Git Push) failed with code %ERRORLEVEL% >> automation\logs\run.log
+    echo [%date% %time%] Stage 3 push to ORIGIN failed with code %ERRORLEVEL% - team repo out of sync >> automation\logs\run.log
     exit /b 1
 )
 
