@@ -30,31 +30,28 @@ the site stale or the team out of sync.
 | `private` | `github.com/SangT-PV/stop_dog_eaters_2026` | **Vercel deploy source.** Push here → production deploys. |
 | `origin` | `github.com/pedalverse/stop_dog_eaters_2026` | Team/org copy (Hieu, Siva et al.). No deploy hook. |
 
+**Preferred: `/smart-push`.** It reads `~/.claude/my-plugins/skills/smart-push/repo-registry.json`,
+which records this repo's verified accounts and flags `private` as deploy-critical, then pushes
+both remotes with the right account. Manual equivalent:
+
 ```bash
-# Push to both — required after every commit
-git push private master && git push origin master
+gh auth switch --hostname github.com --user SangT-PV   # both repos need this account
+git push private master && git push origin master      # BOTH — required after every commit
 ```
 
 > This is NOT the vendored-fork pattern (origin + upstream, never push upstream). Both
 > remotes here are push targets. `private` is not a GitHub fork of `origin` — they are
 > independent repos that share history.
 
-**GitHub account:** both repos need the **`SangT-PV`** account. `gh auth status` often shows
-`RyotaKun` as active, and Windows Credential Manager will serve that token — which fails with
-a misleading `Repository not found` on these private repos. Fix before pushing:
+**`Repository not found` = wrong account, not a missing repo.** `gh auth status` often shows
+`RyotaKun` active; these private repos are only visible to `SangT-PV`. `gh auth switch` alone
+resolves it — verified 2026-07-28 that `git credential fill` then returns `username=SangT-PV`
+and a plain `git push` succeeds to both remotes.
 
-```bash
-gh auth switch --hostname github.com --user SangT-PV
-```
-
-If Credential Manager still wins, pass the token explicitly for the one command:
-
-```bash
-TOKEN=$(gh auth token -h github.com -u SangT-PV)
-git -c credential.helper= \
-    -c credential.helper='!f() { echo "username=SangT-PV"; echo "password='"$TOKEN"'"; }; f' \
-    push private master
-```
+> An earlier revision of this file prescribed an inline-token credential helper
+> (`git -c credential.helper='!f() { echo password=$TOKEN; }; f'`) on the theory that Windows
+> Credential Manager kept serving the stale token. **Re-testing disproved that.** The workaround
+> is unnecessary and exposes a token on the command line — removed 2026-07-28.
 
 ## Deploying
 

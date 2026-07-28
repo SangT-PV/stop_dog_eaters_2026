@@ -386,19 +386,24 @@ no deploy hook. Push only to `origin` → the team sees the change but the site 
 > never push upstream). Both remotes here are legitimate push targets, and `private` is not a
 > GitHub fork of `origin` — they are independent repos sharing history.
 
+**Prefer `/smart-push` over raw `git push`.** The skill reads a registry of verified per-repo
+accounts and deploy-critical remotes, then pushes every remote with the right account. A raw
+push can silently use the wrong account or skip `private`, leaving the live site stale.
+
 **GitHub account gotcha:** these are private repos that only **`SangT-PV`** can access.
-`gh auth status` frequently shows `RyotaKun` as the active account, and Windows Credential
-Manager serves that token even after `gh auth switch` — producing a misleading
-`remote: Repository not found`. That error means *wrong account*, not missing repo. Fix:
+`gh auth status` frequently shows `RyotaKun` as the active account, and pushing then fails with
+`remote: Repository not found`. **That error means wrong account, not missing repo.** One
+command fixes it — verified 2026-07-28 that a plain `git push` then succeeds to both remotes:
 
 ```bash
 gh auth switch --hostname github.com --user SangT-PV
-# If Credential Manager still wins, pass the token for one command:
-TOKEN=$(gh auth token -h github.com -u SangT-PV)
-git -c credential.helper= \
-    -c credential.helper='!f() { echo "username=SangT-PV"; echo "password='"$TOKEN"'"; }; f' \
-    push private master
+git push private master && git push origin master
 ```
+
+> Do **not** use an inline-token credential helper. An earlier note here claimed Windows
+> Credential Manager keeps serving the stale token after `gh auth switch`; re-testing disproved
+> it (`git credential fill` returns `username=SangT-PV` correctly). The token workaround is
+> unnecessary and puts a credential on the command line.
 
 Deploy details, the `master`-not-`main` production branch, and the Vercel API verification
 command live in [DEPLOYMENT.md](DEPLOYMENT.md).
