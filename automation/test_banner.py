@@ -18,7 +18,7 @@ test_post_data = {
 
 print('Testing banner generation pipeline...')
 print(f"Post ID: {test_post_data['id']}")
-print(f"Provider: Vertex AI (via .env configuration)")
+print(f"Provider: BANNER_PROVIDER from .env (gptimage → gpt-image-banner skill)")
 
 try:
     result = generate_banner(test_post_data)

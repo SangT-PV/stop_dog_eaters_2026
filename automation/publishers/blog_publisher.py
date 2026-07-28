@@ -4,7 +4,6 @@ import re
 from datetime import date
 from pathlib import Path
 from config import WEBSITE_DATA_DIR, WEBSITE_ASSETS_DIR, WEBSITE_URL
-from content import banner_generator
 
 log = logging.getLogger(__name__)
 
@@ -62,34 +61,10 @@ def save_preview(post_data: dict, for_date: date = None) -> Path:
         encoding='utf-8',
     )
 
-    # Generate banner images FIRST (before HTML preview, so we can embed them)
-    banner_svg_filename = f'{today.isoformat()}-banner.svg'
-    banner_svg_path = preview_dir / banner_svg_filename
-    banner_html_filename = f'{today.isoformat()}-banner.html'
-    banner_html_path = preview_dir / banner_html_filename
-
-    try:
-        # HTML version (for standalone screenshot)
-        banner_generator.generate_banner_html(
-            title=post_data['title'],
-            excerpt=post_data['excerpt'],
-            tag=post_data['tag'],
-            body_html=post_data['body_html'],
-            output_path=banner_html_path,
-        )
-        log.info(f'Banner HTML generated: {banner_html_filename}')
-
-        # SVG version (for direct embedding)
-        banner_generator.generate_banner_svg(
-            title=post_data['title'],
-            excerpt=post_data['excerpt'],
-            tag=post_data['tag'],
-            body_html=post_data['body_html'],
-            output_path=banner_svg_path,
-        )
-        log.info(f'Banner SVG generated: {banner_svg_filename}')
-    except Exception as e:
-        log.warning(f'Banner generation failed: {e}')
+    # Banners are generated once in pipeline.py via clients/banner_generator.py
+    # (BANNER_PROVIDER=gptimage → the gpt-image-banner skill) and the resulting
+    # path lands in post_data['banner_url']. The old preview-only *-banner.svg/html
+    # written here used the abandoned pre-Phase-17 brand and was never read.
 
     # Save HTML preview
     slug_preview = _slugify(post_data.get('title', 'post'))
@@ -98,19 +73,29 @@ def save_preview(post_data: dict, for_date: date = None) -> Path:
     def _esc(s: str) -> str:
         return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
-    # Load and embed the SVG banner
+    # Embed the real banner produced upstream by clients/banner_generator.py so the
+    # preview shows exactly what the site will serve.
     banner_section = ''
-    if banner_svg_path.exists():
-        # Read and embed the SVG directly
-        banner_svg_content = banner_svg_path.read_text(encoding='utf-8')
+    banner_url = post_data.get('banner_url') or ''
+    site_banner = (
+        Path(__file__).resolve().parents[2] / 'website' / banner_url.lstrip('/')
+        if banner_url else None
+    )
+    if site_banner and site_banner.exists() and site_banner.suffix == '.svg':
         banner_section = f"""
   <div class="section-label">Hero Banner (1200x500px)</div>
   <div style="background: #f5f5f5; padding: 20px; border-radius: 6px; margin-bottom: 28px; text-align: center;">
-    {banner_svg_content}
+    {site_banner.read_text(encoding='utf-8')}
     <p style="font-family: sans-serif; font-size: 12px; color: #666; margin-top: 12px;">
-      📸 For screenshot: Open <a href="{banner_html_filename}" target="_blank">{banner_html_filename}</a> |
-      SVG: <a href="{banner_svg_filename}" target="_blank">{banner_svg_filename}</a>
+      Served from <code>{_esc(banner_url)}</code>
     </p>
+  </div>
+  <hr>"""
+    elif banner_url:
+        banner_section = f"""
+  <div class="section-label">Hero Banner</div>
+  <div style="background: #f5f5f5; padding: 20px; border-radius: 6px; margin-bottom: 28px; text-align: center;">
+    <img src="{_esc(WEBSITE_URL)}/{_esc(banner_url.lstrip('/'))}" style="max-width:100%" alt="Article banner">
   </div>
   <hr>"""
 
