@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="500" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=JetBrains+Mono:wght@700&amp;family=Crimson+Text:wght@400;600&amp;display=swap');
+    </style>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2540;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f1829;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="500" fill="url(#bgGradient)"/>
+  <rect width="1200" height="500" fill="url(#grid)"/>
+
+  <!-- Corner accent -->
+  <path d="M 1100 0 L 1200 0 L 1200 100" stroke="#1d6a72" stroke-width="3" fill="none"/>
+
+  <!-- Tag badge -->
+  <rect x="60" y="60" width="92" height="24" fill="#c0392b" rx="3"/>
+  <text x="106" y="77" font-family="JetBrains Mono" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="700" letter-spacing="1">PET THEFT</text>
+
+  <!-- Title -->
+  <text x="60" y="150" font-family="Archivo Black" font-size="38" fill="#ffffff" letter-spacing="-0.5">
+    <tspan x="60" dy="0">Pet Theft Rings Hit Vietnam: Inside a</tspan><tspan x="60" dy="50">June 2026 Rescue Operation</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="60" y="320" font-family="Crimson Text" font-size="16" fill="rgba(255,255,255,0.8)">
+    <tspan x="60" dy="0">Police in Lâm Đồng province arrested five suspects</tspan>
+    <tspan x="60" dy="24"> in a dog and cat theft ring targeting Vietnamese </tspan>
+  </text>
+
+  <!-- Data visualization -->
+  
+        <text x="900" y="280" font-family="Archivo Black" font-size="140" fill="#c0392b" text-anchor="middle" font-weight="900">0</text>
+        <text x="900" y="320" font-family="JetBrains Mono" font-size="14" fill="rgba(255,255,255,0.9)" text-anchor="middle" font-weight="700" letter-spacing="2">REGISTERED SLAUGHTERHOUSES NATIONWIDE</text>
+        
+        <rect x="770" y="360" width="70" height="36" fill="rgba(255,255,255,0.1)" rx="6"/>
+        <text x="805" y="385" font-family="JetBrains Mono" font-size="20" fill="#e8a838" text-anchor="middle" font-weight="700">2030</text>
+                
+        <rect x="850" y="360" width="70" height="36" fill="rgba(255,255,255,0.1)" rx="6"/>
+        <text x="885" y="385" font-family="JetBrains Mono" font-size="20" fill="#e8a838" text-anchor="middle" font-weight="700">2026</text>
+                
+        <rect x="800" y="410" width="68" height="28" fill="rgba(192,57,43,0.6)" stroke="rgba(192,57,43,0.8)" rx="4"/>
+        <text x="834" y="429" font-family="Crimson Text" font-size="13" fill="#ffffff" text-anchor="middle">Rabies</text>
+                
+</svg>

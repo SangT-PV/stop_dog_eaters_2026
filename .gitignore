@@ -44,3 +44,6 @@ __pycache__/
 automation/logs/
 automation/previews/
 automation/inputs/
+
+# Intermediate banner art (the .svg embeds it as a base64 data-URI)
+website/assets/banners/*.png
