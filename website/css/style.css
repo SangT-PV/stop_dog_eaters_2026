@@ -598,9 +598,10 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 
 /* Index page */
 .index-cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.index-transparency-pledge { font-size: 1rem; max-width: 680px; margin: 0 auto; }
-.index-transparency-pledge strong { color: var(--on-surface); }
-.index-pledge-link { color: var(--primary); font-weight: 700; }
+.index-transparency-pledge { font-size: 1rem; max-width: 720px; margin: 0 auto; text-align: center; color: var(--white); }
+.index-transparency-pledge strong { color: var(--white); }
+.index-pledge-link { color: var(--white); font-weight: 700; text-decoration: underline; }
+.index-pledge-link:hover { color: rgba(255, 255, 255, 0.8); }
 
 /* Transparency banner Stitch override */
 .section-sm.bg-teal {
@@ -668,6 +669,54 @@ button, .btn, a[href], input[type="submit"], input[type="button"],
 .problem-card:nth-child(1) .card-icon svg { color: var(--red); stroke: var(--red); }
 .problem-card:nth-child(2) .card-icon svg { color: var(--amber, #E8A838); stroke: var(--amber, #E8A838); }
 .problem-card:nth-child(3) .card-icon svg { color: var(--teal); stroke: var(--teal); }
+
+/* --- Problem section: Warm Sanctuary style (ported from burst-20260529/E.html) --- */
+.sde-warm {
+  --w-paper: oklch(0.96 0.014 70);
+  --w-paper-2: oklch(0.93 0.02 68);
+  --w-ink: oklch(0.28 0.022 40);
+  --w-ink-soft: oklch(0.46 0.025 45);
+  --w-terra: oklch(0.56 0.13 38);
+  --w-serif: 'Spectral', Georgia, serif;
+  --w-body: 'Hanken Grotesk', system-ui, sans-serif;
+  background: var(--w-paper);
+  padding: clamp(48px, 6vw, 84px) 0;
+  font-family: var(--w-body);
+  color: var(--w-ink);
+}
+.sde-warm-care {
+  background: var(--w-paper-2);
+  border-radius: clamp(28px, 4vw, 48px);
+  padding: clamp(36px, 5vw, 72px) clamp(24px, 4vw, 56px);
+}
+.sde-warm-head { max-width: 54ch; margin-bottom: clamp(28px, 4vw, 46px); }
+.sde-warm-eyebrow {
+  font-size: .76rem; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--w-terra);
+}
+.sde-warm-head h2 {
+  font-family: var(--w-serif); color: var(--w-ink);
+  font-size: clamp(2rem, 4vw, 3rem); line-height: 1.06; margin: 10px 0;
+}
+.sde-warm-lede { color: var(--w-ink-soft); font-size: 1.12rem; }
+.sde-warm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+.sde-warm-tile { border-radius: 24px; padding: clamp(26px, 3vw, 38px); background: var(--w-paper); }
+.sde-warm-tile:nth-child(1) { background: oklch(0.74 0.12 75 / 0.22); }   /* ochre */
+.sde-warm-tile:nth-child(2) { background: oklch(0.52 0.055 150 / 0.18); } /* sage */
+.sde-warm-tile:nth-child(3) { background: oklch(0.56 0.13 38 / 0.14); }   /* terra */
+.sde-warm-ic {
+  width: 56px; height: 56px; border-radius: 16px; background: var(--w-paper);
+  display: grid; place-items: center; margin-bottom: 18px;
+  box-shadow: 0 8px 20px oklch(0.28 0.022 40 / 0.1);
+  color: var(--w-terra);
+}
+.sde-warm-ic .material-symbols-outlined { font-size: 1.8rem; }
+.sde-warm-tile h3 { font-family: var(--w-serif); color: var(--w-ink); font-size: 1.4rem; margin-bottom: 8px; }
+.sde-warm-tile p { color: var(--w-ink-soft); font-size: .98rem; }
 
 .placeholder-icon {
   color: var(--teal);
