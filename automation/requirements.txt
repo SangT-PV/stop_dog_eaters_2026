@@ -3,3 +3,7 @@ python-dotenv>=1.0.0
 requests>=2.31.0
 flask>=3.0.0
 flask-cors>=4.0.0
+
+# Banner generation providers (BANNER_PROVIDER=vertex|gemini)
+google-cloud-aiplatform>=1.140.0
+google-genai>=1.0.0

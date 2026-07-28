@@ -23,7 +23,7 @@ if %ERRORLEVEL% NEQ 0 (
 :: Stage 3: Auto-commit and Push to GitHub
 echo [%date% %time%] Committing and pushing to GitHub...
 cd ..
-git add website/data/posts/ website/data/index.json website/assets/images/posts/
+git add website/data/posts/ website/data/index.json website/assets/images/posts/ website/assets/banners/
 git commit -m "Auto-publish daily AI post - %date%"
 git push origin master
 if %ERRORLEVEL% NEQ 0 (
