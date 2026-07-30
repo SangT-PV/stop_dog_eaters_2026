@@ -154,7 +154,7 @@ automation/             # Backend automation pipeline
 **Always follow BRAND_GUIDELINES.md for any content generation.**
 
 ### Design System
-- **Colors:** --navy #1a2540, --teal #1d6a72, --amber #e8a838, --red #c0392b
+- **Colors:** --primary #1a1a1a, --primary-container #e64a19, --secondary #ffd700, --surface #ffffff
 - **Fonts:** Georgia (headings), Segoe UI (body)
 - **Tone:** Locally led, non-aggressive, health-safety-first, transparent
 - **Visual anchor:** Lucky (9-year-old purebred Vietnamese dog, "priceless treasure")
