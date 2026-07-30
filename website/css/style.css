@@ -1384,7 +1384,7 @@ button, .btn, .nav-cta a, input[type="submit"], input[type="button"] {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  background: var(--tertiary-container);
+  background: var(--primary-container);
   color: #fff;
   font-weight: 900;
   padding: 1.125rem 1.5rem;
@@ -1399,10 +1399,10 @@ button, .btn, .nav-cta a, input[type="submit"], input[type="button"] {
   text-align: center;
 }
 .petition-submit:hover {
-  background: var(--tertiary);
+  background: #BF360C;
   color: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(179,48,35,0.3);
+  box-shadow: 0 4px 12px rgba(230,74,25,0.3);
 }
 .petition-submit .material-symbols-outlined {
   font-size: 1.25rem;
