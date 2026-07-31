@@ -1552,9 +1552,39 @@ button, .btn, .nav-cta a, input[type="submit"], input[type="button"] {
 
 /* About hero — editorial pattern matching petition/donate heroes */
 .about-hero {
-  padding: var(--section-py) var(--section-px) 4rem;
+  padding: var(--section-py) var(--section-px) 0;
   max-width: var(--max-w);
   margin: 0 auto;
+}
+.about-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.about-hero-image {
+  display: flex;
+  justify-content: center;
+}
+.about-hero-image img {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+@keyframes lucky-wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg) scale(1.02); }
+  50% { transform: rotate(3deg) scale(1.02); }
+  75% { transform: rotate(-3deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.about-hero-image img:hover,
+.lucky-image img:hover {
+  animation: lucky-wiggle 0.5s ease-in-out;
+  transform: scale(1.02); /* holds scale after animation */
 }
 .about-hero .eyebrow {
   color: var(--primary-container);
@@ -1578,7 +1608,8 @@ button, .btn, .nav-cta a, input[type="submit"], input[type="button"] {
   font-size: 1.25rem;
   color: var(--on-surface-variant);
   line-height: 1.7;
-  max-width: 42rem;
+  max-width: 55rem;
+  text-wrap: balance;
 }
 
 /* Lucky section overrides for about page */
@@ -1738,7 +1769,6 @@ button, .btn, .nav-cta a, input[type="submit"], input[type="button"] {
   border: 1px solid var(--border-dk);
   border-radius: var(--radius-lg);
   padding: 32px 36px;
-  margin-top: 48px;
 }
 
 .transparency-box h3 {
@@ -5583,10 +5613,12 @@ select.comment-input {
 /* --- Responsive -------------------------------------------- */
 @media (max-width: 960px) {
   .hero-inner,
+  .about-hero-inner,
   .lucky-inner { grid-template-columns: 1fr; }
 
   /* Show images on mobile — stack above text, constrain height */
   .hero-image,
+  .about-hero-image,
   .lucky-image {
     order: -1;
     max-height: 360px;
@@ -5597,6 +5629,7 @@ select.comment-input {
   }
   .hero-image img,
   .hero-image-placeholder,
+  .about-hero-image img,
   .lucky-image img,
   .lucky-image-placeholder {
     max-height: 300px;
@@ -5880,4 +5913,14 @@ select.comment-input {
   /* Feature voting responsive */
   .voting-card { flex-direction: row; }
   .voting-action { min-width: 40px; }
+}
+
+/* Blood hover effect for petition image */
+.blood-hover-effect {
+  transition: all 0.4s ease;
+}
+.blood-hover-effect:hover {
+  box-shadow: 0 0 30px rgba(220, 20, 60, 0.7);
+  filter: sepia(0.6) hue-rotate(-50deg) saturate(3) contrast(1.1);
+  transform: scale(1.02);
 }
