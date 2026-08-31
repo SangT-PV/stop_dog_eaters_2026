@@ -1,0 +1,28 @@
+<svg width="1200" height="500" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="500" fill="#052a2c"/>
+  
+  <rect x="60" y="44" width="92" height="28" fill="#b33023" rx="4"/>
+  <text x="106" y="63" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="600" letter-spacing="1.5">PET THEFT</text>
+    
+  
+  <text x="60" y="128" font-family="Newsreader, Georgia, serif" font-size="38" fill="#c6e9eb" font-weight="600" letter-spacing="-0.5">
+    <tspan x="60" dy="0">Stolen Pets, Sold for Meat:</tspan>
+<tspan x="60" dy="48">Vietnam's Pet Theft Crisis</tspan>
+<tspan x="60" dy="48">Exposes a Broken Chain</tspan>
+  </text>
+    
+  
+  <text x="60" y="348" font-family="Newsreader, Georgia, serif" font-size="112" fill="#b33023" font-weight="700">5</text>
+  <text x="60" y="380" font-family="Inter, 'Segoe UI', sans-serif" font-size="13" fill="#e8a838" font-weight="600" letter-spacing="1.5" opacity="0.9">DOGS</text>
+        
+  <text x="60" y="426" font-family="Newsreader, Georgia, serif" font-size="30" fill="#c6e9eb" font-weight="600">22</text>
+  <text x="60" y="449" font-family="Inter, 'Segoe UI', sans-serif" font-size="10" fill="#c6e9eb" font-weight="600" letter-spacing="1.2" opacity="0.75">PROVINCES AFFECTED</text>
+  <line x1="256" y1="404" x2="256" y2="453" stroke="#ffffff" stroke-width="1" opacity="0.12"/>
+  <text x="280" y="426" font-family="Newsreader, Georgia, serif" font-size="30" fill="#c6e9eb" font-weight="600">95%</text>
+  <text x="280" y="449" font-family="Inter, 'Segoe UI', sans-serif" font-size="10" fill="#c6e9eb" font-weight="600" letter-spacing="1.2" opacity="0.75">SUPPORT ENDING TRADE</text>
+  
+  <line x1="60" y1="470" x2="1140" y2="470" stroke="#ffffff" stroke-width="1" opacity="0.12"/>
+  <text x="60" y="490" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" fill="#ffffff" opacity="0.6">Source: StopDogEaters Research</text>
+  <text x="1140" y="490" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" fill="#ffffff" text-anchor="end" font-weight="600">StopDogEaters.info</text>
+    
+</svg>
