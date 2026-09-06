@@ -61,8 +61,8 @@
     'Community': 'forum'
   };
   var tagColors = {
-    'Public Health': 'var(--tertiary-container)',
-    'Pet Theft': 'var(--tertiary-container)',
+    'Public Health': 'var(--primary-container)',
+    'Pet Theft': 'var(--primary-container)',
     'Regulation': 'var(--on-surface-variant)',
     'Public Support': 'var(--primary)',
     "Lucky's Story": 'var(--amber)',
@@ -91,13 +91,21 @@
     posts.forEach(function (post, postIndex) {
       var icon = tagIcons[post.tag] || 'article';
       var dotColor = tagColors[post.tag] || 'var(--primary)';
+      var dotBg = dotColor;
+      var iconColorStyle = '';
+      
+      if (post.tag === 'Pet Theft') {
+        dotBg = '#FFCCBC'; // true pastel orange
+        iconColorStyle = 'color: #BF360C;'; // dark orange
+      }
+
       var postUrl = 'post.html?id=' + encodeURIComponent(post.id);
 
       html += '<article class="tl-item">';
 
       // Timeline dot with icon
-      html += '<div class="tl-dot" style="background:' + dotColor + '">';
-      html += '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1">' + icon + '</span>';
+      html += '<div class="tl-dot" style="background:' + dotBg + '">';
+      html += '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1; ' + iconColorStyle + '">' + icon + '</span>';
       html += '</div>';
 
       // Timestamp
