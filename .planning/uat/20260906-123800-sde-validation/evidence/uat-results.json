@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-09-06T05:41:27.210Z",
+  "results": {
+    "pagesTested": [
+      {
+        "page": "Home",
+        "hero": "They Are Family,\nNot Food.",
+        "bowtieImg": true
+      },
+      {
+        "page": "About",
+        "jumping": true,
+        "paws": true,
+        "pleaseStop": true
+      },
+      {
+        "page": "Post Detail",
+        "title": "Silent Outbreak: Rabies and Food Safety Risks in Vietnam's Unregulated Dog Trade",
+        "articleVisible": true,
+        "errorVisible": false
+      },
+      {
+        "page": "Donate",
+        "fundAllocationsVerified": false
+      },
+      {
+        "page": "Token",
+        "header": "Advocacy fueled by Transparency."
+      }
+    ],
+    "interactiveTests": [
+      {
+        "control": "Blog View Toggle & Tag Filter",
+        "timelinePosts": 123,
+        "gridPosts": 0,
+        "gridVisible": false,
+        "publicHealthCount": 0
+      },
+      {
+        "control": "Petition Form",
+        "validSubmitted": false
+      }
+    ],
+    "viewports": [],
+    "edgeCases": [
+      {
+        "test": "post.html without ?id",
+        "handledGracefully": true
+      },
+      {
+        "test": "post.html with invalid ?id",
+        "handledGracefully": true
+      },
+      {
+        "test": "Extensionless /about URL",
+        "resolvesCleanly": true
+      }
+    ],
+    "emptyOverflow": [
+      {
+        "test": "Empty state DOM placeholder present",
+        "passed": true
+      }
+    ]
+  },
+  "consoleErrors": [],
+  "networkErrors": [
+    {
+      "url": "http://localhost:3000/data/posts/invalid-nonexistent-id-999.json",
+      "status": 404
+    }
+  ]
+}

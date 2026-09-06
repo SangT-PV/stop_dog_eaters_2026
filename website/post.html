@@ -107,7 +107,7 @@
     </article>
 
     <!-- Discussion Section (800px) -->
-    <div id="comments-section" class="comments-section comments-section-stitch">
+    <div id="comments-section" class="comments-section comments-section-stitch" style="display:none;">
       <div class="comments-header-stitch">
         <h2>Community Discussion</h2>
         <span class="comments-count" id="comments-count"></span>
@@ -181,6 +181,8 @@
       if (!id || !/^[a-z0-9\-]+$/i.test(id)) {
         document.getElementById('post-loading').style.display = 'none';
         document.getElementById('post-error').style.display = 'block';
+        var commentsEl = document.getElementById('comments-section');
+        if (commentsEl) commentsEl.style.display = 'none';
         return;
       }
 
@@ -257,14 +259,19 @@
           }
 
           // Sanitize AI-generated HTML before insertion to prevent XSS
-          document.getElementById('post-body').innerHTML = DOMPurify.sanitize(post.body_html);
+          var cleanHtml = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(post.body_html) : post.body_html;
+          document.getElementById('post-body').innerHTML = cleanHtml;
 
           document.getElementById('post-loading').style.display = 'none';
           document.getElementById('post-article').style.display = 'block';
+          var commentsEl = document.getElementById('comments-section');
+          if (commentsEl) commentsEl.style.display = 'block';
         })
         .catch(function () {
           document.getElementById('post-loading').style.display = 'none';
           document.getElementById('post-error').style.display = 'block';
+          var commentsEl = document.getElementById('comments-section');
+          if (commentsEl) commentsEl.style.display = 'none';
         });
     })();
   </script>
