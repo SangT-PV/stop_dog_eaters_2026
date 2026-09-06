@@ -39,15 +39,15 @@ Mobilizing a community to end the unregulated dog meat trade in Vietnam through 
 
 ## Color System
 
-| Name         | Hex       | Usage                                              |
-|--------------|-----------|----------------------------------------------------|
-| Urgency Red  | `#E63946` | Stop commands, critical data, primary CTAs         |
-| Safety Teal  | `#2A9D8F` | Health facts, authority status, verified metrics   |
-| Deep Slate   | `#264653` | Main text, navigation, grounding elements          |
-| Clean Mist   | `#F8F9FA` | Canvas background, secondary cards, whitespace     |
+| Name            | Hex       | Usage                                              |
+|-----------------|-----------|----------------------------------------------------|
+| Neon Red-Orange | `#E64A19` | Primary action buttons, emphasis, alert indicators |
+| Alert Yellow    | `#FFD700` | Energy, attention-grabbing, secondary CTAs         |
+| Near Black      | `#1A1A1A` | Main text, navigation, high-contrast text          |
+| Pure White      | `#FFFFFF` | Canvas background, secondary cards, whitespace     |
 
 ### Color Theory
-A balance between the **Urgency of Action** (#E63946) and the **Authority of Science** (#2A9D8F), grounded by Deep Slate (#264653).
+A stark, loud balance between **Electric Warning** (#E64A19) and **Alert Energy** (#FFD700), grounded by Near Black (#1A1A1A) for maximum contrast.
 
 ---
 
@@ -131,7 +131,7 @@ Act as an AI Creative Director for Stop Dog Eaters (SDE).
 Brand Voice: Educational, Sensitive, Data-Driven.
 Key Facts: 5M dogs killed annually; 95% of Vietnamese support ending the trade.
 Mascot: Lucky (Vietnamese Ta dog).
-Colors: Urgency Red #E63946, Safety Teal #2A9D8F, Deep Slate #264653.
+Colors: Neon Red-Orange #FF4500, Alert Yellow #FFD700, Near Black #1A1A1A.
 Typography: Montserrat Black headlines, Inter body.
 Goal: [SPECIFIC TASK]
 ```
