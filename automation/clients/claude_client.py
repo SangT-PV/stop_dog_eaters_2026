@@ -1,17 +1,32 @@
 import json
 import logging
 import re
-import anthropic
-from config import AWS_PROFILE, AWS_REGION, BEDROCK_MODEL_ID, CHANGE_ORG_URL
+from config import (
+    LLM_PROVIDER,
+    NINEROUTER_BASE_URL,
+    NINEROUTER_API_KEY,
+    NINEROUTER_MODEL,
+    AWS_PROFILE,
+    AWS_REGION,
+    BEDROCK_MODEL_ID,
+    CHANGE_ORG_URL,
+)
 
 log = logging.getLogger(__name__)
 
-_client = anthropic.AnthropicBedrock(
-    aws_profile=AWS_PROFILE,
-    aws_region=AWS_REGION,
-)
-_MODEL = BEDROCK_MODEL_ID
 _MAX_RETRIES = 2
+_bedrock_client = None
+
+
+def _get_bedrock_client():
+    global _bedrock_client
+    if _bedrock_client is None:
+        import anthropic
+        _bedrock_client = anthropic.AnthropicBedrock(
+            aws_profile=AWS_PROFILE,
+            aws_region=AWS_REGION,
+        )
+    return _bedrock_client
 
 _SYSTEM_PROMPT = f"""Act as an AI Creative Director for Stop Dog Eaters (SDE).
 Brand Voice: Educational, Sensitive, Data-Driven.
@@ -43,10 +58,97 @@ _ANGLE_GUIDANCE = {
 }
 
 
+def _clean_and_parse_json(raw: str) -> dict:
+    """Clean markdown code fences and extract valid JSON object."""
+    raw = raw.strip()
+    raw = re.sub(r'^```(?:json)?\s*', '', raw)
+    raw = re.sub(r'\s*```$', '', raw)
+
+    brace_depth = 0
+    json_end = -1
+    in_string = False
+    escape_next = False
+    for i, ch in enumerate(raw):
+        if escape_next:
+            escape_next = False
+            continue
+        if ch == '\\' and in_string:
+            escape_next = True
+            continue
+        if ch == '"' and not escape_next:
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == '{':
+            brace_depth += 1
+        elif ch == '}':
+            brace_depth -= 1
+            if brace_depth == 0:
+                json_end = i + 1
+                break
+    if json_end > 0:
+        raw = raw[:json_end]
+
+    post = json.loads(raw)
+    if post.get('tag') not in _VALID_TAGS:
+        post['tag'] = 'Campaign Updates'
+    return post
+
+
+def _synthesise_9router(prompt: str) -> dict:
+    """Synthesise post via 9Router local AI gateway (OpenAI-compatible)."""
+    import openai
+    client = openai.OpenAI(
+        base_url=NINEROUTER_BASE_URL,
+        api_key=NINEROUTER_API_KEY,
+        timeout=180.0,
+    )
+    for attempt in range(_MAX_RETRIES + 1):
+        try:
+            log.info(f'Calling 9Router ({NINEROUTER_MODEL}) at {NINEROUTER_BASE_URL} (attempt {attempt + 1}) ...')
+            response = client.chat.completions.create(
+                model=NINEROUTER_MODEL,
+                messages=[
+                    {"role": "system", "content": _SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.7,
+            )
+            raw = response.choices[0].message.content or ''
+            return _clean_and_parse_json(raw)
+        except json.JSONDecodeError as e:
+            if attempt == _MAX_RETRIES:
+                log.error(f'9Router ({NINEROUTER_MODEL}) returned invalid JSON after {_MAX_RETRIES + 1} attempts')
+                raise ValueError(f'Failed to parse 9Router response as JSON: {e}') from e
+            log.warning(f'JSON parse failed on 9Router attempt {attempt + 1}: {e}')
+
+
+def _synthesise_bedrock(prompt: str) -> dict:
+    """Synthesise post via AWS Bedrock (Claude Haiku 4.5)."""
+    client = _get_bedrock_client()
+    for attempt in range(_MAX_RETRIES + 1):
+        try:
+            log.info(f'Calling Bedrock ({BEDROCK_MODEL_ID}) in {AWS_REGION} (attempt {attempt + 1}) ...')
+            response = client.messages.create(
+                model=BEDROCK_MODEL_ID,
+                max_tokens=8192,
+                system=_SYSTEM_PROMPT,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            raw = response.content[0].text.strip()
+            return _clean_and_parse_json(raw)
+        except json.JSONDecodeError as e:
+            if attempt == _MAX_RETRIES:
+                log.error(f'Bedrock returned invalid JSON after {_MAX_RETRIES + 1} attempts')
+                raise ValueError(f'Failed to parse Bedrock response as JSON: {e}') from e
+            log.warning(f'JSON parse failed on Bedrock attempt {attempt + 1}: {e}')
+
+
 def synthesise_post(research_text: str, angle: str, recent_titles: list[str] = None) -> dict:
     """
-    Given raw research text and an angle,
-    call Claude to generate a blog post.
+    Given raw research text and an angle, generate a blog post.
+    Uses 9Router cx/gpt-5.6-luna by default with seamless fallback to AWS Bedrock.
 
     Returns a dict with keys:
       title, tag, excerpt, body_html, telegram_message, facebook_post
@@ -119,64 +221,16 @@ CRITICAL FORMATTING RULES:
 - "telegram_message": Telegram post max 900 chars — headline, 2-3 bullet points starting with •, end with: "Sign the petition: {CHANGE_ORG_URL}" (note: blog post URL will be added automatically during publishing)
 - "facebook_post": Facebook Page post, 150-300 words — hook opening sentence, 2-3 short paragraphs, must cite 95% local support stat, close with petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #DogMeatTrade etc. (note: blog post URL will be added automatically during publishing)
 """
-    # Retry loop to handle malformed JSON responses
-    for attempt in range(_MAX_RETRIES + 1):
+
+    if LLM_PROVIDER == '9router':
         try:
-            response = _client.messages.create(
-                model=_MODEL,
-                max_tokens=8192,  # Increased from 4096 to prevent truncation
-                system=_SYSTEM_PROMPT,
-                messages=[{"role": "user", "content": prompt}],
-            )
-            raw = response.content[0].text.strip()
-
-            # Strip markdown code fences if Claude wraps in ```json ... ```
-            raw = re.sub(r'^```(?:json)?\s*', '', raw)
-            raw = re.sub(r'\s*```$', '', raw)
-
-            # Extract the first complete JSON object if Claude adds trailing text
-            brace_depth = 0
-            json_end = -1
-            in_string = False
-            escape_next = False
-            for i, ch in enumerate(raw):
-                if escape_next:
-                    escape_next = False
-                    continue
-                if ch == '\\' and in_string:
-                    escape_next = True
-                    continue
-                if ch == '"' and not escape_next:
-                    in_string = not in_string
-                    continue
-                if in_string:
-                    continue
-                if ch == '{':
-                    brace_depth += 1
-                elif ch == '}':
-                    brace_depth -= 1
-                    if brace_depth == 0:
-                        json_end = i + 1
-                        break
-            if json_end > 0:
-                raw = raw[:json_end]
-
-            post = json.loads(raw)
-
-            # Normalise tag
-            if post.get('tag') not in _VALID_TAGS:
-                post['tag'] = 'Campaign Updates'
-
-            return post
-
-        except json.JSONDecodeError as e:
-            if attempt == _MAX_RETRIES:
-                log.error(f'Claude returned invalid JSON after {_MAX_RETRIES + 1} attempts')
-                raise ValueError(
-                    f'Failed to parse Claude response as JSON after {_MAX_RETRIES + 1} attempts. '
-                    f'Last error: {e}'
-                ) from e
-            log.warning(f'JSON parse failed (attempt {attempt + 1}/{_MAX_RETRIES + 1}), retrying: {e}')
-
-    # This should never be reached due to the raise in the loop, but for safety:
-    raise RuntimeError('Unexpected code path in synthesise_post retry logic')
+            return _synthesise_9router(prompt)
+        except Exception as e:
+            log.warning(f"9Router synthesis failed ({e}). Attempting fallback to AWS Bedrock...")
+            try:
+                return _synthesise_bedrock(prompt)
+            except Exception as be:
+                log.error(f"Fallback Bedrock synthesis also failed: {be}")
+                raise be from e
+    else:
+        return _synthesise_bedrock(prompt)

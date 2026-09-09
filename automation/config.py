@@ -5,7 +5,15 @@ from dotenv import load_dotenv
 _here = Path(__file__).parent
 load_dotenv(_here / '.env')
 
-# AWS Bedrock — used for Claude content synthesis
+# LLM Provider — '9router' (primary) or 'bedrock' (fallback)
+LLM_PROVIDER = os.getenv('LLM_PROVIDER', '9router').lower()
+
+# 9Router Local Gateway — used for primary content synthesis (cx/gpt-5.6-luna)
+NINEROUTER_BASE_URL = os.getenv('NINEROUTER_BASE_URL', 'http://127.0.0.1:20128/v1')
+NINEROUTER_API_KEY = os.getenv('NINEROUTER_API_KEY', 'sk-a9b417d6786a6843-0vzifd-6d130fd7')
+NINEROUTER_MODEL = os.getenv('NINEROUTER_MODEL', 'cx/gpt-5.6-luna')
+
+# AWS Bedrock — used as secondary/fallback content synthesis
 AWS_PROFILE = os.getenv('AWS_PROFILE', 'default')
 AWS_REGION = os.getenv('AWS_DEFAULT_REGION') or os.getenv('AWS_REGION', 'us-east-1')
 BEDROCK_MODEL_ID = os.getenv('BEDROCK_MODEL_ID', 'us.anthropic.claude-haiku-4-5-20251001-v1:0')
