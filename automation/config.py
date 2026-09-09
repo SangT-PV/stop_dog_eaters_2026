@@ -36,6 +36,10 @@ TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID', '')
 TELEGRAM_ENABLED = bool(TELEGRAM_BOT_TOKEN and TELEGRAM_CHANNEL_ID)
 
+# Dedicated admin chat ID for failure alerting (MUST NOT route to public TELEGRAM_CHANNEL_ID)
+TELEGRAM_ALERT_CHAT_ID = os.getenv('TELEGRAM_ALERT_CHAT_ID', '')
+TELEGRAM_ALERT_ENABLED = bool(TELEGRAM_BOT_TOKEN and TELEGRAM_ALERT_CHAT_ID)
+
 CHANGE_ORG_URL = os.getenv('CHANGE_ORG_URL', 'https://c.org/nLZTZdVNdJ')
 WEBSITE_URL = os.getenv('WEBSITE_URL', 'https://stopdogeaters.info')
 

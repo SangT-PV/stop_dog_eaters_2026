@@ -123,12 +123,23 @@ def _research_is_fresh(latest: Path) -> bool:
         return False
 
 
+def _is_valid_research(text: str) -> bool:
+    """Ensure research text contains genuine source data, not just template headers/instructions."""
+    if not text or len(text.strip()) < 100:
+        return False
+    return any(marker in text for marker in [
+        '--- ENGLISH LANGUAGE SOURCES ---',
+        '--- VIETNAMESE LANGUAGE SOURCES (Tiếng Việt) ---',
+        '--- MANUS AI LOCAL SOURCES ---'
+    ])
+
+
 def _get_research_input() -> tuple[str, str]:
     """
     Returns (research_text, angle).
     Strategy:
-      1. Today's file exists → use it
-      2. Recent file (< 3 days old) exists → reuse it (Claude varies the angle)
+      1. Today's file exists and has valid sources → use it
+      2. Recent file (< 3 days old) exists and has valid sources → reuse it
       3. No recent file → run fresh Perplexity + Manus research
       4. All else fails → fallback to rotating topic templates
     """
@@ -139,33 +150,41 @@ def _get_research_input() -> tuple[str, str]:
     # Priority 1: Today's research already exists
     if today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
-        log.info(f'Using today\'s research: {today_file.name}')
-        return text, angle
+        if _is_valid_research(text):
+            log.info(f"Using today's research: {today_file.name}")
+            return text, angle
+        else:
+            log.warning(f"Today's research file {today_file.name} contains no valid sources (stub/corrupted) — ignoring.")
 
     # Priority 2: Reuse recent research (Claude varies via angle rotation + dedup)
     latest = _find_latest_research()
     if latest and _research_is_fresh(latest):
         text = latest.read_text(encoding='utf-8').strip()
-        age = (date.today() - date.fromisoformat(latest.stem)).days
-        log.info(f'Reusing recent research: {latest.name} ({age}d old, angle: {angle})')
-        return text, angle
+        if _is_valid_research(text):
+            age = (date.today() - date.fromisoformat(latest.stem)).days
+            log.info(f'Reusing recent research: {latest.name} ({age}d old, angle: {angle})')
+            return text, angle
+        else:
+            log.warning(f"Recent research file {latest.name} contains no valid sources (stub/corrupted) — ignoring.")
 
     # Priority 3: Run fresh automated research
     if config.PERPLEXITY_ENABLED or config.MANUS_ENABLED:
         log.info('Research is stale or missing — running fresh Perplexity + Manus...')
         try:
-            research_agent.run_and_save()
-            if today_file.exists():
+            saved_path = research_agent.run_and_save()
+            if saved_path and today_file.exists():
                 text = today_file.read_text(encoding='utf-8').strip()
-                log.info(f'Fresh research complete: {today_file.name}')
-                return text, angle
+                if _is_valid_research(text):
+                    log.info(f'Fresh research complete: {today_file.name}')
+                    return text, angle
         except Exception as e:
             log.warning(f'Automated research failed: {e}')
             # Fall through to reuse stale research or templates
             if latest:
                 text = latest.read_text(encoding='utf-8').strip()
-                log.info(f'Falling back to stale research: {latest.name}')
-                return text, angle
+                if _is_valid_research(text):
+                    log.info(f'Falling back to stale research: {latest.name}')
+                    return text, angle
 
     # Priority 4: Fallback to rotating topic templates
     idx = date.today().toordinal() % len(_TOPIC_TEMPLATES)
@@ -186,6 +205,7 @@ def generate(dry_run: bool = False) -> None:
         post_data = claude_client.synthesise_post(research_text, angle, recent_titles)
     except Exception as e:
         log.error(f'Claude synthesis failed: {e}')
+        telegram_client.send_alert('Stage 1: Generate (Claude)', str(e))
         raise
 
     title = post_data.get('title', '???')
@@ -200,6 +220,7 @@ def generate(dry_run: bool = False) -> None:
         remaining = content_verifier.verify(post_data)
         if remaining:
             log.error(f'Post still has issues after auto-fix: {remaining}')
+            telegram_client.send_alert('Stage 1: Generate (Verification)', f'Issues: {remaining}')
             raise ValueError(f'Content verification failed: {remaining}')
 
     log.info('Source Check passed.')
@@ -239,6 +260,7 @@ def publish(for_date: date = None) -> None:
         post_data = blog_publisher.load_preview(target)
     except FileNotFoundError as e:
         log.error(str(e))
+        telegram_client.send_alert('Stage 2: Publish', str(e))
         raise
 
     title = post_data.get('title', '???')
@@ -277,6 +299,13 @@ def publish(for_date: date = None) -> None:
 
 if __name__ == '__main__':
     args = sys.argv[1:]
+
+    if '--alert' in args:
+        idx = args.index('--alert')
+        alert_msg = ' '.join(args[idx + 1:]) if len(args) > idx + 1 else 'Pipeline process failure'
+        sent = telegram_client.send_alert('Pipeline CLI', alert_msg)
+        print('Alert dispatched:', 'YES' if sent else 'NO (Chat ID unconfigured or suppressed)')
+        sys.exit(0 if sent else 1)
 
     if '--research-only' in args:
         log.info('=== Running Research Agent Only ===')

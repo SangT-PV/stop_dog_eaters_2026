@@ -156,6 +156,12 @@ def poll_manus_task(task_id: str, max_wait_seconds: int = 300) -> Optional[str]:
             # Task still running, wait before next poll
             time.sleep(poll_interval)
 
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                log.warning(f"Manus task {task_id} not found (HTTP 404). Aborting polling.")
+                return None
+            log.error(f"HTTP error polling Manus task {task_id}: {e}")
+            time.sleep(poll_interval)
         except Exception as e:
             log.error(f"Error polling Manus task {task_id}: {e}")
             time.sleep(poll_interval)
@@ -227,8 +233,8 @@ Format as a structured research report with clear sections."""
 
         log.info(f"Manus task created: {task_id} - {task_url}")
 
-        # Poll for task completion (default: wait up to 5 minutes)
-        results = poll_manus_task(task_id, max_wait_seconds=300)
+        # Poll for task completion (wait up to 90 seconds)
+        results = poll_manus_task(task_id, max_wait_seconds=90)
 
         if results:
             return results
@@ -331,24 +337,31 @@ def run_research() -> str:
     # 3. Scrape local sources via Manus AI
     manus_content = search_manus_ai()
 
-    # 4. Combine all results
+    # 4. Check if genuine research sources were retrieved
+    has_english = bool(english_results and any(r.get('answer', '').strip() for r in english_results))
+    has_vietnamese = bool(vietnamese_results and any(r.get('answer', '').strip() for r in vietnamese_results))
+    has_manus = bool(manus_content and not manus_content.startswith("Manus AI task submitted but not yet completed"))
+
+    if not (has_english or has_vietnamese or has_manus):
+        log.warning("All research sources returned 0 results (network offline or empty responses). Not saving empty stub.")
+        return ""
+
+    # 5. Combine all results
     combined = combine_research(english_results, vietnamese_results, manus_content)
 
     log.info(f"Research complete. Total content length: {len(combined)} characters")
     return combined
 
 
-def save_research(content: str, target_date: date = None) -> str:
+def save_research(content: str, target_date: date = None) -> Optional[str]:
     """
     Save research content to inputs directory.
-
-    Args:
-        content: Research text to save
-        target_date: Date to save for (default: today)
-
-    Returns:
-        Path to saved file
+    Rejects empty content to prevent corrupted placeholder stubs.
     """
+    if not content or not content.strip():
+        log.warning("Empty research content provided; skipping save to prevent empty stub.")
+        return None
+
     target = target_date or date.today()
     INPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -359,16 +372,15 @@ def save_research(content: str, target_date: date = None) -> str:
     return str(filepath)
 
 
-def run_and_save() -> str:
+def run_and_save() -> Optional[str]:
     """
     Convenience function: run research and save to today's input file.
-
-    Returns:
-        Path to saved file
+    Returns path or None if no genuine research was gathered.
     """
     research_content = run_research()
-    filepath = save_research(research_content)
-    return filepath
+    if not research_content:
+        return None
+    return save_research(research_content)
 
 
 if __name__ == "__main__":
