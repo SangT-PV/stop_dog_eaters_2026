@@ -202,19 +202,17 @@ _STATIC_REVISION_DIRECTIVES = {
 }
 
 
-def synthesise_post(
+def build_synthesis_prompt(
     research_text: str,
     editorial_format: str = 'investigative',
     recent_titles: list[str] = None,
     banned_topics: list[str] = None,
     revision_errors: list[str] = None,
-) -> dict:
+) -> str:
     """
-    Given raw research text and an editorial format, generate an evidence-led blog post.
-    Uses 9Router cx/gpt-5.6-luna by default with seamless fallback to AWS Bedrock.
-
-    Returns a dict with keys:
-      title, tag, excerpt, body_html, telegram_message, facebook_post
+    Build the complete synthesis user prompt with strict boundary isolation.
+    Untrusted model outputs from prior runs (revision_errors) are stripped to static
+    allowlisted codes only, preventing prompt injection into TRUSTED EDITORIAL REVISION DIRECTIVE.
     """
     # Map legacy angle strings to new editorial formats if needed
     fmt_key = _ANGLE_TO_FORMAT.get(editorial_format, editorial_format)
@@ -233,14 +231,18 @@ def synthesise_post(
 
     revision_section = ""
     if revision_errors:
+        from content.content_verifier import extract_error_codes
+        valid_codes = extract_error_codes(revision_errors)
         directives = []
-        for err in revision_errors:
-            code = err.split(':')[0].strip()
-            directive = _STATIC_REVISION_DIRECTIVES.get(
-                code,
-                f"Ensure the post strictly satisfies quality standards for {code}."
-            )
-            directives.append(f"  * [{code}] {directive}")
+        for code in valid_codes:
+            directive = _STATIC_REVISION_DIRECTIVES.get(code)
+            if directive:
+                directives.append(f"  * [{code}] {directive}")
+
+        # If any errors were present that did not match an allowlisted code, or if no valid codes were found
+        if not directives or len(valid_codes) < len(revision_errors):
+            directives.append("  * Resolve all remaining automated verification failures.")
+
         directives_text = '\n'.join(directives)
         revision_section = f"""TRUSTED EDITORIAL REVISION DIRECTIVE:
 A previous draft of this post failed automated verification. You MUST strictly adhere to the following trusted instructions:
@@ -268,6 +270,30 @@ Generate an evidence-led campaign post that adheres to the format above. Respond
 - "telegram_message": High-urgency Telegram alert max 900 chars — punchy hook, bulleted revelations, ending with: "Sign the petition: {CHANGE_ORG_URL}"
 - "facebook_post": Engaging Facebook post, exactly 150-300 words — emotional narrative hook, community solidarity, citing verified facts, petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #EndDogMeatTrade
 """
+    return prompt
+
+
+def synthesise_post(
+    research_text: str,
+    editorial_format: str = 'investigative',
+    recent_titles: list[str] = None,
+    banned_topics: list[str] = None,
+    revision_errors: list[str] = None,
+) -> dict:
+    """
+    Given raw research text and an editorial format, generate an evidence-led blog post.
+    Uses 9Router cx/gpt-5.6-luna by default with seamless fallback to AWS Bedrock.
+
+    Returns a dict with keys:
+      title, tag, excerpt, body_html, telegram_message, facebook_post
+    """
+    prompt = build_synthesis_prompt(
+        research_text=research_text,
+        editorial_format=editorial_format,
+        recent_titles=recent_titles,
+        banned_topics=banned_topics,
+        revision_errors=revision_errors,
+    )
 
     if LLM_PROVIDER == '9router':
         try:

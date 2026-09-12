@@ -63,12 +63,12 @@ def verify(post: dict) -> list[str]:
 
     # 2. Field length & taxonomy constraints
     if len(title) > 95:
-        errors.append(f'title too long ({len(title)} chars, max 95)')
+        errors.append(f'title: too long ({len(title)} chars, max 95)')
 
     if len(excerpt) < 50:
-        errors.append(f'excerpt too short ({len(excerpt)} chars, min 50)')
+        errors.append(f'excerpt: too short ({len(excerpt)} chars, min 50)')
     elif len(excerpt) > 280:
-        errors.append(f'excerpt too long ({len(excerpt)} chars, max 280)')
+        errors.append(f'excerpt: too long ({len(excerpt)} chars, max 280)')
 
     if len(telegram) > 900:
         errors.append(f'telegram_too_long: {len(telegram)} chars (max 900)')
@@ -118,12 +118,32 @@ def verify(post: dict) -> list[str]:
     return errors
 
 
+ALLOWLISTED_ERROR_CODES = {
+    'missing_field',
+    'title',
+    'excerpt',
+    'telegram_too_long',
+    'invalid_tag',
+    'structure_check',
+    'source_check',
+    'slop_detected',
+    'cta_check',
+    'telegram_check',
+    'facebook_check',
+    'facebook_word_count',
+}
+
+
 def extract_error_codes(errors: list[str]) -> list[str]:
-    """Extract clean, static error codes from verification errors without interpolating draft text."""
+    """
+    Extract clean, static allowlisted error codes from verification errors.
+    Strictly drops any unknown strings, dynamic content, or model-generated payloads.
+    """
     codes = set()
     for err in errors:
-        code = err.split(':')[0].strip()
-        codes.add(code)
+        code = err.split(':', 1)[0].strip()
+        if code in ALLOWLISTED_ERROR_CODES:
+            codes.add(code)
     return sorted(codes)
 
 
