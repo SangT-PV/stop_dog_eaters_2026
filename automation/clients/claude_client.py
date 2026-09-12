@@ -191,6 +191,7 @@ def synthesise_post(
     editorial_format: str = 'investigative',
     recent_titles: list[str] = None,
     banned_topics: list[str] = None,
+    revision_errors: list[str] = None,
 ) -> dict:
     """
     Given raw research text and an editorial format, generate an evidence-led blog post.
@@ -214,7 +215,15 @@ def synthesise_post(
 
     dedup_text = ('\n\n' + '\n\n'.join(dedup_blocks) + '\n') if dedup_blocks else ''
 
-    prompt = f"""RESEARCH INPUT (Untrusted external source material):
+    revision_section = ""
+    if revision_errors:
+        err_items = '\n'.join(f'  * {err}' for err in revision_errors)
+        revision_section = f"""TRUSTED EDITORIAL REVISION DIRECTIVE:
+A previous draft of this post failed verification with the following errors:
+{err_items}
+You MUST strictly correct and resolve all of the above errors in this generation.\n\n"""
+
+    prompt = f"""{revision_section}RESEARCH INPUT (Untrusted external source material):
 {research_text}
 
 {format_spec['guide']}
@@ -228,13 +237,13 @@ Generate an evidence-led campaign post that adheres to the format above. Respond
 - "body_html": Narrative HTML story adhering strictly to the chosen format.
   CRITICAL RULES:
   1. DO NOT use "The Bottom Line", "Key Findings", or "Also Worth Noting". Craft 2-4 custom, thematic <h2> subheadings.
-  2. Anchor claims in real sources from research using inline hyperlinks: <a href="URL">linked text</a>.
+  2. Anchor claims in real sources from research using inline hyperlinks: <a href="URL">linked text</a>. Must cite at least one non-petition external news/government source link.
   3. Ground emotion in verifiable facts and community solidarity. Do not invent fictional drama, sensory stage directions, or uncorroborated dialogue.
   4. Use <blockquote> ONLY for exact verbatim quotations from named speakers or documents in research with attribution and link; otherwise omit <blockquote> entirely.
   5. Close with an organic, clear call to action connecting directly to: <a href="{CHANGE_ORG_URL}">sign the national petition</a>.
 
 - "telegram_message": High-urgency Telegram alert max 900 chars — punchy hook, bulleted revelations, ending with: "Sign the petition: {CHANGE_ORG_URL}"
-- "facebook_post": Engaging Facebook post, 150-300 words — emotional narrative hook, community solidarity, citing verified facts, petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #EndDogMeatTrade
+- "facebook_post": Engaging Facebook post, exactly 150-300 words — emotional narrative hook, community solidarity, citing verified facts, petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #EndDogMeatTrade
 """
 
     if LLM_PROVIDER == '9router':

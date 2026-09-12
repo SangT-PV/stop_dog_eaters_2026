@@ -169,6 +169,13 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
     today_file = config.INPUTS_DIR / f'{today_iso}.txt'
     research_text = ""
 
+    _TRACK_TO_ANGLE = {
+        'crime_theft': 'cruelty',
+        'public_health': 'health',
+        'policy_governance': 'regulation',
+        'community_youth': 'support',
+    }
+
     # Priority 0: Explicit track requested
     if requested_track:
         track_file = config.INPUTS_DIR / f'{today_iso}_{requested_track}.txt'
@@ -188,8 +195,16 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
             except Exception as e:
                 log.warning(f"Automated track research failed: {e}")
 
-    # Priority 1: Today's research already exists
-    if not research_text and today_file.exists():
+        # CRITICAL: If explicit track research is missing or failed, DO NOT fall back to generic
+        # or unrelated track caches! Fall back to a curated topic template matching that track.
+        if not research_text:
+            target_angle = _TRACK_TO_ANGLE.get(requested_track, 'cruelty')
+            matching = [text for angle, text in _TOPIC_TEMPLATES if angle == target_angle]
+            research_text = matching[0] if matching else _TOPIC_TEMPLATES[0][1]
+            log.info(f"Using track-specific topic template fallback for '{requested_track}'")
+
+    # Priority 1: Untracked / generic today's research already exists
+    if not research_text and not requested_track and today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
         if _is_valid_research(text):
             log.info(f"Using today's research: {today_file.name}")
@@ -197,8 +212,8 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
         else:
             log.warning(f"Today's research file {today_file.name} contains no valid sources (stub/corrupted) — ignoring.")
 
-    # Priority 2: Reuse recent research
-    if not research_text:
+    # Priority 2: Reuse recent generic research (untracked runs only)
+    if not research_text and not requested_track:
         latest = _find_latest_research()
         if latest and _research_is_fresh(latest):
             text = latest.read_text(encoding='utf-8').strip()
@@ -209,11 +224,11 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
             else:
                 log.warning(f"Recent research file {latest.name} contains no valid sources (stub/corrupted) — ignoring.")
 
-    # Priority 3: Run fresh automated research
-    if not research_text and (config.PERPLEXITY_ENABLED or config.MANUS_ENABLED):
+    # Priority 3: Run fresh automated generic research (untracked runs only)
+    if not research_text and not requested_track and (config.PERPLEXITY_ENABLED or config.MANUS_ENABLED):
         log.info('Research is stale or missing — running fresh Perplexity + Manus...')
         try:
-            saved_path = research_agent.run_and_save(track=requested_track)
+            saved_path = research_agent.run_and_save()
             if saved_path and today_file.exists():
                 text = today_file.read_text(encoding='utf-8').strip()
                 if _is_valid_research(text):
@@ -276,12 +291,12 @@ def generate(
         if remaining:
             log.warning(f'Issues remain after auto-fix: {remaining}. Retrying synthesis with feedback...')
             try:
-                feedback_note = f"\n\n[CRITICAL EDITORIAL REVISION REQUIRED: Previous draft failed verification checks: {', '.join(remaining)}. Resolve these cleanly in this revision.]"
                 post_data = claude_client.synthesise_post(
-                    research_text=research_text + feedback_note,
+                    research_text=research_text,
                     editorial_format=editorial_format,
                     recent_titles=recent_titles,
                     banned_topics=banned_topics,
+                    revision_errors=remaining,
                 )
                 post_data = content_verifier.auto_fix(post_data, content_verifier.verify(post_data))
                 remaining = content_verifier.verify(post_data)
@@ -413,9 +428,12 @@ if __name__ == '__main__':
         print('Facebook connection:', 'OK' if ok else 'FAILED')
         sys.exit(0 if ok else 1)
 
-    if cli_args.publish is not None or cli_args.date_pos is not None:
+    if cli_args.date_pos is not None and cli_args.publish is None:
+        parser.error(f"Positional date argument '{cli_args.date_pos}' requires --publish flag (e.g. 'pipeline.py --publish {cli_args.date_pos}')")
+
+    if cli_args.publish is not None:
         target_str = None
-        if cli_args.publish and cli_args.publish != '__today__':
+        if cli_args.publish != '__today__':
             target_str = cli_args.publish
         elif cli_args.date_pos:
             target_str = cli_args.date_pos

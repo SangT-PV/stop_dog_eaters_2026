@@ -1,3 +1,4 @@
+import re
 from config import CHANGE_ORG_URL
 
 # Core factual anchors — at least one verifiable anchor must be cited in the article
@@ -75,27 +76,44 @@ def verify(post: dict) -> list[str]:
     if tag and tag not in VALID_TAGS:
         errors.append(f"invalid_tag: '{tag}' not in approved taxonomy {sorted(VALID_TAGS)}")
 
-    # 3. Factual grounding: ensure at least one verifiable anchor fact/theme is cited
-    # (Excludes petition CTA terms so petition cannot act as a false grounding pass)
+    # 3. Heading structure: 2 to 4 custom thematic <h2> subheadings
+    h2_count = len(re.findall(r'<h2\b', body, re.IGNORECASE))
+    if h2_count < 2 or h2_count > 5:
+        errors.append(f'structure_check: body_html contains {h2_count} <h2> subheadings (expected 2-4)')
+
+    # 4. Evidentiary sourcing: require at least one non-petition external source hyperlink in body_html
+    all_links = re.findall(r'<a\s+(?:[^>]*?\s+)?href=["\']([^"\']+)["\']', body, re.IGNORECASE)
+    external_sources = [
+        link for link in all_links
+        if link != CHANGE_ORG_URL and 'change.org' not in link.lower() and (link.startswith('http://') or link.startswith('https://'))
+    ]
+    if not external_sources:
+        errors.append('source_check: article lacks non-petition external source hyperlinks (<a href="https://...">)')
+
+    # And ensure at least one recognized factual anchor keyword/theme is grounded
     editorial_text_lower = f"{title.lower()} {excerpt.lower()} {body.lower()}"
     if not any(fact in editorial_text_lower for fact in ANCHOR_FACTS):
         errors.append('source_check: article lacks recognized factual anchors or verifiable datasets')
 
-    # 4. AI Slop & National Shaming Check (Checked across EVERY public channel)
+    # 5. AI Slop & National Shaming Check (Checked across EVERY public channel)
     all_channels_text = f"{title.lower()} {excerpt.lower()} {body.lower()} {telegram.lower()} {fb.lower()}"
     for slop in SLOP_PATTERNS:
         if slop in all_channels_text:
             errors.append(f'slop_detected: content contains banned corporate cliché or formulaic phrase "{slop}"')
 
-    # 5. Petition Call to Action validation
-    if CHANGE_ORG_URL not in body and 'change.org' not in body.lower():
-        errors.append('cta_check: Change.org petition link missing from article body')
+    # 6. Petition Call to Action validation (Exact configured URL)
+    if CHANGE_ORG_URL not in body:
+        errors.append(f'cta_check: Exact Change.org petition link ({CHANGE_ORG_URL}) missing from article body')
 
     if telegram and CHANGE_ORG_URL not in telegram:
-        errors.append('telegram_check: Change.org link missing from Telegram message')
+        errors.append(f'telegram_check: Exact Change.org link ({CHANGE_ORG_URL}) missing from Telegram message')
 
-    if fb and CHANGE_ORG_URL not in fb and 'change.org' not in fb.lower():
-        errors.append('facebook_check: Change.org link missing from Facebook post')
+    if fb:
+        if CHANGE_ORG_URL not in fb:
+            errors.append(f'facebook_check: Exact Change.org link ({CHANGE_ORG_URL}) missing from Facebook post')
+        fb_words = len(re.findall(r'\b\w+\b', fb))
+        if fb_words < 120 or fb_words > 350:
+            errors.append(f'facebook_word_count: Facebook post has {fb_words} words (expected 150-300 words)')
 
     return errors
 
@@ -112,15 +130,14 @@ def auto_fix(post: dict, errors: list[str]) -> dict:
         truncated = title[:92].rsplit(' ', 1)[0] + '...'
         post['title'] = truncated
 
-    # Fix tag if slightly mismatched
+    # Fix tag casing ONLY if it matches an approved tag case-insensitively
     tag = str(post.get('tag') or '').strip()
     if tag not in VALID_TAGS:
         for valid in VALID_TAGS:
             if valid.lower() == tag.lower():
                 post['tag'] = valid
                 break
-        else:
-            post['tag'] = 'Campaign Updates'
+        # Unknown tags remain untouched so verification fails and triggers retry
 
     # Fix Telegram message missing petition link (safe mechanical append for social copy)
     telegram = str(post.get('telegram_message') or '').strip()

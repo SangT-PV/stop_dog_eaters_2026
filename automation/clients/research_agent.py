@@ -114,6 +114,8 @@ def assess_evidence(research_text: str) -> dict:
     """
     Analyze research text to evaluate breaking news strength and recommend editorial format.
     Prevents the LLM from fabricating breaking stories when search results are thin or negative.
+    Evaluates evidence at sentence/clause level with local negation windows to prevent both
+    false positives and global over-suppression.
     """
     if not research_text or len(research_text.strip()) < 200:
         return {
@@ -131,7 +133,7 @@ def assess_evidence(research_text: str) -> dict:
     import re
     text_lower = raw_text.lower()
 
-    # Negative retrieval markers (Perplexity explicitly stating lack of current events)
+    # Negative retrieval markers (search engine explicitly stating lack of current events)
     neg_markers = [
         'no clear september', 'no clear news items', 'no reliable vietnam news report',
         'insufficient to confirm', 'no confirmed national', 'did not confirm',
@@ -141,53 +143,64 @@ def assess_evidence(research_text: str) -> dict:
     ]
     negative_hits = sum(1 for m in neg_markers if m in text_lower)
 
-    # Detect explicit negations around crime/court keywords (e.g. "no court cases found", "without arrest")
-    has_negated_arrest = bool(re.search(
-        r'(?:no|without|zero|not|didn\'t|did not|chưa|không có)\s+(?:\w+\s+){0,3}(?:arrest|bắt|court|tòa|án tù|raid|seizure)',
-        text_lower
-    ))
-
-    # Positive factual markers: specific law enforcement actions, trials, or seizures
+    # Keywords for positive event classes
     arrest_keywords = [
         'bắt giữ', 'triệt phá', 'tòa án nhân dân', 'tòa án tuyên phạt', 'sentenced to', 'án tù',
         'công an bắt', 'seized 1.', 'police seized', 'court sentenced', 'police busted', 'chống người thi hành công vụ'
     ]
-    has_arrest = (
-        any(k in text_lower for k in arrest_keywords) or
-        ('arrest' in text_lower and not has_negated_arrest and any(c in text_lower for c in ['police', 'công an', 'suspect', 'charged', 'indicted'])) or
-        ('court' in text_lower and not has_negated_arrest and any(c in text_lower for c in ['verdict', 'trial', 'sentenced', 'prosecutor', 'phán quyết']))
-    )
-
-    # Positive health markers: active outbreaks, confirmed deaths, or CDC alerts
-    has_negated_rabies = bool(re.search(
-        r'(?:no|zero|prevent|free from|chưa có)\s+(?:\w+\s+){0,3}(?:rabies death|ổ dịch|tử vong)',
-        text_lower
-    ))
     rabies_keywords = [
         'rabies death', 'tử vong do dại', 'ổ dịch dại', 'positive for rabies',
         'bệnh nhân tử vong do dại', 'rabies outbreak', 'cụm dịch dại'
     ]
-    has_rabies_data = any(k in text_lower for k in rabies_keywords) and not has_negated_rabies
-
-    # Positive policy markers: official government decrees or binding municipal roadmaps
     policy_keywords = [
         'nghị định số', 'decree no', 'quy định xử phạt', 'holding facility ban',
         'lộ trình cấm thịt chó', 'ban roadmap'
     ]
-    has_policy_move = any(k in text_lower for k in policy_keywords)
+
+    has_arrest = False
+    has_rabies_data = False
+    has_policy_move = False
+
+    # Regex for local negation within a clause/sentence
+    negation_regex = re.compile(
+        r'\b(?:no|not|neither|nor|zero|without|insufficient|did not|didn\'t|cannot|never|'
+        r'chưa|không|không có|chưa có|chưa ghi nhận|bác bỏ|phủ nhận|chưa ban hành)\b',
+        re.IGNORECASE
+    )
+
+    # Split into clauses / sentences by punctuation and newlines
+    clauses = re.split(r'[\.\n\r;\?!]+', text_lower)
+    for clause in clauses:
+        clause = clause.strip()
+        if not clause:
+            continue
+
+        is_clause_negated = bool(negation_regex.search(clause))
+
+        # Only count positive event evidence if the specific clause is NOT negated
+        if not is_clause_negated:
+            if any(k in clause for k in arrest_keywords):
+                has_arrest = True
+            elif 'arrest' in clause and any(c in clause for c in ['police', 'công an', 'suspect', 'charged', 'indicted']):
+                has_arrest = True
+            elif 'court' in clause and any(c in clause for c in ['verdict', 'trial', 'sentenced', 'prosecutor', 'phán quyết']):
+                has_arrest = True
+
+            if any(k in clause for k in rabies_keywords):
+                has_rabies_data = True
+
+            if any(k in clause for k in policy_keywords):
+                has_policy_move = True
 
     # Determine breaking evidence viability: require positive signals with minimal negative signals
     has_breaking = (has_arrest or has_rabies_data or has_policy_move) and (negative_hits <= 1)
 
     # Choose best fitting editorial format based on actual evidence confidence
     if not has_breaking:
-        # Thin/no fresh breaking news -> pivot to Evergreen Mythbuster or Community
         recommended = 'mythbuster'
     elif has_rabies_data:
         recommended = 'public_health'
-    elif has_arrest:
-        recommended = 'investigative'
-    elif has_policy_move:
+    elif has_arrest or has_policy_move:
         recommended = 'investigative'
     else:
         recommended = 'community'
@@ -511,7 +524,8 @@ def save_research(content: str, target_date: date = None, track: str = None) -> 
     """
     Save research content to inputs directory.
     Rejects empty content to prevent corrupted placeholder stubs.
-    If track is specified, also writes to YYYY-MM-DD_<track>.txt for cache isolation.
+    Strict cache isolation: If track is specified, writes ONLY to YYYY-MM-DD_<track>.txt.
+    Untracked generic research writes ONLY to YYYY-MM-DD.txt.
     """
     if not content or not content.strip():
         log.warning("Empty research content provided; skipping save to prevent empty stub.")
@@ -524,11 +538,11 @@ def save_research(content: str, target_date: date = None, track: str = None) -> 
         track_path = INPUTS_DIR / f"{target.isoformat()}_{track}.txt"
         track_path.write_text(content, encoding='utf-8')
         log.info(f"Track research saved to: {track_path}")
+        return str(track_path)
 
     filepath = INPUTS_DIR / f"{target.isoformat()}.txt"
     filepath.write_text(content, encoding='utf-8')
-
-    log.info(f"Research saved to: {filepath}")
+    log.info(f"Generic research saved to: {filepath}")
     return str(filepath)
 
 
