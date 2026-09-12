@@ -93,14 +93,32 @@ def _get_today_angle() -> str:
     return angles[date.today().toordinal() % len(angles)]
 
 
-def _get_recent_titles(n: int = 5) -> list[str]:
-    """Load recent post titles from index.json to avoid duplicates."""
+def _get_corpus_context(n: int = 40) -> tuple[list[str], list[str]]:
+    """
+    Extract up to n recent titles and identify saturated topics/cases
+    to prevent recurring headlines and narrative burnout across the corpus.
+    """
     index_path = Path(__file__).parent.parent / 'website' / 'data' / 'index.json'
+    recent_titles = []
+    banned_topics = []
     try:
         posts = json.loads(index_path.read_text(encoding='utf-8'))
-        return [p['title'] for p in posts[:n]]
-    except Exception:
-        return []
+        recent_titles = [p['title'] for p in posts[:n]]
+
+        # Scan recent titles for heavily recurring entities/locations to actively avoid
+        recent_10_str = ' '.join(recent_titles[:10]).lower()
+        if 'tây ninh' in recent_10_str or 'tay ninh' in recent_10_str:
+            banned_topics.append("Tây Ninh dog theft court case (already covered in recent articles)")
+        if 'đắk lắk' in recent_10_str or 'dak lak' in recent_10_str:
+            banned_topics.append("Đắk Lắk rabies bite case (already covered in recent articles)")
+        if 'đà lạt' in recent_10_str or 'da lat' in recent_10_str:
+            banned_topics.append("Đà Lạt tourist square animal beating fine (already covered in recent articles)")
+        if 'đà nẵng' in recent_10_str or 'da nang' in recent_10_str:
+            banned_topics.append("Đà Nẵng municipal holding facility (already covered in recent articles)")
+    except Exception as e:
+        log.warning(f"Failed reading corpus context from index.json: {e}")
+
+    return recent_titles, banned_topics
 
 
 _RESEARCH_INTERVAL_DAYS = 3  # Run fresh research every N days; reuse on other days
@@ -134,41 +152,43 @@ def _is_valid_research(text: str) -> bool:
     ])
 
 
-def _get_research_input() -> tuple[str, str]:
+def _get_research_input(requested_track: str = None, requested_format: str = None) -> tuple[str, str, dict]:
     """
-    Returns (research_text, angle).
+    Returns (research_text, editorial_format, assessment).
     Strategy:
       1. Today's file exists and has valid sources → use it
       2. Recent file (< 3 days old) exists and has valid sources → reuse it
       3. No recent file → run fresh Perplexity + Manus research
       4. All else fails → fallback to rotating topic templates
+    Runs evidence assessment to choose the optimal editorial format unless explicitly requested.
     """
     config.INPUTS_DIR.mkdir(parents=True, exist_ok=True)
     today_file = config.INPUTS_DIR / f'{date.today().isoformat()}.txt'
-    angle = _get_today_angle()
+    research_text = ""
 
     # Priority 1: Today's research already exists
     if today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
         if _is_valid_research(text):
             log.info(f"Using today's research: {today_file.name}")
-            return text, angle
+            research_text = text
         else:
             log.warning(f"Today's research file {today_file.name} contains no valid sources (stub/corrupted) — ignoring.")
 
-    # Priority 2: Reuse recent research (Claude varies via angle rotation + dedup)
-    latest = _find_latest_research()
-    if latest and _research_is_fresh(latest):
-        text = latest.read_text(encoding='utf-8').strip()
-        if _is_valid_research(text):
-            age = (date.today() - date.fromisoformat(latest.stem)).days
-            log.info(f'Reusing recent research: {latest.name} ({age}d old, angle: {angle})')
-            return text, angle
-        else:
-            log.warning(f"Recent research file {latest.name} contains no valid sources (stub/corrupted) — ignoring.")
+    # Priority 2: Reuse recent research
+    if not research_text:
+        latest = _find_latest_research()
+        if latest and _research_is_fresh(latest):
+            text = latest.read_text(encoding='utf-8').strip()
+            if _is_valid_research(text):
+                age = (date.today() - date.fromisoformat(latest.stem)).days
+                log.info(f'Reusing recent research: {latest.name} ({age}d old)')
+                research_text = text
+            else:
+                log.warning(f"Recent research file {latest.name} contains no valid sources (stub/corrupted) — ignoring.")
 
     # Priority 3: Run fresh automated research
-    if config.PERPLEXITY_ENABLED or config.MANUS_ENABLED:
+    if not research_text and (config.PERPLEXITY_ENABLED or config.MANUS_ENABLED):
         log.info('Research is stale or missing — running fresh Perplexity + Manus...')
         try:
             saved_path = research_agent.run_and_save()
@@ -176,36 +196,49 @@ def _get_research_input() -> tuple[str, str]:
                 text = today_file.read_text(encoding='utf-8').strip()
                 if _is_valid_research(text):
                     log.info(f'Fresh research complete: {today_file.name}')
-                    return text, angle
+                    research_text = text
         except Exception as e:
             log.warning(f'Automated research failed: {e}')
-            # Fall through to reuse stale research or templates
-            if latest:
-                text = latest.read_text(encoding='utf-8').strip()
-                if _is_valid_research(text):
-                    log.info(f'Falling back to stale research: {latest.name}')
-                    return text, angle
 
     # Priority 4: Fallback to rotating topic templates
-    idx = date.today().toordinal() % len(_TOPIC_TEMPLATES)
-    angle, text = _TOPIC_TEMPLATES[idx]
-    log.info(f'Using topic template #{idx} (angle: {angle})')
-    return text, angle
+    if not research_text:
+        idx = date.today().toordinal() % len(_TOPIC_TEMPLATES)
+        _, research_text = _TOPIC_TEMPLATES[idx]
+        log.info(f'Using topic template #{idx}')
+
+    # Run evidence assessment gate
+    assessment = research_agent.assess_evidence(research_text)
+    editorial_format = requested_format or assessment.get('recommended_format', 'investigative')
+    log.info(f"Evidence Gate: breaking_evidence={assessment.get('has_breaking_evidence')}, format={editorial_format}")
+
+    return research_text, editorial_format, assessment
 
 
-def generate(dry_run: bool = False) -> None:
+def generate(
+    dry_run: bool = False,
+    requested_format: str = None,
+    requested_track: str = None,
+) -> None:
     """Stage 1: research → synthesise → verify → save preview locally."""
     log.info('=== SDE Pipeline: GENERATE ===')
 
-    research_text, angle = _get_research_input()
+    research_text, editorial_format, assessment = _get_research_input(
+        requested_track=requested_track,
+        requested_format=requested_format,
+    )
 
-    recent_titles = _get_recent_titles()
-    log.info(f'Calling Claude (angle: {angle}, dedup: {len(recent_titles)} recent titles) ...')
+    recent_titles, banned_topics = _get_corpus_context(n=40)
+    log.info(f'Synthesising post (format: {editorial_format}, dedup: {len(recent_titles)} titles, {len(banned_topics)} banned topics) ...')
     try:
-        post_data = claude_client.synthesise_post(research_text, angle, recent_titles)
+        post_data = claude_client.synthesise_post(
+            research_text=research_text,
+            editorial_format=editorial_format,
+            recent_titles=recent_titles,
+            banned_topics=banned_topics,
+        )
     except Exception as e:
-        log.error(f'Claude synthesis failed: {e}')
-        telegram_client.send_alert('Stage 1: Generate (Claude)', str(e))
+        log.error(f'Synthesis failed: {e}')
+        telegram_client.send_alert('Stage 1: Generate (Synthesis)', str(e))
         raise
 
     title = post_data.get('title', '???')
@@ -329,8 +362,24 @@ if __name__ == '__main__':
 
     if '--publish' in args:
         # Optional date argument: --publish 2026-03-22
-        date_arg = next((a for a in args if a != '--publish'), None)
+        date_arg = next((a for a in args if not a.startswith('--')), None)
         target_date = date.fromisoformat(date_arg) if date_arg else date.today()
         publish(for_date=target_date)
     else:
-        generate(dry_run='--dry-run' in args)
+        req_fmt = None
+        if '--format' in args:
+            f_idx = args.index('--format')
+            if f_idx + 1 < len(args):
+                req_fmt = args[f_idx + 1]
+
+        req_track = None
+        if '--track' in args:
+            t_idx = args.index('--track')
+            if t_idx + 1 < len(args):
+                req_track = args[t_idx + 1]
+
+        generate(
+            dry_run='--dry-run' in args,
+            requested_format=req_fmt,
+            requested_track=req_track,
+        )

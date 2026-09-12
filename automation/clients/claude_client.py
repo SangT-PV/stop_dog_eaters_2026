@@ -28,33 +28,73 @@ def _get_bedrock_client():
         )
     return _bedrock_client
 
-_SYSTEM_PROMPT = f"""Act as an AI Creative Director for Stop Dog Eaters (SDE).
-Brand Voice: Educational, Sensitive, Data-Driven.
-Key Facts:
-- 5 million dogs killed annually in Vietnam
-- 95% of Vietnamese (2021 survey) support ending the trade
-- Zero registered slaughterhouses — completely unregulated supply chain
-- Health risks: rabies transmission, E. coli, and Salmonella
-Mascot: Lucky (Vietnamese Ta dog, 9 years old, beloved family companion).
-Tone Rules:
-- Never sensationalise cruelty for shock value
-- Lead with empathy, close with data
-- Use active, direct language; avoid passive constructions
-- Always frame as locally led — 95% of Vietnamese support this change
-- Public safety angle is as valid as animal welfare angle
-Change.org petition: {CHANGE_ORG_URL}"""
+_SYSTEM_PROMPT = f"""Act as the Lead Investigative Campaign Writer for Stop Dog Eaters (SDE).
+Mission: Expose the reality of Vietnam's illicit dog meat trade, honor the bond between Vietnamese families and their companion animals, and mobilize the public to demand permanent reform and enforcement.
+
+CORE EDITORIAL PRINCIPLES (Evidence-Led Storytelling):
+1. EVIDENCE SELECTS STORY: Anchor reporting in verified facts, specific locations (communes/provinces), named court proceedings, or health statistics.
+2. STORY EARNS EMOTION: Never invent fictional drama, imaginary dialogue, or unverified raid times. Let the reality of violent pet theft gangs, disease threats, and broken trust provoke righteous moral clarity.
+3. SOLIDARITY, NEVER SHAMING: Always center Vietnamese leadership and solidarity. 95% of Vietnamese citizens reject the trade. Never use xenophobic or national-shaming language ("Vietnam's shame"). Frame this as Vietnamese communities defending their families against a criminal black-market syndicate.
+4. BAN AI SLOP & CORPORATE CLICHÉS:
+   - STRICTLY FORBIDDEN: "The Bottom Line", "Key Findings", "Also Worth Noting", "In conclusion", "serves as a stark reminder", "it is important to note", "a testament to", "delve into", "multifaceted", "crucial step forward".
+   - Never write a sterile executive summary or clinical NGO bulletin. Write with gripping narrative cadence, strong verbs, and varied paragraph lengths.
+5. READER MOBILIZATION:
+   - Provide an honest, clear call to action connecting directly to the national petition: {CHANGE_ORG_URL}"""
 
 _VALID_TAGS = {
     'Public Health', 'Pet Theft', 'Regulation',
     'Public Support', "Lucky's Story", 'Campaign Updates'
 }
 
+_FORMAT_SPECS = {
+    'investigative': {
+        'default_tag': 'Pet Theft',
+        'guide': """FORMAT: THE INVESTIGATIVE DISPATCH
+Focus: Court records, police busts, criminal syndicate mechanics, and the legal void.
+HTML Narrative Structure (DO NOT use "The Bottom Line" or "Key Findings"):
+- Opening Scene & Discovery: Ground immediately in a specific seizure, court verdict, or supply-chain investigation.
+- The Syndicate Mechanics: Unmask how the illicit network operates (capture, transport across provinces, black-market resale).
+- The Regulatory Void & Health Threat: Cite the absence of registered slaughterhouses, rabies hazards, and lack of oversight.
+- The 95% Mandate & Call for Accountability: Highlight public rejection and direct readers to sign the petition.""",
+    },
+    'community': {
+        'default_tag': 'Public Support',
+        'guide': """FORMAT: THE COMMUNITY SPOTLIGHT & PERSONAL NARRATIVE
+Focus: Vietnamese companion animals (including Ta dogs like Lucky), youth advocacy, and family solidarity.
+HTML Narrative Structure (DO NOT use "The Bottom Line" or "Key Findings"):
+- The Hearth & The Companion: Celebrate the deep bond between Vietnamese families, youth, and their loyal pets.
+- The Shadow of Theft: Address the trauma inflicted on neighborhoods by organized dog thieves and stolen family members.
+- The Youth Movement & Cultural Shift: Showcase the modern generation and 95% majority actively rejecting cruelty.
+- Defending Our Communities: Mobilize readers to support local rescues, report theft, and sign the petition.""",
+    },
+    'mythbuster': {
+        'default_tag': 'Regulation',
+        'guide': """FORMAT: THE FACT-CHECK & MYTHBUSTER
+Focus: Directly dismantling common trade justifications with hard facts and legal realities.
+HTML Narrative Structure (DO NOT use "The Bottom Line" or "Key Findings"):
+- The Myth Confronted: State a common defense ("It's harmless tradition", "Animals are farm-raised", "It's regulated").
+- The Hard Evidence: Dismantle the myth using verified data (100% unregulated supply chain, violent pet theft, poison darts).
+- The Public Cost: Highlight disease transmission, food safety roulette, and community damage.
+- A Modern Vietnam: Contrast outdated trade excuses with the 95% public consensus; call to sign the petition.""",
+    },
+    'public_health': {
+        'default_tag': 'Public Health',
+        'guide': """FORMAT: PUBLIC HEALTH ALERT & BIO-SECURITY
+Focus: Rabies outbreaks, zoonotic hazards, uninspected slaughter, and food-safety emergencies.
+HTML Narrative Structure (DO NOT use "The Bottom Line" or "Key Findings"):
+- The Health Alert: Lead with active rabies outbreak clusters, hospital bite cases, or CDC food-safety notices.
+- The Epidemiological Blindspot: Explain how uninspected transport and black-market slaughter spread deadly pathogens.
+- Protecting the Public: Highlight the risk to veterinary workers, consumers, and children from unquarantined animals.
+- Ending the Hazard: Connect biosecurity to the 2030 roadmap and the national petition for a total trade shutdown.""",
+    },
+}
 
-_ANGLE_GUIDANCE = {
-    'health': 'Focus on PUBLIC HEALTH: rabies data, food safety violations, disease outbreaks, WHO reports. Tag: Public Health.',
-    'cruelty': 'Focus on PET THEFT & CRUELTY: stolen pets, transport conditions, family impact, rescue stories. Tag: Pet Theft.',
-    'regulation': 'Focus on REGULATION GAPS: zero slaughterhouses, enforcement failures, legal reform efforts, international comparisons. Tag: Regulation.',
-    'support': 'Focus on PUBLIC SUPPORT: the 95% survey, cultural shift, youth attitudes, local advocacy movements, community voices. Tag: Public Support.',
+_ANGLE_TO_FORMAT = {
+    'health': 'public_health',
+    'cruelty': 'investigative',
+    'regulation': 'mythbuster',
+    'support': 'community',
+    'lucky': 'community',
 }
 
 
@@ -145,81 +185,55 @@ def _synthesise_bedrock(prompt: str) -> dict:
             log.warning(f'JSON parse failed on Bedrock attempt {attempt + 1}: {e}')
 
 
-def synthesise_post(research_text: str, angle: str, recent_titles: list[str] = None) -> dict:
+def synthesise_post(
+    research_text: str,
+    editorial_format: str = 'investigative',
+    recent_titles: list[str] = None,
+    banned_topics: list[str] = None,
+) -> dict:
     """
-    Given raw research text and an angle, generate a blog post.
+    Given raw research text and an editorial format, generate an evidence-led blog post.
     Uses 9Router cx/gpt-5.6-luna by default with seamless fallback to AWS Bedrock.
 
     Returns a dict with keys:
       title, tag, excerpt, body_html, telegram_message, facebook_post
     """
-    dedup_block = ''
-    if recent_titles:
-        titles_list = '\n'.join(f'  - {t}' for t in recent_titles)
-        dedup_block = f'\n\nRECENT POSTS (DO NOT repeat these titles or angles — find a FRESH angle):\n{titles_list}\n'
+    # Map legacy angle strings to new editorial formats if needed
+    fmt_key = _ANGLE_TO_FORMAT.get(editorial_format, editorial_format)
+    format_spec = _FORMAT_SPECS.get(fmt_key, _FORMAT_SPECS['investigative'])
 
-    angle_instruction = _ANGLE_GUIDANCE.get(angle, _ANGLE_GUIDANCE['health'])
+    dedup_blocks = []
+    if recent_titles:
+        titles_list = '\n'.join(f'  - {t}' for t in recent_titles[:25])
+        dedup_blocks.append(f"RECENT HEADLINES (DO NOT repeat these titles or copy their specific angles):\n{titles_list}")
+
+    if banned_topics:
+        topics_list = '\n'.join(f'  - {topic}' for topic in banned_topics)
+        dedup_blocks.append(f"BANNED / SATURATED TOPICS (Find an uncovered angle or distinct perspective):\n{topics_list}")
+
+    dedup_text = ('\n\n' + '\n\n'.join(dedup_blocks) + '\n') if dedup_blocks else ''
 
     prompt = f"""RESEARCH INPUT:
 {research_text}
 
-CONTENT ANGLE: {angle}
-{angle_instruction}
-{dedup_block}
+{format_spec['guide']}
+{dedup_text}
+Generate an evidence-led campaign post that adheres to the format above. Respond with ONLY a valid JSON object (no markdown fences) with exactly these fields:
 
-Generate a STRUCTURED blog post with newsletter-style formatting and source citations. Respond with ONLY a valid JSON object (no markdown fences) with exactly these fields:
+- "title": gripping, factual headline under 90 characters (no clickbait, no vague clichés)
+- "tag": exactly one of: Public Health | Pet Theft | Regulation | Public Support | Lucky's Story | Campaign Updates (recommended: {format_spec['default_tag']})
+- "excerpt": 2-3 sentence hook, 80-220 characters total
 
-- "title": compelling, factual headline under 90 characters
-- "tag": exactly one of: Public Health | Pet Theft | Regulation | Public Support | Lucky's Story | Campaign Updates
-- "excerpt": 2-3 sentence summary, 80-200 characters total
+- "body_html": Narrative HTML story adhering strictly to the chosen format.
+  CRITICAL RULES:
+  1. DO NOT use "The Bottom Line", "Key Findings", or "Also Worth Noting". Use custom, thematic <h2> subheadings.
+  2. Anchor claims in real sources from research using inline hyperlinks: <a href="URL">linked text</a>.
+  3. Ground emotion in verifiable facts and community solidarity. Do not invent fictional drama or uncorroborated dialogue.
+  4. Use <blockquote> for powerful quotes or key moral contrasts.
+  5. Close with a clear, compelling call to action linking to: <a href="{CHANGE_ORG_URL}">sign the national petition</a>.
 
-- "body_html": Use this EXACT structure with proper HTML formatting:
-
-<h2>The Bottom Line</h2>
-<p>[Single executive summary paragraph tying together the main thesis - health crisis, public support, government action. Make it punchy and compelling. 2-3 sentences max.]</p>
-
-<hr>
-
-<h2>Key Findings</h2>
-
-<h3><a href="[URL]">[Compelling Headline for Finding #1]</a></h3>
-<p>[Deep analysis paragraph 1 with inline citations using <a href="URL">linked text</a>. Include specific numbers, dates, sources.]</p>
-<p>[Optional second paragraph if needed for this finding]</p>
-
-<h3><a href="[URL]">[Compelling Headline for Finding #2]</a></h3>
-<p>[Deep analysis paragraph with citations]</p>
-
-<h3><a href="[URL]">[Compelling Headline for Finding #3]</a></h3>
-<p>[Deep analysis paragraph with citations. Must mention 95% support stat here or in Finding #1]</p>
-
-[Optional: Add 1-2 more Key Findings if research supports it]
-
-<hr>
-
-<h2>Also Worth Noting</h2>
-<ul>
-<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
-<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
-<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
-<li><strong><a href="[URL]">[Short headline]</a></strong> — One sentence insight with context.</li>
-</ul>
-
-<hr>
-
-<p><strong>Take Action:</strong> <a href="{CHANGE_ORG_URL}">Sign the petition</a> to support Vietnam's roadmap toward eliminating the dog meat trade by 2030.</p>
-
-CRITICAL FORMATTING RULES:
-1. Extract 3-5 KEY FINDINGS from research - these are the main stories with deep analysis
-2. Each Key Finding gets a bold headline linked to its primary source
-3. Key Findings have 1-2 full analysis paragraphs each
-4. "Also Worth Noting" section has 4-6 supporting facts in bullet format
-5. ALL headlines and stats must link to actual source URLs from research
-6. Use <h2> for section headers, <h3> for Key Finding headlines
-7. Use <hr> for visual breaks between sections
-8. Body must have minimum 8-10 hyperlinked citations total
-
-- "telegram_message": Telegram post max 900 chars — headline, 2-3 bullet points starting with •, end with: "Sign the petition: {CHANGE_ORG_URL}" (note: blog post URL will be added automatically during publishing)
-- "facebook_post": Facebook Page post, 150-300 words — hook opening sentence, 2-3 short paragraphs, must cite 95% local support stat, close with petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #DogMeatTrade etc. (note: blog post URL will be added automatically during publishing)
+- "telegram_message": High-urgency Telegram alert max 900 chars — punchy hook, bulleted revelations, ending with: "Sign the petition: {CHANGE_ORG_URL}"
+- "facebook_post": Engaging Facebook post, 150-300 words — emotional narrative hook, community solidarity, citing verified facts, petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #EndDogMeatTrade
 """
 
     if LLM_PROVIDER == '9router':
@@ -234,3 +248,4 @@ CRITICAL FORMATTING RULES:
                 raise be from e
     else:
         return _synthesise_bedrock(prompt)
+
