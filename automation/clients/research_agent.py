@@ -168,8 +168,10 @@ def assess_evidence(research_text: str) -> dict:
         re.IGNORECASE
     )
 
-    # Split into clauses / sentences by punctuation and newlines
-    clauses = re.split(r'[\.\n\r;\?!]+', text_lower)
+    # Split into clauses by punctuation, colons, dashes, and contrast conjunctions (but, however, nhưng, tuy nhiên)
+    split_pattern = r'(?:[\.\n\r;\?!—–]+|,\s*(?:but|however|nhưng|tuy nhiên|mặc dù|song)\b|\b(?:but|however|nhưng|tuy nhiên|mặc dù|song)\b)'
+    clauses = re.split(split_pattern, text_lower)
+
     for clause in clauses:
         clause = clause.strip()
         if not clause:
@@ -192,8 +194,8 @@ def assess_evidence(research_text: str) -> dict:
             if any(k in clause for k in policy_keywords):
                 has_policy_move = True
 
-    # Determine breaking evidence viability: require positive signals with minimal negative signals
-    has_breaking = (has_arrest or has_rabies_data or has_policy_move) and (negative_hits <= 1)
+    # Confirmed positive event evidence takes precedence and is not vetoed by generic negative search snippets elsewhere
+    has_breaking = bool(has_arrest or has_rabies_data or has_policy_move)
 
     # Choose best fitting editorial format based on actual evidence confidence
     if not has_breaking:

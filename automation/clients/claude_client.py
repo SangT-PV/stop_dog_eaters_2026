@@ -186,6 +186,22 @@ def _synthesise_bedrock(prompt: str) -> dict:
             log.warning(f'JSON parse failed on Bedrock attempt {attempt + 1}: {e}')
 
 
+_STATIC_REVISION_DIRECTIVES = {
+    'missing_field': 'Ensure all required fields (title, excerpt, body_html, tag, telegram_message, facebook_post) are non-empty.',
+    'title': 'Ensure the title is concise, factual, and strictly under 90 characters.',
+    'excerpt': 'Ensure the excerpt is a compelling 2-3 sentence hook between 80 and 220 characters.',
+    'telegram_too_long': 'Ensure the telegram_message is strictly 900 characters or fewer.',
+    'invalid_tag': 'Ensure the tag is exactly one of: Public Health, Pet Theft, Regulation, Public Support, Lucky\'s Story, or Campaign Updates.',
+    'structure_check': 'Ensure the body_html contains between 2 and 4 <h2> subheadings.',
+    'source_check': 'Ensure the body_html contains at least one non-petition external source hyperlink (<a href="https://...">) citing verified news, court records, or government data.',
+    'slop_detected': 'Remove all banned corporate clichés, generic scaffold headers ("The Bottom Line", "Key Findings"), and national-shaming language ("Vietnam\'s shame").',
+    'cta_check': f'Ensure the body_html contains the exact Change.org petition link ({CHANGE_ORG_URL}).',
+    'telegram_check': f'Ensure the telegram_message includes the exact Change.org petition link ({CHANGE_ORG_URL}).',
+    'facebook_check': f'Ensure the facebook_post includes the exact Change.org petition link ({CHANGE_ORG_URL}).',
+    'facebook_word_count': 'Ensure the facebook_post is strictly between 150 and 300 words in length.',
+}
+
+
 def synthesise_post(
     research_text: str,
     editorial_format: str = 'investigative',
@@ -217,11 +233,18 @@ def synthesise_post(
 
     revision_section = ""
     if revision_errors:
-        err_items = '\n'.join(f'  * {err}' for err in revision_errors)
+        directives = []
+        for err in revision_errors:
+            code = err.split(':')[0].strip()
+            directive = _STATIC_REVISION_DIRECTIVES.get(
+                code,
+                f"Ensure the post strictly satisfies quality standards for {code}."
+            )
+            directives.append(f"  * [{code}] {directive}")
+        directives_text = '\n'.join(directives)
         revision_section = f"""TRUSTED EDITORIAL REVISION DIRECTIVE:
-A previous draft of this post failed verification with the following errors:
-{err_items}
-You MUST strictly correct and resolve all of the above errors in this generation.\n\n"""
+A previous draft of this post failed automated verification. You MUST strictly adhere to the following trusted instructions:
+{directives_text}\n\n"""
 
     prompt = f"""{revision_section}RESEARCH INPUT (Untrusted external source material):
 {research_text}

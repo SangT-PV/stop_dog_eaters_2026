@@ -78,7 +78,7 @@ def verify(post: dict) -> list[str]:
 
     # 3. Heading structure: 2 to 4 custom thematic <h2> subheadings
     h2_count = len(re.findall(r'<h2\b', body, re.IGNORECASE))
-    if h2_count < 2 or h2_count > 5:
+    if h2_count < 2 or h2_count > 4:
         errors.append(f'structure_check: body_html contains {h2_count} <h2> subheadings (expected 2-4)')
 
     # 4. Evidentiary sourcing: require at least one non-petition external source hyperlink in body_html
@@ -112,10 +112,19 @@ def verify(post: dict) -> list[str]:
         if CHANGE_ORG_URL not in fb:
             errors.append(f'facebook_check: Exact Change.org link ({CHANGE_ORG_URL}) missing from Facebook post')
         fb_words = len(re.findall(r'\b\w+\b', fb))
-        if fb_words < 120 or fb_words > 350:
+        if fb_words < 150 or fb_words > 300:
             errors.append(f'facebook_word_count: Facebook post has {fb_words} words (expected 150-300 words)')
 
     return errors
+
+
+def extract_error_codes(errors: list[str]) -> list[str]:
+    """Extract clean, static error codes from verification errors without interpolating draft text."""
+    codes = set()
+    for err in errors:
+        code = err.split(':')[0].strip()
+        codes.add(code)
+    return sorted(codes)
 
 
 def auto_fix(post: dict, errors: list[str]) -> dict:
