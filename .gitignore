@@ -23,6 +23,7 @@ node_modules/
 # Claude Code internals
 .claude/settings.local.json
 .claude/worktrees/
+.worktrees/
 .playwright-mcp/
 .swarm/
 
