@@ -157,17 +157,39 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
     Returns (research_text, editorial_format, assessment).
     Strategy:
       1. Today's file exists and has valid sources → use it
-      2. Recent file (< 3 days old) exists and has valid sources → reuse it
-      3. No recent file → run fresh Perplexity + Manus research
-      4. All else fails → fallback to rotating topic templates
+      1. Explicit requested_track provided → load YYYY-MM-DD_<track>.txt or run fresh for track
+      2. Today's research file exists and has valid sources → reuse it
+      3. Recent file (< 3 days old) exists and has valid sources → reuse it
+      4. No recent file → run fresh Perplexity + Manus research
+      5. All else fails → fallback to rotating topic templates
     Runs evidence assessment to choose the optimal editorial format unless explicitly requested.
     """
     config.INPUTS_DIR.mkdir(parents=True, exist_ok=True)
-    today_file = config.INPUTS_DIR / f'{date.today().isoformat()}.txt'
+    today_iso = date.today().isoformat()
+    today_file = config.INPUTS_DIR / f'{today_iso}.txt'
     research_text = ""
 
+    # Priority 0: Explicit track requested
+    if requested_track:
+        track_file = config.INPUTS_DIR / f'{today_iso}_{requested_track}.txt'
+        if track_file.exists():
+            text = track_file.read_text(encoding='utf-8').strip()
+            if _is_valid_research(text):
+                log.info(f"Using cached track research: {track_file.name}")
+                research_text = text
+        if not research_text and (config.PERPLEXITY_ENABLED or config.MANUS_ENABLED):
+            log.info(f"Running fresh automated research for requested track '{requested_track}'...")
+            try:
+                saved_path = research_agent.run_and_save(track=requested_track)
+                if saved_path and Path(saved_path).exists():
+                    text = Path(saved_path).read_text(encoding='utf-8').strip()
+                    if _is_valid_research(text):
+                        research_text = text
+            except Exception as e:
+                log.warning(f"Automated track research failed: {e}")
+
     # Priority 1: Today's research already exists
-    if today_file.exists():
+    if not research_text and today_file.exists():
         text = today_file.read_text(encoding='utf-8').strip()
         if _is_valid_research(text):
             log.info(f"Using today's research: {today_file.name}")
@@ -181,7 +203,7 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
         if latest and _research_is_fresh(latest):
             text = latest.read_text(encoding='utf-8').strip()
             if _is_valid_research(text):
-                age = (date.today() - date.fromisoformat(latest.stem)).days
+                age = (date.today() - date.fromisoformat(latest.stem.split('_')[0])).days
                 log.info(f'Reusing recent research: {latest.name} ({age}d old)')
                 research_text = text
             else:
@@ -191,7 +213,7 @@ def _get_research_input(requested_track: str = None, requested_format: str = Non
     if not research_text and (config.PERPLEXITY_ENABLED or config.MANUS_ENABLED):
         log.info('Research is stale or missing — running fresh Perplexity + Manus...')
         try:
-            saved_path = research_agent.run_and_save()
+            saved_path = research_agent.run_and_save(track=requested_track)
             if saved_path and today_file.exists():
                 text = today_file.read_text(encoding='utf-8').strip()
                 if _is_valid_research(text):
@@ -252,9 +274,24 @@ def generate(
         log.info('Auto-fix applied. Re-verifying ...')
         remaining = content_verifier.verify(post_data)
         if remaining:
-            log.error(f'Post still has issues after auto-fix: {remaining}')
-            telegram_client.send_alert('Stage 1: Generate (Verification)', f'Issues: {remaining}')
-            raise ValueError(f'Content verification failed: {remaining}')
+            log.warning(f'Issues remain after auto-fix: {remaining}. Retrying synthesis with feedback...')
+            try:
+                feedback_note = f"\n\n[CRITICAL EDITORIAL REVISION REQUIRED: Previous draft failed verification checks: {', '.join(remaining)}. Resolve these cleanly in this revision.]"
+                post_data = claude_client.synthesise_post(
+                    research_text=research_text + feedback_note,
+                    editorial_format=editorial_format,
+                    recent_titles=recent_titles,
+                    banned_topics=banned_topics,
+                )
+                post_data = content_verifier.auto_fix(post_data, content_verifier.verify(post_data))
+                remaining = content_verifier.verify(post_data)
+            except Exception as e:
+                log.warning(f'Synthesis retry failed: {e}')
+
+            if remaining:
+                log.error(f'Post still has issues after retry and auto-fix: {remaining}')
+                telegram_client.send_alert('Stage 1: Generate (Verification)', f'Issues: {remaining}')
+                raise ValueError(f'Content verification failed: {remaining}')
 
     log.info('Source Check passed.')
 
@@ -331,28 +368,44 @@ def publish(for_date: date = None) -> None:
 
 
 if __name__ == '__main__':
-    args = sys.argv[1:]
+    import argparse
 
-    if '--alert' in args:
-        idx = args.index('--alert')
-        alert_msg = ' '.join(args[idx + 1:]) if len(args) > idx + 1 else 'Pipeline process failure'
+    parser = argparse.ArgumentParser(description="Stop Dog Eaters Automated Pipeline")
+    parser.add_argument('--publish', nargs='?', const='__today__', default=None,
+                        help="Publish preview post to website and Telegram. Optional argument: ISO date YYYY-MM-DD")
+    parser.add_argument('date_pos', nargs='?', default=None,
+                        help="Optional positional date argument for --publish (e.g. 2026-03-22)")
+    parser.add_argument('--dry-run', action='store_true', help="Generate and verify without saving preview or updating state")
+    parser.add_argument('--format', dest='format', choices=['investigative', 'community', 'mythbuster', 'public_health'], default=None,
+                        help="Editorial format override")
+    parser.add_argument('--track', dest='track', choices=['crime_theft', 'community_youth', 'public_health', 'policy_governance'], default=None,
+                        help="Research track override")
+    parser.add_argument('--research-only', action='store_true', help="Run research agent only and save input file")
+    parser.add_argument('--alert', nargs='*', default=None, help="Send Telegram alert with the given message")
+    parser.add_argument('--test-telegram', action='store_true', help="Test Telegram connection")
+    parser.add_argument('--test-facebook', action='store_true', help="Test Facebook connection")
+
+    cli_args = parser.parse_args()
+
+    if cli_args.alert is not None:
+        alert_msg = ' '.join(cli_args.alert) if cli_args.alert else 'Pipeline process failure'
         sent = telegram_client.send_alert('Pipeline CLI', alert_msg)
         print('Alert dispatched:', 'YES' if sent else 'NO (Chat ID unconfigured or suppressed)')
         sys.exit(0 if sent else 1)
 
-    if '--research-only' in args:
+    if cli_args.research_only:
         log.info('=== Running Research Agent Only ===')
-        filepath = research_agent.run_and_save()
+        filepath = research_agent.run_and_save(track=cli_args.track)
         log.info(f'Research complete! Saved to: {filepath}')
         log.info('Next step: Run "python pipeline.py" to generate blog post from this research.')
         sys.exit(0)
 
-    if '--test-telegram' in args:
+    if cli_args.test_telegram:
         ok = telegram_client.test_connection()
         print('Telegram connection:', 'OK' if ok else 'FAILED')
         sys.exit(0 if ok else 1)
 
-    if '--test-facebook' in args:
+    if cli_args.test_facebook:
         if not config.FACEBOOK_ENABLED:
             print('Facebook not configured — set FACEBOOK_PAGE_ID + FACEBOOK_PAGE_TOKEN in .env')
             sys.exit(1)
@@ -360,26 +413,18 @@ if __name__ == '__main__':
         print('Facebook connection:', 'OK' if ok else 'FAILED')
         sys.exit(0 if ok else 1)
 
-    if '--publish' in args:
-        # Optional date argument: --publish 2026-03-22
-        date_arg = next((a for a in args if not a.startswith('--')), None)
-        target_date = date.fromisoformat(date_arg) if date_arg else date.today()
+    if cli_args.publish is not None or cli_args.date_pos is not None:
+        target_str = None
+        if cli_args.publish and cli_args.publish != '__today__':
+            target_str = cli_args.publish
+        elif cli_args.date_pos:
+            target_str = cli_args.date_pos
+
+        target_date = date.fromisoformat(target_str) if target_str else date.today()
         publish(for_date=target_date)
     else:
-        req_fmt = None
-        if '--format' in args:
-            f_idx = args.index('--format')
-            if f_idx + 1 < len(args):
-                req_fmt = args[f_idx + 1]
-
-        req_track = None
-        if '--track' in args:
-            t_idx = args.index('--track')
-            if t_idx + 1 < len(args):
-                req_track = args[t_idx + 1]
-
         generate(
-            dry_run='--dry-run' in args,
-            requested_format=req_fmt,
-            requested_track=req_track,
+            dry_run=cli_args.dry_run,
+            requested_format=cli_args.format,
+            requested_track=cli_args.track,
         )

@@ -22,6 +22,7 @@ from config import (
     INPUTS_DIR,
     PERPLEXITY_ENABLED,
     MANUS_ENABLED,
+    CHANGE_ORG_URL,
 )
 
 log = logging.getLogger(__name__)
@@ -121,34 +122,73 @@ def assess_evidence(research_text: str) -> dict:
             'reason': 'Research text empty or minimal',
         }
 
-    text_lower = research_text.lower()
+    # CRITICAL FIX: Strip synthesis guidelines footer if present so instructions cannot pollute evidence evaluation
+    if "--- EVIDENCE-LED SYNTHESIS GUIDELINES ---" in research_text:
+        raw_text = research_text.split("--- EVIDENCE-LED SYNTHESIS GUIDELINES ---")[0]
+    else:
+        raw_text = research_text
+
+    import re
+    text_lower = raw_text.lower()
 
     # Negative retrieval markers (Perplexity explicitly stating lack of current events)
     neg_markers = [
         'no clear september', 'no clear news items', 'no reliable vietnam news report',
         'insufficient to confirm', 'no confirmed national', 'did not confirm',
-        'no specific incident', 'older general-news reference'
+        'no specific incident', 'older general-news reference', 'no court case',
+        'no arrests', 'no recent arrests', 'no breaking', 'chưa ghi nhận',
+        'không có vụ bắt giữ', 'not confirmed'
     ]
     negative_hits = sum(1 for m in neg_markers if m in text_lower)
 
-    # Positive factual markers (specific dates, court cases, arrests, outbreaks)
-    has_arrest = any(k in text_lower for k in ['bắt', 'arrest', 'tòa án', 'sentenced', 'court', 'án tù', 'seized'])
-    has_rabies_data = any(k in text_lower for k in ['outbreak', 'ổ dịch', 'tử vong', 'rabies death', 'positive for rabies'])
-    has_policy_move = any(k in text_lower for k in ['decree', 'nghị định', 'hội đồng', 'holding facility', 'quy định'])
+    # Detect explicit negations around crime/court keywords (e.g. "no court cases found", "without arrest")
+    has_negated_arrest = bool(re.search(
+        r'(?:no|without|zero|not|didn\'t|did not|chưa|không có)\s+(?:\w+\s+){0,3}(?:arrest|bắt|court|tòa|án tù|raid|seizure)',
+        text_lower
+    ))
 
-    # Determine breaking evidence viability
-    has_breaking = (has_arrest or has_rabies_data or has_policy_move) and (negative_hits <= 2)
+    # Positive factual markers: specific law enforcement actions, trials, or seizures
+    arrest_keywords = [
+        'bắt giữ', 'triệt phá', 'tòa án nhân dân', 'tòa án tuyên phạt', 'sentenced to', 'án tù',
+        'công an bắt', 'seized 1.', 'police seized', 'court sentenced', 'police busted', 'chống người thi hành công vụ'
+    ]
+    has_arrest = (
+        any(k in text_lower for k in arrest_keywords) or
+        ('arrest' in text_lower and not has_negated_arrest and any(c in text_lower for c in ['police', 'công an', 'suspect', 'charged', 'indicted'])) or
+        ('court' in text_lower and not has_negated_arrest and any(c in text_lower for c in ['verdict', 'trial', 'sentenced', 'prosecutor', 'phán quyết']))
+    )
 
-    # Choose best fitting editorial format based on actual evidence
-    if has_arrest:
-        recommended = 'investigative'
-    elif has_rabies_data:
-        recommended = 'public_health'
-    elif has_policy_move:
-        recommended = 'investigative'
-    elif not has_breaking:
+    # Positive health markers: active outbreaks, confirmed deaths, or CDC alerts
+    has_negated_rabies = bool(re.search(
+        r'(?:no|zero|prevent|free from|chưa có)\s+(?:\w+\s+){0,3}(?:rabies death|ổ dịch|tử vong)',
+        text_lower
+    ))
+    rabies_keywords = [
+        'rabies death', 'tử vong do dại', 'ổ dịch dại', 'positive for rabies',
+        'bệnh nhân tử vong do dại', 'rabies outbreak', 'cụm dịch dại'
+    ]
+    has_rabies_data = any(k in text_lower for k in rabies_keywords) and not has_negated_rabies
+
+    # Positive policy markers: official government decrees or binding municipal roadmaps
+    policy_keywords = [
+        'nghị định số', 'decree no', 'quy định xử phạt', 'holding facility ban',
+        'lộ trình cấm thịt chó', 'ban roadmap'
+    ]
+    has_policy_move = any(k in text_lower for k in policy_keywords)
+
+    # Determine breaking evidence viability: require positive signals with minimal negative signals
+    has_breaking = (has_arrest or has_rabies_data or has_policy_move) and (negative_hits <= 1)
+
+    # Choose best fitting editorial format based on actual evidence confidence
+    if not has_breaking:
         # Thin/no fresh breaking news -> pivot to Evergreen Mythbuster or Community
         recommended = 'mythbuster'
+    elif has_rabies_data:
+        recommended = 'public_health'
+    elif has_arrest:
+        recommended = 'investigative'
+    elif has_policy_move:
+        recommended = 'investigative'
     else:
         recommended = 'community'
 
@@ -410,12 +450,12 @@ def combine_research(english_results: List[Dict], vietnamese_results: List[Dict]
 
     # Footer with research instructions for the synthesis engine
     sections.append("\n--- EVIDENCE-LED SYNTHESIS GUIDELINES ---")
-    sections.append("\nUse the above research to create an evidence-led campaign post:")
-    sections.append("1. Anchor reporting in verified facts, specific dates, locations, court cases, or datasets")
+    sections.append("\nUse the above research to create an evidence-led campaign dispatch:")
+    sections.append("1. Ground reporting in verified facts, specific dates, locations, or official datasets from research")
     sections.append("2. Never invent fictional scenes, imaginary dialogue, or unverified raid times")
-    sections.append("3. Ground righteous anger in tangible public health dangers, legal voids, and pet theft cruelty")
-    sections.append("4. Center Vietnamese solidarity: 95% of citizens reject this illicit trade")
-    sections.append(f"5. Include petition mobilization: {CHANGE_ORG_URL}\n")
+    sections.append("3. Ground righteous urgency in tangible public health biosecurity and pet theft cruelty")
+    sections.append("4. Center Vietnamese community solidarity and local reform leadership")
+    sections.append(f"5. Mobilize readers with the verified national petition: {CHANGE_ORG_URL}\n")
 
     return "\n".join(sections)
 
@@ -467,10 +507,11 @@ def run_research(track: str = None) -> str:
     return combined
 
 
-def save_research(content: str, target_date: date = None) -> Optional[str]:
+def save_research(content: str, target_date: date = None, track: str = None) -> Optional[str]:
     """
     Save research content to inputs directory.
     Rejects empty content to prevent corrupted placeholder stubs.
+    If track is specified, also writes to YYYY-MM-DD_<track>.txt for cache isolation.
     """
     if not content or not content.strip():
         log.warning("Empty research content provided; skipping save to prevent empty stub.")
@@ -479,6 +520,11 @@ def save_research(content: str, target_date: date = None) -> Optional[str]:
     target = target_date or date.today()
     INPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
+    if track:
+        track_path = INPUTS_DIR / f"{target.isoformat()}_{track}.txt"
+        track_path.write_text(content, encoding='utf-8')
+        log.info(f"Track research saved to: {track_path}")
+
     filepath = INPUTS_DIR / f"{target.isoformat()}.txt"
     filepath.write_text(content, encoding='utf-8')
 
@@ -486,15 +532,15 @@ def save_research(content: str, target_date: date = None) -> Optional[str]:
     return str(filepath)
 
 
-def run_and_save() -> Optional[str]:
+def run_and_save(track: str = None) -> Optional[str]:
     """
     Convenience function: run research and save to today's input file.
     Returns path or None if no genuine research was gathered.
     """
-    research_content = run_research()
+    research_content = run_research(track=track)
     if not research_content:
         return None
-    return save_research(research_content)
+    return save_research(research_content, track=track)
 
 
 if __name__ == "__main__":
