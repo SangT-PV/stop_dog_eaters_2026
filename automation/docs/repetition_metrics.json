@@ -1,0 +1,160 @@
+{
+  "total_posts": 129,
+  "scaffold_conformity": {
+    "has_bottom_line": 121,
+    "has_bottom_line_pct": 93.8,
+    "has_key_findings": 121,
+    "has_key_findings_pct": 93.8,
+    "has_worth_noting": 121,
+    "has_worth_noting_pct": 93.8,
+    "has_take_action": 127,
+    "has_take_action_pct": 98.4,
+    "full_scaffold_conformity": 121,
+    "full_scaffold_pct": 93.8
+  },
+  "stat_and_entity_repetition": {
+    "posts_citing_95_percent": 129,
+    "posts_citing_95_percent_pct": 100.0,
+    "posts_citing_5_million_dogs": 33,
+    "posts_citing_5_million_dogs_pct": 25.6,
+    "posts_citing_zero_slaughterhouses": 88,
+    "posts_citing_zero_slaughterhouses_pct": 68.2,
+    "posts_mentioning_lucky": 4,
+    "posts_mentioning_lucky_pct": 3.1,
+    "posts_mentioning_rabies": 125,
+    "posts_mentioning_rabies_pct": 96.9,
+    "posts_mentioning_theft": 120,
+    "posts_mentioning_theft_pct": 93.0,
+    "posts_linking_petition": 36,
+    "posts_linking_petition_pct": 27.9
+  },
+  "title_clustering": {
+    "titles_with_95_stat": 18,
+    "titles_with_95_stat_pct": 14.0,
+    "titles_with_pet_theft": 49,
+    "titles_with_pet_theft_pct": 38.0,
+    "titles_with_rabies": 32,
+    "titles_with_rabies_pct": 24.8,
+    "titles_with_slaughter_regulation": 53,
+    "titles_with_slaughter_regulation_pct": 41.1,
+    "titles_mentioning_hanoi": 12,
+    "titles_mentioning_hanoi_pct": 9.3
+  },
+  "tag_distribution": {
+    "Pet Theft": 49,
+    "Public Health": 32,
+    "Public Support": 21,
+    "Regulation": 26,
+    "Lucky's Story": 1
+  },
+  "lexical_metrics": {
+    "total_words_analyzed": 83882,
+    "unique_words": 5121,
+    "type_token_ratio": 0.0611
+  },
+  "phrase_frequencies": {
+    "rabies": 999,
+    "unregulated": 553,
+    "stolen": 506,
+    "95%": 498,
+    "pet theft": 493,
+    "public health": 383,
+    "slaughterhouse": 376,
+    "food safety": 198,
+    "sign the petition": 124,
+    "the bottom line": 121,
+    "key findings": 121,
+    "also worth noting": 121,
+    "take action": 119,
+    "zero registered": 117,
+    "cruelty": 61,
+    "5 million": 46,
+    "family companion": 33,
+    "zero legal slaughterhouses": 13,
+    "family member": 12,
+    "locally led": 10,
+    "beloved pet": 8
+  },
+  "top_recurring_4grams": [
+    {
+      "ngram": "the dog meat trade",
+      "count": 247
+    },
+    {
+      "ngram": "dog and cat meat",
+      "count": 134
+    },
+    {
+      "ngram": "sign the petition support",
+      "count": 109
+    },
+    {
+      "ngram": "the petition support vietnam",
+      "count": 104
+    },
+    {
+      "ngram": "petition support vietnam roadmap",
+      "count": 101
+    },
+    {
+      "ngram": "support vietnam roadmap toward",
+      "count": 101
+    },
+    {
+      "ngram": "roadmap toward eliminating the",
+      "count": 100
+    },
+    {
+      "ngram": "eliminating the dog meat",
+      "count": 100
+    },
+    {
+      "ngram": "vietnam roadmap toward eliminating",
+      "count": 98
+    },
+    {
+      "ngram": "toward eliminating the dog",
+      "count": 98
+    },
+    {
+      "ngram": "take action sign the",
+      "count": 86
+    },
+    {
+      "ngram": "action sign the petition",
+      "count": 86
+    },
+    {
+      "ngram": "support ending the trade",
+      "count": 80
+    },
+    {
+      "ngram": "vietnamese support ending the",
+      "count": 79
+    },
+    {
+      "ngram": "the bottom line vietnam",
+      "count": 78
+    },
+    {
+      "ngram": "ending the dog meat",
+      "count": 58
+    },
+    {
+      "ngram": "support ending the dog",
+      "count": 49
+    },
+    {
+      "ngram": "and cat meat trade",
+      "count": 46
+    },
+    {
+      "ngram": "dog meat supply chain",
+      "count": 43
+    },
+    {
+      "ngram": "dog meat trade and",
+      "count": 43
+    }
+  ]
+}
