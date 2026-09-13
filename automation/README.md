@@ -252,6 +252,25 @@ Sign the petition: {change_org_url}
 
 ---
 
+## Astra Editorial Clearance Standards (50/50 Scorecard)
+
+All dispatches and blog entries undergo review under Lead Investigative Editor GPT-6 Astra's editorial standard. Publication requires a perfect **50/50 score** across 5 forensic gates:
+
+| Gate | Category | Points | Core Criteria |
+|---|---|---|---|
+| **Gate 1** | **Sourcing & Attribution** | 10 pts | Every statistic, conviction, and official statement must cite verified primary sources (WHO, Four Paws, VnExpress, FAO) with working direct hyperlinks. |
+| **Gate 2** | **Causal Separation** | 10 pts | Strict segregation between distinct news items (e.g. dog theft criminal sentencing vs. rabies outbreak deaths). No implied causal links without forensic verification. |
+| **Gate 3** | **Founder's Mandate** | 10 pts | Follows the emotional activism arc: *Awakening → Heartbreak → Righteous Anger → Action*. Governed strictly by **"Evidence Overrides Narrative"** (no emotive exaggeration at the expense of facts). |
+| **Gate 4** | **Medical Safeguards** | 10 pts | Verbatim compliance with WHO/CDC rabies guidelines: immediate wound washing (15 mins) and immediate post-exposure prophylaxis (PEP). No "watch and wait" advice. |
+| **Gate 5** | **Channel Constraints** | 10 pts | Telegram posts must adhere to a strict **1,200-character ceiling** (including emojis, spaces, and links) to prevent message truncation and cognitive fatigue. |
+
+### Automated Astra Evaluation Protocol
+- **Endpoint:** Local proxy or 9Router OpenAI-compatible review endpoint (`gpt-4o` / `gpt-6` tier).
+- **Inference Parameter:** **Strict zero temperature** (`temperature: 0.0`) to enforce deterministic, rigorous editorial evaluation without generative hallucinations.
+- **Reference Doc:** Full audit scorecard and baseline available at [`automation/docs/gpt-astra-round5-clearance-verdict.md`](docs/gpt-astra-round5-clearance-verdict.md).
+
+---
+
 ## Troubleshooting
 
 ### AWS Bedrock Issues
