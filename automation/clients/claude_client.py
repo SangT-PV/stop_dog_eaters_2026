@@ -208,7 +208,7 @@ _STATIC_REVISION_DIRECTIVES = {
     'missing_field': 'Ensure all required fields (title, excerpt, body_html, tag, telegram_message, facebook_post) are non-empty.',
     'title': 'Ensure the title is concise, factual, and strictly under 90 characters.',
     'excerpt': 'Ensure the excerpt is a compelling 2-3 sentence hook between 80 and 220 characters.',
-    'telegram_too_long': 'Ensure the telegram_message is strictly between 400 and 750 characters (max limit is 900). Keep bullet points concise and punchy.',
+    'telegram_too_long': 'Ensure the telegram_message is strictly between 400 and 1000 characters (max limit is 1200). Keep bullet points concise and punchy.',
     'invalid_tag': 'Ensure the tag is exactly one of: Public Health, Pet Theft, Regulation, Public Support, Lucky\'s Story, or Campaign Updates.',
     'structure_check': 'Ensure the body_html contains between 2 and 4 <h2> subheadings.',
     'source_check': 'Ensure the body_html contains at least one non-petition external source hyperlink (<a href="https://...">) citing verified news, court records, or government data.',
@@ -289,7 +289,7 @@ Generate an evidence-led campaign post that adheres to the format above. Respond
   8. ZERO META-JARGON: Never leak internal audit language (e.g. "in supplied evidence", "in the provided results", "the research notes"). State facts and legal status directly and naturally.
   9. CAUSAL INTEGRITY & ATTRIBUTION: Distinguish between household exposure incidents and commercial trade supply chains—frame them as parallel dimensions of broken biosecurity rather than asserting false direct causal links. Distinguish official state public health targets from the SDE campaign's demand for complete abolition by 2030.
 
-- "telegram_message": High-urgency Telegram alert max 900 chars — lead with an arresting hook line (not a generic link), followed by bulleted factual breakthroughs with dates/locations, ending with: "Sign the petition: {CHANGE_ORG_URL}"
+- "telegram_message": High-urgency Telegram alert max 1200 chars — lead with an arresting hook line (not a generic link), followed by bulleted factual breakthroughs with dates/locations, ending with: "Sign the petition: {CHANGE_ORG_URL}"
 - "facebook_post": Engaging Facebook post, exactly 150-300 words — open with a compelling narrative statement (e.g. "Rabies control cannot stop at household gates"), weave community solidarity and verified facts, closing with petition link: {CHANGE_ORG_URL} and hashtags #StopDogEaters #Vietnam #AnimalWelfare #EndDogMeatTrade
 """
     return prompt

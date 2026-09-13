@@ -70,8 +70,8 @@ def verify(post: dict) -> list[str]:
     elif len(excerpt) > 280:
         errors.append(f'excerpt: too long ({len(excerpt)} chars, max 280)')
 
-    if len(telegram) > 900:
-        errors.append(f'telegram_too_long: {len(telegram)} chars (max 900)')
+    if len(telegram) > 1200:
+        errors.append(f'telegram_too_long: {len(telegram)} chars (max 1200)')
 
     if tag and tag not in VALID_TAGS:
         errors.append(f"invalid_tag: '{tag}' not in approved taxonomy {sorted(VALID_TAGS)}")
@@ -175,11 +175,11 @@ def auto_fix(post: dict, errors: list[str]) -> dict:
         telegram = post['telegram_message']
 
     # Fix Telegram message length if slightly exceeded (safe trim before the petition link)
-    if len(telegram) > 900:
+    if len(telegram) > 1200:
         if CHANGE_ORG_URL in telegram:
             parts = telegram.rsplit(CHANGE_ORG_URL, 1)
             prefix = parts[0].rstrip()
-            allowed_prefix_len = 890 - len(CHANGE_ORG_URL)
+            allowed_prefix_len = 1190 - len(CHANGE_ORG_URL)
             if len(prefix) > allowed_prefix_len:
                 # Find last newline or period before limit
                 cut_idx = prefix[:allowed_prefix_len].rfind('\n')
@@ -191,7 +191,7 @@ def auto_fix(post: dict, errors: list[str]) -> dict:
                     prefix = prefix[:allowed_prefix_len].rsplit(' ', 1)[0]
             post['telegram_message'] = f"{prefix}\n\nSign the petition: {CHANGE_ORG_URL}"
         else:
-            post['telegram_message'] = telegram[:890].rsplit(' ', 1)[0] + '...'
+            post['telegram_message'] = telegram[:1190].rsplit(' ', 1)[0] + '...'
 
     # Fix Facebook post missing petition link (safe mechanical append for social copy)
     fb = str(post.get('facebook_post') or '').strip()
