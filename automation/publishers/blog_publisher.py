@@ -216,12 +216,18 @@ def publish_to_website(post_data: dict) -> tuple[str, str]:
     # Generate the blog post URL
     post_url = f'{WEBSITE_URL}/post.html?id={slug}'
 
-    # Prepend blog URL to social media messages
+    # Attach blog URL to social media messages without displacing the narrative opening hook
     telegram_base = post_data.get('telegram_message', '')
-    telegram_message = f"📰 Read the full article: {post_url}\n\n{telegram_base}"
+    if post_url not in telegram_base:
+        telegram_message = f"{telegram_base.rstrip()}\n\n📖 Read the full article: {post_url}"
+    else:
+        telegram_message = telegram_base
 
     facebook_base = post_data.get('facebook_post', '')
-    facebook_post = f"📰 **Read the full story:** {post_url}\n\n{facebook_base}"
+    if post_url not in facebook_base:
+        facebook_post = f"{facebook_base.rstrip()}\n\n📖 Read the full story: {post_url}"
+    else:
+        facebook_post = facebook_base
 
     # Write full post data to individual file
     full_post = {
