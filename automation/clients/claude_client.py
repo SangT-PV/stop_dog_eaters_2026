@@ -208,7 +208,7 @@ _STATIC_REVISION_DIRECTIVES = {
     'missing_field': 'Ensure all required fields (title, excerpt, body_html, tag, telegram_message, facebook_post) are non-empty.',
     'title': 'Ensure the title is concise, factual, and strictly under 90 characters.',
     'excerpt': 'Ensure the excerpt is a compelling 2-3 sentence hook between 80 and 220 characters.',
-    'telegram_too_long': 'Ensure the telegram_message is strictly 900 characters or fewer.',
+    'telegram_too_long': 'Ensure the telegram_message is strictly between 400 and 750 characters (max limit is 900). Keep bullet points concise and punchy.',
     'invalid_tag': 'Ensure the tag is exactly one of: Public Health, Pet Theft, Regulation, Public Support, Lucky\'s Story, or Campaign Updates.',
     'structure_check': 'Ensure the body_html contains between 2 and 4 <h2> subheadings.',
     'source_check': 'Ensure the body_html contains at least one non-petition external source hyperlink (<a href="https://...">) citing verified news, court records, or government data.',

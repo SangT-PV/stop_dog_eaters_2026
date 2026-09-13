@@ -172,6 +172,26 @@ def auto_fix(post: dict, errors: list[str]) -> dict:
     telegram = str(post.get('telegram_message') or '').strip()
     if any('telegram_check' in e for e in errors) and CHANGE_ORG_URL not in telegram:
         post['telegram_message'] = telegram.rstrip() + f'\n\nSign the petition: {CHANGE_ORG_URL}'
+        telegram = post['telegram_message']
+
+    # Fix Telegram message length if slightly exceeded (safe trim before the petition link)
+    if len(telegram) > 900:
+        if CHANGE_ORG_URL in telegram:
+            parts = telegram.rsplit(CHANGE_ORG_URL, 1)
+            prefix = parts[0].rstrip()
+            allowed_prefix_len = 890 - len(CHANGE_ORG_URL)
+            if len(prefix) > allowed_prefix_len:
+                # Find last newline or period before limit
+                cut_idx = prefix[:allowed_prefix_len].rfind('\n')
+                if cut_idx == -1:
+                    cut_idx = prefix[:allowed_prefix_len].rfind('. ')
+                if cut_idx > 100:
+                    prefix = prefix[:cut_idx].rstrip()
+                else:
+                    prefix = prefix[:allowed_prefix_len].rsplit(' ', 1)[0]
+            post['telegram_message'] = f"{prefix}\n\nSign the petition: {CHANGE_ORG_URL}"
+        else:
+            post['telegram_message'] = telegram[:890].rsplit(' ', 1)[0] + '...'
 
     # Fix Facebook post missing petition link (safe mechanical append for social copy)
     fb = str(post.get('facebook_post') or '').strip()
