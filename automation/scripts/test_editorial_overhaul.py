@@ -335,5 +335,41 @@ class TestCLIPublicationSafety(unittest.TestCase):
         self.assertIn("requires --publish", res.stderr)
 
 
+class TestResearchStrategy(unittest.TestCase):
+    def test_dated_queries_all_tracks(self):
+        for track_key in research_agent._TRACK_KEYS:
+            en, vi, selected = research_agent._dated_queries(track=track_key)
+            self.assertEqual(selected, track_key)
+            self.assertGreaterEqual(len(en), 4, f"Track {track_key} should have at least 4 EN queries")
+            self.assertGreaterEqual(len(vi), 6, f"Track {track_key} should have at least 6 VI queries (track + anchors + backfill)")
+            # Verify no empty or unformatted template braces
+            for q in en + vi:
+                self.assertNotIn("{month_year}", q)
+                self.assertNotIn("{year}", q)
+
+    def test_rabies_anchor_always_present(self):
+        for track_key in research_agent._TRACK_KEYS:
+            _, vi, _ = research_agent._dated_queries(track=track_key)
+            self.assertIn(research_agent.ANCHOR_QUERIES[0], vi)
+
+    def test_osint_keywords_in_assess_evidence(self):
+        judicial_sample = "Cơ quan điều tra vừa khởi tố bị can đối với nhóm tiêu thụ tài sản do trộm cắp chó."
+        res1 = research_agent.assess_evidence(judicial_sample * 3)
+        self.assertTrue(res1['has_arrest_evidence'])
+        self.assertTrue(res1['has_breaking_evidence'])
+        self.assertEqual(res1['recommended_format'], 'investigative')
+
+        health_sample = "Kết quả xét nghiệm mẫu bệnh phẩm dương tính với virus dại tại địa phương."
+        res2 = research_agent.assess_evidence(health_sample * 3)
+        self.assertTrue(res2['has_rabies_evidence'])
+        self.assertTrue(res2['has_breaking_evidence'])
+        self.assertEqual(res2['recommended_format'], 'public_health')
+
+        policy_sample = "UBND quận ra quyết định thành lập đội bắt chó thả rông và bố trí cơ sở lưu giữ."
+        res3 = research_agent.assess_evidence(policy_sample * 3)
+        self.assertTrue(res3['has_policy_evidence'])
+        self.assertTrue(res3['has_breaking_evidence'])
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

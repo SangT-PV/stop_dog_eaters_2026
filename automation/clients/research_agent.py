@@ -27,60 +27,108 @@ from config import (
 
 log = logging.getLogger(__name__)
 
-# 4 Dynamic Investigative Research Tracks
+# 4 Dynamic Investigative Research Tracks (Astra OSINT Procedural Lexicon)
 RESEARCH_TRACKS = {
     'crime_theft': {
-        'name': 'Crime & Pet Theft Syndicates',
+        'name': 'Crime, Courts & Animal Transport',
         'en': [
-            "Vietnam pet theft dog stealing arrests syndicate {month_year}",
-            "Vietnam dog theft poison bait stun baton police seizure {month_year}",
-            "Vietnam illegal dog slaughterhouse raid court case {month_year}",
+            "Vietnam dog theft court sentenced judgment",
+            "Vietnam police dog theft ring seized live dogs",
+            "Vietnam dogs transport inspection quarantine certificates",
+            "Vietnam stolen dogs buyers receiving stolen property",
         ],
         'vi': [
-            "bắt trộm chó triệt phá băng nhóm Việt Nam {month_year_vi}",
-            "án tù trộm chó buôn bán thịt chó Việt Nam {year}",
-            "dụng cụ kích điện bả chó trộm cắp Việt Nam {year}",
-        ],
-    },
-    'community_youth': {
-        'name': 'Community Voices & Youth Movement',
-        'en': [
-            "Vietnam youth pet culture anti dog meat advocacy {month_year}",
-            "Vietnam family pet dog rescue companion stories {month_year}",
-            "Vietnam community pet protection volunteer movement {month_year}",
-        ],
-        'vi': [
-            "giới trẻ Việt Nam phản đối thịt chó thú cưng {month_year_vi}",
-            "cứu hộ chó mèo Việt Nam gia đình câu chuyện {year}",
-            "nuôi chó cảnh chó cỏ Việt Nam tình cảm gia đình {year}",
+            '"trộm chó" "tuyên phạt"',
+            '"trộm chó" "khởi tố"',
+            '"vận chuyển" "chó" "kiểm dịch"',
+            '"trộm chó" "tiêu thụ"',
         ],
     },
     'public_health': {
-        'name': 'Public Health & Zoonotic Emergency',
+        'name': 'Rabies Surveillance & Veterinary Inspection',
         'en': [
-            "Vietnam rabies outbreak human deaths dog meat consumption {month_year}",
-            "Vietnam CDC food safety uninspected dog slaughter contamination {month_year}",
-            "Vietnam emergency dog rabies vaccination campaign communes {month_year}",
+            "Vietnam CDC rabies deaths surveillance report",
+            "Vietnam hospital rabies admissions post exposure prophylaxis",
+            "Vietnam border dogs transport quarantine rabies",
+            "Vietnam dog slaughter veterinary hygiene inspection",
         ],
         'vi': [
-            "ổ dịch dại chó tử vong người Việt Nam {month_year_vi}",
-            "an toàn thực phẩm thịt chó không kiểm dịch lò mổ chui {year}",
-            "tiêm phòng dại khẩn cấp chó mèo Việt Nam {year}",
+            '"bệnh dại" "CDC" "tử vong"',
+            '"bệnh dại" "bệnh viện" "nhập viện"',
+            '"chó" "biên giới" "kiểm dịch"',
+            '"chó" "giết mổ" "vệ sinh thú y"',
         ],
     },
     'policy_governance': {
-        'name': 'Policy, Governance & International Trade',
+        'name': 'Municipal Orders & Veterinary Governance',
         'en': [
-            "Vietnam dog meat trade ban legislation roadmap Hanoi HCMC {month_year}",
-            "Vietnam Decree animal cruelty fines pet management regulations {month_year}",
-            "Vietnam tourism international response dog meat trade policy {month_year}",
+            "Hanoi dog cat management directive rabies vaccination",
+            "Da Nang stray dogs holding facility municipal decision",
+            "Ho Chi Minh City dog muzzle leash veterinary penalties",
+            "Hoi An dog cat slaughter veterinary inspection regulation",
         ],
         'vi': [
-            "lộ trình cấm thịt chó Hà Nội TP.HCM chính sách {month_year_vi}",
-            "nghị định xử phạt ngược đãi động vật quản lý chó mèo {year}",
-            "luật thú y an toàn thực phẩm thịt chó Việt Nam {year}",
+            '"Hà Nội" "quản lý chó" "UBND"',
+            '"Đà Nẵng" "chó thả rông" "lưu giữ"',
+            '"chó" "xử phạt" "90/2017/NĐ-CP"',
+            '"Hội An" "giết mổ" "thú y"',
         ],
     },
+    'community_youth': {
+        'name': 'Documented Rescue, Registration & Cruelty Reports',
+        'en': [
+            "Vietnam dog rescue handover veterinary treatment records",
+            "Vietnam dog registration adoption shelter records",
+            "Vietnam veterinary clinic dog cruelty police report",
+            "Vietnam student animal rescue volunteer adoption report",
+        ],
+        'vi': [
+            '"cứu hộ chó" "bàn giao"',
+            '"chó" "nhận nuôi" "thống kê"',
+            '"hành hạ chó" "xử phạt"',
+            '"sinh viên" "cứu hộ" "chó"',
+        ],
+    },
+}
+
+ANCHOR_QUERIES = [
+    '"bệnh dại" "báo cáo" "tử vong"',      # Rabies surveillance anchor (runs daily)
+    '"chó" "thu giữ" "kiểm dịch"',         # Animal transport / quarantine seizure anchor
+    '"chó thả rông" "UBND"',               # Municipal enforcement anchor
+    '"trộm chó" "tòa án"',                 # Judicial proceedings anchor
+]
+
+SUPPLEMENTAL_QUERIES = {
+    "crime_theft": [
+        '"trộm chó" "cáo trạng"',
+        '"trộm chó" "bản án"',
+        '"chó" "Điều 323"',
+        '"trộm chó" "chống người thi hành công vụ"',
+        '"chó" "không rõ nguồn gốc" "thu giữ"',
+        '"chó" "không có giấy chứng nhận kiểm dịch"',
+    ],
+    "public_health": [
+        '"bệnh dại" "Sở Y tế" "báo cáo"',
+        '"ổ dịch dại" "tiêu hủy"',
+        '"chó" "dương tính" "dại"',
+        '"bệnh dại" "giết mổ" "phơi nhiễm"',
+        '"chó" "kiểm soát giết mổ" "kiểm tra"',
+        '"chó" "tiêm phòng" "tổng đàn"',
+    ],
+    "policy_governance": [
+        '"TP.HCM" "chó thả rông" "xử phạt"',
+        '"Thành phố Hồ Chí Minh" "quản lý chó" "kế hoạch"',
+        '"chó" "04/2020/NĐ-CP"',
+        '"chó" "giết mổ" "giấy chứng nhận"',
+        '"chó" "Luật Thú y" "UBND"',
+        '"chó thả rông" "quyết định" "đội"',
+    ],
+    "community_youth": [
+        '"chó" "đăng ký nuôi" "số lượng"',
+        '"chó" "nhận nuôi" "bàn giao"',
+        '"hành hạ chó" "công an"',
+        '"chó" "phòng khám thú y" "cứu hộ"',
+    ],
 }
 
 _TRACK_KEYS = ['crime_theft', 'community_youth', 'public_health', 'policy_governance']
@@ -88,25 +136,47 @@ _TRACK_KEYS = ['crime_theft', 'community_youth', 'public_health', 'policy_govern
 
 def _dated_queries(track: str = None) -> tuple[list[str], list[str], str]:
     """
-    Generate dynamic track-based queries so Perplexity investigates distinct angles.
+    Generate dynamic track-based queries using Astra's OSINT procedural matrix.
+    Eliminates rigid calendar string placeholders that suppress search recency indexing.
+    Rotates track queries and injects daily rabies surveillance and cross-track anchors.
     Returns (en_queries, vi_queries, selected_track_key).
     """
     today = date.today()
+    day_num = today.toordinal()
     month_year = today.strftime('%B %Y')
     month_year_vi = today.strftime('%m/%Y')
     year = str(today.year)
 
-    selected_track = track if track in RESEARCH_TRACKS else _TRACK_KEYS[today.toordinal() % len(_TRACK_KEYS)]
+    selected_track = track if track in RESEARCH_TRACKS else _TRACK_KEYS[day_num % len(_TRACK_KEYS)]
     track_data = RESEARCH_TRACKS[selected_track]
 
-    en = [q.format(month_year=month_year, year=year) for q in track_data['en']]
-    vi = [q.format(month_year_vi=month_year_vi, year=year) for q in track_data['vi']]
+    # Helper to format if template contains placeholders
+    def _fmt(q: str) -> str:
+        return q.format(month_year=month_year, month_year_vi=month_year_vi, year=year)
 
-    # Add 1 high-level anchor query in each language
-    en.append(f"Vietnam dog meat trade updates news {month_year}")
-    vi.append(f"buôn bán thịt chó Việt Nam tin tức mới nhất {month_year_vi}")
+    # 1. Core track queries
+    en = [_fmt(q) for q in track_data['en']]
+    vi = [_fmt(q) for q in track_data['vi']]
 
-    log.info(f"Generated research queries for track '{selected_track}' ({track_data['name']})")
+    # 2. Daily Rabies Surveillance Anchor (Public health biosecurity is a daily imperative)
+    rabies_anchor = ANCHOR_QUERIES[0]
+    if rabies_anchor not in vi:
+        vi.append(rabies_anchor)
+
+    # 3. Rotating Cross-Track Anchor
+    rotating_anchors = ANCHOR_QUERIES[1:]
+    cross_anchor = rotating_anchors[day_num % len(rotating_anchors)]
+    if cross_anchor not in vi:
+        vi.append(cross_anchor)
+
+    # 4. Backfill/Supplemental query for this track
+    extras = SUPPLEMENTAL_QUERIES.get(selected_track, [])
+    if extras:
+        supplemental = extras[(day_num // len(_TRACK_KEYS)) % len(extras)]
+        if supplemental not in vi:
+            vi.append(supplemental)
+
+    log.info(f"Generated {len(en)} EN and {len(vi)} VI queries for track '{selected_track}' ({track_data['name']})")
     return en, vi, selected_track
 
 
@@ -143,18 +213,21 @@ def assess_evidence(research_text: str) -> dict:
     ]
     negative_hits = sum(1 for m in neg_markers if m in text_lower)
 
-    # Keywords for positive event classes
+    # Keywords for positive event classes (Astra OSINT procedural vocabulary)
     arrest_keywords = [
         'bắt giữ', 'triệt phá', 'tòa án nhân dân', 'tòa án tuyên phạt', 'sentenced to', 'án tù',
-        'công an bắt', 'seized 1.', 'police seized', 'court sentenced', 'police busted', 'chống người thi hành công vụ'
+        'công an bắt', 'seized 1.', 'police seized', 'court sentenced', 'police busted', 'chống người thi hành công vụ',
+        'khởi tố bị can', 'khởi tố vụ án', 'cáo trạng', 'tiêu thụ tài sản', 'tang vật', 'vật chứng', 'thu giữ'
     ]
     rabies_keywords = [
         'rabies death', 'tử vong do dại', 'ổ dịch dại', 'positive for rabies',
-        'bệnh nhân tử vong do dại', 'rabies outbreak', 'cụm dịch dại'
+        'bệnh nhân tử vong do dại', 'rabies outbreak', 'cụm dịch dại',
+        'dương tính với virus dại', 'dương tính với vi rút dại', 'tiêm phòng dại khẩn cấp', 'huyết thanh kháng dại'
     ]
     policy_keywords = [
         'nghị định số', 'decree no', 'quy định xử phạt', 'holding facility ban',
-        'lộ trình cấm thịt chó', 'ban roadmap'
+        'lộ trình cấm thịt chó', 'ban roadmap', 'đội bắt chó thả rông', 'đội săn bắt chó thả rông',
+        'khu nuôi giữ chó', 'điểm lưu giữ', 'cơ sở lưu giữ', 'kiểm dịch động vật'
     ]
 
     has_arrest = False
@@ -240,8 +313,13 @@ def search_perplexity(query: str, language: str = "en") -> Optional[Dict]:
         }
 
         system_prompt = (
-            "You are a research assistant focused on finding recent, credible news "
-            "about Vietnam's dog meat trade. Provide factual summaries with dates and sources. "
+            "You are an OSINT investigative research specialist investigating Vietnam's companion animal "
+            "and dog meat trade issues. Prioritize official documents, provincial court judgments, CDC epidemiological bulletins, "
+            "quarantine checkpoints, and original reporting from local provincial press (e.g., Báo Tây Ninh, Tuổi Trẻ, Lao Động, PLO). "
+            "Use aggregators only to trace the primary originating source. "
+            "Do not substitute old historical background (such as 2018 pledges) for current developments. "
+            "Do not infer dog-meat trade involvement from pet theft, rabies, or municipal impoundment unless explicitly documented. "
+            "If no verified source is found, state so clearly without inventing alternatives. "
             f"Search and respond in {'Vietnamese' if language == 'vi' else 'English'}."
         )
 
@@ -296,7 +374,7 @@ def poll_manus_task(task_id: str, max_wait_seconds: int = 300) -> Optional[str]:
     headers = {"API_KEY": MANUS_API_KEY}
 
     start_time = time.time()
-    poll_interval = 10  # Check every 10 seconds
+    poll_interval = 15  # Check every 15 seconds
 
     while time.time() - start_time < max_wait_seconds:
         try:
@@ -309,7 +387,6 @@ def poll_manus_task(task_id: str, max_wait_seconds: int = 300) -> Optional[str]:
 
             if status == "completed":
                 # Extract the results from the completed task
-                # The actual field name depends on Manus API response structure
                 results = task_data.get("result") or task_data.get("output") or task_data.get("content")
                 if results:
                     log.info(f"Manus task completed successfully: {len(str(results))} chars")
@@ -341,10 +418,8 @@ def poll_manus_task(task_id: str, max_wait_seconds: int = 300) -> Optional[str]:
 
 def search_manus_ai() -> Optional[str]:
     """
-    Scrape Vietnamese local news sources using Manus AI.
-
-    Uses Manus's "Wide Research" and "Browser Operator" capabilities to scrape
-    Vietnamese news sites that may not be well-indexed by Perplexity.
+    Scrape Vietnamese local news sources and official portals using Manus AI.
+    Uses bounded investigative directives targeting primary portals and provincial reporting.
 
     Returns:
         Scraped content summary or None if failed/not configured
@@ -360,29 +435,29 @@ def search_manus_ai() -> Optional[str]:
             "Content-Type": "application/json",
         }
 
-        # Research prompt for Manus agent
+        # Bounded investigative prompt for Manus agent
         today_str = date.today().isoformat()
-        prompt = f"""Research the latest news about Vietnam's dog meat trade (thịt chó, buôn bán chó mèo).
+        prompt = f"""Investigate recent, bounded evidence regarding Vietnam's companion animal theft, dog meat trade, and zoonotic disease controls (today is {today_str}).
 
-Search broadly across ALL available Vietnamese and international sources — news sites, government portals, NGO reports, social media, forums, and local journalism. Do not limit to specific websites.
+TARGET SOURCE TYPES & PORTALS:
+- Official judicial and police portals: TAND (toaan.gov.vn, congbobanan.toaan.gov.vn), VKSND (vksndtc.gov.vn), provincial police portals (e.g., congan.dongnai.gov.vn)
+- Public health & veterinary authorities: Ministry of Health (moh.gov.vn), local CDCs (hcdc.vn, cdc.*.vn), Cục Thú y, Chi cục Chăn nuôi và Thú y
+- Primary provincial & national investigative journalism: Báo Tây Ninh (baotayninh.vn), Tuổi Trẻ (tuoitre.vn), Lao Động (laodong.vn), Pháp Luật TP.HCM (plo.vn), Sức khỏe & Đời sống (suckhoedoisong.vn), Nông nghiệp Việt Nam
 
-Time focus: Prioritise events from the last 7 days (today is {today_str}), but include significant developments from the last 30 days if highly relevant.
+INVESTIGATIVE TARGETS (Focus on verified events from the last 7 to 30 days):
+1. Pet theft syndicates and fencing operations (Điều 173, Điều 323): Arrests, indictments, court verdicts, seized live dogs or meat tonnage, stun batons, poison baits.
+2. Zoonotic health emergencies & quarantine seizures: Active rabies outbreaks, CDC fatality surveillance, hospital PEP admissions, uninspected slaughterhouse raids, illegal inter-provincial animal transport intercepts without quarantine certification.
+3. Municipal enforcement & holding facilities: City directives (Hanoi, Da Nang, TP.HCM, Hoi An), stray dog impoundment facilities, enforcement of veterinary hygiene decrees.
 
-Topics to cover:
-- Pet theft rings and police operations (trộm cắp chó)
-- Rabies outbreaks or food safety incidents linked to dog meat
-- Legislative progress — national or provincial bans, enforcement actions
-- Public opinion shifts, surveys, community advocacy
-- Rescue operations, shelter news, adoption campaigns
-- International pressure or diplomatic developments
+EXTRACTION INSTRUCTIONS:
+For each finding, provide:
+- Exact article title and publication date (YYYY-MM-DD)
+- Source publisher name and canonical URL
+- Exact Vietnamese quote or excerpt from the original source
+- Key facts: Named courts, defendants, case numbers, quantities (number of dogs, kg/tons seized), health statistics
+- Procedural status: (e.g., arrest, indictment, first-instance verdict, administrative sanction)
 
-For each finding provide:
-- Article title and publication date
-- Source name and URL
-- Key facts, statistics, or quotes
-- Brief summary in English
-
-Format as a structured research report with clear sections."""
+Do NOT produce generic opinion summaries or broad travel essays. Focus strictly on source-supported investigative facts."""
 
         payload = {
             "prompt": prompt,
@@ -402,14 +477,14 @@ Format as a structured research report with clear sections."""
 
         log.info(f"Manus task created: {task_id} - {task_url}")
 
-        # Poll for task completion (wait up to 90 seconds)
-        results = poll_manus_task(task_id, max_wait_seconds=90)
+        # Poll for task completion (allow up to 300 seconds for deep scrape)
+        results = poll_manus_task(task_id, max_wait_seconds=300)
 
         if results:
             return results
         else:
-            log.warning(f"Manus task did not complete in time. Check manually: {task_url}")
-            return f"Manus AI task submitted but not yet completed: {task_url}\n(Check task manually or increase timeout)"
+            log.warning(f"Manus task did not complete in 300s. Retaining task URL: {task_url}")
+            return f"Manus AI task submitted (ID: {task_id}). Task URL: {task_url}\nStatus: Still processing in background (300s window reached). Check task URL or poll later."
 
     except requests.exceptions.RequestException as e:
         log.error(f"Manus AI API error: {e}")
@@ -466,11 +541,12 @@ def combine_research(english_results: List[Dict], vietnamese_results: List[Dict]
     # Footer with research instructions for the synthesis engine
     sections.append("\n--- EVIDENCE-LED SYNTHESIS GUIDELINES ---")
     sections.append("\nUse the above research to create an evidence-led campaign dispatch:")
-    sections.append("1. Ground reporting in verified facts, specific dates, locations, or official datasets from research")
-    sections.append("2. Never invent fictional scenes, imaginary dialogue, or unverified raid times")
-    sections.append("3. Ground righteous urgency in tangible public health biosecurity and pet theft cruelty")
-    sections.append("4. Center Vietnamese community solidarity and local reform leadership")
-    sections.append(f"5. Mobilize readers with the verified national petition: {CHANGE_ORG_URL}\n")
+    sections.append("1. Ground reporting in verified facts, specific dates, locations, named agencies, or official datasets from research")
+    sections.append("2. Strictly distinguish between documented judicial/health facts and unverified secondary claims")
+    sections.append("3. Never invent fictional scenes, imaginary dialogue, or unverified raid times")
+    sections.append("4. Ground righteous urgency in tangible public health biosecurity, veterinary quarantine, and pet theft cruelty")
+    sections.append("5. Center Vietnamese community solidarity and local reform leadership")
+    sections.append(f"6. Mobilize readers with the verified national petition: {CHANGE_ORG_URL}\n")
 
     return "\n".join(sections)
 
