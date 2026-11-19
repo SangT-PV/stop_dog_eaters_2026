@@ -1,0 +1,20 @@
+<svg width="1200" height="500" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="500" fill="#052a2c"/>
+  
+  <rect x="60" y="44" width="92" height="28" fill="#b33023" rx="4"/>
+  <text x="106" y="63" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="600" letter-spacing="1.5">PET THEFT</text>
+    
+  
+  <text x="60" y="128" font-family="Newsreader, Georgia, serif" font-size="38" fill="#c6e9eb" font-weight="600" letter-spacing="-0.5">
+    <tspan x="60" dy="0">No Verified Pet-Theft Record</tspan>
+<tspan x="60" dy="48">Supports a Responsible Raid</tspan>
+<tspan x="60" dy="48">Narrative</tspan>
+  </text>
+    
+  
+  
+  <line x1="60" y1="470" x2="1140" y2="470" stroke="#ffffff" stroke-width="1" opacity="0.12"/>
+  <text x="60" y="490" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" fill="#ffffff" opacity="0.6">Source: StopDogEaters Research</text>
+  <text x="1140" y="490" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" fill="#ffffff" text-anchor="end" font-weight="600">StopDogEaters.info</text>
+    
+</svg>
